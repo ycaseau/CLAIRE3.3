@@ -1,5 +1,5 @@
-/***** CLAIRE Compilation of file d:\claire\v3.3\src\meta\object.cl 
-         [version 3.3.24 / safety 5] Sat Aug 02 11:22:52 2003 *****/
+/***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\object.cl 
+         [version 3.3.28 / safety 5] Sat Sep 06 14:16:07 2003 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -24,9 +24,13 @@
 // *   Part 4: Basics of Exceptions                                    *
 // *********************************************************************
 // release() should produce a version number
-/* The c++ function for: release(_CL_obj:void) [NEW_ALLOC+SLOT_UPDATE] */
+/* The c++ function for: release(_CL_obj:void) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
 OID  release_void()
-{ return (_string_(append_string("3.",string_I_float(ClEnv->version))));} 
+{ GC_BIND;
+  { OID Result = 0;
+    Result = _string_(append_string("3.",GC_STRING(string_I_float(ClEnv->version))));
+    GC_UNBIND; return (Result);} 
+  } 
 
 
 // the about method produces the legal warning, according to the GNU software

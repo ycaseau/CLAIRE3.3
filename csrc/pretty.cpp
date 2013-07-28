@@ -1,5 +1,5 @@
-/***** CLAIRE Compilation of file d:\claire\v3.3\src\meta\pretty.cl 
-         [version 3.3.24 / safety 5] Sat Aug 02 11:23:01 2003 *****/
+/***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\pretty.cl 
+         [version 3.3.28 / safety 5] Sat Sep 06 14:16:11 2003 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -169,6 +169,7 @@ OID  write_value_global_variable(global_variable *self,OID val)
 // v0.01
 // same as C
 // v3.2.52
+// v3.4
 // *********************************************************************
 // *   Part 2: CLAIRE Lambdas                                           *
 // *********************************************************************
@@ -205,7 +206,7 @@ OID  call_lambda2(lambda *self,listargs *l)
 
 // printing a lambda
 //
-/* The c++ function for: self_print(self:lambda) [NEW_ALLOC+SLOT_UPDATE] */
+/* The c++ function for: self_print(self:lambda) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
 OID  self_print_lambda_Language(lambda *self)
 { GC_BIND;
   princ_string("lambda[(");
@@ -410,7 +411,7 @@ property * make_a_property_any(OID self)
 // *  Part 4: Pretty printing                                          *
 // *********************************************************************
 // fuck
-/* The c++ function for: lbreak(_CL_obj:void) [NEW_ALLOC+SLOT_UPDATE] */
+/* The c++ function for: lbreak(_CL_obj:void) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
 OID  lbreak_void()
 { { OID Result = 0;
     if (Core.pretty->pprint == CTRUE)
@@ -430,7 +431,7 @@ OID  lbreak_void()
   } 
 
 
-/* The c++ function for: put_buffer(_CL_obj:void) [SLOT_UPDATE] */
+/* The c++ function for: put_buffer(_CL_obj:void) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
 OID  put_buffer_void()
 { { OID Result = 0;
     { char * buffer = end_of_print_void();
@@ -456,7 +457,7 @@ OID  checkfar_void()
   } 
 
 
-/* The c++ function for: lbreak(n:integer) [NEW_ALLOC+SLOT_UPDATE] */
+/* The c++ function for: lbreak(n:integer) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
 OID  lbreak_integer(int n)
 { (Core.pretty->index = (Core.pretty->index+n));
   return (lbreak_void());} 
@@ -495,7 +496,7 @@ void  set_level_integer(int n)
 
 // prints a bag as a box
 //
-/* The c++ function for: printbox(self:bag,start:integer,finish:integer,s:string) [NEW_ALLOC+SLOT_UPDATE] */
+/* The c++ function for: printbox(self:bag,start:integer,finish:integer,s:string) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
 OID  printbox_bag1(bag *self,int start,int finish,char *s)
 { { OID Result = 0;
     { int  i = 1;
@@ -562,12 +563,12 @@ OID  printbox_bag1(bag *self,int start,int finish,char *s)
 
 // default value of arguments
 //
-/* The c++ function for: printbox(self:bag) [NEW_ALLOC+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: printbox(self:bag) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
 OID  printbox_bag2(bag *self)
 { return (printbox_bag1(self,buffer_length_void(),Core.pretty->width,", "));} 
 
 
-/* The c++ function for: printbox(self:bag,s:string) [NEW_ALLOC+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: printbox(self:bag,s:string) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
 OID  printbox_bag3(bag *self,char *s)
 { return (printbox_bag1(self,buffer_length_void(),Core.pretty->width,s));} 
 
@@ -640,7 +641,7 @@ void  printexp_any(OID self,ClaireBoolean *comp)
     } 
 
 
-/* The c++ function for: pretty_print(self:any) [NEW_ALLOC+SLOT_UPDATE] */
+/* The c++ function for: pretty_print(self:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
 void  pretty_print_any(OID self)
 { print_in_string_void();
   (Core.pretty->pprint = CTRUE);

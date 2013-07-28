@@ -1,4 +1,4 @@
-// interface defination for module Language, Sat Aug 02 11:32:09 2003
+// interface defination for module Language, Sat Sep 06 14:16:11 2003
 #ifndef CLAIREH_Language
 #define CLAIREH_Language
 
@@ -571,6 +571,7 @@ ClaireClass * _Instruction_with_var;
 ClaireClass * _Control_structure;
 global_variable * _eof;
 global_variable * EOS;
+global_variable * MAX_INTEGER;
 global_variable * _starvariable_index_star;
 property * printl;
 global_variable * LastCall;

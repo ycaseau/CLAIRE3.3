@@ -1,5 +1,5 @@
-/***** CLAIRE Compilation of file d:\claire\v3.3\src\compile\gstat.cl 
-         [version 3.3.24 / safety 5] Sat Aug 02 11:32:40 2003 *****/
+/***** CLAIRE Compilation of file c:\claire\v3.3\src\compile\gstat.cl 
+         [version 3.3.28 / safety 5] Sat Sep 06 14:16:19 2003 *****/
 
 #include <claire.h>
 #include <Kernel.h>

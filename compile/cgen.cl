@@ -372,7 +372,8 @@ class_princ(c:c_producer,self:class) : void
                             gc_or(gc_usage(x,loop),
                                   gc_usage(self.arg, loop))),
              Assign let x := get(arg,self) in
-                      gc_or((if (loop & x % to_protect) self.var.index else false),
+                      gc_or((if (loop & inner2outer?(x)) self.var.index   // v3.3.26 !
+                             else false),
                             gc_usage(x,loop)),
              to_protect true,
              Gassign  gc_usage(self.arg,loop),
@@ -413,8 +414,9 @@ class_princ(c:c_producer,self:class) : void
               else (for v in self.vars
                       (printf("PUSH(~I);",
                          (let s := x.srange[n] in
-                            (if (s = any | s = integer) expression(v, false)
-                             else to_cl(c, v, s, false)))),
+                            (if ((s = any & v.range != float) | s = integer) // v3.3.28
+                                expression(v, false)
+                             else to_cl(c, v, (if (v.range = float) float else s), false)))),
                        n :+ 1))),
                breakline()) ]
                   

@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file ccmain.cl 
-         [version 3.3.24 / safety 5] Sat Aug 02 11:32:44 2003 *****/
+         [version 3.3.28 / safety 5] Sat Sep 06 14:16:21 2003 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -30,7 +30,7 @@
 // *       Part 1: definition of the system variables                *
 // *******************************************************************
 // dumb utility
-/* The c++ function for: external!(m:module) [NEW_ALLOC+SLOT_UPDATE] */
+/* The c++ function for: external!(m:module) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
 char * external_I_module(module *m)
 { { char *Result ;
     Result = ((((m->external == (NULL)) ? CTRUE : CFALSE) != CTRUE) ?
@@ -77,6 +77,7 @@ void  printHelp_void()
   princ_string("        -D : debug mode                              \n");
   princ_string("        -safe : safe mode                            \n");
   princ_string("        -O : optimizing mode                         \n");
+  princ_string("        -os <int> : sets the optimizer savety level          \n");
   princ_string("        -l <lib> : adds <lib> to the list of needed libs     \n");
   princ_string("        -cm <module>: compiles a module -> executable        \n");
   princ_string("        -cc <module>: compiles a module -> target files      \n");
@@ -96,6 +97,7 @@ void  main_list(list *lp)
     int  dblevel = 1;
     char * _Zout = "";
     char * _Zcj = "";
+    int  slevel = 0;
     int  clevel = 1;
     ClaireBoolean * _Zinit_ask = CTRUE;
     int  vlevel = 2;
@@ -108,10 +110,10 @@ void  main_list(list *lp)
             Optimize.compiler,
             17,
             Kernel._object,
-            _oid_(list::alloc(Kernel._any,3,_string_("d:\\claire\\v3.3\\bin\\public\\ntv"),
-              _string_("d:\\claire\\v3.3\\bin\\debug\\ntv"),
-              _string_("d:\\claire\\v3.3\\bin\\public\\ntv"))));
-          (Optimize.compiler->headers_dir = "d:\\claire\\v3.3\\bin\\include");
+            _oid_(list::alloc(Kernel._any,3,_string_("c:\\claire\\v3.3\\bin\\public\\ntv"),
+              _string_("c:\\claire\\v3.3\\bin\\debug\\ntv"),
+              _string_("c:\\claire\\v3.3\\bin\\public\\ntv"))));
+          (Optimize.compiler->headers_dir = "c:\\claire\\v3.3\\bin\\include");
           update_property(Optimize.options,
             Optimize.compiler,
             19,
@@ -187,6 +189,14 @@ void  main_list(list *lp)
                   l= skip_list(l,2);
                   } 
                 else close_exception(((general_error *) (*Core._general_error)(_string_("option: -od <directory>"),
+                    _oid_(Kernel.nil))));
+                  } 
+              else if (equal((*(l))[1],_string_("-os")) == CTRUE)
+               { if (2 <= l->length)
+                 { slevel= integer_I_string(string_v((*(l))[2]));
+                  l= skip_list(l,2);
+                  } 
+                else close_exception(((general_error *) (*Core._general_error)(_string_("option: -ol <int>"),
                     _oid_(Kernel.nil))));
                   } 
               else if (equal((*(l))[1],_string_("-S")) == CTRUE)
@@ -319,6 +329,8 @@ void  main_list(list *lp)
               1 :
               3 ) )]);
           (ClEnv->verbose = vlevel);
+          if (slevel > 0)
+           (Optimize.compiler->safety = slevel);
           if (equal_string(_Zcm,"") != CTRUE)
            { module * m = string2module_string(_Zcm);
             (Optimize.compiler->active_ask = CTRUE);

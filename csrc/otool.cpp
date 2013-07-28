@@ -1,5 +1,5 @@
-/***** CLAIRE Compilation of file d:\claire\v3.3\src\compile\otool.cl 
-         [version 3.3.24 / safety 5] Sat Aug 02 11:32:34 2003 *****/
+/***** CLAIRE Compilation of file c:\claire\v3.3\src\compile\otool.cl 
+         [version 3.3.28 / safety 5] Sat Sep 06 14:16:16 2003 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -1361,8 +1361,10 @@ ClaireBoolean * inner2outer_ask_any(OID v5264)
   { ClaireBoolean *Result ;
     if (INHERIT(OWNER(v5264),Optimize._to_protect))
      Result = CTRUE;
-    else Result = ((INHERIT(OWNER(v5264),Language._Variable)) ?
-      not_any((*Optimize.gcsafe_ask)(GC_OID(_oid_(OBJECT(Variable,v5264)->range)))) :
+    else if (INHERIT(OWNER(v5264),Language._Variable))
+     Result = not_any((*Optimize.gcsafe_ask)(GC_OID(_oid_(OBJECT(Variable,v5264)->range))));
+    else Result = ((INHERIT(OWNER(v5264),Language._Call_method)) ?
+      ((BCONTAIN(OBJECT(Call_method,v5264)->arg->status,4)) ? ((inner2outer_ask_any((*(OBJECT(Call_method,v5264)->args))[1]) == CTRUE) ? CTRUE: CFALSE): CFALSE) :
       ((INHERIT(OWNER(v5264),Optimize._to_CL)) ?
         inner2outer_ask_any(OBJECT(Compile_to_CL,v5264)->arg) :
         ((INHERIT(OWNER(v5264),Optimize._to_C)) ?

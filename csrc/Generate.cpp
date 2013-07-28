@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file Generate.cl 
-         [version 3.3.24 / safety 5] Sat Aug 02 11:32:41 2003 *****/
+         [version 3.3.28 / safety 5] Sat Sep 06 14:16:19 2003 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -811,16 +811,16 @@ void GenerateClass::metaLoad() {
   (Generate.PRODUCER->value= _oid_(Generate.C_plus_plusPRODUCER));
   
   Generate.c_string->addMethod(list::domain(2,Generate._c_producer,Language._Variable),Kernel._string,
-  	NEW_ALLOC+SLOT_UPDATE,_function_(c_string_c_producer1,"c_string_c_producer1"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(c_string_c_producer1,"c_string_c_producer1"));
   
   Generate.c_string->addMethod(list::domain(2,Generate._c_producer,Kernel._symbol),Kernel._string,
-  	SLOT_UPDATE,_function_(c_string_c_producer2,"c_string_c_producer2"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(c_string_c_producer2,"c_string_c_producer2"));
   
   Kernel.string_I->addMethod(list::domain(2,Generate._c_producer,Language._Variable),Kernel._string,
-  	NEW_ALLOC+SLOT_UPDATE,_function_(string_I_c_producer1,"string!_c_producer1"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(string_I_c_producer1,"string!_c_producer1"));
   
   Kernel.string_I->addMethod(list::domain(2,Generate._c_producer,Kernel._symbol),Kernel._string,
-  	SLOT_UPDATE,_function_(string_I_c_producer2,"string!_c_producer2"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(string_I_c_producer2,"string!_c_producer2"));
   
   Language.ident->addMethod(list::domain(2,Generate._c_producer,Language._Variable),Kernel._void,
   	NEW_ALLOC,_function_(ident_c_producer3,"ident_c_producer3"));
@@ -856,7 +856,7 @@ void GenerateClass::metaLoad() {
   	0,_function_(end_module_interface_c_producer,"end_module_interface_c_producer"));
   
   Generate.generate_end_file->addMethod(list::domain(2,Generate._c_producer,Kernel._module),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE,_function_(generate_end_file_c_producer,"generate_end_file_c_producer"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(generate_end_file_c_producer,"generate_end_file_c_producer"));
   
   Generate.generate_classes->addMethod(list::domain(3,Generate._c_producer,Kernel._string,Kernel._module),Kernel._void,
   	NEW_ALLOC,_function_(generate_classes_c_producer,"generate_classes_c_producer"));
@@ -901,7 +901,7 @@ void GenerateClass::metaLoad() {
     Kernel._class,
     Kernel._boolean,
     Kernel._any),Kernel._string,
-  	NEW_ALLOC+SLOT_UPDATE,_function_(protect_result_c_producer,"protect_result_c_producer"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(protect_result_c_producer,"protect_result_c_producer"));
   
   Generate.generate_function_start->addMethod(list::domain(5,Generate._c_producer,
     Core._lambda,

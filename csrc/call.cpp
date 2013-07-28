@@ -1,5 +1,5 @@
-/***** CLAIRE Compilation of file d:\claire\v3.3\src\meta\call.cl 
-         [version 3.3.24 / safety 5] Sat Aug 02 11:23:01 2003 *****/
+/***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\call.cl 
+         [version 3.3.28 / safety 5] Sat Sep 06 14:16:11 2003 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -28,7 +28,7 @@
 // contains the last message that was evaluated
 // messages in CLAIRE are called calls --------------------------------
 //
-/* The c++ function for: self_print(self:Call) [NEW_ALLOC+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: self_print(self:Call) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
 void  self_print_Call_Language(Call *self)
 { GC_BIND;
   { int  _Zl = Core.pretty->index;
@@ -299,7 +299,7 @@ ClaireBoolean * sugar_ask_any(OID x,OID x2,OID o,OID a)
 // <-(var V, arg E) where V is a variable (and therefore NOT a global_variable)
 //
 // the var slot is filled with a real variable later.
-/* The c++ function for: self_print(self:Assign) [NEW_ALLOC+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: self_print(self:Assign) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
 void  self_print_Assign_Language(Assign *self)
 { GC_BIND;
   { OID  a = GC_OID(self->arg);
@@ -355,7 +355,7 @@ OID  self_eval_Assign(Assign *self)
 
 // global variables
 //
-/* The c++ function for: self_print(self:Gassign) [NEW_ALLOC+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: self_print(self:Gassign) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
 void  self_print_Gassign_Language(Gassign *self)
 { GC_BIND;
   { OID  a = GC_OID(self->arg);

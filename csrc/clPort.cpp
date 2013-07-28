@@ -205,7 +205,9 @@ void pushback_port(ClairePort *p, int n) {p->firstc = n;}
 char *string_I_port(ClairePort *p)
 {if (p->status == 2) {char *s = ((CPStringOut *) p)->buffer;
                      int i =  ((CPStringOut *) p)->index;
-                     s[i] = '\0'; return copy_string(s);}
+                     s[i] = '\0';
+                     // printf("---- C: string!(port) -> %s ------------\n",s);
+                     return copy_string(s);}
  else return "";}
 
 // this function returns the number of chars in the buffer 

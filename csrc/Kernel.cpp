@@ -109,6 +109,8 @@ void KernelClass::bootstrap()
  unknownName->value = CNULL;
  PRIVATE = symbol::make("private",claire.it,claire.it);
  PRIVATE->value = _oid_(PRIVATE);
+// STATIC = symbol::make("static",claire.it,claire.it);            // v3.4
+//
  _class->name->value = _oid_(_class);
  _list->name->value = _oid_(_list);
  _set->name->value = _oid_(_set);

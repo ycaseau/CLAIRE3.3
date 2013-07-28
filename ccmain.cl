@@ -55,6 +55,7 @@
     printf("        -D : debug mode                              \n"),
     printf("        -safe : safe mode                            \n"),
     printf("        -O : optimizing mode                         \n"),
+    printf("        -os <int> : sets the optimizer savety level          \n"),
     printf("        -l <lib> : adds <lib> to the list of needed libs     \n"),
     printf("        -cm <module>: compiles a module -> executable        \n"),
     printf("        -cc <module>: compiles a module -> target files      \n"),
@@ -65,7 +66,7 @@
 
 //Claire's main
 [main(lp:list[string]) : void
-  -> let rCode := true, %cm := "", %cf := "", dblevel := 1, %out := "", %cj := "",
+  -> let rCode := true, %cm := "", %cf := "", dblevel := 1, %out := "", %cj := "", slevel := 0,
          clevel := 1, %init? := true, vlevel := 2, l := (copy(lp) as list<string>) in
  (try
   (*fs* := Id(*fs*),
@@ -94,6 +95,8 @@
              else error("option: -od <directory>")),
      {"-od"} (if (length(l) >= 2) (compiler.source := l[2], l :<< 2)
               else error("option: -od <directory>")),
+     {"-os"} (if (length(l) >= 2) (slevel := integer!(l[2]), l :<< 2)
+              else error("option: -ol <int>")),
      {"-S"} (if (length(l) >= 2) 
                 (value(new(global_variable,symbol!(l[2]))) := true,
                  l :<< 2)
@@ -129,6 +132,7 @@
    if (claire_lib = "")
        claire_lib := compiler.libraries_dir[(if (dblevel = 0) 2 else if (dblevel = 2) 1 else 3)],
    system.verbose := vlevel,
+   if (slevel > 0) compiler.safety := slevel,        // v3.3.26
    if (%cm != "")
       let m := string2module(%cm) in
         (compiler.active? := true,

@@ -1,5 +1,5 @@
-/***** CLAIRE Compilation of file d:\claire\v3.3\src\meta\inspect.cl 
-         [version 3.3.24 / safety 5] Sat Aug 02 11:23:07 2003 *****/
+/***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\inspect.cl 
+         [version 3.3.28 / safety 5] Sat Sep 06 14:16:14 2003 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -31,7 +31,7 @@
 // *********************************************************************
 // this is the method that the user calls
 //
-/* The c++ function for: inspect(self:any) [NEW_ALLOC+SLOT_UPDATE] */
+/* The c++ function for: inspect(self:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
 OID  inspect_any(OID self)
 { GC_BIND;
   { OID Result = 0;

@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file Language.cl 
-         [version 3.3.24 / safety 5] Sat Aug 02 11:23:02 2003 *****/
+         [version 3.3.28 / safety 5] Sat Sep 06 14:16:11 2003 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -154,6 +154,12 @@ void LanguageClass::metaLoad() {
     close_global_variable(_CL_obj);
     } 
   
+  { global_variable * _CL_obj = (Language.MAX_INTEGER = (global_variable *) Core._global_variable->instantiate("MAX_INTEGER",claire.it));
+    (_CL_obj->range = Kernel.emptySet);
+    (_CL_obj->value = 1073741822);
+    close_global_variable(_CL_obj);
+    } 
+  
   Core.apply->addMethod(list::domain(2,Core._lambda,Kernel._list),Kernel._any,
   	NEW_ALLOC,_function_(apply_lambda,"apply_lambda"));
   
@@ -161,7 +167,7 @@ void LanguageClass::metaLoad() {
   	NEW_ALLOC,_function_(call_lambda2,"call_lambda2"));
   
   Kernel.self_print->addMethod(list::domain(1,Core._lambda),Kernel._any,
-  	NEW_ALLOC+SLOT_UPDATE,_function_(self_print_lambda_Language,"self_print_lambda_Language"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(self_print_lambda_Language,"self_print_lambda_Language"));
   
   { global_variable * _CL_obj = (Language._starvariable_index_star = (global_variable *) Core._global_variable->instantiate("*variable_index*",claire.it));
     (_CL_obj->range = Kernel._integer);
@@ -191,16 +197,16 @@ void LanguageClass::metaLoad() {
     ;} 
   
   Language.lbreak->addMethod(list::domain(1,Kernel._void),Kernel._any,
-  	NEW_ALLOC+SLOT_UPDATE,_function_(lbreak_void,"lbreak_void"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(lbreak_void,"lbreak_void"));
   
   Language.put_buffer->addMethod(list::domain(1,Kernel._void),Kernel._any,
-  	SLOT_UPDATE,_function_(put_buffer_void,"put_buffer_void"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(put_buffer_void,"put_buffer_void"));
   
   Language.checkfar->addMethod(list::domain(1,Kernel._void),Kernel._any,
   	NEW_ALLOC,_function_(checkfar_void,"checkfar_void"));
   
   Language.lbreak->addMethod(list::domain(1,Kernel._integer),Kernel._any,
-  	NEW_ALLOC+SLOT_UPDATE,_function_(lbreak_integer,"lbreak_integer"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(lbreak_integer,"lbreak_integer"));
   
   Language.indent->addMethod(list::domain(1,Kernel._integer),Kernel._any,
   	0,_function_(indent_integer,"indent_integer"));
@@ -215,13 +221,13 @@ void LanguageClass::metaLoad() {
     Kernel._integer,
     Kernel._integer,
     Kernel._string),Kernel._any,
-  	NEW_ALLOC+SLOT_UPDATE,_function_(printbox_bag1,"printbox_bag1"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(printbox_bag1,"printbox_bag1"));
   
   Language.printbox->addMethod(list::domain(1,Kernel._bag),Kernel._any,
-  	NEW_ALLOC+SLOT_UPDATE+RETURN_ARG,_function_(printbox_bag2,"printbox_bag2"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(printbox_bag2,"printbox_bag2"));
   
   Language.printbox->addMethod(list::domain(2,Kernel._bag,Kernel._string),Kernel._any,
-  	NEW_ALLOC+SLOT_UPDATE+RETURN_ARG,_function_(printbox_bag3,"printbox_bag3"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(printbox_bag3,"printbox_bag3"));
   
   Language.printl->addMethod(list::domain(2,Kernel._bag,Kernel._string),Kernel._void,
   	NEW_ALLOC+SLOT_UPDATE+RETURN_ARG,_function_(printl_bag,"printl_bag"));
@@ -230,16 +236,16 @@ void LanguageClass::metaLoad() {
   	NEW_ALLOC+SLOT_UPDATE+RETURN_ARG,_function_(printexp_any,"printexp_any"));
   
   Language.pretty_print->addMethod(list::domain(1,Kernel._any),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE,_function_(pretty_print_any,"pretty_print_any"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(pretty_print_any,"pretty_print_any"));
   
   Kernel.self_print->addMethod(list::domain(1,Kernel._list),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE,_function_(self_print_list_Language,"self_print_list_Language"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(self_print_list_Language,"self_print_list_Language"));
   
   Kernel.self_print->addMethod(list::domain(1,Kernel._set),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE,_function_(self_print_set_Language,"self_print_set_Language"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(self_print_set_Language,"self_print_set_Language"));
   
   Kernel.self_print->addMethod(list::domain(1,Kernel._tuple),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE,_function_(self_print_tuple_Language,"self_print_tuple_Language"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(self_print_tuple_Language,"self_print_tuple_Language"));
   
   { global_variable * _CL_obj = (Language.LastCall = (global_variable *) Core._global_variable->instantiate("LastCall",iClaire.it));
     (_CL_obj->range = Kernel._any);
@@ -262,7 +268,7 @@ void LanguageClass::metaLoad() {
     } 
   
   Kernel.self_print->addMethod(list::domain(1,Language._Call),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE+RETURN_ARG,_function_(self_print_Call_Language,"self_print_Call_Language"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(self_print_Call_Language,"self_print_Call_Language"));
   
   Kernel.self_print->addMethod(list::domain(1,Language._Call_plus),Kernel._any,
   	NEW_ALLOC+SLOT_UPDATE,_function_(self_print_Call_plus_Language,"self_print_Call+_Language"));
@@ -288,7 +294,7 @@ void LanguageClass::metaLoad() {
     } 
   
   Kernel.self_print->addMethod(list::domain(1,Language._Assign),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE+RETURN_ARG,_function_(self_print_Assign_Language,"self_print_Assign_Language"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(self_print_Assign_Language,"self_print_Assign_Language"));
   
   Core.self_eval->addMethod(list::domain(1,Language._Assign),Kernel._any,
   	NEW_ALLOC+RETURN_ARG,_function_(self_eval_Assign,"self_eval_Assign"));
@@ -299,7 +305,7 @@ void LanguageClass::metaLoad() {
     } 
   
   Kernel.self_print->addMethod(list::domain(1,Language._Gassign),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE+RETURN_ARG,_function_(self_print_Gassign_Language,"self_print_Gassign_Language"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(self_print_Gassign_Language,"self_print_Gassign_Language"));
   
   Core.self_eval->addMethod(list::domain(1,Language._Gassign),Kernel._any,
   	NEW_ALLOC+SLOT_UPDATE+RETURN_ARG,_function_(self_eval_Gassign,"self_eval_Gassign"));
@@ -309,7 +315,7 @@ void LanguageClass::metaLoad() {
     } 
   
   Kernel.self_print->addMethod(list::domain(1,Language._And),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE,_function_(self_print_And_Language,"self_print_And_Language"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(self_print_And_Language,"self_print_And_Language"));
   
   Core.self_eval->addMethod(list::domain(1,Language._And),Kernel._any,
   	NEW_ALLOC,_function_(self_eval_And,"self_eval_And"));
@@ -319,7 +325,7 @@ void LanguageClass::metaLoad() {
     } 
   
   Kernel.self_print->addMethod(list::domain(1,Language._Or),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE,_function_(self_print_Or_Language,"self_print_Or_Language"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(self_print_Or_Language,"self_print_Or_Language"));
   
   Core.self_eval->addMethod(list::domain(1,Language._Or),Kernel._any,
   	NEW_ALLOC,_function_(self_eval_Or,"self_eval_Or"));
@@ -413,7 +419,7 @@ void LanguageClass::metaLoad() {
     } 
   
   Kernel.self_print->addMethod(list::domain(1,Language._Super),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE+RETURN_ARG,_function_(self_print_Super_Language,"self_print_Super_Language"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(self_print_Super_Language,"self_print_Super_Language"));
   
   Core.self_eval->addMethod(list::domain(1,Language._Super),Kernel._any,
   	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(self_eval_Super,"self_eval_Super"));
@@ -455,16 +461,16 @@ void LanguageClass::metaLoad() {
     } 
   
   Kernel.self_print->addMethod(list::domain(1,Language._If),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE,_function_(self_print_If_Language,"self_print_If_Language"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(self_print_If_Language,"self_print_If_Language"));
   
   Language.printstat->addMethod(list::domain(1,Language._If),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE,_function_(printstat_If,"printstat_If"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(printstat_If,"printstat_If"));
   
   Language.printif->addMethod(list::domain(1,Kernel._any),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE,_function_(printif_any,"printif_any"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(printif_any,"printif_any"));
   
   Language.printelse->addMethod(list::domain(1,Language._If),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE+RETURN_ARG,_function_(printelse_If,"printelse_If"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(printelse_If,"printelse_If"));
   
   Core.self_eval->addMethod(list::domain(1,Language._If),Kernel._any,
   	NEW_ALLOC,_function_(self_eval_If,"self_eval_If"));
@@ -475,13 +481,13 @@ void LanguageClass::metaLoad() {
     } 
   
   Kernel.self_print->addMethod(list::domain(1,Language._Do),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE+RETURN_ARG,_function_(self_print_Do_Language,"self_print_Do_Language"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(self_print_Do_Language,"self_print_Do_Language"));
   
   Language.printdo->addMethod(list::domain(2,Kernel._list,Kernel._boolean),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE,_function_(printdo_list,"printdo_list"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(printdo_list,"printdo_list"));
   
   Language.printblock->addMethod(list::domain(1,Kernel._any),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE,_function_(printblock_any,"printblock_any"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(printblock_any,"printblock_any"));
   
   Core.self_eval->addMethod(list::domain(1,Language._Do),Kernel._any,
   	NEW_ALLOC,_function_(self_eval_Do,"self_eval_Do"));
@@ -492,10 +498,10 @@ void LanguageClass::metaLoad() {
     } 
   
   Kernel.self_print->addMethod(list::domain(1,Language._Let),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE+RETURN_ARG,_function_(self_print_Let_Language,"self_print_Let_Language"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(self_print_Let_Language,"self_print_Let_Language"));
   
   Language.printbody->addMethod(list::domain(1,Language._Let),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE,_function_(printbody_Let,"printbody_Let"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(printbody_Let,"printbody_Let"));
   
   Core.self_eval->addMethod(list::domain(1,Language._Let),Kernel._any,
   	NEW_ALLOC+SLOT_UPDATE,_function_(self_eval_Let,"self_eval_Let"));
@@ -505,7 +511,7 @@ void LanguageClass::metaLoad() {
     } 
   
   Kernel.self_print->addMethod(list::domain(1,Language._When),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE+RETURN_ARG,_function_(self_print_When_Language,"self_print_When_Language"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(self_print_When_Language,"self_print_When_Language"));
   
   Core.self_eval->addMethod(list::domain(1,Language._When),Kernel._any,
   	NEW_ALLOC+SLOT_UPDATE,_function_(self_eval_When,"self_eval_When"));
@@ -515,10 +521,10 @@ void LanguageClass::metaLoad() {
   (Language._Let_star = ClaireClass::make("Let*",Language._Let,claire.it));
   
   Kernel.self_print->addMethod(list::domain(1,Language._Let_plus),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE+RETURN_ARG,_function_(self_print_Let_plus_Language,"self_print_Let+_Language"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(self_print_Let_plus_Language,"self_print_Let+_Language"));
   
   Kernel.self_print->addMethod(list::domain(1,Language._Let_star),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE+RETURN_ARG,_function_(self_print_Let_star_Language,"self_print_Let*_Language"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(self_print_Let_star_Language,"self_print_Let*_Language"));
   
   { (Language._Iteration = ClaireClass::make("Iteration",Language._Instruction_with_var,claire.it));
     CL_ADD_SLOT(Language._Iteration,Iteration,Language.set_arg,set_arg,Kernel._any,CNULL);
@@ -534,7 +540,7 @@ void LanguageClass::metaLoad() {
   (Language._For = ClaireClass::make("For",Language._Iteration,claire.it));
   
   Kernel.self_print->addMethod(list::domain(1,Language._For),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE,_function_(self_print_For_Language,"self_print_For_Language"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(self_print_For_Language,"self_print_For_Language"));
   
   Core.self_eval->addMethod(list::domain(1,Language._For),Kernel._any,
   	NEW_ALLOC+SLOT_UPDATE,_function_(self_eval_For,"self_eval_For"));
@@ -544,7 +550,7 @@ void LanguageClass::metaLoad() {
     } 
   
   Kernel.self_print->addMethod(list::domain(1,Language._Collect),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE,_function_(self_print_Collect_Language,"self_print_Collect_Language"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(self_print_Collect_Language,"self_print_Collect_Language"));
   
   Core.self_eval->addMethod(list::domain(1,Language._Collect),Kernel._any,
   	NEW_ALLOC,_function_(self_eval_Collect,"self_eval_Collect"));
@@ -554,7 +560,7 @@ void LanguageClass::metaLoad() {
     } 
   
   Kernel.self_print->addMethod(list::domain(1,Language._Image),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE,_function_(self_print_Image_Language,"self_print_Image_Language"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(self_print_Image_Language,"self_print_Image_Language"));
   
   Core.self_eval->addMethod(list::domain(1,Language._Image),Kernel._any,
   	NEW_ALLOC,_function_(self_eval_Image,"self_eval_Image"));
@@ -564,7 +570,7 @@ void LanguageClass::metaLoad() {
     } 
   
   Kernel.self_print->addMethod(list::domain(1,Language._Select),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE,_function_(self_print_Select_Language,"self_print_Select_Language"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(self_print_Select_Language,"self_print_Select_Language"));
   
   Core.self_eval->addMethod(list::domain(1,Language._Select),Kernel._any,
   	NEW_ALLOC,_function_(self_eval_Select,"self_eval_Select"));
@@ -574,7 +580,7 @@ void LanguageClass::metaLoad() {
     } 
   
   Kernel.self_print->addMethod(list::domain(1,Language._Lselect),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE,_function_(self_print_Lselect_Language,"self_print_Lselect_Language"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(self_print_Lselect_Language,"self_print_Lselect_Language"));
   
   Core.self_eval->addMethod(list::domain(1,Language._Lselect),Kernel._any,
   	NEW_ALLOC,_function_(self_eval_Lselect,"self_eval_Lselect"));
@@ -584,7 +590,7 @@ void LanguageClass::metaLoad() {
     } 
   
   Kernel.self_print->addMethod(list::domain(1,Language._Exists),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE,_function_(self_print_Exists_Language,"self_print_Exists_Language"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(self_print_Exists_Language,"self_print_Exists_Language"));
   
   Core.self_eval->addMethod(list::domain(1,Language._Exists),Kernel._any,
   	NEW_ALLOC,_function_(self_eval_Exists,"self_eval_Exists"));
@@ -595,7 +601,7 @@ void LanguageClass::metaLoad() {
     } 
   
   Kernel.self_print->addMethod(list::domain(1,Language._Case),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE+RETURN_ARG,_function_(self_print_Case_Language,"self_print_Case_Language"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(self_print_Case_Language,"self_print_Case_Language"));
   
   Core.self_eval->addMethod(list::domain(1,Language._Case),Kernel._any,
   	NEW_ALLOC,_function_(self_eval_Case,"self_eval_Case"));
@@ -607,7 +613,7 @@ void LanguageClass::metaLoad() {
     } 
   
   Kernel.self_print->addMethod(list::domain(1,Language._While),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE+RETURN_ARG,_function_(self_print_While_Language,"self_print_While_Language"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(self_print_While_Language,"self_print_While_Language"));
   
   Core.self_eval->addMethod(list::domain(1,Language._While),Kernel._any,
   	NEW_ALLOC,_function_(self_eval_While,"self_eval_While"));
@@ -619,7 +625,7 @@ void LanguageClass::metaLoad() {
     } 
   
   Kernel.self_print->addMethod(list::domain(1,Language._Handle),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE+RETURN_ARG,_function_(self_print_Handle_Language,"self_print_Handle_Language"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(self_print_Handle_Language,"self_print_Handle_Language"));
   
   Core.self_eval->addMethod(list::domain(1,Language._Handle),Kernel._any,
   	NEW_ALLOC,_function_(self_eval_Handle,"self_eval_Handle"));
@@ -649,7 +655,7 @@ void LanguageClass::metaLoad() {
   (Language._Branch = ClaireClass::make("Branch",Language._Construct,claire.it));
   
   Kernel.self_print->addMethod(list::domain(1,Language._Construct),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE+RETURN_ARG,_function_(self_print_Construct_Language,"self_print_Construct_Language"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(self_print_Construct_Language,"self_print_Construct_Language"));
   
   Core.self_eval->addMethod(list::domain(1,Language._List),Kernel._any,
   	NEW_ALLOC,_function_(self_eval_List,"self_eval_List"));
@@ -720,14 +726,14 @@ void LanguageClass::metaLoad() {
     } 
   
   Kernel.self_print->addMethod(list::domain(1,Language._Definition),Kernel._any,
-  	NEW_ALLOC+SLOT_UPDATE,_function_(self_print_Definition_Language,"self_print_Definition_Language"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(self_print_Definition_Language,"self_print_Definition_Language"));
   
   { (Language._Defobj = ClaireClass::make("Defobj",Language._Definition,claire.it));
     CL_ADD_SLOT(Language._Defobj,Defobj,Language.ident,ident,Kernel._symbol,CNULL);
     } 
   
   Kernel.self_print->addMethod(list::domain(1,Language._Defobj),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE,_function_(self_print_Defobj_Language,"self_print_Defobj_Language"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(self_print_Defobj_Language,"self_print_Defobj_Language"));
   
   { (Language._Defclass = ClaireClass::make("Defclass",Language._Defobj,claire.it));
     CL_ADD_SLOT(Language._Defclass,Defclass,Kernel.params,params,Kernel._list,CNULL);
@@ -735,7 +741,7 @@ void LanguageClass::metaLoad() {
     } 
   
   Kernel.self_print->addMethod(list::domain(1,Language._Defclass),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE,_function_(self_print_Defclass_Language,"self_print_Defclass_Language"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(self_print_Defclass_Language,"self_print_Defclass_Language"));
   
   { (Language._Defmethod = ClaireClass::make("Defmethod",Language._Defclaire,claire.it));
     CL_ADD_SLOT(Language._Defmethod,Defmethod,Kernel.arg,arg,Language._Call,CNULL);
@@ -745,12 +751,12 @@ void LanguageClass::metaLoad() {
     } 
   
   Kernel.self_print->addMethod(list::domain(1,Language._Defmethod),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE+RETURN_ARG,_function_(self_print_Defmethod_Language,"self_print_Defmethod_Language"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(self_print_Defmethod_Language,"self_print_Defmethod_Language"));
   
   (Language._Defarray = ClaireClass::make("Defarray",Language._Defmethod,claire.it));
   
   Kernel.self_print->addMethod(list::domain(1,Language._Defarray),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE+RETURN_ARG,_function_(self_print_Defarray_Language,"self_print_Defarray_Language"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(self_print_Defarray_Language,"self_print_Defarray_Language"));
   
   { (Language._Defrule = ClaireClass::make("Defrule",Language._Defclaire,claire.it));
     CL_ADD_SLOT(Language._Defrule,Defrule,Language.ident,ident,Kernel._symbol,CNULL);
@@ -760,7 +766,7 @@ void LanguageClass::metaLoad() {
     } 
   
   Kernel.self_print->addMethod(list::domain(1,Language._Defrule),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE+RETURN_ARG,_function_(self_print_Defrule_Language,"self_print_Defrule_Language"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(self_print_Defrule_Language,"self_print_Defrule_Language"));
   
   { (Language._Defvar = ClaireClass::make("Defvar",Language._Defclaire,claire.it));
     CL_ADD_SLOT(Language._Defvar,Defvar,Language.ident,ident,Language._Variable,CNULL);

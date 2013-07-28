@@ -1,4 +1,4 @@
-// interface defination for module Optimize, Sat Aug 02 11:32:34 2003
+// interface defination for module Optimize, Sat Sep 06 14:16:16 2003
 #ifndef CLAIREH_Optimize
 #define CLAIREH_Optimize
 
@@ -123,7 +123,7 @@ extern int  c_or_list(list *v5252);
 extern int  status_I_restriction(restriction *v9268);
 extern int  c_return_integer(int v5264,int v5265);
 extern int  c_status_property(property *v9268);
-extern void  showstatus_method2(method *v5253);
+extern OID  showstatus_method2(method *v5253);
 extern void  s_test_method2(method *v5253);
 extern ClaireBoolean * legal_ask_module(module *v9268,OID v5264);
 extern OID  legal_ask_environment(ClaireEnvironment *v9268,OID v5264);

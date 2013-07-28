@@ -659,6 +659,7 @@ method *add_method_property(property *p, list *dom, ClaireType *r,
 /**    4. Tables                                                     */
 /*********************************************************************/
 
+
 // expand the alist (hash table) and then creates the item
 // the size is 2^n - 4 (even)
 int table::expand(OID x)

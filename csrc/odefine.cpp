@@ -1,5 +1,5 @@
-/***** CLAIRE Compilation of file d:\claire\v3.3\src\compile\odefine.cl 
-         [version 3.3.24 / safety 5] Sat Aug 02 11:32:35 2003 *****/
+/***** CLAIRE Compilation of file c:\claire\v3.3\src\compile\odefine.cl 
+         [version 3.3.28 / safety 5] Sat Sep 06 14:16:17 2003 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -8,7 +8,7 @@
 #include <Reader.h>
 #include <Optimize.h>
 ClaireType * c_type_List_Optimize(List *v9268)
-{ GC_BIND;
+{ GC_RESERVE(1);  // HOHO v3.0.55 optim !
   ;{ ClaireType *Result ;
     if (((v9268->of == (NULL)) ? CTRUE : CFALSE) != CTRUE)
      Result = param_I_class(Kernel._list,v9268->of);
@@ -18,8 +18,8 @@ ClaireType * c_type_List_Optimize(List *v9268)
           for (START(v9268->args); NEXT(v13275);)
           { GC_LOOP;
             if (boolean_I_any(v8003) == CTRUE)
-             v8003= _oid_(meet_class(OBJECT(ClaireClass,v8003),class_I_type(GC_OBJECT(ClaireType,ptype_type(OBJECT(ClaireType,(*Optimize.c_type)(v13275)))))));
-            else v8003= _oid_(class_I_type(GC_OBJECT(ClaireType,ptype_type(OBJECT(ClaireType,(*Optimize.c_type)(v13275))))));
+             GC__OID(v8003 = _oid_(meet_class(OBJECT(ClaireClass,v8003),class_I_type(GC_OBJECT(ClaireType,ptype_type(OBJECT(ClaireType,(*Optimize.c_type)(v13275))))))), 1);
+            else GC__OID(v8003 = _oid_(class_I_type(GC_OBJECT(ClaireType,ptype_type(OBJECT(ClaireType,(*Optimize.c_type)(v13275)))))), 1);
               GC_UNLOOP;} 
           } 
         Result = nth_class1(Kernel._list,OBJECT(ClaireType,v8003));
@@ -124,7 +124,7 @@ OID  c_code_List_Optimize(List *v9268)
   } 
 
 ClaireType * c_type_Set_Optimize(Set *v9268)
-{ GC_BIND;
+{ GC_RESERVE(1);  // HOHO v3.0.55 optim !
   ;{ ClaireType *Result ;
     if (((v9268->of == (NULL)) ? CTRUE : CFALSE) != CTRUE)
      Result = param_I_class(Kernel._set,v9268->of);
@@ -134,8 +134,8 @@ ClaireType * c_type_Set_Optimize(Set *v9268)
           for (START(v9268->args); NEXT(v13275);)
           { GC_LOOP;
             if (boolean_I_any(v8003) == CTRUE)
-             v8003= _oid_(meet_class(OBJECT(ClaireClass,v8003),class_I_type(GC_OBJECT(ClaireType,OBJECT(ClaireType,(*Optimize.c_type)(v13275))))));
-            else v8003= _oid_(class_I_type(GC_OBJECT(ClaireType,OBJECT(ClaireType,(*Optimize.c_type)(v13275)))));
+             GC__OID(v8003 = _oid_(meet_class(OBJECT(ClaireClass,v8003),class_I_type(GC_OBJECT(ClaireType,OBJECT(ClaireType,(*Optimize.c_type)(v13275)))))), 1);
+            else GC__OID(v8003 = _oid_(class_I_type(GC_OBJECT(ClaireType,OBJECT(ClaireType,(*Optimize.c_type)(v13275))))), 1);
               GC_UNLOOP;} 
           } 
         Result = nth_class1(Kernel._set,OBJECT(ClaireType,v8003));

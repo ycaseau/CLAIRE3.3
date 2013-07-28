@@ -1,5 +1,5 @@
-/***** CLAIRE Compilation of file d:\claire\v3.3\src\meta\control.cl 
-         [version 3.3.24 / safety 5] Sat Aug 02 11:23:01 2003 *****/
+/***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\control.cl 
+         [version 3.3.28 / safety 5] Sat Sep 06 14:16:11 2003 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -32,7 +32,7 @@ void  self_print_If_Language(If *self)
   } 
 
 
-/* The c++ function for: printstat(self:If) [NEW_ALLOC+SLOT_UPDATE] */
+/* The c++ function for: printstat(self:If) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
 void  printstat_If(If *self)
 { GC_BIND;
   princ_string("if ");
@@ -46,7 +46,7 @@ void  printstat_If(If *self)
   GC_UNBIND;} 
 
 
-/* The c++ function for: printif(self:any) [NEW_ALLOC+SLOT_UPDATE] */
+/* The c++ function for: printif(self:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
 void  printif_any(OID self)
 { (Core.pretty->index = (Core.pretty->index+3));
   if (Core.pretty->pbreak == CTRUE)
@@ -72,7 +72,7 @@ void  printif_any(OID self)
     } 
 
 
-/* The c++ function for: printelse(self:If) [NEW_ALLOC+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: printelse(self:If) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
 void  printelse_If(If *self)
 { GC_BIND;
   { OID  e = GC_OID(self->other);
@@ -121,7 +121,7 @@ OID  self_eval_If(If *self)
 
 
 //--------------------- block structure------------------------------
-/* The c++ function for: self_print(self:Do) [NEW_ALLOC+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: self_print(self:Do) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
 void  self_print_Do_Language(Do *self)
 { GC_BIND;
   { int  _Zl = Core.pretty->index;
@@ -133,7 +133,7 @@ void  self_print_Do_Language(Do *self)
   GC_UNBIND;} 
 
 
-/* The c++ function for: printdo(l:list,clo:boolean) [NEW_ALLOC+SLOT_UPDATE] */
+/* The c++ function for: printdo(l:list,clo:boolean) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
 void  printdo_list(list *l,ClaireBoolean *clo)
 { { int  n = l->length;
     { ITERATE(x);
@@ -155,7 +155,7 @@ void  printdo_list(list *l,ClaireBoolean *clo)
   } 
 
 
-/* The c++ function for: printblock(x:any) [NEW_ALLOC+SLOT_UPDATE] */
+/* The c++ function for: printblock(x:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
 void  printblock_any(OID x)
 { GC_BIND;
   if (INHERIT(OWNER(x),Language._Do))
@@ -197,7 +197,7 @@ void  self_print_Let_Language(Let *self)
   GC_UNBIND;} 
 
 
-/* The c++ function for: printbody(self:Let) [NEW_ALLOC+SLOT_UPDATE] */
+/* The c++ function for: printbody(self:Let) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
 void  printbody_Let(Let *self)
 { GC_BIND;
   { OID  a = GC_OID(self->arg);
@@ -245,7 +245,7 @@ OID  self_eval_Let(Let *self)
 
 // a when is a special Let that filters out the unknown value !
 //
-/* The c++ function for: self_print(self:When) [NEW_ALLOC+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: self_print(self:When) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
 void  self_print_When_Language(When *self)
 { GC_BIND;
   { int  _Zl = Core.pretty->index;
@@ -304,7 +304,7 @@ OID  self_eval_When(When *self)
 //note: the Let* is also used for multi-assignments
 // Let*(v,f(),(v1 := v[1], v2 := v[2], ...))   <=>  (v1,v2,...vn) := f()
 //
-/* The c++ function for: self_print(self:Let+) [NEW_ALLOC+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: self_print(self:Let+) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
 void  self_print_Let_plus_Language(Let_plus *self)
 { GC_BIND;
   { int  _Zl = Core.pretty->index;
@@ -325,7 +325,7 @@ void  self_print_Let_plus_Language(Let_plus *self)
 
 /* The c++ function for: self_print(self:Let*) [NEW_ALLOC+SLOT_UPDATE+RETURN_ARG] */
 void  self_print_Let_star_Language(Let_star *self)
-{ GC_RESERVE(1);  // HOHO v3.0.55 optim !
+{ GC_RESERVE(4);  // v3.0.55 optim !
   { int  _Zl = Core.pretty->index;
     OID  l = GC_OID(self->arg);
     set_level_integer(1);
@@ -339,7 +339,7 @@ void  self_print_Let_star_Language(Let_star *self)
             if ((INHERIT(OWNER(lnext),Language._Let)) && ((INHERIT(OWNER(OBJECT(Let,lnext)->value),Language._Call)) && 
                 ((*(OBJECT(bag,(*Core.args)(GC_OID(OBJECT(Let,lnext)->value)))))[1] == _oid_(self->var))))
              { princ_string(",");
-              GC__OID(l = lnext, 1);
+              GC__OID(l = lnext, 3);
               } 
             else { ;break;} 
               } 
@@ -380,7 +380,7 @@ void  self_print_Let_star_Language(Let_star *self)
 // *********************************************************************
 // for is the simplest evaluation loop
 //
-/* The c++ function for: self_print(self:For) [NEW_ALLOC+SLOT_UPDATE] */
+/* The c++ function for: self_print(self:For) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
 void  self_print_For_Language(For *self)
 { GC_BIND;
   princ_string("for ");
@@ -493,7 +493,7 @@ OID  self_eval_For(For *self)
 
 // [collect VAR in SET_EXPR, ...] is the same as a "for", but returns the list of values
 //
-/* The c++ function for: self_print(self:Collect) [NEW_ALLOC+SLOT_UPDATE] */
+/* The c++ function for: self_print(self:Collect) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
 void  self_print_Collect_Language(Collect *self)
 { GC_BIND;
   princ_string("list{ ");
@@ -551,9 +551,11 @@ OID  self_eval_Collect(Collect *self)
               { OID gc_local;
                 ITERATE(x);
                 for (START(res); NEXT(x);)
-                if (belong_to(x,_oid_(self->of)) != CTRUE)
-                 { x_some= x;
-                  break;} 
+                { GC_LOOP;
+                  if (belong_to(x,_oid_(self->of)) != CTRUE)
+                   { x_some= x;
+                    break;} 
+                  GC_UNLOOP;} 
                 } 
               x = x_some;
               } 
@@ -573,7 +575,7 @@ OID  self_eval_Collect(Collect *self)
 
 // this is a set image version, that produces a set
 //
-/* The c++ function for: self_print(self:Image) [NEW_ALLOC+SLOT_UPDATE] */
+/* The c++ function for: self_print(self:Image) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
 void  self_print_Image_Language(Image *self)
 { GC_BIND;
   princ_string("{ ");
@@ -615,9 +617,11 @@ OID  self_eval_Image(Image *self)
               { OID gc_local;
                 ITERATE(x);
                 for (START(res); NEXT(x);)
-                if (belong_to(x,_oid_(self->of)) != CTRUE)
-                 { x_some= x;
-                  break;} 
+                { GC_LOOP;
+                  if (belong_to(x,_oid_(self->of)) != CTRUE)
+                   { x_some= x;
+                    break;} 
+                  GC_UNLOOP;} 
                 } 
               x = x_some;
               } 
@@ -638,7 +642,7 @@ OID  self_eval_Image(Image *self)
 // [select VAR in SET_EXPR, ...] is the same as a "for" but returns the subset of
 //  members that produce a true value
 //
-/* The c++ function for: self_print(self:Select) [NEW_ALLOC+SLOT_UPDATE] */
+/* The c++ function for: self_print(self:Select) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
 void  self_print_Select_Language(Select *self)
 { GC_BIND;
   princ_string("{ ");
@@ -703,9 +707,11 @@ OID  self_eval_Select(Select *self)
               { OID gc_local;
                 ITERATE(x);
                 for (START(res); NEXT(x);)
-                if (belong_to(x,_oid_(self->of)) != CTRUE)
-                 { x_some= x;
-                  break;} 
+                { GC_LOOP;
+                  if (belong_to(x,_oid_(self->of)) != CTRUE)
+                   { x_some= x;
+                    break;} 
+                  GC_UNLOOP;} 
                 } 
               x = x_some;
               } 
@@ -726,7 +732,7 @@ OID  self_eval_Select(Select *self)
 // [select VAR in SET_EXPR, ...] is the same as a "for" but returns the subset of
 //  members that produce a true value
 //
-/* The c++ function for: self_print(self:Lselect) [NEW_ALLOC+SLOT_UPDATE] */
+/* The c++ function for: self_print(self:Lselect) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
 void  self_print_Lselect_Language(Lselect *self)
 { GC_BIND;
   princ_string("list{ ");
@@ -791,9 +797,11 @@ OID  self_eval_Lselect(Lselect *self)
               { OID gc_local;
                 ITERATE(x);
                 for (START(res); NEXT(x);)
-                if (belong_to(x,_oid_(self->of)) != CTRUE)
-                 { x_some= x;
-                  break;} 
+                { GC_LOOP;
+                  if (belong_to(x,_oid_(self->of)) != CTRUE)
+                   { x_some= x;
+                    break;} 
+                  GC_UNLOOP;} 
                 } 
               x = x_some;
               } 
@@ -813,7 +821,7 @@ OID  self_eval_Lselect(Lselect *self)
 
 // Exists is an iteration that checks a condition
 // other = true => forall,  other = false => exists, other = unknown => some
-/* The c++ function for: self_print(self:Exists) [NEW_ALLOC+SLOT_UPDATE] */
+/* The c++ function for: self_print(self:Exists) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
 void  self_print_Exists_Language(Exists *self)
 { GC_BIND;
   if (self->other == Kernel.ctrue)
@@ -907,7 +915,7 @@ OID  self_eval_Exists(Exists *self)
 // *     Part 3: other control structures                              *
 // *********************************************************************
 // ----------------- case  --------------------------------------
-/* The c++ function for: self_print(self:Case) [NEW_ALLOC+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: self_print(self:Case) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
 void  self_print_Case_Language(Case *self)
 { GC_BIND;
   princ_string("case ");
@@ -981,7 +989,7 @@ OID  self_eval_Case(Case *self)
 
 // ------------------ WHILE  and UNTIL  -----------------------------
 // the "other" while is until, where the first test is skipped
-/* The c++ function for: self_print(self:While) [NEW_ALLOC+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: self_print(self:While) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
 void  self_print_While_Language(While *self)
 { GC_BIND;
   princ_string(((self->other == CTRUE) ?
@@ -1031,7 +1039,7 @@ OID  self_eval_While(While *self)
 // This is the control structure associated with these errors. Its real
 // semantics is defined in the C compiler file
 //
-/* The c++ function for: self_print(self:Handle) [NEW_ALLOC+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: self_print(self:Handle) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
 void  self_print_Handle_Language(ClaireHandle *self)
 { GC_BIND;
   princ_string("try ");

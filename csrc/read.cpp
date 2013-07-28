@@ -1,5 +1,5 @@
-/***** CLAIRE Compilation of file d:\claire\v3.3\src\meta\read.cl 
-         [version 3.3.24 / safety 5] Sat Aug 02 11:23:07 2003 *****/
+/***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\read.cl 
+         [version 3.3.28 / safety 5] Sat Sep 06 14:16:14 2003 *****/
 
 #include <claire.h>
 #include <Kernel.h>

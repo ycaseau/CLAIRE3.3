@@ -1,5 +1,5 @@
-/***** CLAIRE Compilation of file d:\claire\v3.3\src\meta\function.cl 
-         [version 3.3.24 / safety 5] Sat Aug 02 11:22:53 2003 *****/
+/***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\function.cl 
+         [version 3.3.28 / safety 5] Sat Sep 06 14:16:07 2003 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -28,22 +28,42 @@
 // *   Part 1: Basics of pretty printing                               *
 // *********************************************************************
 // we use a nice object
+// support reccursive print-in-string 
 // buffered print
-/* The c++ function for: print_in_string(_CL_obj:void) [SLOT_UPDATE] */
+// new in v3.3.26: unbounded recursion is supported :-)
+/* The c++ function for: print_in_string(_CL_obj:void) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
 void  print_in_string_void()
-{ (Core.pretty->cprevious = use_as_output_port(Core.pretty->cpretty));
-  if (equal(ClAlloc->import(Kernel._port,(int *) Core.pretty->cprevious),ClAlloc->import(Kernel._port,(int *) Core.pretty->cpretty)) == CTRUE)
-   close_exception(((general_error *) (*Core._general_error)(_string_("[123] YOU ARE USING PRINT_in_string_void RECURSIVELY"),
-    _oid_(Kernel.nil))));
-  } 
+{ GC_BIND;
+  { int  n = (Core.pretty->cprevious+1);
+    ClairePort * p1 = ((n < Core.pretty->cpstack->length) ?
+      EXPORT((ClairePort *),(*(Core.pretty->cpstack))[(n+1)]) :
+      port_I_void() );
+    ClairePort * p2 = use_as_output_port(p1);
+    (Core.pretty->cprevious = n);
+    (Core.pretty->cpretty = p1);
+    if (equal(_oid_(Core.pretty->cpstack),Core.nil->value) == CTRUE)
+     (Core.pretty->cpstack = list::alloc(Kernel._port,2,GC_OID(ClAlloc->import(Kernel._port,(int *) p2)),GC_OID(ClAlloc->import(Kernel._port,(int *) p1))));
+    else { ((*(Core.pretty->cpstack))[n]=ClAlloc->import(Kernel._port,(int *) p2));
+        if (n == Core.pretty->cpstack->length)
+         GC_OBJECT(list,Core.pretty->cpstack)->addFast(GC_OID(ClAlloc->import(Kernel._port,(int *) p1)));
+        } 
+      } 
+  GC_UNBIND;} 
 
 
-/* The c++ function for: end_of_string(_CL_obj:void) [0] */
+/* The c++ function for: end_of_string(_CL_obj:void) [SLOT_UPDATE] */
 char * end_of_print_void()
-{ { char *Result ;
-    { char * s = string_I_port(Core.pretty->cpretty);
+{ if (Core.pretty->cprevious == 0)
+   close_exception(((general_error *) (*Core._general_error)(_string_("[123] unbalanced use of print-in-string"),
+    _oid_(Kernel.nil))));
+  { char *Result ;
+    { int  n = Core.pretty->cprevious;
+      char * s = string_I_port(Core.pretty->cpretty);
+      ClairePort * p = EXPORT((ClairePort *),(*(Core.pretty->cpstack))[n]);
       set_length_port(Core.pretty->cpretty,0);
-      use_as_output_port(Core.pretty->cprevious);
+      use_as_output_port(p);
+      (Core.pretty->cpretty = p);
+      (Core.pretty->cprevious = (Core.pretty->cprevious-1));
       Result = s;
       } 
     return (Result);} 
@@ -738,7 +758,7 @@ void  nth_put_string(char *s,int n,ClaireChar *c,int max)
 
 //  v3.2.14
 //------------------- SYMBOL -----------------------------------------------
-/* The c++ function for: make_string(self:symbol) [SLOT_UPDATE] */
+/* The c++ function for: make_string(self:symbol) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
 char * make_string_symbol(symbol *self)
 { print_in_string_void();
   princ_symbol(self);
@@ -1023,12 +1043,12 @@ double  atan_float(double self)
   } 
 
 
-/* The c++ function for: string!(g0078:any) [SLOT_UPDATE] */
+/* The c++ function for: string!(g0078:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
 char * string_I_float_(OID g0078)
 { return string_I_float(float_v(g0078));} 
 
 
-/* The c++ function for: string!(self:float) [SLOT_UPDATE] */
+/* The c++ function for: string!(self:float) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
 char * string_I_float(double self)
 { print_in_string_void();
   princ_float(self);

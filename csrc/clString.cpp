@@ -248,6 +248,7 @@ void end_module (module *x)
 
 // create a claire symbol from an internal C string and a status, represented by
 // def, which is NULL for private symbols and the definition (owner) for other symbols
+// 
 symbol *symbol::make(char *name, module *ns, module *def)
 {int i = ns->hash(name);
    while ((ClRes->sTable[i] != NULL) &&
@@ -259,7 +260,7 @@ symbol *symbol::make(char *name, module *ns, module *def)
        s->isa = Kernel._symbol;
        s->name = name;
        s->module_I = ns;
-       s->definition = def;
+       s->definition = def;                  // def = NULL means private
        s->value = CNULL;
        ClRes->sTable[i] = s;}
    return ClRes->sTable[i];}
@@ -419,12 +420,13 @@ int times_integer(int n, int m)
 // v3.3.18: support long integer (> 16 bits) - v3.3.20 : use ALi's ideas to simplify
 
 // v3.3.24 makes sure that rand() returns a > 0 number on all platforms
+// v3.3.26 is even stronger, following Sylvain's suggestion
 #ifdef CLWIN
 #define C_RAND() rand()
 #define C_RANDMAX RAND_MAX
 #else
-#define C_RAND() (rand() & 0x0FFFFFFF)
-#define C_RANDMAX (RAND_MAX & 0x0FFFFFFF)
+#define C_RAND() (rand() & 0x00007FFF)
+#define C_RANDMAX (RAND_MAX & 0x00007FFF)
 #endif
 
 int random_integer(int n)

@@ -566,10 +566,12 @@ gc_register(self:Variable,arg:any) : any
 // we register if we may use the index: either the value is protected or
 // it may be a reference to the content (x) of an inner variable that is placed
 // in an outer one !
+// v3.3.26: if the value is passed through a method that return its arg which is itself protected
 Compile/inner2outer?(x:any) : boolean
   -> (case x
       (to_protect true,
        Variable not(Optimize/gcsafe?(x.range)),
+       Call_method (x.arg.status[RETURN_ARG] & inner2outer?(x.args[1])),  // v3.3.26
        to_CL inner2outer?(x.arg),
        to_C  inner2outer?(x.arg),
        Let inner2outer?(x.var)))

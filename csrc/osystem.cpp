@@ -1,5 +1,5 @@
-/***** CLAIRE Compilation of file d:\claire\v3.3\src\compile\osystem.cl 
-         [version 3.3.24 / safety 5] Sat Aug 02 11:32:34 2003 *****/
+/***** CLAIRE Compilation of file c:\claire\v3.3\src\compile\osystem.cl 
+         [version 3.3.28 / safety 5] Sat Sep 06 14:16:16 2003 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -17,7 +17,7 @@ ClaireType * safe_any2_type(ClaireType *v5264)
 { return (v5264);} 
 
 ClaireType * c_type_any_Optimize(OID v9268)
-{ GC_BIND;
+{ GC_RESERVE(1);  // HOHO v3.0.55 optim !
   { ClaireType *Result ;
     { ClaireObject *V_CC ;
       if (INHERIT(OWNER(v9268),Language._Variable))
@@ -50,8 +50,8 @@ ClaireType * c_type_any_Optimize(OID v9268)
               for (START(OBJECT(Construct,v9268)->args); NEXT(v13275);)
               { GC_LOOP;
                 if (boolean_I_any(_oid_(v8003)) == CTRUE)
-                 v8003= meet_class(((ClaireClass *) v8003),class_I_type(GC_OBJECT(ClaireType,OBJECT(ClaireType,(*Optimize.c_type)(v13275)))));
-                else v8003= class_I_type(GC_OBJECT(ClaireType,OBJECT(ClaireType,(*Optimize.c_type)(v13275))));
+                 GC__ANY(v8003 = meet_class(((ClaireClass *) v8003),class_I_type(GC_OBJECT(ClaireType,OBJECT(ClaireType,(*Optimize.c_type)(v13275))))), 1);
+                else GC__ANY(v8003 = class_I_type(GC_OBJECT(ClaireType,OBJECT(ClaireType,(*Optimize.c_type)(v13275)))), 1);
                   GC_UNLOOP;} 
               } 
             V_CC = nth_class1(((INHERIT(OBJECT(ClaireObject,v9268)->isa,Language._Set)) ?
@@ -113,9 +113,10 @@ OID  c_code_any1_Optimize(OID v5264,ClaireClass *v5259)
       if ((v5259 == Kernel._void) || 
           ((v5266 == v5259) || 
             (Optimize.OPT->online_ask == CTRUE)))
-       { if ((INHERIT(OWNER(v5264),Language._Call)) && (OBJECT(Call,v5264)->selector == Kernel._equal))
+       { if ((v5259 == Kernel._void) && 
+            ((INHERIT(OWNER(v5264),Language._Call)) && (OBJECT(Call,v5264)->selector == Kernel._equal)))
          { warn_void();
-          tformat_string("Equality meant as an assignment: ~S [264]\n",2,list::alloc(1,v5264));
+          tformat_string("-- Equality meant as an assignment: ~S [264]\n",2,list::alloc(1,v5264));
           } 
         Result = v5265;
         } 
@@ -589,26 +590,29 @@ int  c_status_property(property *v9268)
     return (Result);} 
   } 
 
-void  showstatus_method2(method *v5253)
-{ { list * v15405 = list::alloc(6,_string_("NEW_ALLOC"),
-      _string_("BAG_UPDATE"),
-      _string_("SLOT_UPDATE"),
-      _string_("RETURN_ARG"),
-      _string_("SAFE_RESULT"),
-      _string_("SAFE_GC"));
-    list * v5252 = list::empty(Kernel._any);
-    int  v5259 = v5253->status;
-    { int  v5249 = 1;
-      int  v6659 = 6;
-      { OID gc_local;
-        while ((v5249 <= v6659))
-        { if (BCONTAIN(v5259,v5249))
-           v5252= v5252->addFast((*(v15405))[v5249]);
-          ++v5249;
+OID  showstatus_method2(method *v5253)
+{ { OID Result = 0;
+    { list * v15405 = list::alloc(6,_string_("NEW_ALLOC"),
+        _string_("BAG_UPDATE"),
+        _string_("SLOT_UPDATE"),
+        _string_("RETURN_ARG"),
+        _string_("SAFE_RESULT"),
+        _string_("SAFE_GC"));
+      list * v5252 = list::empty(Kernel._any);
+      int  v5259 = v5253->status;
+      { int  v5249 = 1;
+        int  v6659 = 6;
+        { OID gc_local;
+          while ((v5249 <= v6659))
+          { if (BCONTAIN(v5259,v5249))
+             v5252= v5252->addFast((*(v15405))[v5249]);
+            ++v5249;
+            } 
           } 
         } 
+      Result = _oid_(v5252);
       } 
-    ;} 
+    return (Result);} 
   } 
 
 void  s_test_method2(method *v5253)

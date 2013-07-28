@@ -1,5 +1,5 @@
-/***** CLAIRE Compilation of file d:\claire\v3.3\src\meta\define.cl 
-         [version 3.3.24 / safety 5] Sat Aug 02 11:23:01 2003 *****/
+/***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\define.cl 
+         [version 3.3.28 / safety 5] Sat Sep 06 14:16:11 2003 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -80,7 +80,7 @@ void  self_print_Defobj_Language(Defobj *self)
 
 // ------------- class definition ------------------------------------
 //
-/* The c++ function for: self_print(self:Defclass) [NEW_ALLOC+SLOT_UPDATE] */
+/* The c++ function for: self_print(self:Defclass) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
 void  self_print_Defclass_Language(Defclass *self)
 { GC_BIND;
   princ_symbol(self->ident);
@@ -121,7 +121,7 @@ void  self_print_Defclass_Language(Defclass *self)
 
 // -------------- method definition ----------------------------------
 //
-/* The c++ function for: self_print(self:Defmethod) [NEW_ALLOC+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: self_print(self:Defmethod) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
 void  self_print_Defmethod_Language(Defmethod *self)
 { GC_BIND;
   print_any(_oid_(self->arg->selector));
@@ -144,7 +144,7 @@ void  self_print_Defmethod_Language(Defmethod *self)
 
 
 // -------------- array definition -----------------------------------
-/* The c++ function for: self_print(self:Defarray) [NEW_ALLOC+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: self_print(self:Defarray) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
 void  self_print_Defarray_Language(Defarray *self)
 { GC_BIND;
   print_any((*(self->arg->args))[1]);
@@ -162,7 +162,7 @@ void  self_print_Defarray_Language(Defarray *self)
 
 
 // -------------- rule definition ------------------------------------
-/* The c++ function for: self_print(self:Defrule) [NEW_ALLOC+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: self_print(self:Defrule) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
 void  self_print_Defrule_Language(Defrule *self)
 { GC_BIND;
   princ_symbol(self->ident);
@@ -415,11 +415,13 @@ OID  self_eval_Defmethod(Defmethod *self)
             { OID gc_local;
               ITERATE(r);
               for (START(p->restrictions); NEXT(r);)
-              if (r != _oid_(m))
-               { if (length_bag(_exp_list(OBJECT(restriction,r)->domain,m->domain)) != 0)
-                 { r_some= r;
-                  break;} 
-                } 
+              { GC_LOOP;
+                if (r != _oid_(m))
+                 { if (length_bag(_exp_list(OBJECT(restriction,r)->domain,m->domain)) != 0)
+                   { r_some= r;
+                    break;} 
+                  } 
+                GC_UNLOOP;} 
               } 
             rtest = r_some;
             } 
@@ -597,9 +599,11 @@ OID  extract_pattern_any(OID x,list *path)
             bag *z_support;
             z_support = GC_OBJECT(bag,enumerate_any(GC_OID(Language.LDEF->value)));
             for (START(z_support); NEXT(z);)
-            if (OBJECT(Variable,z)->pname == s)
-             { z_some= z;
-              break;} 
+            { GC_LOOP;
+              if (OBJECT(Variable,z)->pname == s)
+               { z_some= z;
+                break;} 
+              GC_UNLOOP;} 
             } 
           v = z_some;
           } 
@@ -784,7 +788,7 @@ OID  extract_pattern_nth_list(list *l,list *path)
 // we perform some pre-processing on x[l] at reading time to make evaluation easier
 /* The c++ function for: iClaire/extract_class_call(self:class,l:list) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
 ClaireObject * extract_class_call_class(ClaireClass *self,list *l)
-{ GC_RESERVE(1);  // HOHO v3.0.55 optim !
+{ GC_RESERVE(13);  // v3.0.55 optim !
   { ClaireObject *Result ;
     { ClaireObject *V_CC ;
       { ClaireBoolean * g0051I;
@@ -857,13 +861,13 @@ ClaireObject * extract_class_call_class(ClaireClass *self,list *l)
                           add_I_property(Kernel.instances,Language._Set,11,_oid_(_CL_obj));
                           v = _oid_(_CL_obj);
                           } 
-                         GC__OID(v, 1);} 
+                         GC__OID(v, 11);} 
                       } 
                     else if (INHERIT(OWNER(y),Language._Vardef))
                      { p= _oid_(make_a_property_any(_oid_(OBJECT(Variable,y)->pname)));
-                      GC__OID(v = _oid_(OBJECT(Variable,y)->range), 1);
+                      GC__OID(v = _oid_(OBJECT(Variable,y)->range), 11);
                       } 
-                    else { p= _oid_(make_a_property_any(y));
+                    else { GC__OID(p = _oid_(make_a_property_any(y)), 10);
                         v= _oid_(Kernel.emptySet);
                         } 
                       l1= l1->addFast(p);

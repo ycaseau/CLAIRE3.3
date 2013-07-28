@@ -1,5 +1,5 @@
-/***** CLAIRE Compilation of file d:\claire\v3.3\src\compile\cgen.cl 
-         [version 3.3.24 / safety 5] Sat Aug 02 11:32:40 2003 *****/
+/***** CLAIRE Compilation of file c:\claire\v3.3\src\compile\cgen.cl 
+         [version 3.3.28 / safety 5] Sat Sep 06 14:16:19 2003 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -288,7 +288,7 @@ void  generate_end_file_c_producer(Generate_c_producer *v7234,module *v7237)
     for (START(v7227_support); NEXT(v7227);)
     { GC_LOOP;
       if (INHERIT(OWNER(v7227),Kernel._class))
-       { ClairePort * v7240 = fopen_string(append_string(GC_STRING(append_string(GC_STRING(append_string(GC_STRING(Optimize.compiler->source),string_v(Reader._starfs_star->value))),c_string_c_producer2(v7234,OBJECT(symbol,(*Kernel.name)(v7227))))),GC_STRING(v7234->extension)),"a");
+       { ClairePort * v7240 = fopen_string(append_string(GC_STRING(append_string(GC_STRING(append_string(GC_STRING(Optimize.compiler->source),string_v(Reader._starfs_star->value))),GC_STRING(c_string_c_producer2(v7234,OBJECT(symbol,(*Kernel.name)(v7227)))))),GC_STRING(v7234->extension)),"a");
         use_as_output_port(v7240);
         close_block_void();
         fclose_port(v7240);
@@ -320,7 +320,8 @@ void  generate_classes_c_producer(Generate_c_producer *v7234,char *v7243,module 
   } 
 
 void  generate_start_file_c_producer(Generate_c_producer *v7227,module *v7237)
-{ tformat_string("++++ Creating the file ~A.cpp \n",2,list::alloc(1,_string_(c_string_c_producer2(v7227,v7237->name))));
+{ GC_BIND;
+  tformat_string("++++ Creating the file ~A.cpp \n",2,list::alloc(1,GC_OID(_string_(c_string_c_producer2(v7227,v7237->name)))));
   start_file_string(string_I_symbol(v7237->name),v7237);
   (Optimize.OPT->level = 0);
   princ_string("/* class file for module ");
@@ -332,7 +333,7 @@ void  generate_start_file_c_producer(Generate_c_producer *v7227,module *v7237)
   ident_c_producer(v7227,v7237->name);
   princ_string(" extends NameSpace");
   new_block_void();
-  } 
+  GC_UNBIND;} 
 
 void  generate_meta_load_c_producer(Generate_c_producer *v7227,module *v7237)
 { princ_string("void ");
@@ -621,8 +622,8 @@ OID  gc_usage_any(OID v1140,ClaireBoolean *v15308)
        { OID  v7248 = GC_OID(OBJECT(Assign,v1140)->arg);
         { OID  v5344;
           { if ((v15308 == CTRUE) && 
-                (INHERIT(OWNER(v7248),Optimize._to_protect)))
-             v5344 = (*Kernel.index)(OBJECT(Assign,v1140)->var);
+                (inner2outer_ask_any(v7248) == CTRUE))
+             v5344 = (*Kernel.index)(GC_OID(OBJECT(Assign,v1140)->var));
             else v5344 = Kernel.cfalse;
               GC_OID(v5344);} 
           Result = gc_or_any(v5344,GC_OID(gc_usage_any(v7248,v15308)));
@@ -712,11 +713,14 @@ void  debug_intro_c_producer(Generate_c_producer *v7227,lambda *v1140,method *v7
         for (START(v1140->vars); NEXT(v7247);)
         { princ_string("PUSH(");
           { OID  v7243 = (*(v7248->srange))[v7239];
-            if ((v7243 == _oid_(Kernel._any)) || 
+            if (((v7243 == _oid_(Kernel._any)) && 
+                  ((*Kernel.range)(v7247) != _oid_(Kernel._float))) || 
                 (v7243 == _oid_(Kernel._integer)))
              (*Generate.expression)(v7247,
               Kernel.cfalse);
-            else to_cl_c_producer(v7227,v7247,OBJECT(ClaireClass,v7243),Kernel.cfalse);
+            else to_cl_c_producer(v7227,v7247,(((*Kernel.range)(v7247) == _oid_(Kernel._float)) ?
+                Kernel._float :
+                OBJECT(ClaireClass,v7243) ),Kernel.cfalse);
               } 
           princ_string(");");
           ++v7239;

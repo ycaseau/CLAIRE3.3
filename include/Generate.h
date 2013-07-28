@@ -1,4 +1,4 @@
-// interface defination for module Generate, Sat Aug 02 11:32:40 2003
+// interface defination for module Generate, Sat Sep 06 14:16:19 2003
 #ifndef CLAIREH_Generate
 #define CLAIREH_Generate
 

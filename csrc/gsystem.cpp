@@ -1,5 +1,5 @@
-/***** CLAIRE Compilation of file d:\claire\v3.3\src\compile\gsystem.cl 
-         [version 3.3.24 / safety 5] Sat Aug 02 11:32:40 2003 *****/
+/***** CLAIRE Compilation of file c:\claire\v3.3\src\compile\gsystem.cl 
+         [version 3.3.28 / safety 5] Sat Sep 06 14:16:19 2003 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -390,11 +390,13 @@ void  generate_objects_module(module *v1140)
                 bag *v11498_support;
                 v11498_support = GC_OBJECT(set,Optimize.OPT->properties);
                 for (START(v11498_support); NEXT(v11498);)
-                if (v11498 != v7248)
-                 { if (equal_string(string_I_symbol(OBJECT(thing,v11498)->name),string_I_symbol(OBJECT(thing,v7248)->name)) == CTRUE)
-                   { v809= v11498;
-                    break;} 
-                  } 
+                { GC_LOOP;
+                  if (v11498 != v7248)
+                   { if (equal_string(string_I_symbol(OBJECT(thing,v11498)->name),string_I_symbol(OBJECT(thing,v7248)->name)) == CTRUE)
+                     { v809= v11498;
+                      break;} 
+                    } 
+                  GC_UNLOOP;} 
                 } 
               v11388 = v809;
               } 
@@ -420,7 +422,7 @@ void  generate_objects_module(module *v1140)
   GC_UNBIND;} 
 
 void  generate_meta_load_module(module *v1140)
-{ GC_BIND;
+{ GC_RESERVE(1);  // HOHO v3.0.55 optim !
   princ_string("// definition of the meta-model for ");
   print_any(_oid_(v1140));
   princ_string(" \n");
@@ -447,21 +449,23 @@ void  generate_meta_load_module(module *v1140)
       bag *v7233_support;
       v7233_support = GC_OBJECT(list,Optimize.OPT->instructions);
       for (START(v7233_support); NEXT(v7233);)
-      { breakline_void();
-        if (Kernel._string == OWNER(v7233))
-         { if (equal(_oid_(Kernel._string),_oid_(OWNER(v7234))) != CTRUE)
-           breakline_void();
-          princ_string("// ");
-          (*Kernel.princ)(v7233);
-          princ_string("");
+      { GC_LOOP;
+        { breakline_void();
+          if (Kernel._string == OWNER(v7233))
+           { if (equal(_oid_(Kernel._string),_oid_(OWNER(v7234))) != CTRUE)
+             breakline_void();
+            princ_string("// ");
+            (*Kernel.princ)(v7233);
+            princ_string("");
+            } 
+          else if (global_var_def_ask_any(v7233) == CTRUE)
+           (*Generate.global_var_def_I)(Generate.PRODUCER->value,
+            _oid_(v1140),
+            v7233);
+          else statement_any(v7233,_oid_(Kernel.emptySet),_oid_(Kernel.emptySet));
+            GC__OID(v7234 = v7233, 1);
           } 
-        else if (global_var_def_ask_any(v7233) == CTRUE)
-         (*Generate.global_var_def_I)(Generate.PRODUCER->value,
-          _oid_(v1140),
-          v7233);
-        else statement_any(v7233,_oid_(Kernel.emptySet),_oid_(Kernel.emptySet));
-          GC__OID(v7234 = v7233, 3);
-        } 
+        GC_UNLOOP;} 
       } 
     } 
   GC_UNBIND;} 

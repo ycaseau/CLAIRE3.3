@@ -39,30 +39,50 @@ inherit? :: operation()
 // *   Part 1: Basics of pretty printing                               *
 // *********************************************************************
 
+cpstack :: property()
+
 // we use a nice object
 pretty_printer <: thing(cpretty:port,       	// a string port
-                        cprevious:port,     	// keep current port in memory
-                        index:integer = 0,     // indentation level
-                        width:integer = 75,	 // size of window
-                        pprint:boolean = false, 	// active
-		        pbreak:boolean = false)
+                        cprevious:integer = 0,  // index of the current port in the stack 
+                        index:integer = 0,      // indentation level
+                        width:integer = 75,	    // size of window
+                        pprint:boolean = false, // active
+		                pbreak:boolean = false,
+                        cpstack:list)           // support reccursive print-in-string 
 
-pretty :: pretty_printer(cpretty = port!())
+pretty :: pretty_printer(cpretty = port!(), cpstack = nil)
 
 apply_self_print :: property()
 short_enough :: property()
 print :: property()
 
 // buffered print
+// new in v3.3.26: unbounded recursion is supported :-)
 [print_in_string() : void
- -> pretty.cprevious := use_as_output(pretty.cpretty),
-    if (pretty.cprevious = pretty.cpretty)
-     error("[123] YOU ARE USING PRINT_in_string_void RECURSIVELY") ]
+ -> let n := pretty.cprevious + 1,
+        p1 := (if (n < length(pretty.cpstack)) (pretty.cpstack[n + 1] as port)
+               else port!()),
+        p2 := use_as_output(p1) in
+      (pretty.cprevious := n, 
+       pretty.cpretty := p1,
+       if (pretty.cpstack = nil) pretty.cpstack := list<port>(p2,p1)        // initialisation
+       else (pretty.cpstack[n] := p2,
+             if (n = length(pretty.cpstack)) pretty.cpstack :add p1)) ]
+
+
+;pretty.cprevious := use_as_output(pretty.cpretty),
+;    if (pretty.cprevious = pretty.cpretty)
+;     error("[123] YOU ARE USING PRINT_in_string_void RECURSIVELY") ]
 
 [end_of_string() : string
-  -> let s := string!(pretty.cpretty) in
+  -> if (pretty.cprevious = 0) error("[123] unbalanced use of print-in-string"),
+     let n := pretty.cprevious,
+         s := string!(pretty.cpretty), 
+         p := (pretty.cpstack[n]) as port in
        (set_length(pretty.cpretty, 0),
-        use_as_output(pretty.cprevious),
+        use_as_output(p),
+        pretty.cpretty := p,
+        pretty.cprevious :- 1,
         s) ]
 
 [buffer_length() : integer

@@ -295,9 +295,10 @@ Compile/FCALLSTINKS:boolean :: false          // v3.2.22 : a boolean to understa
         else let lr2 :=  list{x in p.mClaire/definition | x % lr} in  // good order
              (//[4] ---- note: ~S is compiled with explicit dispatch (s = ~S) // x, s,
               for m in lr2
-               let psort := list{ (let c := class!(x), sc := sort!(c) in    // sort! = osort :-)
-                                    (if (sc = object) c else sc)) |
-                                  x in m.domain} in
+               let psort := list{psort(x) | x in m.domain} in    // v3.3.24 --- looks like we reinvent psort ... 
+                                 ;(let c := class!(x), sc := sort!(c) in    // sort! = osort :-)
+                                 ;   (if (sc = object) c else sc)) |
+                                 ; x in m.domain} in
                (if (m != last(lr2))
                    printf("(INHERIT(~I,~I) ? ~I ~I((~I *) ~I) : ~I ",
                        (if (a1 % to_CL) printf("~I->isa",expression(a1.arg,loop))

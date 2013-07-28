@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file Reader.cl 
-         [version 3.3.24 / safety 5] Sat Aug 02 11:23:08 2003 *****/
+         [version 3.3.28 / safety 5] Sat Sep 06 14:16:14 2003 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -682,7 +682,7 @@ void ReaderClass::metaLoad() {
   	0,_function_(CommandLoopVoid,"CommandLoopVoid"));
   
   Reader.inspect->addMethod(list::domain(1,Kernel._any),Kernel._any,
-  	NEW_ALLOC+SLOT_UPDATE,_function_(inspect_any,"inspect_any"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(inspect_any,"inspect_any"));
   
   Reader.inspect_loop->addMethod(list::domain(2,Kernel._any,Kernel._list),Kernel._any,
   	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(inspect_loop_any,"inspect_loop_any"));

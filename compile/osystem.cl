@@ -237,8 +237,9 @@ claire/safe(x:any) : type[x] -> x
  -> let y := (case x (Call c_code_call(x,s), any c_code(x))),   // v2.4.9 safe sort for inline !
         z := c_sort(y) in
       (if (s = void | z = s | OPT.online?)
-           (if (case x (Call x.selector = =))
-               (warn(), trace(2,"Equality meant as an assignment: ~S [264]\n",x)),    // v3.3
+           (if (s = void & (case x (Call x.selector = =)))
+               (warn(),
+                trace(2,"-- Equality meant as an assignment: ~S [264]\n",x)),    // v3.3
             y)       // v3.0.44 BIG CHANGE
        else if (s = any)
          (if (z = integer & y % Call_slot &                       // need a proper slot
@@ -461,7 +462,7 @@ claire/safe(x:any) : type[x] -> x
  write(Core/status, self_eval @ Do, bit_vector(SAFE_GC)))
 
 // useful #1: show a status
-[claire/showstatus(m:method) : void
+[claire/showstatus(m:method) : any
   -> let l1 := list("NEW_ALLOC","BAG_UPDATE","SLOT_UPDATE","RETURN_ARG","SAFE_RESULT","SAFE_GC"),
          l := list<any>(), s := Core/status(m) in
        (for i in (1 .. 6) (if s[i] l :add l1[i]), l) ]

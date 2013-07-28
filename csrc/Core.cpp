@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file Core.cl 
-         [version 3.3.24 / safety 5] Sat Aug 02 11:22:53 2003 *****/
+         [version 3.3.28 / safety 5] Sat Sep 06 14:16:08 2003 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -409,9 +409,9 @@ void CoreClass::metaLoad() {
     Kernel._integer),Kernel._object,
   	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(find_which_class,"find_which_class"));
   
-  { (ClEnv->version = 3.24);
+  { (ClEnv->version = 3.28);
     princ_string("-- CLAIRE run-time library v 3.");
-    princ_float(3.24);
+    princ_float(3.28);
     princ_string(" [os: ");
     princ_string("ntv");
     princ_string(", C++:");
@@ -420,7 +420,7 @@ void CoreClass::metaLoad() {
     } 
   
   Core.release->addMethod(list::domain(1,Kernel._void),Kernel._any,
-  	NEW_ALLOC+SLOT_UPDATE,_function_(release_void,"release_void"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(release_void,"release_void"));
   
   Core.about->addMethod(list::domain(1,Kernel._void),Kernel._any,
   	0,_function_(about_void,"about_void"));
@@ -675,7 +675,7 @@ void CoreClass::metaLoad() {
   
   { global_variable * _CL_obj = (Core.claire_date = (global_variable *) Core._global_variable->instantiate("claire_date",claire.it));
     (_CL_obj->range = Kernel._string);
-    (_CL_obj->value = _string_("Sat Aug 02 11:22:53 2003\n"));
+    (_CL_obj->value = _string_("Sat Sep 06 14:16:07 2003\n"));
     close_global_variable(_CL_obj);
     } 
   
@@ -721,17 +721,22 @@ void CoreClass::metaLoad() {
   { (Core.inherit_ask = (operation *) Kernel._operation->instantiate("inherit?",claire.it));
     ;} 
   
+  { (Core.cpstack = property::make("cpstack",1,Core.it,Kernel._any,0));
+    ;} 
+  
   { (Core._pretty_printer = ClaireClass::make("pretty_printer",Kernel._thing,claire.it));
     CL_ADD_SLOT(Core._pretty_printer,pretty_printer,Core.cpretty,cpretty,Kernel._port,CNULL);
-    CL_ADD_SLOT(Core._pretty_printer,pretty_printer,Core.cprevious,cprevious,Kernel._port,CNULL);
+    CL_ADD_SLOT(Core._pretty_printer,pretty_printer,Core.cprevious,cprevious,Kernel._integer,0);
     CL_ADD_SLOT(Core._pretty_printer,pretty_printer,Kernel.index,index,Kernel._integer,0);
     CL_ADD_SLOT(Core._pretty_printer,pretty_printer,Core.width,width,Kernel._integer,75);
     CL_ADD_SLOT(Core._pretty_printer,pretty_printer,Core.pprint,pprint,Kernel._boolean,Kernel.cfalse);
     CL_ADD_SLOT(Core._pretty_printer,pretty_printer,Core.pbreak,pbreak,Kernel._boolean,Kernel.cfalse);
+    CL_ADD_SLOT(Core._pretty_printer,pretty_printer,Core.cpstack,cpstack,Kernel._list,CNULL);
     } 
   
   { (Core.pretty = (pretty_printer *) Core._pretty_printer->instantiate("pretty",claire.it));
     (Core.pretty->cpretty = port_I_void());
+    (Core.pretty->cpstack = Kernel.nil);
     ;} 
   
   { (Core.apply_self_print = property::make("apply_self_print",1,claire.it,Kernel._any,0));
@@ -744,10 +749,10 @@ void CoreClass::metaLoad() {
     ;} 
   
   Core.print_in_string->addMethod(list::domain(1,Kernel._void),Kernel._void,
-  	SLOT_UPDATE,_function_(print_in_string_void,"print_in_string_void"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(print_in_string_void,"print_in_string_void"));
   
   Core.end_of_string->addMethod(list::domain(1,Kernel._void),Kernel._string,
-  	0,_function_(end_of_print_void,"end_of_print_void"));
+  	SLOT_UPDATE,_function_(end_of_print_void,"end_of_print_void"));
   
   Core.buffer_length->addMethod(list::domain(1,Kernel._void),Kernel._integer,
   	0,_function_(buffer_length_void,"buffer_length_void"));
@@ -947,7 +952,7 @@ void CoreClass::metaLoad() {
   	0,_function_(value_module,"value_module"));
   
   Kernel.make_string->addMethod(list::domain(1,Kernel._symbol),Kernel._string,
-  	SLOT_UPDATE,_function_(make_string_symbol,"make_string_symbol"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(make_string_symbol,"make_string_symbol"));
   
   Kernel.self_print->addMethod(list::domain(1,Kernel._symbol),Kernel._void,
   	NEW_ALLOC+SLOT_UPDATE,_function_(self_print_symbol_Core,"self_print_symbol_Core"));
@@ -1040,7 +1045,7 @@ void CoreClass::metaLoad() {
   	NEW_ALLOC,_function_(atan_float,"atan_float"),_function_(atan_float_,"atan_float_"));
   
   Kernel.string_I->addFloatMethod(list::domain(1,Kernel._float),Kernel._string,
-  	SLOT_UPDATE,_function_(string_I_float,"string!_float"),_function_(string_I_float_,"string!_float_"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(string_I_float,"string!_float"),_function_(string_I_float_,"string!_float_"));
   
   Kernel.length->addMethod(list::domain(1,Kernel._bag),Kernel._integer,
   	0,_function_(length_bag,"length_bag"));

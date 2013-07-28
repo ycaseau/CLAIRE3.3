@@ -1,5 +1,5 @@
-/***** CLAIRE Compilation of file d:\claire\v3.3\src\meta\types.cl 
-         [version 3.3.24 / safety 5] Sat Aug 02 11:22:53 2003 *****/
+/***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\types.cl 
+         [version 3.3.28 / safety 5] Sat Sep 06 14:16:07 2003 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -599,7 +599,7 @@ int  size_subtype(subtype *x)
 // tuple
 /* The c++ function for: set!(x:tuple) [NEW_ALLOC] */
 set * set_I_tuple(tuple *x)
-{ GC_BIND;
+{ GC_RESERVE(1);  // HOHO v3.0.55 optim !
   { set *Result ;
     { list * l = ((list *) x);
       if (boolean_I_any(_oid_(l)) != CTRUE)

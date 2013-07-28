@@ -1,4 +1,4 @@
-// interface defination for module Core, Sat Aug 02 11:32:06 2003
+// interface defination for module Core, Sat Sep 06 14:16:07 2003
 #ifndef CLAIREH_Core
 #define CLAIREH_Core
 
@@ -76,11 +76,12 @@ class global_variable: public SystemThing{
 class pretty_printer: public thing{ 
   public:
      ClairePort *cpretty;
-     ClairePort *cprevious;
+     int cprevious;
      int index;
      int width;
      ClaireBoolean *pprint;
-     ClaireBoolean *pbreak;} 
+     ClaireBoolean *pbreak;
+     list *cpstack;} 
 ;
 
 class much_too_far: public error{ 
@@ -504,6 +505,7 @@ operation * min;
 operation * max;
 operation * meet;
 operation * inherit_ask;
+property * cpstack;
 ClaireClass * _pretty_printer;
 pretty_printer * pretty;
 property * apply_self_print;

@@ -442,7 +442,7 @@ void ClaireAllocation::markStack()
     {if ((int) gcStack[i] > (int) &Cmemory) mark(_oid_(gcStack[i]));}
  for (i=1; i <= ClRes->oIndex; i++)
     {ClaireObject *x = ClRes->hvoStack[i];
-      if (x != NULL) markObject(x);}      // *hvoStack
+      if (x != NULL) mark(_oid_(x));}      // v3.3.28: MARKCELL + markObject !
  for (i=1; i <= ClRes->iIndex; i++) mark(ClRes->hviStack[i]);      // int or ANY !
  }
 
@@ -450,10 +450,11 @@ void ClaireAllocation::markStack()
 void ClaireAllocation::markPushed(int i)
 {while (i < ClEnv->index)
    {OID n = ClEnv->stack[i];
-      if  (CTAG(n) == OBJ_CODE) markAny(OBJECT(ClaireAny,n));
+      if  (CTAG(n) == OBJ_CODE) markAny(OBJECT(ClaireAny,n));  // markAny since the cell is marked
       i++; }}
 
 // marks anything seen (an OID)
+// note: MARKCELL mark the cell
 void ClaireAllocation::mark(OID n)
 {if (CTAG(n) == OBJ_CODE)
     {if (SIZE(n) > 0)
@@ -464,6 +465,7 @@ void ClaireAllocation::mark(OID n)
 }
 
 // similar function for a ClaireAny pointer
+// warning: does not mark the cell (assumes that it was done earlier !)
 void ClaireAllocation::markAny(ClaireAny *x)
 {ClaireClass *c = x->isa;
    if INHERIT(c,Kernel._bag) markBag( (bag *) x);
@@ -552,14 +554,15 @@ void ClaireAllocation::sweepChunk()
    i = i + Cmemory[i];}
 }
 
+
+
 // go through all the (short) objects
 void ClaireAllocation::sweepObject()
 {OID p,i = maxList + 2;                       // first free position (defined in claire.cp)
  // printf("sweep Object start at %d upto %d\n",i,firstFree);
  while (i < firstFree)
-   {
-    p = Cmemory[i];
-   // printf("Memory[%d] -> size is %d\n",i,p);
+   {p = Cmemory[i];
+    // printf("Memory[%d] -> size is %d\n",i,p);
     if (p < 0)                                  // marked short
        {p = -p;
         Cmemory[i] = p; p++;}

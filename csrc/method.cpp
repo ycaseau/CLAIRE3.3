@@ -1,5 +1,5 @@
-/***** CLAIRE Compilation of file d:\claire\v3.3\src\meta\method.cl 
-         [version 3.3.24 / safety 5] Sat Aug 02 11:22:52 2003 *****/
+/***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\method.cl 
+         [version 3.3.28 / safety 5] Sat Sep 06 14:16:07 2003 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -888,7 +888,8 @@ list * initialize_restriction2(restriction *x,list *l)
         int  g0017 = l->length;
         { OID gc_local;
           while ((i <= g0017))
-          { { list * l2 = OBJECT(restriction,(*(l))[i])->domain;
+          { GC_LOOP;
+            { list * l2 = OBJECT(restriction,(*(l))[i])->domain;
               if (tmatch_ask_list(x->domain,l2) == CTRUE)
                { if (tmatch_ask_list(l2,x->domain) == CTRUE)
                  { ((*(l))[i]=_oid_(x));
@@ -904,7 +905,7 @@ list * initialize_restriction2(restriction *x,list *l)
                tformat_string("~S and ~S are conflicting",2,list::alloc(2,(*(l))[1],_oid_(x)));
               } 
             ++i;
-            } 
+            GC_UNLOOP;} 
           } 
         } 
       Result = ((l1->length != 0) ?

@@ -95,6 +95,9 @@ write_value(self:global_variable,val:any) : any
 EOF :: global_variable(range = char, value = char!(externC("((int) EOF)",integer))) // v3.2.52
 EOS :: global_variable(range = char, value = char!(0))
 
+// v3.4
+claire/MAX_INTEGER :: 1073741822
+
 // *********************************************************************
 // *   Part 2: CLAIRE Lambdas                                           *
 // *********************************************************************
