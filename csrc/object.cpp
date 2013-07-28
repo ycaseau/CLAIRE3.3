@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\object.cl 
-         [version 3.3.38 / safety 5] Sat Oct 09 17:37:14 2004 *****/
+         [version 3.3.4 / safety 5] Sat Oct 16 06:53:25 2004 *****/
 
 #include <claire.h>
 #include <Kernel.h>

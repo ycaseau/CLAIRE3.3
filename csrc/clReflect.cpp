@@ -69,7 +69,7 @@ OID slot_get_object(ClaireObject *x, int y, ClaireClass *s)
 {if (s == Kernel._float)
     {return _float_(*( (double *) SLOTADR(x,y) )); }
  else {int z = *SLOTADR(x,y);
-        if (ClEnv->verbose > 10) printf("read slot[%d] of %d -> %d\n",y,x,z);
+        // if (ClEnv->verbose > 10) printf("read slot[%d] of %d -> %d\n",y,x,z);
         return ((z == 0) ? (((s == Kernel._integer) | (s == Kernel._any)) ? 0 : CNULL) :
                  ((z == CNULL) ? CNULL : CLAIREOID(z,s)));}}
 
@@ -165,7 +165,7 @@ ClaireObject *ClaireClass::operator() (OID arg1, OID arg2, OID arg3)
 // first classes
 ClaireClass *ClaireClass::make(ClaireAny *x)
 {ClaireClass *c = (ClaireClass *) x;
-   if (ClEnv->verbose > 11) printf("=== class::make allocates a class @ %x \n",(int) c);
+   // if (ClEnv->verbose > 11) printf("=== class::make allocates a class @ %x \n",(int) c);
    c->ancestors = list::empty();
    c->slots = list::empty();
    c->instances = list::empty();
@@ -281,7 +281,7 @@ thing *ClaireClass::instantiate(char *n, module *m)
            o->name = s;
            s->value = _oid_(o);
            if (open != 4) instances->addFast(_oid_(o));
-           if (ClEnv->verbose > 10) printf("create a new |%s| @ adr %d\n",n,getADR(o));
+           // if (ClEnv->verbose > 10) printf("create a new |%s| @ adr %d\n",n,getADR(o));
            return o;}}
 
 // creates the genealogy for a class
@@ -454,7 +454,7 @@ property *property::make(char *name, module *m)
   ob->comment = name;               // for debug
   ob->range = Kernel._any;
   ob->open = 1;
-  if (ClEnv->verbose > 10) printf("--- create property %s @ %d\n",ob->comment,getADR(ob));
+  // if (ClEnv->verbose > 10) printf("--- create property %s @ %d\n",ob->comment,getADR(ob));
   return ob;}
 
 // same with a status

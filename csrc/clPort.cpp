@@ -45,8 +45,6 @@ class CPFile: public ClairePort {
     FILE *value;
     virtual char get()
      {return getc(value);};
-    virtual void debugSee()
-     { printf("I AM A BLOODY CPFile !!\n");};
     virtual void put(char c)
       {  putc(c, value);};
     virtual void put(int n) {fprintf(value,"%d",n);};
@@ -68,8 +66,6 @@ class CPStringIn: public ClairePort {
     public:
     char *buffer;
     int index;
-    virtual void debugSee()
-     { printf("I AM A CPStringIn !!\n");};
     virtual char get() {char c = buffer[index++];
                         if (c == '\0') return EOF; else return c;};
 };
@@ -79,8 +75,6 @@ class CPStringOut: public ClairePort {
    public:
     char *buffer;
     int index;
-    virtual void debugSee()
-       { printf("I AM A CPString Out !!\n");};
     virtual void put(char c) {
          buffer[index++] = c;
          if (index > MAXBUF) Cerror(16,0,0);};
@@ -122,7 +116,6 @@ void ClairePort::put(double x) {}
 void ClairePort::prettyp(double x) {}
 void ClairePort::flush() {}
 void ClairePort::pclose() {}
-void ClairePort::debugSee() {}
 
 // this is the buffered read mode,
 int ClairePort::getNext()

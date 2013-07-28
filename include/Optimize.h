@@ -1,4 +1,4 @@
-// interface defination for module Optimize, Sat Oct 09 17:37:25 2004
+// interface defination for module Optimize, Sat Oct 16 06:53:35 2004
 #ifndef CLAIREH_Optimize
 #define CLAIREH_Optimize
 

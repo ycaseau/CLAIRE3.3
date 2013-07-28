@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\file.cl 
-         [version 3.3.38 / safety 5] Sat Oct 09 17:37:22 2004 *****/
+         [version 3.3.4 / safety 5] Sat Oct 16 06:53:33 2004 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -823,7 +823,7 @@ double  float_I_string(char *self)
       if (Kernel._float == OWNER(x))
        Result = float_v(x);
       else if (INHERIT(OWNER(x),Kernel._integer))
-       Result = to_float (x);
+       Result = to_float(x);
       else close_exception(((general_error *) (*Core._general_error)(_string_("[??] ~A is not a float"),
           _oid_(list::alloc(1,_string_(self))))));
         } 

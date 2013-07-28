@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file Optimize.cl 
-         [version 3.3.38 / safety 5] Sat Oct 09 17:37:26 2004 *****/
+         [version 3.3.4 / safety 5] Sat Oct 16 06:53:36 2004 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -287,7 +287,7 @@ void OptimizeClass::metaLoad() {
   { (Optimize.compiler = (Optimize_meta_compiler *) Optimize._meta_compiler->instantiate("compiler",claire.it));
     (Optimize.compiler->external = "MS VC++");
     (Optimize.compiler->env = "ntv");
-    (Optimize.compiler->version = _float_(3.38));
+    (Optimize.compiler->version = _float_(3.4));
     (Optimize.compiler->source = "");
     (Optimize.compiler->headers_dir = "");
     (Optimize.compiler->libraries = list::alloc(Kernel._string,1,_string_("Kernel")));

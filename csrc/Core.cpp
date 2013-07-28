@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file Core.cl 
-         [version 3.3.38 / safety 5] Sat Oct 09 17:37:14 2004 *****/
+         [version 3.3.4 / safety 5] Sat Oct 16 06:53:26 2004 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -409,9 +409,9 @@ void CoreClass::metaLoad() {
     Kernel._integer),Kernel._object,
   	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(find_which_class,"find_which_class"));
   
-  { (ClEnv->version = 3.38);
+  { (ClEnv->version = 3.4);
     princ_string("-- CLAIRE run-time library v 3.");
-    princ_float(3.38);
+    princ_float(3.4);
     princ_string(" [os: ");
     princ_string("ntv");
     princ_string(", C++:");
@@ -675,7 +675,7 @@ void CoreClass::metaLoad() {
   
   { global_variable * _CL_obj = (Core.claire_date = (global_variable *) Core._global_variable->instantiate("claire_date",claire.it));
     (_CL_obj->range = Kernel._string);
-    (_CL_obj->value = _string_("Sat Oct 09 17:37:14 2004\n"));
+    (_CL_obj->value = _string_("Sat Oct 16 06:53:25 2004\n"));
     close_global_variable(_CL_obj);
     } 
   

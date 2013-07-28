@@ -29,7 +29,8 @@ double CKernelRelease = 0.1;
 
 // create an exception - API function
 OID close_exception(ClaireException *x)
-{ ClEnv->exception_I = x;
+{
+  ClEnv->exception_I = x;
   longjmp(ClEnv->handlers[ClEnv->cHandle],3);
   return 0;}
 

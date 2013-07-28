@@ -86,8 +86,7 @@ class ClairePort
  virtual void prettyp(double x);        // v3.2.54
  virtual void flush();
  virtual void pclose();
- virtual void debugSee();
- };                  //
+ };                  //  v3.3.40 remove debugSee
 
 // ----------------------------- objects -----------------------------------------------
 

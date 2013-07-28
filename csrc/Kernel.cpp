@@ -751,7 +751,7 @@ princ->addMethod(   list::domain(1,_integer),_void,
                     0,_function_(princ_integer,"princ_integer"));
 
 float_I->addFloatMethod( list::domain(1,_integer), _float,
-                    0,_function_(to_float ,"to_float "),
+                    0,_function_(to_float ,"to_float"),
                     _function_(to_float_ ,"to_float_"));
 integer_I->addFloatMethod(   list::domain(1,_float),_integer,
                         0,_function_(integer_I_float,"integer_I_float")

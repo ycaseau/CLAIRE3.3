@@ -521,7 +521,7 @@ set *set::addFast(OID val)
   else if (x[j] < val) i = j;
   length = m + 1;
   if (x[0] == m + 1)                // current chunk is full
-     { if (ClEnv->verbose > 10) printf("addFast: complex insertion of OID %x at %d [new length %d]\n",val,j,m + 1);
+     { // if (ClEnv->verbose > 10) printf("addFast: complex insertion of OID %x at %d [new length %d]\n",val,j,m + 1);
        OID *y = ClAlloc->makeContent(m + 1);
        //for (j = 1; j <= i; j++) y[j] = x[j];
        //y[j] = val;

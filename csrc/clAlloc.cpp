@@ -288,8 +288,10 @@ int ClaireAllocation::freeChunk(int n)
 {int size,l,j;
   l = Cmemory[n];             /* real length of the allocated space */
   size = log2up(l) - 1;
+  #ifdef CLDEBUG              // useful
   if (l != (1 << size) )
      {printf("free ADR %d causes a bug (size = %d not a chunk)\n",n,l);}
+  #endif
   usedCells -= l;
   if (Cmemory[n + 1] == (int) Kernel._primitive || Cmemory[n + 1] == (int) Kernel._array )
      for(j=2; j< l; j++) Cmemory[n+j] = 0;        // CLEAN ARRAYS OR STRINGS !
@@ -354,8 +356,10 @@ void ClaireAllocation::freeObject(int n)
 { if (Cmemory[n] < OPTIMIZE)
      {Cmemory[n+1] = nextFree;
       Cmemory[n] = 0;
+      #ifdef CLDEBUG              // useful - v3.3.4 : make a CLDEBUG option
       if (n == BadGuy)
          printf("====== free bad guy -> %d\n", nextFree);
+      #endif
       nextFree = n;
       #ifdef CLDEBUG              // useful
       checkNextFree();
@@ -520,7 +524,7 @@ void ClaireAllocation::markBag(bag *x)
     if (x->content != NULL)
       {if ((*x)[0] > 0) (*x)[0] = -((*x)[0]);                 // should use a MARKCELL
        for (i = 1; i <= x->length; i++)
-         {if (ClEnv->verbose > 10) printf("bag[%d] -> %d\n",i, (*x)[i]);
+         {// if (ClEnv->verbose > 10) printf("bag[%d] -> %d\n",i, (*x)[i]);
           mark((*x)[i]); } } }
 
 
@@ -682,7 +686,7 @@ void GC_RESERVE(int n)
 // notice that if the verbosity is more than 4 we get a dump
 void ClaireAllocation::memStat()
 {list *l = memList(CFALSE);
-  printf("Loglist = %d\n",ClAlloc->logList);
+  // printf("Loglist = %d\n",ClAlloc->logList);
  
   princ_string("Chunk allocation: "); princ_integer((*l)[1]);
   princ_string(" used cells out of "); princ_integer(maxList);
