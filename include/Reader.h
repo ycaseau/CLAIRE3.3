@@ -1,4 +1,4 @@
-// interface defination for module Reader, Sat Jan 28 08:50:18 2006
+// interface defination for module Reader, Sun Feb 15 15:37:19 2009
 #ifndef CLAIREH_Reader
 #define CLAIREH_Reader
 

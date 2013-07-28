@@ -347,12 +347,12 @@ Compile/FCALLSTINKS:boolean :: false          // v3.2.22 : a boolean to understa
              any expression(x,nil)) ]
 
 Compile/bitvectorList :: list("NEW_ALLOC","BAG_UPDATE","SLOT_UPDATE","RETURN_ARG","SAFE_RESULT",
-                      "SAFE_GC")
+                      "SAFE_GC","STRING_UPDATE")    // v3.3.46
 
 [bitvectorSum(x:integer) : void
  -> if (x = 0) princ("0")
     else let b := false in
-          for i in (1 .. 6)
+          for i in (1 .. 7)                         // v3.3.46
             (if x[i] (if b princ("+") else b := true,
                       princ(bitvectorList[i]))) ]
 
@@ -567,10 +567,10 @@ Compile/bitvectorList :: list("NEW_ALLOC","BAG_UPDATE","SLOT_UPDATE","RETURN_ARG
        let bloop := (OPT.loop_gc & gc_usage(self.arg,true) != false) in   // new in v3.3 :-) copied from while ....
          (if bloop (new_block(), printf("GC_LOOP;"), breakline()),
           if (OPT.profile? & OPT.in_method % object)
-             (if not(OPT.loop_gc) new_block(), princ("PRloop(PR_x);"), breakline()),
+             (if not(bloop) new_block(), princ("PRloop(PR_x);"), breakline()), // v3.3.44
           statement(self.arg, {}, (if (s % string) s else unknown)),
           if bloop (printf("GC_UNLOOP;"), close_block()),
-          if (OPT.profile? & OPT.in_method % object & not(OPT.loop_gc)) close_block(),
+          if (OPT.profile? & OPT.in_method % object & not(bloop)) close_block(),
           close_block())) ]
 
 [stat_iteration(c:c_producer,self:Iteration,s:any,loop:any) : void

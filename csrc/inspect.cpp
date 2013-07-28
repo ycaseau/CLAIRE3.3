@@ -1,5 +1,5 @@
-/***** CLAIRE Compilation of file d:\claire\v3.3\src\meta\inspect.cl 
-         [version 3.3.42 / safety 5] Sat Jan 28 08:50:19 2006 *****/
+/***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\inspect.cl 
+         [version 3.3.46 / safety 5] Sun Feb 15 15:35:19 2009 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -31,7 +31,7 @@
 // *********************************************************************
 // this is the method that the user calls
 //
-/* The c++ function for: inspect(self:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
+/* The c++ function for: inspect(self:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE] */
 OID  inspect_any(OID self)
 { GC_BIND;
   { OID Result = 0;
@@ -44,9 +44,9 @@ OID  inspect_any(OID self)
         { OID gc_local;
           while ((i <= g0103))
           { princ_integer(i);
-            princ_string(": ");
+            princ_string(copy_string(": "));
             print_any((*(OBJECT(bag,self)))[i]);
-            princ_string("\n");
+            princ_string(copy_string("\n"));
             ++i;
             } 
           } 
@@ -65,9 +65,9 @@ OID  inspect_any(OID self)
                   ((OBJECT(ClaireBoolean,Reader._starshowall_star->value)) == CTRUE)))
              { OID  val = get_slot(OBJECT(slot,rel),OBJECT(ClaireObject,self));
               princ_integer(ix);
-              princ_string(": ");
+              princ_string(copy_string(": "));
               print_any(_oid_(OBJECT(restriction,rel)->selector));
-              princ_string(" = ");
+              princ_string(copy_string(" = "));
               if (INHERIT(OWNER(val),Kernel._bag))
                { if (OBJECT(bag,val)->length < 10)
                  pretty_print_any(val);
@@ -88,17 +88,17 @@ OID  inspect_any(OID self)
                         g0105UU=_oid_(V_CL0106);} 
                       pretty_print_any(g0105UU);
                       } 
-                    pretty_print_any(_string_("..."));
+                    pretty_print_any(_string_(copy_string("...")));
                     } 
                   } 
               else pretty_print_any(val);
-                princ_string("\n");
+                princ_string(copy_string("\n"));
               } 
             } 
           GC_UNLOOP;} 
         } 
       else { pretty_print_any(self);
-          princ_string("\n");
+          princ_string(copy_string("\n"));
           } 
         InspectLoop(list::alloc(1,self));
       Result = _oid_(Reader.None);
@@ -109,7 +109,7 @@ OID  inspect_any(OID self)
 
 // this is the inspect top_level
 //
-/* The c++ function for: inspect_loop(%read:any,old:list) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
+/* The c++ function for: inspect_loop(%read:any,old:list) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE] */
 OID  inspect_loop_any(OID _Zread,list *old)
 { GC_BIND;
   { OID  self = (*(old))[1];
@@ -117,7 +117,7 @@ OID  inspect_loop_any(OID _Zread,list *old)
      { int  n = (*(OBJECT(bag,(*Core.args)(_Zread))))[1];
       symbol * s = extract_symbol_any((*(OBJECT(bag,(*Core.args)(_Zread))))[2]);
       if (inherit_ask_class(OWNER(n),Kernel._integer) != CTRUE)
-       close_exception(((general_error *) (*Core._general_error)(_string_("[128] ~S should be an integer"),
+       close_exception(((general_error *) (*Core._general_error)(_string_(copy_string("[128] ~S should be an integer")),
         _oid_(list::alloc(1,n)))));
       { OID  val = GC_OID(get_from_integer_any(self,n));
         (CLREAD(global_variable,new_class2(Core._global_variable,s),value) = val);
@@ -140,7 +140,7 @@ OID  inspect_loop_any(OID _Zread,list *old)
      { old= GC_OBJECT(list,cons_any(_Zread,old));
       inspect_any(_Zread);
       } 
-    else princ_string("=> given to inspector is wrong.\n");
+    else princ_string(copy_string("=> given to inspector is wrong.\n"));
       } 
   { OID Result = 0;
     Result = InspectLoop(old);
@@ -150,7 +150,7 @@ OID  inspect_loop_any(OID _Zread,list *old)
 
 // get the information bound to the index
 //
-/* The c++ function for: get_from_integer(self:any,n:integer) [NEW_ALLOC+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: get_from_integer(self:any,n:integer) [NEW_ALLOC+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 OID  get_from_integer_any(OID self,int n)
 { { OID Result = 0;
     if (INHERIT(OWNER(self),Kernel._bag))
@@ -159,9 +159,9 @@ OID  get_from_integer_any(OID self,int n)
        Result = (*Kernel.nth)(self,
         n);
       else { princ_integer(n);
-          princ_string(" in not a good index for ");
+          princ_string(copy_string(" in not a good index for "));
           print_any(self);
-          princ_string(".\n");
+          princ_string(copy_string(".\n"));
           Result = self;
           } 
         } 
@@ -175,9 +175,9 @@ OID  get_from_integer_any(OID self,int n)
           PUSH(v_rec);
           Result=Kernel.get->super(Kernel._slot,2);} 
         else { princ_integer(n);
-            princ_string(" is not a good index for ");
+            princ_string(copy_string(" is not a good index for "));
             print_any(self);
-            princ_string(".\n");
+            princ_string(copy_string(".\n"));
             Result = self;
             } 
           } 
@@ -222,10 +222,10 @@ OID  trace_on_any(OID self)
   else if (Kernel._port == OWNER(self))
    (ClEnv->ctrace = EXPORT((ClairePort *),self));
   else if (Kernel._string == OWNER(self))
-   (ClEnv->ctrace = fopen_string(string_v(self),"w"));
+   (ClEnv->ctrace = fopen_string(string_v(self),copy_string("w")));
   else if (INHERIT(OWNER(self),Kernel._integer))
    (ClEnv->verbose = self);
-  else close_exception(((general_error *) (*Core._general_error)(_string_("[129] trace not implemented on ~S\n"),
+  else close_exception(((general_error *) (*Core._general_error)(_string_(copy_string("[129] trace not implemented on ~S\n")),
       _oid_(list::alloc(1,self)))));
     { OID Result = 0;
     Result = self;
@@ -258,7 +258,7 @@ OID  untrace_any(OID self)
     } 
   else if (Kernel._port == OWNER(self))
    (ClEnv->ctrace = EXPORT((ClairePort *),Reader.STDOUT->value));
-  else close_exception(((general_error *) (*Core._general_error)(_string_("[130] untrace not implemented on ~S\n"),
+  else close_exception(((general_error *) (*Core._general_error)(_string_(copy_string("[130] untrace not implemented on ~S\n")),
       _oid_(list::alloc(1,self)))));
     { OID Result = 0;
     Result = self;
@@ -269,7 +269,7 @@ OID  untrace_any(OID self)
 // a filter to restrict the impact of spy
 // we put the special value nil (emply list of demons => OK) to mark that spying
 // should be waken up on properties from l
-/* The c++ function for: spy(l:listargs) [NEW_ALLOC+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: spy(l:listargs) [NEW_ALLOC+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 void  spy_listargs2_Reader(listargs *l)
 { GC_BIND;
   { OID  m = GC_OID(_oid_(_at_property1(Core.spy,Kernel._void)));
@@ -302,7 +302,7 @@ void  spy_listargs2_Reader(listargs *l)
 
 
 // note: trace behavior for output statements defined in CLAIRE1 (self_eval)
-/* The c++ function for: self_trace(self:Trace) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: self_trace(self:Trace) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 OID  self_trace_Trace(Trace *self)
 { GC_BIND;
   { OID Result = 0;
@@ -328,23 +328,23 @@ void  trace_rule_relation(ClaireRelation *R,char *s,OID x,OID y,OID u,OID v)
    { OID  p = GC_OID(get_property(Kernel.ctrace,ClEnv));
     if (p != CNULL)
      p= GC_OID(ClAlloc->import(Kernel._port,(int *) use_as_output_port(EXPORT((ClairePort *),p))));
-    princ_string("--- the rule ");
+    princ_string(copy_string("--- the rule "));
     princ_string(s);
-    princ_string(" is triggered for (");
+    princ_string(copy_string(" is triggered for ("));
     print_any(u);
-    princ_string(",");
+    princ_string(copy_string(","));
     print_any(v);
-    princ_string(") by an update ");
+    princ_string(copy_string(") by an update "));
     print_any(_oid_(R));
-    princ_string("(");
+    princ_string(copy_string("("));
     print_any(x);
-    princ_string(") ");
+    princ_string(copy_string(") "));
     princ_string(((multi_ask_any(_oid_(R)) == CTRUE) ?
-      ":add" :
-      ":=" ));
-    princ_string(" ");
+      copy_string(":add") :
+      copy_string(":=") ));
+    princ_string(copy_string(" "));
     print_any(y);
-    princ_string(" \n");
+    princ_string(copy_string(" \n"));
     if (p != CNULL)
      use_as_output_port(EXPORT((ClairePort *),p));
     } 
@@ -352,7 +352,7 @@ void  trace_rule_relation(ClaireRelation *R,char *s,OID x,OID y,OID u,OID v)
 
 
 // stores a set of stopping values
-/* The c++ function for: stop(p:property,l:listargs) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
+/* The c++ function for: stop(p:property,l:listargs) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE] */
 OID  stop_property(property *p,listargs *l)
 { if (get_table(Core.StopProperty,_oid_(p)) == CNULL)
    put_table(Core.StopProperty,_oid_(p),_oid_(list::alloc(1,_oid_(l))));
@@ -402,11 +402,11 @@ OID  call_debug_void()
          { ClaireHandler c_handle = ClaireHandler();
           if ERROR_IN 
           { if (nth_table1(Reader.DBline,c) > 0)
-             { princ_string(" \n---- Last call ");
+             { princ_string(copy_string(" \n---- Last call "));
               print_any(c);
-              princ_string(" in line ");
+              princ_string(copy_string(" in line "));
               princ_integer(nth_table1(Reader.DBline,c));
-              princ_string("\n");
+              princ_string(copy_string("\n"));
               } 
             ClEnv->cHandle--;} 
           else if (belong_to(_oid_(ClEnv->exception_I),_oid_(Kernel._any)) == CTRUE)
@@ -424,7 +424,7 @@ OID  call_debug_void()
 // this method is called when an error has occured. The value of index
 // is recalled with last_index, so that the actual content of the stack is
 // preserved.
-/* The c++ function for: breakpoint(_CL_obj:void) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: breakpoint(_CL_obj:void) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 void  breakpoint_void()
 { GC_RESERVE(1);  // HOHO v3.0.55 optim !
   { int  top = ClEnv->debug_I;
@@ -446,9 +446,9 @@ void  breakpoint_void()
         3))];
       OID  m = GC_OID(ClEnv->stack[GC_OID((*Core._plus)(j,
         1))]);
-      princ_string("break in ");
+      princ_string(copy_string("break in "));
       print_any(m);
-      princ_string("(");
+      princ_string(copy_string("("));
       print_any(GC_OID(ClEnv->stack[start]));
       { OID gc_local;
         ITERATE(i);
@@ -457,13 +457,13 @@ void  breakpoint_void()
           num_args))))));
         for (START(i_support); NEXT(i);)
         { GC_LOOP;
-          { princ_string(",");
+          { princ_string(copy_string(","));
             print_any(GC_OID(ClEnv->stack[i]));
-            princ_string("");
+            princ_string(copy_string(""));
             } 
           GC_UNLOOP;} 
         } 
-      princ_string(") [q] >");
+      princ_string(copy_string(") [q] >"));
       { int  n = 1;
         int  m = 1;
         OID  c = GC_OID(read_string(CommandLoopVoid()));
@@ -471,7 +471,7 @@ void  breakpoint_void()
           while ((c != _oid_(Reader.q)))
           { GC_LOOP;
             OPT_EVAL(c);
-            princ_string("break>");
+            princ_string(copy_string("break>"));
             GC__OID(c = read_string(CommandLoopVoid()), 1);
             GC_UNLOOP;} 
           } 
@@ -528,7 +528,7 @@ void  up_integer(int x)
 
 
 // top is the top position in this stack (the last entered message)
-/* The c++ function for: where(x:integer) [NEW_ALLOC+SLOT_UPDATE] */
+/* The c++ function for: where(x:integer) [NEW_ALLOC] */
 void  where_integer(int x)
 { { int  j = Reader._starcurd_star->value;
     int  stack_level = 0;
@@ -553,35 +553,35 @@ void  print_debug_info_integer(int index,int stack_level,int cur_index)
   { int  num_args = ((ClEnv->stack[(index+2)])-1);
     int  start = ClEnv->stack[(index+3)];
     OID  m = GC_OID(ClEnv->stack[(index+1)]);
-    princ_string("debug[");
+    princ_string(copy_string("debug["));
     princ_integer((cur_index+stack_level));
-    princ_string("]>");
+    princ_string(copy_string("]>"));
     { int  x = 1;
       int  g0110 = stack_level;
       { OID gc_local;
         while ((x <= g0110))
-        { princ_string(">");
+        { princ_string(copy_string(">"));
           ++x;
           } 
         } 
       } 
-    princ_string(" ");
+    princ_string(copy_string(" "));
     print_any(m);
-    princ_string("(");
+    princ_string(copy_string("("));
     print_any(GC_OID(ClEnv->stack[start]));
     { int  i = (start+1);
       int  g0111 = (start+num_args);
       { OID gc_local;
         while ((i <= g0111))
         { GC_LOOP;
-          princ_string(",");
+          princ_string(copy_string(","));
           print_any(GC_OID(ClEnv->stack[i]));
-          princ_string("");
+          princ_string(copy_string(""));
           ++i;
           GC_UNLOOP;} 
         } 
       } 
-    princ_string(")\n");
+    princ_string(copy_string(")\n"));
     } 
   GC_UNBIND;} 
 
@@ -599,25 +599,25 @@ OID  Show_integer(int n)
         { GC_LOOP;
           { int  num_args = ((ClEnv->stack[(i+2)])-1);
             int  start = ClEnv->stack[(i+3)];
-            princ_string("[");
+            princ_string(copy_string("["));
             princ_integer(start);
-            princ_string(" - ");
+            princ_string(copy_string(" - "));
             princ_integer(i);
-            princ_string("]: p = ");
+            princ_string(copy_string("]: p = "));
             print_any(GC_OID(ClEnv->stack[(i+1)]));
-            princ_string(", narg = ");
+            princ_string(copy_string(", narg = "));
             print_any(num_args);
-            princ_string(" \n");
+            princ_string(copy_string(" \n"));
             { int  j = 0;
               int  g0112 = num_args;
               { OID gc_local;
                 while ((j <= g0112))
                 { GC_LOOP;
-                  princ_string("  [");
+                  princ_string(copy_string("  ["));
                   princ_integer((j+i));
-                  princ_string("]:");
+                  princ_string(copy_string("]:"));
                   print_any(GC_OID(ClEnv->stack[(j+i)]));
-                  princ_string(" \n");
+                  princ_string(copy_string(" \n"));
                   ++j;
                   GC_UNLOOP;} 
                 } 
@@ -635,7 +635,7 @@ OID  Show_integer(int n)
 // go to next block
 // top is the top position in this stack (the last entered message)
 //
-/* The c++ function for: block(x:integer) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
+/* The c++ function for: block(x:integer) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE] */
 void  block_integer(int x)
 { GC_RESERVE(1);  // HOHO v3.0.55 optim !
   { int  j = Reader._starcurd_star->value;
@@ -651,11 +651,11 @@ void  block_integer(int x)
           ClaireObject * m = find_which_list(z->definition,OWNER(ClEnv->stack[start]),start,(*Core._plus)(start,
             nargs));
           if (Kernel._method == m->isa)
-           { princ_string("debug[");
+           { princ_string(copy_string("debug["));
             princ_integer(((Reader._starindex_star->value)+stack_level));
-            princ_string("] > ");
+            princ_string(copy_string("] > "));
             print_any(_oid_(m));
-            princ_string("(");
+            princ_string(copy_string("("));
             if ((((CLREAD(method,m,formula) == (NULL)) ? CTRUE : CFALSE) != CTRUE) && 
                 (INHERIT(CLREAD(method,m,formula)->isa,Core._lambda)))
              { int  n = 0;
@@ -666,27 +666,27 @@ void  block_integer(int x)
                 for (START(v_support); NEXT(v);)
                 { GC_LOOP;
                   { print_any(v);
-                    princ_string(" = ");
+                    princ_string(copy_string(" = "));
                     print_any(GC_OID(ClEnv->stack[(start+n)]));
-                    princ_string(", ");
+                    princ_string(copy_string(", "));
                     ++n;
                     } 
                   GC_UNLOOP;} 
                 } 
               } 
-            else { princ_string("<compiled:");
+            else { princ_string(copy_string("<compiled:"));
                 print_any(_oid_(CLREAD(restriction,m,module_I)));
-                princ_string(">");
+                princ_string(copy_string(">"));
                 } 
-              princ_string(")\n");
+              princ_string(copy_string(")\n"));
             } 
-          else { princ_string("debug[");
+          else { princ_string(copy_string("debug["));
               princ_integer(((Reader._starindex_star->value)+stack_level));
-              princ_string("] > ");
+              princ_string(copy_string("] > "));
               print_any(_oid_(z));
-              princ_string(" -> ");
+              princ_string(copy_string(" -> "));
               print_any(_oid_(m));
-              princ_string("\n");
+              princ_string(copy_string("\n"));
               } 
             } 
         ++stack_level;
@@ -700,7 +700,7 @@ void  block_integer(int x)
 
 // computes the list of variables of a lambda, including everything
 //
-/* The c++ function for: closure_build(self:lambda) [NEW_ALLOC+BAG_UPDATE] */
+/* The c++ function for: closure_build(self:lambda) [NEW_ALLOC+BAG_UPDATE+STRING_UPDATE] */
 list * closure_build_lambda(lambda *self)
 { GC_BIND;
   { list *Result ;
@@ -720,7 +720,7 @@ list * closure_build_lambda(lambda *self)
 // give to each lexical variable its right position in the stack
 // answer with the number of lexical variable
 //
-/* The c++ function for: closure_build(self:any,lvar:list) [NEW_ALLOC+BAG_UPDATE+RETURN_ARG] */
+/* The c++ function for: closure_build(self:any,lvar:list) [NEW_ALLOC+BAG_UPDATE+RETURN_ARG+STRING_UPDATE] */
 void  closure_build_any(OID self,list *lvar)
 { if (INHERIT(OWNER(self),Language._Variable))
    ((*(lvar))[(OBJECT(Variable,self)->index+1)]=self);
@@ -744,7 +744,7 @@ void  closure_build_any(OID self,list *lvar)
 //
 /* The c++ function for: Core/call_step(pr:property) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
 void  call_step_property_Reader(property *pr)
-{ princ_string(") : [(i)n,(o)ut,e(x)it,(t)race,(b)reakpoint]\n");
+{ princ_string(copy_string(") : [(i)n,(o)ut,e(x)it,(t)race,(b)reakpoint]\n"));
   { int  m = 1;
     ClaireChar * c = char_I_integer(StepLoop());
     int  n = ClEnv->step_I;
@@ -755,7 +755,7 @@ void  call_step_property_Reader(property *pr)
        (ClEnv->step_I = (n-1));
       } 
     else if (((char) c->ascii) == 'x')
-     close_exception(((general_error *) (*Core._general_error)(_string_("exit stepper"),
+     close_exception(((general_error *) (*Core._general_error)(_string_(copy_string("exit stepper")),
       _oid_(Kernel.nil))));
     else if (((char) c->ascii) == 't')
      trace_on_any(_oid_(pr));
@@ -787,7 +787,7 @@ void  step_any(OID x)
 
 
 // memory usage statistics for a class
-/* The c++ function for: mem(c:class) [NEW_ALLOC] */
+/* The c++ function for: mem(c:class) [NEW_ALLOC+STRING_UPDATE] */
 int  mem_class(ClaireClass *c)
 { { int Result = 0;
     { int  n = 0;
@@ -865,11 +865,11 @@ void  PRshow_property(property *p)
   { ClaireObject * x = GC_OBJECT(ClaireObject,p->reified);
     if (INHERIT(x->isa,Reader._PRcount))
      { print_any(_oid_(p));
-      princ_string(": ");
+      princ_string(copy_string(": "));
       princ_integer(CLREAD(PRcount,x,rnum));
-      princ_string(" calls -> ");
+      princ_string(copy_string(" calls -> "));
       princ_integer(CLREAD(PRcount,x,rtime));
-      princ_string(" clock tics\n");
+      princ_string(copy_string(" clock tics\n"));
       } 
     } 
   GC_UNBIND;} 
@@ -961,7 +961,7 @@ void  PRshow_void()
       for (START(l); NEXT(p);)
       { GC_LOOP;
         if (PRcounter_property(OBJECT(property,p)) > 0)
-         { princ_string("-----------------------------------\n");
+         { princ_string(copy_string("-----------------------------------\n"));
           PRshow_property(OBJECT(property,p));
           { OID gc_local;
             ITERATE(p2);
@@ -969,9 +969,9 @@ void  PRshow_void()
             p2_support = GC_OBJECT(set,OBJECT(bag,nth_table1(Reader.PRdependent,p)));
             for (START(p2_support); NEXT(p2);)
             if (PRtime_property(OBJECT(property,p2)) > 0)
-             { princ_string("   * ");
+             { princ_string(copy_string("   * "));
               PRshow_property(OBJECT(property,p2));
-              princ_string("");
+              princ_string(copy_string(""));
               } 
             } 
           } 
@@ -983,7 +983,7 @@ void  PRshow_void()
 
 // reuse from lexical_build in pretty.cl
 // returns the list of properties that are used by a method
-/* The c++ function for: dependents(self:method) [NEW_ALLOC] */
+/* The c++ function for: dependents(self:method) [NEW_ALLOC+STRING_UPDATE] */
 set * dependents_method(method *self)
 { GC_BIND;
   { set *Result ;
@@ -1016,7 +1016,7 @@ set * dependents_method(method *self)
 
 
 // this is really cute ....   v3.2.58: fix typing
-/* The c++ function for: dependents(self:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: dependents(self:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 OID  dependents_any(OID self)
 { GC_RESERVE(1);  // HOHO v3.0.55 optim !
   { OID Result = 0;

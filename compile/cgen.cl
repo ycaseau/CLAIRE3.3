@@ -47,7 +47,8 @@ C++PRODUCER :: c_producer(
     symbol!("abstract"), symbol!("final"), symbol!("system_object"),
     symbol!("NEW_ALLOC"), symbol!("BAG_UPDATE"), symbol!("SLOT_UPDATE"),
     symbol!("RETURN_ARG"), symbol!("SAFE_RESULT"),symbol!("SAFE_GC"),
-    symbol!("collection"),symbol!("error")),                 // v3.3.36
+    symbol!("collection"),symbol!("error"),symbol!("register"),symbol!("template"),
+    symbol!("STRING_UPDATE")),                 // v3.3.36
  good_names = list(
     symbol!("DO"),symbol!("IF"),symbol!("ClaireAnd"),symbol!("ClaireOr"),symbol!("NOT"),
     symbol!("PRINTF"), symbol!("ClaireVoid"), symbol!("ClairePattern"),
@@ -62,7 +63,8 @@ C++PRODUCER :: c_producer(
     symbol!("ABSTRACT"), symbol!("FINAL"),symbol!("SystemObject"),
     symbol!("_NEW_ALLOC"), symbol!("_BAG_UPDATE"), symbol!("_SLOT_UPDATE"),
     symbol!("_RETURN_ARG"), symbol!("_SAFE_RESULT"),symbol!("_SAFE_GC"),
-    symbol!("ClaireCollection"),symbol!("ClaireError")),     // v3.3.36
+    symbol!("ClaireCollection"),symbol!("ClaireError"),symbol!("ClaireRegister"),
+    symbol!("ClaireTemplate"),symbol!("_STRING_UPDATE")),     // v3.3.46
  // a list of interface
  interfaces = list(port, "ClairePort *", string, "char *", char, "ClaireChar *",
                    float, "double ",
@@ -119,7 +121,8 @@ class_princ(c:c_producer,self:class) : void
        char printf("_char_('~I~A')",
                    (if (x % {'"', ''', '?', '\'}) princ("\\")), x),
        environment princ("ClEnv"),
-       string print(x),
+       string  (if OPT.use_string_update printf("copy_string(~S)",x)        // v3.3.46
+                else print(x)),                                   // default : much simpler before 3.3.46
        global_variable  globalVar(c,x),
        boolean  (if x princ("CTRUE") else princ("CFALSE")),
        symbol printf("symbol::make(~S,~I,~I)",string!(x),ident(module!(x).name),

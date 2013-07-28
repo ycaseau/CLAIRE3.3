@@ -535,6 +535,7 @@ Call_method!(self:method,%code:list) : any
         %code := list{ c_gc!(x) | x in %code},
     // if (self.range = float) OPT.protection := true,    // <yc> 3/10/98 NOT optimal but OK
      if (self.status[BAG_UPDATE]) OPT.use_nth= := true,
+     if (self.status[STRING_UPDATE]) OPT.use_string_update := true,  // v3.3.46
      if (self.status[SLOT_UPDATE]) OPT.use_update := true,
      if not(legal?(self.module!, self))
         trace(0,"in call ~S~S\n",self.selector,%code),

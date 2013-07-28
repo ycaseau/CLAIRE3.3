@@ -1,5 +1,5 @@
-/***** CLAIRE Compilation of file d:\claire\v3.3\src\meta\call.cl 
-         [version 3.3.42 / safety 5] Sat Jan 28 08:50:16 2006 *****/
+/***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\call.cl 
+         [version 3.3.46 / safety 5] Sun Feb 15 15:35:17 2009 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -28,7 +28,7 @@
 // contains the last message that was evaluated
 // messages in CLAIRE are called calls --------------------------------
 //
-/* The c++ function for: self_print(self:Call) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: self_print(self:Call) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 void  self_print_Call_Language(Call *self)
 { GC_BIND;
   { int  _Zl = Core.pretty->index;
@@ -38,31 +38,31 @@ void  self_print_Call_Language(Call *self)
         (_Za->length == 2))
      { (Core.pretty->index = (Core.pretty->index+2));
       printe_any((*(_Za))[1],_Zs);
-      princ_string(" ");
+      princ_string(copy_string(" "));
       print_any(_oid_(_Zs));
-      princ_string(" ");
+      princ_string(copy_string(" "));
       lbreak_void();
       printe_any((*(_Za))[2],_Zs);
-      princ_string("");
+      princ_string(copy_string(""));
       } 
     else if (_Zs == Kernel.nth)
      { if (_Za->length == 3)
        { printexp_any((*(_Za))[1],CFALSE);
-        princ_string("[");
+        princ_string(copy_string("["));
         print_any((*(_Za))[2]);
-        princ_string(",");
+        princ_string(copy_string(","));
         print_any((*(_Za))[3]);
-        princ_string("]");
+        princ_string(copy_string("]"));
         } 
       else if (_Za->length == 1)
        { printexp_any((*(_Za))[1],CFALSE);
-        princ_string("[]");
+        princ_string(copy_string("[]"));
         } 
       else { printexp_any((*(_Za))[1],CFALSE);
-          princ_string("[");
+          princ_string(copy_string("["));
           if (_Za->length == 2)
            print_any((*(_Za))[2]);
-          princ_string("]");
+          princ_string(copy_string("]"));
           } 
         } 
     else if ((_Zs == Kernel.nth_equal) && 
@@ -74,14 +74,14 @@ void  self_print_Call_Language(Call *self)
       else o = Kernel.cfalse;
         if (_Za->length == 4)
        { printexp_any((*(_Za))[1],CFALSE);
-        princ_string("[");
+        princ_string(copy_string("["));
         print_any((*(_Za))[2]);
-        princ_string(",");
+        princ_string(copy_string(","));
         print_any(a);
-        princ_string("] := ");
+        princ_string(copy_string("] := "));
         lbreak_integer(2);
         print_any((*(_Za))[4]);
-        princ_string("");
+        princ_string(copy_string(""));
         } 
       else { ClaireBoolean * g0014I;
         { OID  g0015UU;
@@ -92,22 +92,22 @@ void  self_print_Call_Language(Call *self)
           } 
         
         if (g0014I == CTRUE) { print_any((*(_Za))[1]);
-            princ_string("[");
+            princ_string(copy_string("["));
             print_any((*(_Za))[2]);
-            princ_string("] :");
+            princ_string(copy_string("] :"));
             print_any(o);
-            princ_string(" ");
+            princ_string(copy_string(" "));
             lbreak_integer(2);
             print_any(GC_OID((*(OBJECT(bag,(*Core.args)(a))))[2]));
-            princ_string("");
+            princ_string(copy_string(""));
             } 
           else { print_any((*(_Za))[1]);
-          princ_string("[");
+          princ_string(copy_string("["));
           print_any((*(_Za))[2]);
-          princ_string("] := ");
+          princ_string(copy_string("] := "));
           lbreak_integer(2);
           print_any(a);
-          princ_string("");
+          princ_string(copy_string(""));
           } 
         } 
       } 
@@ -127,55 +127,55 @@ void  self_print_Call_Language(Call *self)
           } 
         
         if (g0016I == CTRUE) { print_any((*(_Za))[1]);
-            princ_string("(");
+            princ_string(copy_string("("));
             print_any((*(_Za))[2]);
-            princ_string(") :");
+            princ_string(copy_string(") :"));
             print_any(o);
-            princ_string(" ");
+            princ_string(copy_string(" "));
             lbreak_integer(2);
             print_any(GC_OID((*(OBJECT(bag,(*Core.args)(a))))[2]));
-            princ_string("");
+            princ_string(copy_string(""));
             } 
           else { print_any((*(_Za))[1]);
-          princ_string("(");
+          princ_string(copy_string("("));
           print_any((*(_Za))[2]);
-          princ_string(") := ");
+          princ_string(copy_string(") := "));
           lbreak_integer(2);
           print_any((*(_Za))[3]);
-          princ_string("");
+          princ_string(copy_string(""));
           } 
         } 
       } 
     else if ((_Zs == Kernel.add) && 
         (INHERIT(OWNER((*(_Za))[1]),Kernel._property)))
      { print_any((*(_Za))[1]);
-      princ_string("(");
+      princ_string(copy_string("("));
       print_any((*(_Za))[2]);
-      princ_string(") :add ");
+      princ_string(copy_string(") :add "));
       lbreak_integer(2);
       print_any((*(_Za))[3]);
-      princ_string("");
+      princ_string(copy_string(""));
       } 
     else if ((_Zs == Kernel._delete) && 
         (INHERIT(OWNER((*(_Za))[1]),Kernel._property)))
      { print_any((*(_Za))[1]);
-      princ_string("(");
+      princ_string(copy_string("("));
       print_any((*(_Za))[2]);
-      princ_string(") :delete ");
+      princ_string(copy_string(") :delete "));
       lbreak_integer(2);
       print_any((*(_Za))[3]);
-      princ_string("");
+      princ_string(copy_string(""));
       } 
     else if (((*(_Za))[1] == _oid_(ClEnv)) && 
         (_Za->length == 1))
      { print_any(_oid_(_Zs));
-      princ_string("()");
+      princ_string(copy_string("()"));
       } 
     else { print_any(_oid_(_Zs));
-        princ_string("(");
+        princ_string(copy_string("("));
         set_level_void();
         printbox_bag2(_Za);
-        princ_string(")");
+        princ_string(copy_string(")"));
         } 
       (Core.pretty->index = _Zl);
     } 
@@ -186,10 +186,10 @@ void  self_print_Call_Language(Call *self)
 OID  self_print_Call_plus_Language(Call_plus *self)
 { GC_BIND;
   printexp_any((*(self->args))[1],CTRUE);
-  princ_string(".");
+  princ_string(copy_string("."));
   print_any(_oid_(self->selector));
   { OID Result = 0;
-    princ_string("");
+    princ_string(copy_string(""));
     GC_UNBIND; return (Result);} 
   } 
 
@@ -217,7 +217,7 @@ OID  self_eval_Call(Call *self)
   } 
 
 
-/* The c++ function for: self_eval(self:Call+) [NEW_ALLOC+SLOT_UPDATE] */
+/* The c++ function for: self_eval(self:Call+) [NEW_ALLOC+SLOT_UPDATE+STRING_UPDATE] */
 OID  self_eval_Call_plus(Call_plus *self)
 { GC_BIND;
   { OID Result = 0;
@@ -260,14 +260,14 @@ OID  self_eval_Call_plus(Call_plus *self)
 
 // recursive printing of bicall
 //
-/* The c++ function for: printe(self:any,s:property) [NEW_ALLOC+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: printe(self:any,s:property) [NEW_ALLOC+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 void  printe_any(OID self,property *s)
 { if ((INHERIT(OWNER(self),Language._Call)) && ((INHERIT(OBJECT(Call,self)->selector->isa,Kernel._operation)) && 
       (OBJECT(Call,self)->args->length == 2)))
    { if (CTRUE == CTRUE)
-     { princ_string("(");
+     { princ_string(copy_string("("));
       print_any(self);
-      princ_string(")");
+      princ_string(copy_string(")"));
       } 
     else printexp_any(self,CTRUE);
       } 
@@ -320,18 +320,18 @@ void  self_print_Assign_Language(Assign *self)
         } 
       
       if (g0021I == CTRUE) { print_any(GC_OID(self->var));
-          princ_string(" :");
+          princ_string(copy_string(" :"));
           print_any(o);
-          princ_string(" ");
+          princ_string(copy_string(" "));
           lbreak_integer(2);
           printexp_any(GC_OID((*(OBJECT(bag,(*Core.args)(a))))[2]),CTRUE);
-          princ_string("");
+          princ_string(copy_string(""));
           } 
         else { print_any(GC_OID(self->var));
-        princ_string(" := ");
+        princ_string(copy_string(" := "));
         lbreak_integer(2);
         printexp_any(a,CTRUE);
-        princ_string("");
+        princ_string(copy_string(""));
         } 
       } 
     (Core.pretty->index = (Core.pretty->index-2));
@@ -339,13 +339,13 @@ void  self_print_Assign_Language(Assign *self)
   GC_UNBIND;} 
 
 
-/* The c++ function for: self_eval(self:Assign) [NEW_ALLOC+RETURN_ARG] */
+/* The c++ function for: self_eval(self:Assign) [NEW_ALLOC+RETURN_ARG+STRING_UPDATE] */
 OID  self_eval_Assign(Assign *self)
 { GC_BIND;
   { OID Result = 0;
     if (INHERIT(OWNER(self->var),Language._Variable))
      Result = write_value_Variable(GC_OBJECT(Variable,OBJECT(Variable,self->var)),GC_OID(OPT_EVAL(self->arg)));
-    else { OID  V_CL0023;close_exception(((general_error *) (*Core._general_error)(_string_("[101] ~S is not a variable"),
+    else { OID  V_CL0023;close_exception(((general_error *) (*Core._general_error)(_string_(copy_string("[101] ~S is not a variable")),
           _oid_(list::alloc(1,self->var)))));
         
         Result=_void_(V_CL0023);} 
@@ -372,18 +372,18 @@ void  self_print_Gassign_Language(Gassign *self)
         } 
       
       if (g0025I == CTRUE) { print_any(_oid_(self->var));
-          princ_string(" :");
+          princ_string(copy_string(" :"));
           print_any(o);
-          princ_string(" ");
+          princ_string(copy_string(" "));
           lbreak_integer(2);
           print_any(GC_OID((*(OBJECT(bag,(*Core.args)(a))))[2]));
-          princ_string("");
+          princ_string(copy_string(""));
           } 
         else { print_any(_oid_(self->var));
-        princ_string(" := ");
+        princ_string(copy_string(" := "));
         lbreak_integer(2);
         print_any(a);
-        princ_string("");
+        princ_string(copy_string(""));
         } 
       } 
     (Core.pretty->index = (Core.pretty->index-2));
@@ -616,7 +616,7 @@ OID  self_eval_Call_table(Call_table *self)
   { OID Result = 0;
     if (self->test == CTRUE)
      Result = nth_table1(self->selector,GC_OID(OPT_EVAL(self->arg)));
-    else Result = get_table(self->selector,OPT_EVAL(self->arg));
+    else Result = get_table(self->selector,GC_OID(OPT_EVAL(self->arg)));
       GC_UNBIND; return (Result);} 
   } 
 
@@ -636,7 +636,7 @@ void  self_print_Update_Language(Update *self)
   GC_UNBIND;} 
 
 
-/* The c++ function for: self_eval(self:Update) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
+/* The c++ function for: self_eval(self:Update) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE] */
 OID  self_eval_Update(Update *self)
 { GC_BIND;
   { OID Result = 0;
@@ -675,7 +675,7 @@ void  self_print_Super_Language(Super *self)
   GC_UNBIND;} 
 
 
-/* The c++ function for: self_eval(self:Super) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
+/* The c++ function for: self_eval(self:Super) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE] */
 OID  self_eval_Super(Super *self)
 { GC_BIND;
   { OID Result = 0;
@@ -705,13 +705,13 @@ OID  self_eval_Super(Super *self)
 void  self_print_Cast_Language(Cast *x)
 { GC_BIND;
   printexp_any(GC_OID(x->arg),CFALSE);
-  princ_string(" as ");
+  princ_string(copy_string(" as "));
   printexp_any(GC_OID(_oid_(x->set_arg)),CFALSE);
-  princ_string("");
+  princ_string(copy_string(""));
   GC_UNBIND;} 
 
 
-/* The c++ function for: self_eval(self:Cast) [NEW_ALLOC+RETURN_ARG] */
+/* The c++ function for: self_eval(self:Cast) [NEW_ALLOC+RETURN_ARG+STRING_UPDATE] */
 OID  self_eval_Cast(Cast *self)
 { GC_BIND;
   { OID Result = 0;
@@ -759,7 +759,7 @@ OID  self_eval_Return(Return *self)
 // *       Part 4: Miscellaneous on instructions                  *
 // ****************************************************************
 // substitute any variable with same name as x with the value val
-/* The c++ function for: substitution(self:any,x:Variable,val:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: substitution(self:any,x:Variable,val:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 OID  substitution_any(OID self,Variable *x,OID val)
 { { OID Result = 0;
     if (INHERIT(OWNER(self),Language._Variable))
@@ -852,7 +852,7 @@ int  occurrence_any(OID self,Variable *x)
 
 // makes a (deep) copy of the instruction self
 //
-/* The c++ function for: instruction_copy(self:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: instruction_copy(self:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 OID  instruction_copy_any(OID self)
 { GC_BIND;
   { OID Result = 0;

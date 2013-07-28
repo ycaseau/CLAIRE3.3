@@ -1,3 +1,13 @@
+/** @package 
+
+        clConsole.cpp
+        
+        Copyright(c) self 2000
+        
+        Author: Yves Caseau
+        Created: YC  17/01/2009 17:32:18
+	Last change: YC 17/01/2009 17:40:50
+*/
 /***********************************************************************/
 /**  microCLAIRE                                       Yves Caseau     */
 /**  testiClaire.cpp                                                   */
@@ -49,7 +59,7 @@ list *C_to_Claire(int argc, char *argv[])
 }
 
 // this is our main function (a simpler version of what is in main.cpp)
-main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {int k = 1, i = 3, j = 3;
   if ((argc > 3) && (equal_string("-s",argv[1]) == CTRUE))
     { i = atoi(argv[2]); j = atoi(argv[3]);  k = 4;

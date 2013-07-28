@@ -379,6 +379,7 @@ claire/SLOT_UPDATE :: 3        // an slot is updated whose content is not gcsafe
 claire/RETURN_ARG :: 4         // the method returns one of its args
 claire/SAFE_RESULT :: 5        // the result (not gcsafe) does not need protection
 claire/SAFE_GC :: 6            // the result (not gcsafe) does not need protection
+claire/STRING_UPDATE :: 7      // a string is modified hence constant strings are forbiden  v3.3.46
 
 // create a bitvector from a list of flags
 claire/bit_vector :: property()

@@ -1,5 +1,5 @@
-/***** CLAIRE Compilation of file d:\claire\v3.3\src\meta\function.cl 
-         [version 3.3.42 / safety 5] Sat Jan 28 08:50:12 2006 *****/
+/***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\function.cl 
+         [version 3.3.46 / safety 5] Sun Feb 15 15:35:15 2009 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -31,7 +31,7 @@
 // support reccursive print-in-string 
 // buffered print
 // new in v3.3.26: unbounded recursion is supported :-)
-/* The c++ function for: print_in_string(_CL_obj:void) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: print_in_string(_CL_obj:void) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 void  print_in_string_void()
 { GC_BIND;
   { int  n = (Core.pretty->cprevious+1);
@@ -51,7 +51,7 @@ void  print_in_string_void()
   GC_UNBIND;} 
 
 
-/* The c++ function for: end_of_string(_CL_obj:void) [SLOT_UPDATE] */
+/* The c++ function for: end_of_string(_CL_obj:void) [SLOT_UPDATE+STRING_UPDATE] */
 char * end_of_print_void()
 { if (Core.pretty->cprevious == 0)
    close_exception(((general_error *) (*Core._general_error)(_string_("[123] unbalanced use of print-in-string"),
@@ -104,9 +104,9 @@ void  apply_self_print_any(OID self)
           { (*Kernel.self_print)(self);
             ClEnv->cHandle--;} 
           else if (belong_to(_oid_(ClEnv->exception_I),_oid_(Kernel._any)) == CTRUE)
-          { c_handle.catchIt();{ princ_string("<unprintable:");
+          { c_handle.catchIt();{ princ_string(copy_string("<unprintable:"));
               print_any(_oid_(OWNER(self)));
-              princ_string(">");
+              princ_string(copy_string(">"));
               } 
             } 
           else PREVIOUS_HANDLER;} 
@@ -134,7 +134,7 @@ void  self_print_boolean_Core(ClaireBoolean *self)
     } 
 
 
-/* The c++ function for: self_print(self:function) [0] */
+/* The c++ function for: self_print(self:function) [STRING_UPDATE] */
 void  self_print_function_Core(ClaireFunction *self)
 { princ_string("#'");
   princ_string(string_I_function(self));
@@ -225,7 +225,7 @@ ClaireBoolean * short_enough_integer(int self)
 //               + NULL for objects
 // v3.2.12: use a condition that is coherent with ClReflect.cl : a slot defaut value must be placed
 // unless it is a copied_def
-/* The c++ function for: mClaire/complete!(self:object) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: mClaire/complete!(self:object) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 ClaireObject * complete_I_object(ClaireObject *self)
 { GC_RESERVE(1);  // HOHO v3.0.55 optim !
   { OID gc_local;
@@ -313,7 +313,7 @@ ClaireBoolean * unknown_ask_any(OID self)
 
 
 // needed by the compiled code
-/* The c++ function for: check_in(self:any,y:type) [RETURN_ARG] */
+/* The c++ function for: check_in(self:any,y:type) [RETURN_ARG+STRING_UPDATE] */
 OID  check_in_any(OID self,ClaireType *y)
 { { OID Result = 0;
     if (belong_to(self,_oid_(y)) == CTRUE)
@@ -326,7 +326,7 @@ OID  check_in_any(OID self,ClaireType *y)
   } 
 
 
-/* The c++ function for: check_in(self:bag,c:class,y:type) [0] */
+/* The c++ function for: check_in(self:bag,c:class,y:type) [STRING_UPDATE] */
 bag * check_in_bag(bag *self,ClaireClass *c,ClaireType *y)
 { { bag *Result ;
     { ClaireObject *V_CC ;
@@ -352,7 +352,7 @@ bag * check_in_bag(bag *self,ClaireClass *c,ClaireType *y)
 
 
 // new in v3.00.48
-/* The c++ function for: <(self:any,x:any) [NEW_ALLOC] */
+/* The c++ function for: <(self:any,x:any) [NEW_ALLOC+STRING_UPDATE] */
 ClaireBoolean * _inf_any(OID self,OID x)
 { { ClaireBoolean *Result ;
     Result = ((equal(self,x) == CTRUE) ?
@@ -363,7 +363,7 @@ ClaireBoolean * _inf_any(OID self,OID x)
   } 
 
 
-/* The c++ function for: >(self:any,x:any) [NEW_ALLOC] */
+/* The c++ function for: >(self:any,x:any) [NEW_ALLOC+STRING_UPDATE] */
 ClaireBoolean * _sup_any(OID self,OID x)
 { { ClaireBoolean *Result ;
     Result = ((equal(self,x) == CTRUE) ?
@@ -378,7 +378,7 @@ ClaireBoolean * _sup_any(OID self,OID x)
 // ----------------------- CLASS ---------------------------------------------
 // declares a class as ephemeral: the member set is not maintained
 // v3.2.14 recusively applies to subclasses
-/* The c++ function for: ephemeral(self:class) [SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: ephemeral(self:class) [SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 OID  ephemeral_class(ClaireClass *self)
 { { OID Result = 0;
     { ITERATE(c);
@@ -386,7 +386,7 @@ OID  ephemeral_class(ClaireClass *self)
       for (START(self->descendents); NEXT(c);)
       if ((OBJECT(ClaireClass,c)->instances->length != 0) || 
           (OBJECT(ClaireClass,c)->open <= 1))
-       close_exception(((general_error *) (*Core._general_error)(_string_("[187] cannot declare ~S as ephemeral because of ~S"),
+       close_exception(((general_error *) (*Core._general_error)(_string_(copy_string("[187] cannot declare ~S as ephemeral because of ~S")),
         _oid_(list::alloc(2,_oid_(self),c)))));
       else (OBJECT(ClaireClass,c)->open = ClEnv->ephemeral);
         } 
@@ -433,13 +433,13 @@ OID  final_class(ClaireClass *c)
 
 
 //instantiation with and without a name
-/* The c++ function for: new(self:class) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: new(self:class) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 ClaireObject * new_class1(ClaireClass *self)
 { GC_BIND;
   { ClaireObject *Result ;
     { ClaireObject * o;
       { { if (self->open <= 0)
-           close_exception(((general_error *) (*Core._general_error)(_string_("[105] cannot instantiate ~S"),
+           close_exception(((general_error *) (*Core._general_error)(_string_(copy_string("[105] cannot instantiate ~S")),
             _oid_(list::alloc(1,_oid_(self))))));
           o = new_object_class(self);
           } 
@@ -462,13 +462,13 @@ ClaireType * new_class1_type(ClaireType *self)
 
 
 // v3.2.26
-/* The c++ function for: new(self:class,%nom:symbol) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: new(self:class,%nom:symbol) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 thing * new_class2(ClaireClass *self,symbol *_Znom)
 { { thing *Result ;
     { ClaireObject *V_CC ;
       { thing * o;
         { if (self->open <= 0)
-           close_exception(((general_error *) (*Core._general_error)(_string_("[105] cannot instantiate ~S"),
+           close_exception(((general_error *) (*Core._general_error)(_string_(copy_string("[105] cannot instantiate ~S")),
             _oid_(list::alloc(1,_oid_(self))))));
           o = new_thing_class(self,_Znom);
           } 
@@ -530,7 +530,7 @@ ClaireClass * meet_class(ClaireClass *self,ClaireClass *ens)
 
 // fast inclusion method for lattice_sets (lattice order). The argument is
 // either a lattice_set or {}
-/* The c++ function for: inherit?(self:class,ens:class) [0] */
+/* The c++ function for: inherit?(self:class,ens:class) [STRING_UPDATE] */
 ClaireBoolean * inherit_ask_class(ClaireClass *self,ClaireClass *ens)
 { { ClaireBoolean *Result ;
     { list * l = self->ancestors;
@@ -560,7 +560,7 @@ OID  abstract_property(property *p)
 
 // a final property is completely defined and cannot receive a new restriction
 // v3.2.04: the new value 4 will be used to represent (compiled but open)
-/* The c++ function for: final(r:relation) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: final(r:relation) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 void  final_relation(ClaireRelation *r)
 { GC_BIND;
   if (INHERIT(r->isa,Kernel._property))
@@ -609,7 +609,7 @@ void  final_relation(ClaireRelation *r)
 // the close function gives its right value to the *internal* slot that
 // is the order of the module in the system. The name is supposed to be
 // read in the system module.
-/* The c++ function for: close(self:module) [NEW_ALLOC+SLOT_UPDATE+SAFE_RESULT] */
+/* The c++ function for: close(self:module) [NEW_ALLOC+SLOT_UPDATE+SAFE_RESULT+STRING_UPDATE] */
 module * close_module(module *self)
 { if (self != claire.it)
    { if (((self->part_of == (NULL)) ? CTRUE : CFALSE) != CTRUE)
@@ -727,31 +727,31 @@ ClaireType * externC_string2_type(ClaireType *s,ClaireType *c)
 { return (member_type(c));} 
 
 
-/* The c++ function for: nth_get(s:string,n:integer,max:integer) [RETURN_ARG] */
+/* The c++ function for: nth_get(s:string,n:integer,max:integer) [RETURN_ARG+STRING_UPDATE] */
 ClaireChar * nth_get_string(char *s,int n,int max)
 { { ClaireChar *Result ;
     { ClaireObject *V_CC ;
       if (n <= max)
        V_CC = _char_(s[n - 1]);
-      else close_exception(((general_error *) (*Core._general_error)(_string_("Buffer string access"),
+      else close_exception(((general_error *) (*Core._general_error)(_string_(copy_string("Buffer string access")),
           _oid_(Kernel.nil))));
         Result= (ClaireChar *) V_CC;} 
     return (Result);} 
   } 
 
 
-/* The c++ function for: nth_put(s:string,n:integer,c:char,max:integer) [BAG_UPDATE+RETURN_ARG] */
+/* The c++ function for: nth_put(s:string,n:integer,c:char,max:integer) [STRING_UPDATE] */
 void  nth_put_string(char *s,int n,ClaireChar *c,int max)
 { if (n <= max)
    (s[n - 1] = (char) c->ascii);
-  else close_exception(((general_error *) (*Core._general_error)(_string_("Buffer string access"),
+  else close_exception(((general_error *) (*Core._general_error)(_string_(copy_string("Buffer string access")),
       _oid_(Kernel.nil))));
     } 
 
 
 //  v3.2.14
 //------------------- SYMBOL -----------------------------------------------
-/* The c++ function for: make_string(self:symbol) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
+/* The c++ function for: make_string(self:symbol) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE] */
 char * make_string_symbol(symbol *self)
 { print_in_string_void();
   princ_symbol(self);
@@ -759,7 +759,7 @@ char * make_string_symbol(symbol *self)
 
 
 //princ(self:symbol) : any -> function!(princ_symbol)
-/* The c++ function for: self_print(self:symbol) [NEW_ALLOC+SLOT_UPDATE] */
+/* The c++ function for: self_print(self:symbol) [NEW_ALLOC+SLOT_UPDATE+STRING_UPDATE] */
 void  self_print_symbol_Core(symbol *self)
 { princ_symbol(self->module_I->name);
   princ_string("/");
@@ -826,7 +826,7 @@ ClaireBoolean * _inf_integer(int self,int x)
   } 
 
 
-/* The c++ function for: <=(self:integer,x:integer) [0] */
+/* The c++ function for: <=(self:integer,x:integer) [STRING_UPDATE] */
 ClaireBoolean * _inf_equal_integer(int self,int x)
 { { ClaireBoolean *Result ;
     Result = ((self <= x) ?
@@ -1036,18 +1036,19 @@ double  atan_float(double self)
   } 
 
 
-/* The c++ function for: string!(g0087:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
+/* The c++ function for: string!(g0087:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE] */
 char * string_I_float_(OID g0087)
 { return string_I_float(float_v(g0087));} 
 
 
-/* The c++ function for: string!(self:float) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
+/* The c++ function for: string!(self:float) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE] */
 char * string_I_float(double self)
 { print_in_string_void();
   princ_float(self);
   return (end_of_print_void());} 
 
 
+// v3.3.42
 //--------- BAG --------------------------------------------------------
 /* The c++ function for: length(self:bag) [0] */
 int  length_bag(bag *self)
@@ -1060,7 +1061,7 @@ OID  nth_bag(bag *self,int x)
     if ((x > 0) && 
         (x <= self->length))
      Result = (*(self))[x];
-    else { OID  V_CL0088;close_exception(((general_error *) (*Core._general_error)(_string_("[41] nth[~S] out of scope for ~S"),
+    else { OID  V_CL0088;close_exception(((general_error *) (*Core._general_error)(_string_(copy_string("[41] nth[~S] out of scope for ~S")),
           _oid_(list::alloc(2,x,_oid_(self))))));
         
         Result=_void_(V_CL0088);} 
@@ -1194,12 +1195,12 @@ list * rmlast_list(list *self)
   return (self);} 
 
 
-/* The c++ function for: nth=(self:list,x:integer,y:any) [BAG_UPDATE+RETURN_ARG] */
+/* The c++ function for: nth=(self:list,x:integer,y:any) [BAG_UPDATE+RETURN_ARG+STRING_UPDATE] */
 OID  nth_set_list(list *self,int x,OID y)
 { { OID Result = 0;
     if ((x <= 0) || 
         (x > self->length))
-     { OID  V_CL0092;close_exception(((general_error *) (*Core._general_error)(_string_("[41] nth[~S] out of scope for ~S"),
+     { OID  V_CL0092;close_exception(((general_error *) (*Core._general_error)(_string_(copy_string("[41] nth[~S] out of scope for ~S")),
         _oid_(list::alloc(2,x,_oid_(self))))));
       
       Result=_void_(V_CL0092);} 
@@ -1267,7 +1268,7 @@ int  hashsize_list(list *l)
 
 
 // this method sorts a list according to an order
-/* The c++ function for: sort(f:method,self:list) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: sort(f:method,self:list) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 list * sort_method(method *f,list *self)
 { quicksort_list(self,f,1,self->length);
   return (self);} 
@@ -1275,7 +1276,7 @@ list * sort_method(method *f,list *self)
 
 // v3.0.38: upgrade the quicksort algorithm with a better pivot selection cf.bag.cpp
 // this is also proposed as a macro: cf. file.cl
-/* The c++ function for: quicksort(self:list,f:method,n:integer,m:integer) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: quicksort(self:list,f:method,n:integer,m:integer) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 void  quicksort_list(list *self,method *f,int n,int m)
 { if (m > n)
    { OID  x = (*(self))[n];
@@ -1337,7 +1338,7 @@ set * build_powerset_list(list *self)
 
 // <<(x:list,y:integer) : list -> function!(skip_list)
 // new and useful (v3.1.06)
-/* The c++ function for: make_copy_list(n:integer,d:any) [NEW_ALLOC+BAG_UPDATE] */
+/* The c++ function for: make_copy_list(n:integer,d:any) [NEW_ALLOC+BAG_UPDATE+STRING_UPDATE] */
 list * make_copy_list_integer(int n,OID d)
 { GC_BIND;
   { list *Result ;
@@ -1377,15 +1378,15 @@ set * difference_set(set *self,set *x)
 
 
 //--------- ARRAY --------------------------------------------------------
-/* The c++ function for: nth=(self:array,x:integer,y:any) [RETURN_ARG] */
+/* The c++ function for: nth=(self:array,x:integer,y:any) [RETURN_ARG+STRING_UPDATE] */
 void  nth_equal_array(OID *self,int x,OID y)
 { if (belong_to(y,_oid_(of_array(self))) != CTRUE)
-   close_exception(((general_error *) (*Core._general_error)(_string_("type mismatch for array update ~S, ~S"),
+   close_exception(((general_error *) (*Core._general_error)(_string_(copy_string("type mismatch for array update ~S, ~S")),
     _oid_(list::alloc(2,y,_array_(self))))));
   else if ((x > 0) && 
       (x <= self[0]))
    nth_put_array(self,x,y);
-  else close_exception(((general_error *) (*Core._general_error)(_string_("nth[~S] out of scope for ~S"),
+  else close_exception(((general_error *) (*Core._general_error)(_string_(copy_string("nth[~S] out of scope for ~S")),
       _oid_(list::alloc(2,x,_array_(self))))));
     } 
 
@@ -1409,7 +1410,7 @@ void  self_print_char_Core(ClaireChar *self)
   } 
 
 
-/* The c++ function for: <=(c1:char,c2:char) [0] */
+/* The c++ function for: <=(c1:char,c2:char) [STRING_UPDATE] */
 ClaireBoolean * _inf_equal_char(ClaireChar *c1,ClaireChar *c2)
 { return (_inf_equal_integer(c1->ascii,c2->ascii));} 
 

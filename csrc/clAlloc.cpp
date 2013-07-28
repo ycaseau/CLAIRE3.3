@@ -6,7 +6,7 @@
         
         Author: YVES CASEAU
         Created: YC  24/01/2006 07:31:18
-	Last change: YC 24/01/2006 07:31:41
+	Last change: YC 18/05/2006 23:03:46
 */
 /***********************************************************************/
 /**   microCLAIRE                                       Yves Caseau    */
@@ -502,6 +502,7 @@ void ClaireAllocation::markObject (ClaireObject *x)
  list *l = x->isa->slots;
  if (x == probe) princ_string("probe found and marked --\n");
  if (x->isa == Kernel._function) markString( ((ClaireFunction *) x)->name);
+ // x->isa->open++;   // DEBUG : useful to detect GC leaks
  for (START(l);
       NEXT(s) ; )
    {int z = *SLOTADR(x, OBJECT(slot,s)->index);
@@ -566,7 +567,8 @@ void ClaireAllocation::sweepChunk()
   {p = Cmemory[i];
 //   printf("chunk[%d] size:%d\n",i,p);
    ASSERT(p != 0);
-   if (p < 0) Cmemory[i]= -p;          // chunk was marked -> keep it
+   if (p < 0)
+       Cmemory[i]= -p;          // chunk was marked -> keep it
    else if (Cmemory[i + 1] != NOTHING) // chunk was not marked and is being used
        {if (i == getADR(probe)) printf("free the probe chunk !\n");
         i = freeChunk(i);}

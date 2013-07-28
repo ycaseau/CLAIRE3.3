@@ -1,5 +1,5 @@
-/***** CLAIRE Compilation of file d:\claire\v3.3\src\meta\control.cl 
-         [version 3.3.42 / safety 5] Sat Jan 28 08:50:16 2006 *****/
+/***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\control.cl 
+         [version 3.3.46 / safety 5] Sun Feb 15 15:35:17 2009 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -35,14 +35,14 @@ void  self_print_If_Language(If *self)
 /* The c++ function for: printstat(self:If) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
 void  printstat_If(If *self)
 { GC_BIND;
-  princ_string("if ");
+  princ_string(copy_string("if "));
   printexp_any(GC_OID(self->test),CFALSE);
   checkfar_void();
-  princ_string(" ");
+  princ_string(copy_string(" "));
   printif_any(GC_OID(self->arg));
   (Core.pretty->index = (Core.pretty->index-3));
   printelse_If(self);
-  princ_string("");
+  princ_string(copy_string(""));
   GC_UNBIND;} 
 
 
@@ -77,24 +77,24 @@ void  printelse_If(If *self)
 { GC_BIND;
   { OID  e = GC_OID(self->other);
     if (INHERIT(OWNER(e),Language._If))
-     { princ_string(" ");
+     { princ_string(copy_string(" "));
       lbreak_void();
-      princ_string("else if ");
+      princ_string(copy_string("else if "));
       printexp_any(GC_OID(OBJECT(If,e)->test),CFALSE);
-      princ_string(" ");
+      princ_string(copy_string(" "));
       printif_any(GC_OID(OBJECT(If,e)->arg));
       (Core.pretty->index = (Core.pretty->index-3));
       printelse_If(OBJECT(If,e));
-      princ_string("");
+      princ_string(copy_string(""));
       } 
     else if (equal(e,Core.nil->value) != CTRUE)
      { int  _Zl = Core.pretty->index;
-      princ_string(" ");
+      princ_string(copy_string(" "));
       lbreak_void();
-      princ_string("else ");
+      princ_string(copy_string("else "));
       set_level_integer(1);
       print_any(e);
-      princ_string("");
+      princ_string(copy_string(""));
       (Core.pretty->index = _Zl);
       } 
     } 
@@ -144,9 +144,9 @@ void  printdo_list(list *l,ClaireBoolean *clo)
           n= (n-1);
         if (n == 0)
          { if (clo == CTRUE)
-           princ_string(")");
+           princ_string(copy_string(")"));
           } 
-        else { princ_string(", ");
+        else { princ_string(copy_string(", "));
             lbreak_void();
             } 
           } 
@@ -186,12 +186,12 @@ void  self_print_Let_Language(Let *self)
 { GC_BIND;
   { int  _Zl = Core.pretty->index;
     set_level_integer(1);
-    princ_string("let ");
+    princ_string(copy_string("let "));
     ppvariable_Variable(GC_OBJECT(Variable,self->var));
-    princ_string(" := ");
+    princ_string(copy_string(" := "));
     printexp_any(GC_OID(self->value),CFALSE);
     printbody_Let(self);
-    princ_string("");
+    princ_string(copy_string(""));
     (Core.pretty->index = _Zl);
     } 
   GC_UNBIND;} 
@@ -202,19 +202,19 @@ void  printbody_Let(Let *self)
 { GC_BIND;
   { OID  a = GC_OID(self->arg);
     if (INHERIT(OWNER(a),Language._Let))
-     { princ_string(",");
+     { princ_string(copy_string(","));
       lbreak_integer(4);
       ppvariable_Variable(GC_OBJECT(Variable,OBJECT(Instruction_with_var,a)->var));
-      princ_string(" := ");
+      princ_string(copy_string(" := "));
       printexp_any(GC_OID(OBJECT(Let,a)->value),CFALSE);
       (Core.pretty->index = (Core.pretty->index-4));
       printbody_Let(OBJECT(Let,a));
-      princ_string("");
+      princ_string(copy_string(""));
       } 
-    else { princ_string(" in ");
+    else { princ_string(copy_string(" in "));
         lbreak_integer(2);
         print_any(a);
-        princ_string("");
+        princ_string(copy_string(""));
         } 
       } 
   GC_UNBIND;} 
@@ -229,11 +229,11 @@ OID  self_eval_Let(Let *self)
       if ((n > 0) && 
           (n == ClEnv->step_I))
        { (ClEnv->trace_I = 0);
-        princ_string("start: let ");
+        princ_string(copy_string("start: let "));
         print_any(GC_OID(_oid_(self->var)));
-        princ_string(" := ");
+        princ_string(copy_string(" := "));
         print_any(val);
-        princ_string(" ...\n");
+        princ_string(copy_string(" ...\n"));
         (ClEnv->trace_I = n);
         } 
       write_value_Variable(self->var,val);
@@ -250,21 +250,21 @@ void  self_print_When_Language(When *self)
 { GC_BIND;
   { int  _Zl = Core.pretty->index;
     set_level_integer(1);
-    princ_string("when ");
+    princ_string(copy_string("when "));
     ppvariable_Variable(GC_OBJECT(Variable,self->var));
-    princ_string(" := ");
+    princ_string(copy_string(" := "));
     printexp_any(GC_OID(self->value),CFALSE);
-    princ_string(" in ");
+    princ_string(copy_string(" in "));
     lbreak_integer(2);
     print_any(GC_OID(self->arg));
-    princ_string("");
+    princ_string(copy_string(""));
     if (((self->other == CNULL) ? CTRUE : CFALSE) != CTRUE)
-     { princ_string(" ");
+     { princ_string(copy_string(" "));
       lbreak_void();
-      princ_string("else ");
+      princ_string(copy_string("else "));
       set_level_integer(1);
       print_any(GC_OID(self->other));
-      princ_string("");
+      princ_string(copy_string(""));
       } 
     (Core.pretty->index = _Zl);
     } 
@@ -280,11 +280,11 @@ OID  self_eval_When(When *self)
       if ((n > 0) && 
           (n == ClEnv->step_I))
        { (ClEnv->trace_I = 0);
-        princ_string("start: when ");
+        princ_string(copy_string("start: when "));
         print_any(GC_OID(_oid_(self->var)));
-        princ_string(" := ");
+        princ_string(copy_string(" := "));
         print_any(val);
-        princ_string(" ...\n");
+        princ_string(copy_string(" ...\n"));
         (ClEnv->trace_I = n);
         } 
       if (val != CNULL)
@@ -310,27 +310,27 @@ void  self_print_Let_plus_Language(Let_plus *self)
   { int  _Zl = Core.pretty->index;
     list * l = GC_OBJECT(list,OBJECT(Do,self->arg)->args);
     set_level_integer(1);
-    princ_string("let ");
+    princ_string(copy_string("let "));
     printexp_any(GC_OID(self->value),CFALSE);
-    princ_string(" := ");
+    princ_string(copy_string(" := "));
     printexp_any(GC_OID((*(OBJECT(bag,(*Core.args)((*(l))[1]))))[3]),CFALSE);
-    princ_string(" in ");
+    princ_string(copy_string(" in "));
     lbreak_integer(2);
     print_any(GC_OID(OBJECT(Let,(*(l))[2])->value));
-    princ_string("");
+    princ_string(copy_string(""));
     (Core.pretty->index = _Zl);
     } 
   GC_UNBIND;} 
 
 
-/* The c++ function for: self_print(self:Let*) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: self_print(self:Let*) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 void  self_print_Let_star_Language(Let_star *self)
 { GC_RESERVE(4);  // v3.0.55 optim !
   { int  _Zl = Core.pretty->index;
     OID  l = GC_OID(self->arg);
     set_level_integer(1);
     if (INHERIT(OWNER(l),Language._Let))
-     { princ_string("let (");
+     { princ_string(copy_string("let ("));
       { OID gc_local;
         while ((CTRUE == CTRUE))
         { GC_LOOP;
@@ -338,19 +338,19 @@ void  self_print_Let_star_Language(Let_star *self)
           { OID  lnext = GC_OID((*Kernel.arg)(l));
             if ((INHERIT(OWNER(lnext),Language._Let)) && ((INHERIT(OWNER(OBJECT(Let,lnext)->value),Language._Call)) && 
                 (equal(GC_OID((*(OBJECT(bag,(*Core.args)(GC_OID(OBJECT(Let,lnext)->value)))))[1]),GC_OID(_oid_(self->var))) == CTRUE)))
-             { princ_string(",");
+             { princ_string(copy_string(","));
               GC__OID(l = lnext, 3);
               } 
             else { ;break;} 
               } 
           GC_UNLOOP;} 
         } 
-      princ_string(") := ");
+      princ_string(copy_string(") := "));
       printexp_any(GC_OID(self->value),CFALSE);
       printbody_Let(OBJECT(Let,l));
-      princ_string("");
+      princ_string(copy_string(""));
       } 
-    else { princ_string("(");
+    else { princ_string(copy_string("("));
         { ClaireBoolean * _Zf = CTRUE;
           { OID gc_local;
             ITERATE(_Za);
@@ -360,15 +360,15 @@ void  self_print_Let_star_Language(Let_star *self)
             { GC_LOOP;
               { if (_Zf == CTRUE)
                  _Zf= CFALSE;
-                else princ_string(",");
+                else princ_string(copy_string(","));
                   (*Language.ppvariable)(GC_OID((*Language.var)(_Za)));
                 } 
               GC_UNLOOP;} 
             } 
           } 
-        princ_string(") := ");
+        princ_string(copy_string(") := "));
         printexp_any(GC_OID(self->value),CFALSE);
-        princ_string("");
+        princ_string(copy_string(""));
         } 
       (Core.pretty->index = _Zl);
     } 
@@ -383,20 +383,20 @@ void  self_print_Let_star_Language(Let_star *self)
 /* The c++ function for: self_print(self:For) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
 void  self_print_For_Language(For *self)
 { GC_BIND;
-  princ_string("for ");
+  princ_string(copy_string("for "));
   ppvariable_Variable(GC_OBJECT(Variable,self->var));
-  princ_string(" in ");
+  princ_string(copy_string(" in "));
   { int  _Zl = Core.pretty->index;
     set_level_void();
     printexp_any(GC_OID(self->set_arg),CFALSE);
     (Core.pretty->index = _Zl);
     } 
-  princ_string(" ");
+  princ_string(copy_string(" "));
   (Core.pretty->index = (Core.pretty->index+2));
   lbreak_void();
   print_any(GC_OID(self->arg));
   (Core.pretty->index = (Core.pretty->index-2));
-  princ_string("");
+  princ_string(copy_string(""));
   GC_UNBIND;} 
 
 
@@ -409,11 +409,11 @@ OID  self_eval_For(For *self)
       if ((n > 0) && 
           (n == ClEnv->step_I))
        { (ClEnv->trace_I = 0);
-        princ_string("start: for ");
+        princ_string(copy_string("start: for "));
         print_any(GC_OID(_oid_(self->var)));
-        princ_string(" in ");
+        princ_string(copy_string(" in "));
         print_any(x);
-        princ_string(" ...\n");
+        princ_string(copy_string(" ...\n"));
         (ClEnv->trace_I = n);
         } 
       { ClaireHandler c_handle = ClaireHandler();
@@ -477,7 +477,7 @@ OID  self_eval_For(For *self)
                 } 
               GC_UNLOOP;} 
             } 
-          else { OID  V_CL0047;close_exception(((general_error *) (*Core._general_error)(_string_("[136] ~S is not a collection !"),
+          else { OID  V_CL0047;close_exception(((general_error *) (*Core._general_error)(_string_(copy_string("[136] ~S is not a collection !")),
                 _oid_(list::alloc(1,x)))));
               
               Result=_void_(V_CL0047);} 
@@ -496,23 +496,23 @@ OID  self_eval_For(For *self)
 /* The c++ function for: self_print(self:Collect) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
 void  self_print_Collect_Language(Collect *self)
 { GC_BIND;
-  princ_string("list{ ");
+  princ_string(copy_string("list{ "));
   (Core.pretty->index = (Core.pretty->index+2));
   printexp_any(GC_OID(self->arg),CFALSE);
-  princ_string(" | ");
+  princ_string(copy_string(" | "));
   lbreak_void();
   ppvariable_Variable(GC_OBJECT(Variable,self->var));
-  princ_string(" in ");
+  princ_string(copy_string(" in "));
   { int  _Zl = Core.pretty->index;
     set_level_void();
     printexp_any(GC_OID(self->set_arg),CFALSE);
     (Core.pretty->index = (_Zl-2));
     } 
-  princ_string("}");
+  princ_string(copy_string("}"));
   GC_UNBIND;} 
 
 
-/* The c++ function for: self_eval(self:Collect) [NEW_ALLOC] */
+/* The c++ function for: self_eval(self:Collect) [NEW_ALLOC+STRING_UPDATE] */
 OID  self_eval_Collect(Collect *self)
 { GC_BIND;
   { OID Result = 0;
@@ -566,23 +566,23 @@ OID  self_eval_Collect(Collect *self)
 /* The c++ function for: self_print(self:Image) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
 void  self_print_Image_Language(Image *self)
 { GC_BIND;
-  princ_string("{ ");
+  princ_string(copy_string("{ "));
   (Core.pretty->index = (Core.pretty->index+2));
   printexp_any(GC_OID(self->arg),CFALSE);
-  princ_string(" | ");
+  princ_string(copy_string(" | "));
   lbreak_void();
   ppvariable_Variable(GC_OBJECT(Variable,self->var));
-  princ_string(" in ");
+  princ_string(copy_string(" in "));
   { int  _Zl = Core.pretty->index;
     set_level_void();
     printexp_any(GC_OID(self->set_arg),CFALSE);
     (Core.pretty->index = (_Zl-2));
     } 
-  princ_string("}");
+  princ_string(copy_string("}"));
   GC_UNBIND;} 
 
 
-/* The c++ function for: self_eval(self:Image) [NEW_ALLOC] */
+/* The c++ function for: self_eval(self:Image) [NEW_ALLOC+STRING_UPDATE] */
 OID  self_eval_Image(Image *self)
 { GC_BIND;
   { OID Result = 0;
@@ -627,23 +627,23 @@ OID  self_eval_Image(Image *self)
 /* The c++ function for: self_print(self:Select) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
 void  self_print_Select_Language(Select *self)
 { GC_BIND;
-  princ_string("{ ");
+  princ_string(copy_string("{ "));
   ppvariable_Variable(GC_OBJECT(Variable,self->var));
-  princ_string(" in ");
+  princ_string(copy_string(" in "));
   { int  _Zl = Core.pretty->index;
     set_level_void();
     printexp_any(GC_OID(self->set_arg),CFALSE);
     (Core.pretty->index = _Zl);
     } 
-  princ_string(" | ");
+  princ_string(copy_string(" | "));
   lbreak_integer(2);
   print_any(GC_OID(self->arg));
   (Core.pretty->index = (Core.pretty->index-2));
-  princ_string("}");
+  princ_string(copy_string("}"));
   GC_UNBIND;} 
 
 
-/* The c++ function for: self_eval(self:Select) [NEW_ALLOC] */
+/* The c++ function for: self_eval(self:Select) [NEW_ALLOC+STRING_UPDATE] */
 OID  self_eval_Select(Select *self)
 { GC_BIND;
   { OID Result = 0;
@@ -705,23 +705,23 @@ OID  self_eval_Select(Select *self)
 /* The c++ function for: self_print(self:Lselect) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
 void  self_print_Lselect_Language(Lselect *self)
 { GC_BIND;
-  princ_string("list{ ");
+  princ_string(copy_string("list{ "));
   ppvariable_Variable(GC_OBJECT(Variable,self->var));
-  princ_string(" in ");
+  princ_string(copy_string(" in "));
   { int  _Zl = Core.pretty->index;
     set_level_void();
     printexp_any(GC_OID(self->set_arg),CFALSE);
     (Core.pretty->index = _Zl);
     } 
-  princ_string(" | ");
+  princ_string(copy_string(" | "));
   lbreak_integer(2);
   print_any(GC_OID(self->arg));
   (Core.pretty->index = (Core.pretty->index-2));
-  princ_string("}");
+  princ_string(copy_string("}"));
   GC_UNBIND;} 
 
 
-/* The c++ function for: self_eval(self:Lselect) [NEW_ALLOC] */
+/* The c++ function for: self_eval(self:Lselect) [NEW_ALLOC+STRING_UPDATE] */
 OID  self_eval_Lselect(Lselect *self)
 { GC_BIND;
   { OID Result = 0;
@@ -783,30 +783,30 @@ OID  self_eval_Lselect(Lselect *self)
 void  self_print_Exists_Language(Exists *self)
 { GC_BIND;
   if (self->other == Kernel.ctrue)
-   princ_string("forall");
+   princ_string(copy_string("forall"));
   else if (self->other == Kernel.cfalse)
-   princ_string("exists");
-  else princ_string("some");
+   princ_string(copy_string("exists"));
+  else princ_string(copy_string("some"));
     if (self->set_arg == _oid_(Kernel._any))
-   { princ_string("(");
+   { princ_string(copy_string("("));
     ppvariable_Variable(GC_OBJECT(Variable,self->var));
-    princ_string(",");
+    princ_string(copy_string(","));
     print_any(GC_OID(self->arg));
-    princ_string(")");
+    princ_string(copy_string(")"));
     } 
-  else { princ_string("(");
+  else { princ_string(copy_string("("));
       ppvariable_Variable(GC_OBJECT(Variable,self->var));
-      princ_string(" in ");
+      princ_string(copy_string(" in "));
       { int  _Zl = Core.pretty->index;
         set_level_void();
         printexp_any(GC_OID(self->set_arg),CFALSE);
         (Core.pretty->index = _Zl);
         } 
-      princ_string(" | ");
+      princ_string(copy_string(" | "));
       lbreak_integer(2);
       print_any(GC_OID(self->arg));
       (Core.pretty->index = (Core.pretty->index-2));
-      princ_string(")");
+      princ_string(copy_string(")"));
       } 
     GC_UNBIND;} 
 
@@ -873,14 +873,14 @@ OID  self_eval_Exists(Exists *self)
 // *     Part 3: other control structures                              *
 // *********************************************************************
 // ----------------- case  --------------------------------------
-/* The c++ function for: self_print(self:Case) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: self_print(self:Case) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 void  self_print_Case_Language(Case *self)
 { GC_BIND;
-  princ_string("case ");
+  princ_string(copy_string("case "));
   print_any(GC_OID(self->var));
-  princ_string(" ");
+  princ_string(copy_string(" "));
   lbreak_integer(1);
-  princ_string("(");
+  princ_string(copy_string("("));
   { int  n = 1;
     int  m = self->args->length;
     (Core.pretty->index = (Core.pretty->index+1));
@@ -889,29 +889,29 @@ void  self_print_Case_Language(Case *self)
       { GC_LOOP;
         { int  _Zl = Core.pretty->index;
           printexp_any(GC_OID((*(self->args))[n]),CFALSE);
-          princ_string(" ");
+          princ_string(copy_string(" "));
           if (buffer_length_void() > (Core.pretty->width-50))
            lbreak_integer(2);
           else set_level_void();
             print_any(GC_OID((*(self->args))[(n+1)]));
           (Core.pretty->index = _Zl);
           if ((n+1) != m)
-           { princ_string(", ");
+           { princ_string(copy_string(", "));
             lbreak_void();
-            princ_string("");
+            princ_string(copy_string(""));
             } 
-          princ_string("");
+          princ_string(copy_string(""));
           n= (n+2);
           } 
         GC_UNLOOP;} 
       } 
-    princ_string(")");
+    princ_string(copy_string(")"));
     (Core.pretty->index = (Core.pretty->index-2));
     } 
   GC_UNBIND;} 
 
 
-/* The c++ function for: self_eval(self:Case) [NEW_ALLOC] */
+/* The c++ function for: self_eval(self:Case) [NEW_ALLOC+STRING_UPDATE] */
 OID  self_eval_Case(Case *self)
 { GC_RESERVE(1);  // HOHO v3.0.55 optim !
   { OID Result = 0;
@@ -953,14 +953,14 @@ OID  self_eval_Case(Case *self)
 void  self_print_While_Language(While *self)
 { GC_BIND;
   princ_string(((self->other == CTRUE) ?
-    "until" :
-    "while" ));
-  princ_string(" ");
+    copy_string("until") :
+    copy_string("while") ));
+  princ_string(copy_string(" "));
   printexp_any(GC_OID(self->test),CFALSE);
-  princ_string(" ");
+  princ_string(copy_string(" "));
   lbreak_integer(2);
   print_any(GC_OID(self->arg));
-  princ_string("");
+  princ_string(copy_string(""));
   (Core.pretty->index = (Core.pretty->index-2));
   GC_UNBIND;} 
 
@@ -1015,7 +1015,7 @@ void  self_print_Handle_Language(ClaireHandle *self)
   GC_UNBIND;} 
 
 
-/* The c++ function for: self_eval(self:Handle) [NEW_ALLOC+RETURN_ARG] */
+/* The c++ function for: self_eval(self:Handle) [NEW_ALLOC+RETURN_ARG+STRING_UPDATE] */
 OID  self_eval_Handle(ClaireHandle *self)
 { GC_BIND;
   { OID Result = 0;
@@ -1042,27 +1042,27 @@ OID  self_eval_Handle(ClaireHandle *self)
 // *     Part 4: the constructs                                         *
 // *********************************************************************
 // v3.2.16   constructor for arrays
-/* The c++ function for: self_print(self:Construct) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: self_print(self:Construct) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 void  self_print_Construct_Language(Construct *self)
 { GC_BIND;
   { int  _Zl = Core.pretty->index;
     { char * g0059UU;
       if (INHERIT(self->isa,Language._List))
-       g0059UU = "list";
+       g0059UU = copy_string("list");
       else if (INHERIT(self->isa,Language._Set))
-       g0059UU = "set";
+       g0059UU = copy_string("set");
       else if (INHERIT(self->isa,Language._Tuple))
-       g0059UU = "tuple";
+       g0059UU = copy_string("tuple");
       else if (INHERIT(self->isa,Language._Printf))
-       g0059UU = "printf";
+       g0059UU = copy_string("printf");
       else g0059UU = ((INHERIT(self->isa,Language._Error)) ?
-        "error" :
+        copy_string("error") :
         ((INHERIT(self->isa,Language._Trace)) ?
-          "trace" :
+          copy_string("trace") :
           ((INHERIT(self->isa,Language._Assert)) ?
-            "assert" :
+            copy_string("assert") :
             ((INHERIT(self->isa,Language._Branch)) ?
-              "branch" :
+              copy_string("branch") :
               string_I_symbol(self->isa->name) ) ) ) );
       princ_string(g0059UU);
       } 
@@ -1071,16 +1071,16 @@ void  self_print_Construct_Language(Construct *self)
      { OID  _Zt = GC_OID(get_property(Kernel.of,self));
       if (_Zt != CNULL)
        { if (equal(_Zt,_oid_(Kernel.emptySet)) != CTRUE)
-         { princ_string("<");
+         { princ_string(copy_string("<"));
           print_any(_Zt);
-          princ_string(">");
+          princ_string(copy_string(">"));
           } 
         } 
       else ;} 
-    princ_string("(");
+    princ_string(copy_string("("));
     set_level_void();
     printbox_bag2(GC_OBJECT(list,self->args));
-    princ_string(")");
+    princ_string(copy_string(")"));
     (Core.pretty->index = _Zl);
     } 
   GC_UNBIND;} 
@@ -1088,7 +1088,7 @@ void  self_print_Construct_Language(Construct *self)
 
 // constructors: how to create a list, a set, a tuple or an array
 // note that the constructor is typed
-/* The c++ function for: self_eval(self:List) [NEW_ALLOC] */
+/* The c++ function for: self_eval(self:List) [NEW_ALLOC+STRING_UPDATE] */
 OID  self_eval_List(List *self)
 { GC_BIND;
   { OID Result = 0;
@@ -1130,7 +1130,7 @@ OID  self_eval_List(List *self)
 
 
 // v3.2
-/* The c++ function for: self_eval(self:Set) [NEW_ALLOC] */
+/* The c++ function for: self_eval(self:Set) [NEW_ALLOC+STRING_UPDATE] */
 OID  self_eval_Set(Set *self)
 { GC_BIND;
   { OID Result = 0;
@@ -1199,7 +1199,7 @@ OID  self_eval_Tuple(Tuple *self)
 
 
 // v3.2.16 - introduce a nicer way to create an array
-/* The c++ function for: self_eval(self:Array) [NEW_ALLOC] */
+/* The c++ function for: self_eval(self:Array) [NEW_ALLOC+STRING_UPDATE] */
 OID  self_eval_Array2(Array *self)
 { GC_BIND;
   { OID Result = 0;
@@ -1253,7 +1253,7 @@ OID  self_eval_Macro2(Macro *self)
 
 
 // error produces an exception of type general_error
-/* The c++ function for: self_eval(self:Error) [NEW_ALLOC+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: self_eval(self:Error) [NEW_ALLOC+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 void  self_eval_Error(Error *self)
 { GC_BIND;
   if ((boolean_I_any(_oid_(self->args)) != CTRUE) || 
@@ -1285,7 +1285,7 @@ void  self_eval_Error(Error *self)
 // this is the basic tool for printing in CLAIRE. A complex statement
 // is macroexpanded into basic printing instructions
 //
-/* The c++ function for: self_eval(self:Printf) [NEW_ALLOC+SLOT_UPDATE] */
+/* The c++ function for: self_eval(self:Printf) [NEW_ALLOC+SLOT_UPDATE+STRING_UPDATE] */
 OID  self_eval_Printf(Printf *self)
 { GC_RESERVE(6);  // v3.0.55 optim !
   { OID Result = 0;
@@ -1336,7 +1336,7 @@ OID  self_eval_Printf(Printf *self)
 // trace is refined in inspect.cl
 // If trace_output() is known, use it, else use current output.
 //
-/* The c++ function for: self_eval(self:Trace) [NEW_ALLOC+SLOT_UPDATE] */
+/* The c++ function for: self_eval(self:Trace) [NEW_ALLOC+SLOT_UPDATE+STRING_UPDATE] */
 OID  self_eval_Trace(Trace *self)
 { GC_BIND;
   { OID Result = 0;
@@ -1386,14 +1386,14 @@ OID  self_eval_Assert(Assert *self)
             (boolean_I_any(OPT_EVAL((*(a))[1])) != CTRUE)))
        { ClairePort * p = use_as_output_port(ClEnv->ctrace);
         print_any(GC_OID(_string_(self->external)));
-        princ_string(",line=");
+        princ_string(copy_string(",line="));
         princ_integer(self->index);
-        princ_string(": (ASSERT) ");
+        princ_string(copy_string(": (ASSERT) "));
         print_any((*(a))[1]);
-        princ_string("\n");
+        princ_string(copy_string("\n"));
         use_as_output_port(p);
         if (0 <= ClEnv->debug_I)
-         close_exception(((general_error *) (*Core._general_error)(_string_("Assertion Violation"),
+         close_exception(((general_error *) (*Core._general_error)(_string_(copy_string("Assertion Violation")),
           _oid_(Kernel.nil))));
         Result = _oid_(Kernel.emptySet);
         } 

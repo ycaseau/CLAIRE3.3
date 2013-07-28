@@ -84,7 +84,9 @@ meta_OPT <: thing(
         unsure:list = nil,             // methods that need to be compiled at safety 1
         knowns:set<relation>,          // properties that are safe (no unknown)
         Compile/simple_operations:set<property>,   //  v3.3
-        Compile/non_identifiable_set:set<class>)   // v 3.3
+        Compile/non_identifiable_set:set<class>,   // v 3.3
+        Compile/use_string_update:boolean = false)     // update on strings   v3.3.46
+       
 
 // The meta_compiler contains the definition of the compiler flags and slots
 // that are important for the user. Other stuff is hidden in OPT
@@ -350,7 +352,7 @@ claire/safe(x:any) : type[x] -> x
 
 // this is one of the most important method. c_status(x,l) returns the status bitvector
 // associated to the method defined by the body x and whose variable list is l.
-// It computes (using the code BEFORE optimization) the status of the 5 important flags
+// It computes (using the code BEFORE optimization) the status of the 6 important flags
 // NEW_ALLOC :       a new allocation may be done by running the method
 // LIST_UPDATE :     a list is updated whose content is not gcsafe
 // SLOT_UPDATE :     an slot is updated whose content is not gcsafe
@@ -358,6 +360,7 @@ claire/safe(x:any) : type[x] -> x
 // SAFE_RESULT :     the result from the method (not gcsafe) does not need protection
 // SAFE_GC :         the arguments do not need protection (even if an alloc occurs) -the method
 //                   takes care of its arguments (pushed on a stack for instance)
+// STRING_UPDATE     a string is modified (forbiden by C++ if const char) -> a copy is required  // v3.3.46
 // this method is allowed to be pessimistic as far as allocation are concerned
 [c_status(self:any,l:list) : integer
  -> case self
@@ -461,14 +464,16 @@ claire/safe(x:any) : type[x] -> x
  write(Core/status, eval @ any, bit_vector(NEW_ALLOC)),
  write(Core/status, self_eval @ Call, bit_vector(SAFE_GC)),
  write(Core/status, self_eval @ If, bit_vector(SAFE_GC)),
- write(Core/status, self_eval @ Do, bit_vector(SAFE_GC)))
+ write(Core/status, self_eval @ Do, bit_vector(SAFE_GC)),
+ write(Core/status, nth= @ string, bit_vector(STRING_UPDATE)),
+ write(Core/status, nth_put @ string, bit_vector(STRING_UPDATE)))   // v3.3.46
 
 
 // useful #1: show a status
 [claire/showstatus(m:method) : any
-  -> let l1 := list("NEW_ALLOC","BAG_UPDATE","SLOT_UPDATE","RETURN_ARG","SAFE_RESULT","SAFE_GC"),
+  -> let l1 := list("NEW_ALLOC","BAG_UPDATE","SLOT_UPDATE","RETURN_ARG","SAFE_RESULT","SAFE_GC","STRING_UPDATE"),
          l := list<any>(), s := Core/status(m) in
-       (for i in (1 .. 6) (if s[i] l :add l1[i]), l) ]
+       (for i in (1 .. 7) (if s[i] l :add l1[i]), l) ]
 
 // useful #2: provoke a recomputation of status
 [claire/s_test(m:method) : void

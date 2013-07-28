@@ -383,6 +383,7 @@ compile_lambda(self:string,l:lambda,m:any) : any
         OPT.loop_gc := false,
         OPT.use_update := false,
         OPT.use_nth= := false,
+        OPT.use_string_update := false,                    // v3.3.46
         OPT.max_vars := 0,
         if (m % OPT.unsure) compiler.safety :=  1,
         make_c_function(l, self, m),

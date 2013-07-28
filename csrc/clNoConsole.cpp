@@ -1,3 +1,13 @@
+/** @package 
+
+        clNoConsole.cpp
+        
+        Copyright(c) self 2000
+        
+        Author: Yves Caseau
+        Created: YC  17/01/2009 17:41:27
+	Last change: YC 17/01/2009 17:41:33
+*/
 /***********************************************************************/
 /**  microCLAIRE                                       Yves Caseau     */
 /**  noConsole.cpp                                                     */
@@ -41,7 +51,7 @@ list *C_to_Claire(int argc, char *argv[])
 }
 
 // this is our main function (a simpler version of what is in main.cpp)
-main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {int k = 1, i = 3, j = 3;
   printf("==== call main argc = %d, argv[1] = %s ==== \n",argc,argv[1]);
   if ((argc > 3) && (equal_string("-s",argv[1]) == CTRUE))

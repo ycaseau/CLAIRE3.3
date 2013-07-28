@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file Reader.cl 
-         [version 3.3.42 / safety 5] Sat Jan 28 08:50:19 2006 *****/
+         [version 3.3.46 / safety 5] Sun Feb 15 15:35:19 2009 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -131,7 +131,7 @@ void ReaderClass::metaLoad() {
     { global_variable * g0122 = _CL_obj; 
       OID  g0123;
       { keyword * _CL_obj = ((keyword *) new_object_class(Kernel._keyword));
-        (_CL_obj->name = symbol_I_string2("->"));
+        (_CL_obj->name = symbol_I_string2(copy_string("->")));
         add_I_property(Kernel.instances,Kernel._keyword,11,_oid_(_CL_obj));
         g0123 = _oid_(_CL_obj);
         } 
@@ -146,7 +146,7 @@ void ReaderClass::metaLoad() {
     { global_variable * g0124 = _CL_obj; 
       OID  g0125;
       { keyword * _CL_obj = ((keyword *) new_object_class(Kernel._keyword));
-        (_CL_obj->name = symbol_I_string2("<:"));
+        (_CL_obj->name = symbol_I_string2(copy_string("<:")));
         add_I_property(Kernel.instances,Kernel._keyword,11,_oid_(_CL_obj));
         g0125 = _oid_(_CL_obj);
         } 
@@ -190,7 +190,7 @@ void ReaderClass::metaLoad() {
     ;} 
   
   Reader.keyword_ask->addMethod(list::domain(1,Kernel._any),Kernel._boolean,
-  	0,_function_(keyword_ask_any,"keyword?_any"));
+  	STRING_UPDATE,_function_(keyword_ask_any,"keyword?_any"));
   
   { (Reader.forall = (keyword *) Kernel._keyword->instantiate("forall",claire.it));
     ;} 
@@ -263,7 +263,7 @@ void ReaderClass::metaLoad() {
     CL_ADD_SLOT(Reader._meta_reader,meta_reader,Reader.s_index,s_index,Kernel._integer,0);
     CL_ADD_SLOT(Reader._meta_reader,meta_reader,Reader.fromp,fromp,Kernel._port,CNULL);
     CL_ADD_SLOT(Reader._meta_reader,meta_reader,Reader.nb_line,nb_line,Kernel._integer,CNULL);
-    CL_ADD_SLOT(Reader._meta_reader,meta_reader,Kernel.external,external,Kernel._string,_string_("toplevel"));
+    CL_ADD_SLOT(Reader._meta_reader,meta_reader,Kernel.external,external,Kernel._string,_string_(copy_string("toplevel")));
     CL_ADD_SLOT(Reader._meta_reader,meta_reader,Kernel.index,index,Kernel._integer,CNULL);
     CL_ADD_SLOT(Reader._meta_reader,meta_reader,Reader.last_form,last_form,Kernel._any,CNULL);
     CL_ADD_SLOT(Reader._meta_reader,meta_reader,Reader.maxstack,maxstack,Kernel._integer,CNULL);
@@ -304,57 +304,57 @@ void ReaderClass::metaLoad() {
   
   { global_variable * _CL_obj = (Reader.OR = (global_variable *) Core._global_variable->instantiate("OR",claire.it));
     (_CL_obj->range = Kernel._any);
-    (_CL_obj->value = _oid_(new_thing_class(Reader._delimiter,symbol_I_string("|",claire.it))));
+    (_CL_obj->value = _oid_(new_thing_class(Reader._delimiter,symbol_I_string(copy_string("|"),claire.it))));
     close_global_variable(_CL_obj);
     } 
   
   Reader.nextunit->addMethod(list::domain(1,Reader._meta_reader),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(nextunit_meta_reader,"nextunit_meta_reader"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(nextunit_meta_reader,"nextunit_meta_reader"));
   
   Reader.nexts->addMethod(list::domain(2,Reader._meta_reader,Kernel._keyword),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(nexts_meta_reader,"nexts_meta_reader"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(nexts_meta_reader,"nexts_meta_reader"));
   
   Reader.loopexp->addMethod(list::domain(4,Reader._meta_reader,
     Kernel._any,
     Kernel._keyword,
     Kernel._boolean),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(loopexp_meta_reader,"loopexp_meta_reader"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(loopexp_meta_reader,"loopexp_meta_reader"));
   
   Reader.extended_operator->addMethod(list::domain(3,Kernel._property,Kernel._any,Kernel._any),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(extended_operator_property,"extended_operator_property"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(extended_operator_property,"extended_operator_property"));
   
   Reader.nexte->addMethod(list::domain(1,Reader._meta_reader),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(nexte_meta_reader,"nexte_meta_reader"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(nexte_meta_reader,"nexte_meta_reader"));
   
   Reader.nextexp->addMethod(list::domain(2,Reader._meta_reader,Kernel._boolean),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(nextexp_meta_reader,"nextexp_meta_reader"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(nextexp_meta_reader,"nextexp_meta_reader"));
   
   Reader.nexti->addMethod(list::domain(2,Reader._meta_reader,Kernel._any),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(nexti_meta_reader,"nexti_meta_reader"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(nexti_meta_reader,"nexti_meta_reader"));
   
   Reader.read_escape->addMethod(list::domain(1,Reader._meta_reader),Kernel._any,
-  	0,_function_(read_escape_meta_reader,"read_escape_meta_reader"));
+  	STRING_UPDATE,_function_(read_escape_meta_reader,"read_escape_meta_reader"));
   
   Reader.nextvariable->addMethod(list::domain(2,Reader._meta_reader,Kernel._any),Kernel._any,
   	NEW_ALLOC+SLOT_UPDATE,_function_(nextvariable_meta_reader,"nextvariable_meta_reader"));
   
   Reader.nexts_I->addMethod(list::domain(2,Reader._meta_reader,Kernel._keyword),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(nexts_I_meta_reader1,"nexts!_meta_reader1"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(nexts_I_meta_reader1,"nexts!_meta_reader1"));
   
   Reader.nexte_I->addMethod(list::domain(2,Reader._meta_reader,Kernel._keyword),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(nexte_I_meta_reader,"nexte!_meta_reader"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(nexte_I_meta_reader,"nexte!_meta_reader"));
   
   Reader.nexts_I->addMethod(list::domain(2,Reader._meta_reader,Kernel._integer),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(nexts_I_meta_reader2,"nexts!_meta_reader2"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(nexts_I_meta_reader2,"nexts!_meta_reader2"));
   
   Reader.nexts_I->addMethod(list::domain(3,Reader._meta_reader,Kernel._keyword,Kernel._integer),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(nexts_I_meta_reader3,"nexts!_meta_reader3"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(nexts_I_meta_reader3,"nexts!_meta_reader3"));
   
   Reader.extended_comment_ask->addMethod(list::domain(2,Reader._meta_reader,Kernel._string),Kernel._boolean,
-  	0,_function_(extended_comment_ask_meta_reader,"extended_comment?_meta_reader"));
+  	STRING_UPDATE,_function_(extended_comment_ask_meta_reader,"extended_comment?_meta_reader"));
   
   Reader.extended_comment_I->addMethod(list::domain(2,Reader._meta_reader,Kernel._string),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(extended_comment_I_meta_reader,"extended_comment!_meta_reader"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(extended_comment_I_meta_reader,"extended_comment!_meta_reader"));
   
   { (Reader.DBline = (table *) Kernel._table->instantiate("DBline",Reader.it));
     (Reader.DBline->range = Kernel._integer);
@@ -365,76 +365,76 @@ void ReaderClass::metaLoad() {
     } 
   
   Reader.DBregister->addMethod(list::domain(1,Language._Call),Language._Call,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(DBregister_Call,"DBregister_Call"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(DBregister_Call,"DBregister_Call"));
   
   Reader.Call_I->addMethod(list::domain(2,Kernel._property,Kernel._list),Language._Call,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(Call_I_property,"Call!_property"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(Call_I_property,"Call!_property"));
   
   Reader.operation_ask->addMethod(list::domain(1,Kernel._any),Kernel._boolean,
-  	0,_function_(operation_ask_any,"operation?_any"));
+  	STRING_UPDATE,_function_(operation_ask_any,"operation?_any"));
   
   Reader.combine->addMethod(list::domain(3,Kernel._any,Kernel._any,Kernel._any),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(combine_any,"combine_any"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(combine_any,"combine_any"));
   
   Reader.combine_I->addMethod(list::domain(3,Kernel._any,Kernel._any,Kernel._any),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(combine_I_any,"combine!_any"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(combine_I_any,"combine!_any"));
   
   Reader.operation_I->addMethod(list::domain(1,Kernel._any),Kernel._any,
-  	0,_function_(operation_I_any,"operation!_any"));
+  	STRING_UPDATE,_function_(operation_I_any,"operation!_any"));
   
   Reader.operand_I->addMethod(list::domain(2,Kernel._any,Kernel._integer),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(operand_I_any,"operand!_any"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(operand_I_any,"operand!_any"));
   
   Reader.precedence_I->addMethod(list::domain(1,Kernel._any),Kernel._integer,
   	RETURN_ARG,_function_(precedence_I_any,"precedence!_any"));
   
   Reader.nextstruct->addMethod(list::domain(3,Reader._meta_reader,Kernel._keyword,Kernel._keyword),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(nextstruct_meta_reader,"nextstruct_meta_reader"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(nextstruct_meta_reader,"nextstruct_meta_reader"));
   
   Reader.readlet->addMethod(list::domain(2,Reader._meta_reader,Kernel._keyword),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(readlet_meta_reader,"readlet_meta_reader"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(readlet_meta_reader,"readlet_meta_reader"));
   
   Reader.readlet_star->addMethod(list::domain(4,Reader._meta_reader,
     Kernel._list,
     Kernel._integer,
     Kernel._keyword),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(readlet_star_meta_reader,"readlet*_meta_reader"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(readlet_star_meta_reader,"readlet*_meta_reader"));
   
   Reader.readwhen->addMethod(list::domain(2,Reader._meta_reader,Kernel._keyword),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(readwhen_meta_reader,"readwhen_meta_reader"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(readwhen_meta_reader,"readwhen_meta_reader"));
   
   Reader.readif->addMethod(list::domain(2,Reader._meta_reader,Kernel._integer),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(readif_meta_reader,"readif_meta_reader"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(readif_meta_reader,"readif_meta_reader"));
   
   Reader.readcase->addMethod(list::domain(2,Reader._meta_reader,Kernel._keyword),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(readcase_meta_reader,"readcase_meta_reader"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(readcase_meta_reader,"readcase_meta_reader"));
   
   Reader.readset->addMethod(list::domain(2,Reader._meta_reader,Kernel._any),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(readset_meta_reader,"readset_meta_reader"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(readset_meta_reader,"readset_meta_reader"));
   
   Reader.dereference->addMethod(list::domain(1,Kernel._any),Kernel._any,
   	NEW_ALLOC,_function_(dereference_any,"dereference_any"));
   
   Reader.nextseq->addMethod(list::domain(2,Reader._meta_reader,Kernel._integer),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(nextseq_meta_reader,"nextseq_meta_reader"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(nextseq_meta_reader,"nextseq_meta_reader"));
   
   Reader.readblock->addMethod(list::domain(3,Reader._meta_reader,Kernel._any,Kernel._integer),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(readblock_meta_reader,"readblock_meta_reader"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(readblock_meta_reader,"readblock_meta_reader"));
   
   Reader.Do_I->addMethod(list::domain(2,Kernel._any,Kernel._any),Kernel._any,
   	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(Do_I_any,"Do!_any"));
   
   Reader.extract_of_type->addMethod(list::domain(1,Language._Call),Kernel._type,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(extract_of_type_Call,"extract_of_type_Call"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(extract_of_type_Call,"extract_of_type_Call"));
   
   Reader.readcall->addMethod(list::domain(3,Reader._meta_reader,Kernel._any,Kernel._any),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(readcall_meta_reader,"readcall_meta_reader"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(readcall_meta_reader,"readcall_meta_reader"));
   
   Reader.nextdefinition->addMethod(list::domain(4,Reader._meta_reader,
     Kernel._any,
     Kernel._any,
     Kernel._boolean),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(nextdefinition_meta_reader,"nextdefinition_meta_reader"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(nextdefinition_meta_reader,"nextdefinition_meta_reader"));
   
   Reader.nextmethod->addMethod(list::domain(6,Reader._meta_reader,
     Kernel._any,
@@ -442,13 +442,13 @@ void ReaderClass::metaLoad() {
     Kernel._boolean,
     Kernel._boolean,
     Kernel._boolean),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(nextmethod_meta_reader,"nextmethod_meta_reader"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(nextmethod_meta_reader,"nextmethod_meta_reader"));
   
   Reader.nextinst->addMethod(list::domain(2,Reader._meta_reader,Kernel._any),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(nextinst_meta_reader,"nextinst_meta_reader"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(nextinst_meta_reader,"nextinst_meta_reader"));
   
   Reader.nextDefclass->addMethod(list::domain(3,Reader._meta_reader,Kernel._any,Kernel._boolean),Language._Defclass,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(nextDefclass_meta_reader,"nextDefclass_meta_reader"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(nextDefclass_meta_reader,"nextDefclass_meta_reader"));
   
   Core.self_eval->addMethod(list::domain(1,Reader._delimiter),Kernel._any,
   	SAFE_RESULT,_function_(self_eval_delimiter,"self_eval_delimiter"));
@@ -456,13 +456,13 @@ void ReaderClass::metaLoad() {
   (Reader._delimiter->evaluate = CLREAD(method,_at_property1(Core.self_eval,Reader._delimiter),functional));
   
   Reader.useless_c->addMethod(list::domain(1,Kernel._integer),Kernel._boolean,
-  	SLOT_UPDATE,_function_(useless_c_integer,"useless_c_integer"));
+  	SLOT_UPDATE+STRING_UPDATE,_function_(useless_c_integer,"useless_c_integer"));
   
   Reader.skipc->addMethod(list::domain(1,Reader._meta_reader),Kernel._any,
   	SLOT_UPDATE,_function_(skipc_meta_reader,"skipc_meta_reader"));
   
   Reader.skipc_I->addMethod(list::domain(1,Reader._meta_reader),Kernel._any,
-  	NEW_ALLOC+SLOT_UPDATE,_function_(skipc_I_meta_reader,"skipc!_meta_reader"));
+  	NEW_ALLOC+SLOT_UPDATE+STRING_UPDATE,_function_(skipc_I_meta_reader,"skipc!_meta_reader"));
   
   Reader.cnext->addMethod(list::domain(1,Reader._meta_reader),Reader._meta_reader,
   	SAFE_RESULT,_function_(cnext_meta_reader,"cnext_meta_reader"));
@@ -474,7 +474,7 @@ void ReaderClass::metaLoad() {
   	NEW_ALLOC,_function_(checkno_meta_reader,"checkno_meta_reader"));
   
   Reader.verify->addMethod(list::domain(3,Kernel._any,Kernel._any,Kernel._any),Kernel._any,
-  	NEW_ALLOC+RETURN_ARG,_function_(verify_any,"verify_any"));
+  	NEW_ALLOC+RETURN_ARG+STRING_UPDATE,_function_(verify_any,"verify_any"));
   
   Reader.Serror->addMethod(list::domain(2,Kernel._string,Kernel._list),Kernel.emptySet,
   	0,_function_(Serror_string,"Serror_string"));
@@ -484,25 +484,25 @@ void ReaderClass::metaLoad() {
     (Reader.reader->eof = ((int) EOF));
     (Reader.reader->tab = 9);
     (Reader.reader->index = 1);
-    (Reader.reader->external = "toplevel");
-    (Reader.reader->bracket = _oid_(new_thing_class(Reader._delimiter,symbol_I_string2("]"))));
-    (Reader.reader->paren = _oid_(new_thing_class(Reader._delimiter,symbol_I_string2(")"))));
-    (Reader.reader->comma = _oid_(new_thing_class(Reader._delimiter,symbol_I_string2(","))));
-    (Reader.reader->curly = _oid_(new_thing_class(Reader._delimiter,symbol_I_string2("}"))));
+    (Reader.reader->external = copy_string("toplevel"));
+    (Reader.reader->bracket = _oid_(new_thing_class(Reader._delimiter,symbol_I_string2(copy_string("]")))));
+    (Reader.reader->paren = _oid_(new_thing_class(Reader._delimiter,symbol_I_string2(copy_string(")")))));
+    (Reader.reader->comma = _oid_(new_thing_class(Reader._delimiter,symbol_I_string2(copy_string(",")))));
+    (Reader.reader->curly = _oid_(new_thing_class(Reader._delimiter,symbol_I_string2(copy_string("}")))));
     ;} 
   
   Reader.extract_variable->addMethod(list::domain(1,Kernel._any),Language._Variable,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(extract_variable_any,"extract_variable_any"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(extract_variable_any,"extract_variable_any"));
   
   Reader.bind_I->addMethod(list::domain(2,Reader._meta_reader,Language._Variable),Kernel._list,
-  	NEW_ALLOC+SLOT_UPDATE,_function_(bind_I_meta_reader,"bind!_meta_reader"));
+  	NEW_ALLOC+SLOT_UPDATE+STRING_UPDATE,_function_(bind_I_meta_reader,"bind!_meta_reader"));
   
   Reader.unbind_I->addMethod(list::domain(2,Reader._meta_reader,Kernel._list),Kernel._any,
-  	SLOT_UPDATE+RETURN_ARG,_function_(unbind_I_meta_reader,"unbind!_meta_reader"));
+  	SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(unbind_I_meta_reader,"unbind!_meta_reader"));
   
   { global_variable * _CL_obj = (Reader.STDOUT = (global_variable *) Core._global_variable->instantiate("stdout",claire.it));
     (_CL_obj->range = Kernel._port);
-    (_CL_obj->value = get_symbol(symbol_I_string("STDOUT",claire.it)));
+    (_CL_obj->value = get_symbol(symbol_I_string(copy_string("STDOUT"),claire.it)));
     close_global_variable(_CL_obj);
     } 
   
@@ -510,13 +510,13 @@ void ReaderClass::metaLoad() {
   
   { global_variable * _CL_obj = (Reader.STDIN = (global_variable *) Core._global_variable->instantiate("stdin",claire.it));
     (_CL_obj->range = Kernel._port);
-    (_CL_obj->value = get_symbol(symbol_I_string("STDIN",claire.it)));
+    (_CL_obj->value = get_symbol(symbol_I_string(copy_string("STDIN"),claire.it)));
     close_global_variable(_CL_obj);
     } 
   
   { global_variable * _CL_obj = (Reader._starfs_star = (global_variable *) Core._global_variable->instantiate("*fs*",claire.it));
     (_CL_obj->range = Kernel._string);
-    (_CL_obj->value = _string_("\\"));
+    (_CL_obj->value = _string_(copy_string("\\")));
     close_global_variable(_CL_obj);
     } 
   
@@ -527,40 +527,40 @@ void ReaderClass::metaLoad() {
   	SLOT_UPDATE,_function_(restore_state_meta_reader,"restore_state_meta_reader"));
   
   Reader.load_file->addMethod(list::domain(2,Kernel._string,Kernel._boolean),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(load_file_string,"load_file_string"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(load_file_string,"load_file_string"));
   
   Reader.load->addMethod(list::domain(1,Kernel._string),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(load_string,"load_string"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(load_string,"load_string"));
   
   Reader.sload->addMethod(list::domain(1,Kernel._string),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(sload_string,"sload_string"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(sload_string,"sload_string"));
   
   Reader.load_file->addMethod(list::domain(2,Kernel._module,Kernel._boolean),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(load_file_module,"load_file_module"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(load_file_module,"load_file_module"));
   
   Reader.load->addMethod(list::domain(1,Kernel._module),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE,_function_(load_module,"load_module"));
+  	NEW_ALLOC+BAG_UPDATE+STRING_UPDATE,_function_(load_module,"load_module"));
   
   Reader.sload->addMethod(list::domain(1,Kernel._module),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE,_function_(sload_module,"sload_module"));
+  	NEW_ALLOC+BAG_UPDATE+STRING_UPDATE,_function_(sload_module,"sload_module"));
   
   Reader.add_modules->addMethod(list::domain(3,Kernel._module,Kernel._set,Kernel._list),Kernel._list,
-  	NEW_ALLOC+BAG_UPDATE+RETURN_ARG,_function_(add_modules_module,"add_modules_module"));
+  	NEW_ALLOC+BAG_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(add_modules_module,"add_modules_module"));
   
   Reader.add_modules->addMethod(list::domain(1,Kernel._list),Kernel._list,
-  	NEW_ALLOC+BAG_UPDATE,_function_(add_modules_list,"add_modules_list"));
+  	NEW_ALLOC+BAG_UPDATE+STRING_UPDATE,_function_(add_modules_list,"add_modules_list"));
   
   Reader.eload->addMethod(list::domain(1,Kernel._string),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(eload_string,"eload_string"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(eload_string,"eload_string"));
   
   Reader.readblock->addMethod(list::domain(1,Kernel._port),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(readblock_port,"readblock_port"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(readblock_port,"readblock_port"));
   
   Core.read->addMethod(list::domain(1,Kernel._port),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(read_port,"read_port"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(read_port,"read_port"));
   
   Core.read->addMethod(list::domain(1,Kernel._string),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(read_string,"read_string"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(read_string,"read_string"));
   
   { (Reader.q = (keyword *) Kernel._keyword->instantiate("q",claire.it));
     ;} 
@@ -577,80 +577,80 @@ void ReaderClass::metaLoad() {
     } 
   
   Reader.debug_if_possible->addMethod(list::domain(1,Kernel._void),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(debug_if_possible_void,"debug_if_possible_void"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(debug_if_possible_void,"debug_if_possible_void"));
   
   Reader.print_exception->addMethod(list::domain(1,Kernel._void),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(print_exception_void,"print_exception_void"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(print_exception_void,"print_exception_void"));
   
   { (Reader.pretty_show = property::make("pretty_show",3,claire.it,Kernel._any,0));
     (Reader.pretty_show->open = 3);
     ;} 
   
   Reader.show->addMethod(list::domain(1,Kernel._any),Kernel._any,
-  	NEW_ALLOC+SLOT_UPDATE,_function_(show_any,"show_any"));
+  	NEW_ALLOC+SLOT_UPDATE+STRING_UPDATE,_function_(show_any,"show_any"));
   
   Reader.kill->addMethod(list::domain(1,Kernel._object),Kernel._any,
-  	SLOT_UPDATE,_function_(kill_object,"kill_object"));
+  	SLOT_UPDATE+STRING_UPDATE,_function_(kill_object,"kill_object"));
   
   Reader.kill->addMethod(list::domain(1,Kernel._class),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(kill_class,"kill_class"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(kill_class,"kill_class"));
   
   Core.min->addMethod(list::domain(2,Kernel._integer,Kernel._integer),Kernel._integer,
-  	SAFE_RESULT,_function_(min_integer,"min_integer"))->inlineDef("lambda[(x:integer,y:integer),(if (x <= y) x else y)]");
+  	SAFE_RESULT+STRING_UPDATE,_function_(min_integer,"min_integer"))->inlineDef("lambda[(x:integer,y:integer),(if (x <= y) x else y)]");
   
   Core.max->addMethod(list::domain(2,Kernel._integer,Kernel._integer),Kernel._integer,
-  	SAFE_RESULT,_function_(max_integer,"max_integer"))->inlineDef("lambda[(x:integer,y:integer),(if (x <= y) y else x)]");
+  	SAFE_RESULT+STRING_UPDATE,_function_(max_integer,"max_integer"))->inlineDef("lambda[(x:integer,y:integer),(if (x <= y) y else x)]");
   
   Core.min->addFloatMethod(list::domain(2,Kernel._float,Kernel._float),Kernel._float,
-  	RETURN_ARG,_function_(min_float,"min_float"),_function_(min_float_,"min_float_"))->inlineDef("lambda[(x:float,y:float),(if (x <= y) x else y)]");
+  	RETURN_ARG+STRING_UPDATE,_function_(min_float,"min_float"),_function_(min_float_,"min_float_"))->inlineDef("lambda[(x:float,y:float),(if (x <= y) x else y)]");
   
   Core.max->addFloatMethod(list::domain(2,Kernel._float,Kernel._float),Kernel._float,
-  	RETURN_ARG,_function_(max_float,"max_float"),_function_(max_float_,"max_float_"))->inlineDef("lambda[(x:float,y:float),(if (x <= y) y else x)]");
+  	RETURN_ARG+STRING_UPDATE,_function_(max_float,"max_float"),_function_(max_float_,"max_float_"))->inlineDef("lambda[(x:float,y:float),(if (x <= y) y else x)]");
   
   Core.min->addMethod(list::domain(2,Kernel._any,Kernel._any),Kernel._any,
-  	NEW_ALLOC+RETURN_ARG,_function_(min_any,"min_any"))->inlineDef("lambda[(x:any,y:any),(if (x <= y) x else y)]");
+  	NEW_ALLOC+RETURN_ARG+STRING_UPDATE,_function_(min_any,"min_any"))->inlineDef("lambda[(x:any,y:any),(if (x <= y) x else y)]");
   
   Core.max->addMethod(list::domain(2,Kernel._any,Kernel._any),Kernel._any,
-  	NEW_ALLOC+RETURN_ARG,_function_(max_any,"max_any"))->inlineDef("lambda[(x:any,y:any),(if (x <= y) y else x)]");
+  	NEW_ALLOC+RETURN_ARG+STRING_UPDATE,_function_(max_any,"max_any"))->inlineDef("lambda[(x:any,y:any),(if (x <= y) y else x)]");
   
   Reader.hashgrow->addMethod(list::domain(2,Kernel._list,Kernel._property),Kernel._list,
-  	NEW_ALLOC,_function_(hashgrow_list,"hashgrow_list"))->inlineDef("lambda[(l:list,hi:property),let l1 := l,l2 := make_list(nth_get(l1, 0) * 2, unknown) in (for x in l1 (if known?(x) hi(l2, x) else false), l2)]");
+  	NEW_ALLOC+STRING_UPDATE,_function_(hashgrow_list,"hashgrow_list"))->inlineDef("lambda[(l:list,hi:property),let l1 := l,l2 := make_list(nth_get(l1, 0) * 2, unknown) in (for x in l1 (if known?(x) hi(l2, x) else false), l2)]");
   
   Core.known_ask->addMethod(list::domain(2,Kernel._table,Kernel._any),Kernel._boolean,
-  	0,_function_(known_ask_table,"known?_table"))->inlineDef("lambda[(a:table,x:any),get(a, x) != unknown]");
+  	NEW_ALLOC+STRING_UPDATE,_function_(known_ask_table,"known?_table"))->inlineDef("lambda[(a:table,x:any),get(a, x) != unknown]");
   
   Core.unknown_ask->addMethod(list::domain(2,Kernel._table,Kernel._any),Kernel._boolean,
-  	0,_function_(unknown_ask_table,"unknown?_table"))->inlineDef("lambda[(a:table,x:any),get(a, x) = unknown]");
+  	NEW_ALLOC+STRING_UPDATE,_function_(unknown_ask_table,"unknown?_table"))->inlineDef("lambda[(a:table,x:any),get(a, x) = unknown]");
   
   Kernel.float_I->addFloatMethod(list::domain(1,Kernel._string),Kernel._float,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(float_I_string,"float!_string"),_function_(float_I_string_,"float!_string_"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(float_I_string,"float!_string"),_function_(float_I_string_,"float!_string_"));
   
   Kernel._sup_equal->addMethod(list::domain(2,Kernel._any,Kernel._any),Kernel._boolean,
-  	NEW_ALLOC,_function_(_sup_equal_any,">=_any"))->inlineDef("lambda[(self:any,x:any),x <= self]");
+  	NEW_ALLOC+STRING_UPDATE,_function_(_sup_equal_any,">=_any"))->inlineDef("lambda[(self:any,x:any),x <= self]");
   
   Core._plus->addFloatMethod(list::domain(2,Kernel._integer,Kernel._float),Kernel._float,
-  	0,_function_(_plus_integer2,"+_integer2"),_function_(_plus_integer2_,"+_integer2_"))->inlineDef("lambda[(x:integer,y:float),float!(x) + y]");
+  	STRING_UPDATE,_function_(_plus_integer2,"+_integer2"),_function_(_plus_integer2_,"+_integer2_"))->inlineDef("lambda[(x:integer,y:float),float!(x) + y]");
   
   Kernel._star->addFloatMethod(list::domain(2,Kernel._integer,Kernel._float),Kernel._float,
-  	0,_function_(_star_integer2,"*_integer2"),_function_(_star_integer2_,"*_integer2_"))->inlineDef("lambda[(x:integer,y:float),float!(x) * y]");
+  	STRING_UPDATE,_function_(_star_integer2,"*_integer2"),_function_(_star_integer2_,"*_integer2_"))->inlineDef("lambda[(x:integer,y:float),float!(x) * y]");
   
   Kernel._7->addFloatMethod(list::domain(2,Kernel._integer,Kernel._float),Kernel._float,
-  	0,_function_(_7_integer2,"/_integer2"),_function_(_7_integer2_,"/_integer2_"))->inlineDef("lambda[(x:integer,y:float),float!(x) / y]");
+  	STRING_UPDATE,_function_(_7_integer2,"/_integer2"),_function_(_7_integer2_,"/_integer2_"))->inlineDef("lambda[(x:integer,y:float),float!(x) / y]");
   
   Kernel._dash->addFloatMethod(list::domain(2,Kernel._integer,Kernel._float),Kernel._float,
-  	0,_function_(_dash_integer3,"-_integer3"),_function_(_dash_integer3_,"-_integer3_"))->inlineDef("lambda[(x:integer,y:float),float!(x) - y]");
+  	STRING_UPDATE,_function_(_dash_integer3,"-_integer3"),_function_(_dash_integer3_,"-_integer3_"))->inlineDef("lambda[(x:integer,y:float),float!(x) - y]");
   
   Core._plus->addFloatMethod(list::domain(2,Kernel._float,Kernel._integer),Kernel._float,
-  	0,_function_(_plus_float2,"+_float2"),_function_(_plus_float2_,"+_float2_"))->inlineDef("lambda[(x:float,y:integer),x + float!(y)]");
+  	STRING_UPDATE,_function_(_plus_float2,"+_float2"),_function_(_plus_float2_,"+_float2_"))->inlineDef("lambda[(x:float,y:integer),x + float!(y)]");
   
   Kernel._star->addFloatMethod(list::domain(2,Kernel._float,Kernel._integer),Kernel._float,
-  	0,_function_(_star_float2,"*_float2"),_function_(_star_float2_,"*_float2_"))->inlineDef("lambda[(x:float,y:integer),x * float!(y)]");
+  	STRING_UPDATE,_function_(_star_float2,"*_float2"),_function_(_star_float2_,"*_float2_"))->inlineDef("lambda[(x:float,y:integer),x * float!(y)]");
   
   Kernel._7->addFloatMethod(list::domain(2,Kernel._float,Kernel._integer),Kernel._float,
-  	0,_function_(_7_float2,"/_float2"),_function_(_7_float2_,"/_float2_"))->inlineDef("lambda[(x:float,y:integer),x / float!(y)]");
+  	STRING_UPDATE,_function_(_7_float2,"/_float2"),_function_(_7_float2_,"/_float2_"))->inlineDef("lambda[(x:float,y:integer),x / float!(y)]");
   
   Kernel._dash->addFloatMethod(list::domain(2,Kernel._float,Kernel._integer),Kernel._float,
-  	0,_function_(_dash_float3,"-_float3"),_function_(_dash_float3_,"-_float3_"))->inlineDef("lambda[(x:float,y:integer),x - float!(y)]");
+  	STRING_UPDATE,_function_(_dash_float3,"-_float3"),_function_(_dash_float3_,"-_float3_"))->inlineDef("lambda[(x:float,y:integer),x - float!(y)]");
   
   { (Reader.execute_do = property::make("execute_do",2,claire.it,Kernel._any,0));
     ;} 
@@ -710,25 +710,25 @@ void ReaderClass::metaLoad() {
   	0,_function_(CommandLoopVoid,"CommandLoopVoid"));
   
   Reader.inspect->addMethod(list::domain(1,Kernel._any),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(inspect_any,"inspect_any"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(inspect_any,"inspect_any"));
   
   Reader.inspect_loop->addMethod(list::domain(2,Kernel._any,Kernel._list),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(inspect_loop_any,"inspect_loop_any"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(inspect_loop_any,"inspect_loop_any"));
   
   Reader.get_from_integer->addMethod(list::domain(2,Kernel._any,Kernel._integer),Kernel._any,
-  	NEW_ALLOC+SLOT_UPDATE+RETURN_ARG,_function_(get_from_integer_any,"get_from_integer_any"));
+  	NEW_ALLOC+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(get_from_integer_any,"get_from_integer_any"));
   
   Reader.trace_on->addMethod(list::domain(1,Kernel._any),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(trace_on_any,"trace_on_any"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(trace_on_any,"trace_on_any"));
   
   Reader.untrace->addMethod(list::domain(1,Kernel._any),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(untrace_any,"untrace_any"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(untrace_any,"untrace_any"));
   
   Core.spy->addMethod(list::domain(1,Kernel._listargs),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE+RETURN_ARG,_function_(spy_listargs2_Reader,"spy_listargs2_Reader"));
+  	NEW_ALLOC+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(spy_listargs2_Reader,"spy_listargs2_Reader"));
   
   Reader.self_trace->addMethod(list::domain(1,Language._Trace),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(self_trace_Trace,"self_trace_Trace"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(self_trace_Trace,"self_trace_Trace"));
   
   { OID  x = get_property(Kernel.functional,_at_property1(Reader.self_trace,Language._Trace));
     if (x != CNULL)
@@ -741,19 +741,19 @@ void ReaderClass::metaLoad() {
     Kernel._any,
     Kernel._any,
     Kernel._any),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE,_function_(trace_rule_relation,"trace_rule_relation"));
+  	NEW_ALLOC+SLOT_UPDATE+STRING_UPDATE,_function_(trace_rule_relation,"trace_rule_relation"));
   
   Reader.stop->addMethod(list::domain(2,Kernel._property,Kernel._listargs),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(stop_property,"stop_property"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(stop_property,"stop_property"));
   
   Core.debug->addMethod(list::domain(1,Kernel._void),Kernel._void,
-  	SLOT_UPDATE,_function_(debug_void,"debug_void"));
+  	SLOT_UPDATE+STRING_UPDATE,_function_(debug_void,"debug_void"));
   
   Reader.call_debug->addMethod(list::domain(1,Kernel._void),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(call_debug_void,"call_debug_void"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(call_debug_void,"call_debug_void"));
   
   Reader.breakpoint->addMethod(list::domain(1,Kernel._void),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(breakpoint_void,"breakpoint_void"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(breakpoint_void,"breakpoint_void"));
   
   { (Reader.up = property::make("up",2,claire.it,Kernel._any,0));
     ;} 
@@ -765,37 +765,37 @@ void ReaderClass::metaLoad() {
     ;} 
   
   Reader.dn->addMethod(list::domain(1,Kernel._integer),Kernel._void,
-  	NEW_ALLOC,_function_(dn_integer,"dn_integer"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(dn_integer,"dn_integer"));
   
   Reader.up->addMethod(list::domain(1,Kernel._integer),Kernel._void,
-  	NEW_ALLOC,_function_(up_integer,"up_integer"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(up_integer,"up_integer"));
   
   Reader.where->addMethod(list::domain(1,Kernel._integer),Kernel._void,
-  	NEW_ALLOC,_function_(where_integer,"where_integer"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(where_integer,"where_integer"));
   
   Reader.print_debug_info->addMethod(list::domain(3,Kernel._integer,Kernel._integer,Kernel._integer),Kernel._void,
-  	NEW_ALLOC,_function_(print_debug_info_integer,"print_debug_info_integer"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(print_debug_info_integer,"print_debug_info_integer"));
   
   Reader.Show->addMethod(list::domain(1,Kernel._integer),Kernel._any,
-  	NEW_ALLOC,_function_(Show_integer,"Show_integer"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(Show_integer,"Show_integer"));
   
   Reader.block->addMethod(list::domain(1,Kernel._integer),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(block_integer,"block_integer"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(block_integer,"block_integer"));
   
   Reader.closure_build->addMethod(list::domain(1,Core._lambda),Kernel._list,
-  	NEW_ALLOC+BAG_UPDATE,_function_(closure_build_lambda,"closure_build_lambda"));
+  	NEW_ALLOC+BAG_UPDATE+STRING_UPDATE,_function_(closure_build_lambda,"closure_build_lambda"));
   
   Reader.closure_build->addMethod(list::domain(2,Kernel._any,Kernel._list),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+RETURN_ARG,_function_(closure_build_any,"closure_build_any"));
+  	NEW_ALLOC+BAG_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(closure_build_any,"closure_build_any"));
   
   Core.call_step->addMethod(list::domain(1,Kernel._property),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(call_step_property_Reader,"call_step_property_Reader"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(call_step_property_Reader,"call_step_property_Reader"));
   
   Reader.step->addMethod(list::domain(1,Kernel._any),Kernel._void,
-  	SLOT_UPDATE+RETURN_ARG,_function_(step_any,"step_any"));
+  	SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(step_any,"step_any"));
   
   Kernel.mem->addMethod(list::domain(1,Kernel._class),Kernel._integer,
-  	NEW_ALLOC,_function_(mem_class,"mem_class"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(mem_class,"mem_class"));
   
   { (Reader._PRcount = ClaireClass::make("PRcount",Kernel._object,claire.it));
     CL_ADD_SLOT(Reader._PRcount,PRcount,Reader.rtime,rtime,Kernel._integer,0);
@@ -806,7 +806,7 @@ void ReaderClass::metaLoad() {
     } 
   
   Reader.PRget->addMethod(list::domain(1,Kernel._property),Reader._PRcount,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(PRget_property,"PRget_property"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(PRget_property,"PRget_property"));
   
   Reader.PRlook->addMethod(list::domain(1,Kernel._property),Kernel._any,
   	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(PRlook_property2,"PRlook_property2"));
@@ -821,7 +821,7 @@ void ReaderClass::metaLoad() {
   	RETURN_ARG,_function_(PRcounter_property,"PRcounter_property"));
   
   Reader.PRshow->addMethod(list::domain(1,Kernel._void),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE,_function_(PRshow_void,"PRshow_void"));
+  	NEW_ALLOC+BAG_UPDATE+STRING_UPDATE,_function_(PRshow_void,"PRshow_void"));
   
   { (Reader.PRdependent = (table *) Kernel._table->instantiate("PRdependent",Reader.it));
     (Reader.PRdependent->multivalued_ask = CTRUE);
@@ -842,10 +842,10 @@ void ReaderClass::metaLoad() {
     } 
   
   Reader.dependents->addMethod(list::domain(1,Kernel._method),nth_class1(Kernel._set,Kernel._property),
-  	NEW_ALLOC,_function_(dependents_method,"dependents_method"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(dependents_method,"dependents_method"));
   
   Reader.dependents->addMethod(list::domain(1,Kernel._any),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(dependents_any,"dependents_any"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(dependents_any,"dependents_any"));
   
   update_property(Kernel.inverse,
     Reader.PRdependent,
@@ -854,7 +854,7 @@ void ReaderClass::metaLoad() {
     _oid_(Reader.PRdependentOf));
   
   Reader.PRdepends->addMethod(list::domain(2,Kernel._property,Kernel._property),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(PRdepends_property,"PRdepends_property"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(PRdepends_property,"PRdepends_property"));
   
   GC_UNBIND;} 
 

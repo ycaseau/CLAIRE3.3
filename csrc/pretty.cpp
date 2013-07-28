@@ -1,5 +1,5 @@
-/***** CLAIRE Compilation of file d:\claire\v3.3\src\meta\pretty.cl 
-         [version 3.3.42 / safety 5] Sat Jan 28 08:50:16 2006 *****/
+/***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\pretty.cl 
+         [version 3.3.46 / safety 5] Sun Feb 15 15:35:17 2009 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -44,12 +44,12 @@ void  self_print_unbound_symbol_Language(unbound_symbol *self)
   } 
 
 
-/* The c++ function for: self_eval(self:unbound_symbol) [NEW_ALLOC] */
+/* The c++ function for: self_eval(self:unbound_symbol) [NEW_ALLOC+STRING_UPDATE] */
 OID  self_eval_unbound_symbol(unbound_symbol *self)
 { { OID Result = 0;
     if (INHERIT(owner_any(get_symbol(self->name)),Kernel._thing))
      Result = eval_any(get_symbol(self->name));
-    else { OID  V_CL0003;close_exception(((general_error *) (*Core._general_error)(_string_("[145] the symbol ~A is unbound"),
+    else { OID  V_CL0003;close_exception(((general_error *) (*Core._general_error)(_string_(copy_string("[145] the symbol ~A is unbound")),
           _oid_(list::alloc(1,_oid_(self->name))))));
         
         Result=_void_(V_CL0003);} 
@@ -77,9 +77,9 @@ void  ppvariable_Variable(Variable *self)
 { GC_BIND;
   if (((self->range == (NULL)) ? CTRUE : CFALSE) != CTRUE)
    { princ_symbol(self->pname);
-    princ_string(":");
+    princ_string(copy_string(":"));
     printexp_any(GC_OID(_oid_(self->range)),CFALSE);
-    princ_string("");
+    princ_string(copy_string(""));
     } 
   else princ_symbol(self->pname);
     GC_UNBIND;} 
@@ -92,7 +92,7 @@ void  ppvariable_list(list *self)
       for (START(self); NEXT(v);)
       { if (f == CTRUE)
          f= CFALSE;
-        else princ_string(",");
+        else princ_string(copy_string(","));
           if (INHERIT(OWNER(v),Language._Variable))
          ppvariable_Variable(OBJECT(Variable,v));
         else print_any(v);
@@ -107,7 +107,7 @@ OID  self_eval_Variable(Variable *self)
 { return (ClEnv->stack[(ClEnv->base+self->index)]);} 
 
 
-/* The c++ function for: write_value(self:Variable,val:any) [0] */
+/* The c++ function for: write_value(self:Variable,val:any) [STRING_UPDATE] */
 OID  write_value_Variable(Variable *self,OID val)
 { { OID Result = 0;
     if ((self->range == (NULL)) || 
@@ -150,7 +150,7 @@ OID  self_eval_global_variable(global_variable *self)
 { return (self->value);} 
 
 
-/* The c++ function for: write_value(self:global_variable,val:any) [NEW_ALLOC+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: write_value(self:global_variable,val:any) [NEW_ALLOC+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 OID  write_value_global_variable(global_variable *self,OID val)
 { { OID Result = 0;
     if (belong_to(val,_oid_(self->range)) == CTRUE)
@@ -225,7 +225,7 @@ OID  self_print_lambda_Language(lambda *self)
 // however is only used in this file (and also by cfile :-) ):
 //
 // creating a lambda from an instruction and a list of variables
-/* The c++ function for: iClaire/lambda!(lvar:list,self:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
+/* The c++ function for: iClaire/lambda!(lvar:list,self:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE] */
 lambda * lambda_I_list(list *lvar,OID self)
 { GC_BIND;
   (Language._starvariable_index_star->value= 0);
@@ -254,7 +254,7 @@ lambda * lambda_I_list(list *lvar,OID self)
 // The number of variables is kept in the global_variable *variable_index*.
 // On entry, n need not be equal to size(lvar) (see [case ...instruction]).
 //
-/* The c++ function for: iClaire/lexical_build(self:any,lvar:list,n:integer) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: iClaire/lexical_build(self:any,lvar:list,n:integer) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 OID  lexical_build_any(OID self,list *lvar,int n)
 { GC_BIND;
   { OID Result = 0;
@@ -263,7 +263,7 @@ OID  lexical_build_any(OID self,list *lvar,int n)
      Result = lexical_change_any(self,lvar);
     else { if (INHERIT(OWNER(self),Language._Variable))
          { if (OBJECT(Variable,self)->index == (CNULL))
-           close_exception(((general_error *) (*Core._general_error)(_string_("[145] the symbol ~A is unbound"),
+           close_exception(((general_error *) (*Core._general_error)(_string_(copy_string("[145] the symbol ~A is unbound")),
             _oid_(list::alloc(1,_oid_(OBJECT(Variable,self)->pname))))));
           ;} 
         else if (INHERIT(OWNER(self),Language._Call))
@@ -360,10 +360,10 @@ symbol * extract_symbol_any(OID self)
        V_CC = OBJECT(Variable,self)->pname;
       else if (Kernel._boolean == OWNER(self))
        { V_CC = (((OBJECT(ClaireBoolean,self)) == CTRUE) ?
-          symbol_I_string2("true") :
-          symbol_I_string2("nil") );
+          symbol_I_string2(copy_string("true")) :
+          symbol_I_string2(copy_string("nil")) );
         } 
-      else close_exception(((general_error *) (*Core._general_error)(_string_("[147] a name cannot be made from ~S"),
+      else close_exception(((general_error *) (*Core._general_error)(_string_(copy_string("[147] a name cannot be made from ~S")),
           _oid_(list::alloc(1,self)))));
         Result= (symbol *) V_CC;} 
     return (Result);} 
@@ -373,7 +373,7 @@ symbol * extract_symbol_any(OID self)
 // we must be sure that the selector (in a has statement or in a message)
 // is a property.
 //
-/* The c++ function for: iClaire/make_a_property(self:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: iClaire/make_a_property(self:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 property * make_a_property_any(OID self)
 { GC_BIND;
   { property *Result ;
@@ -397,7 +397,7 @@ property * make_a_property_any(OID self)
           } 
       else if (INHERIT(OWNER(self),Kernel._unbound_symbol))
        V_CC = make_a_property_any(_oid_(OBJECT(unbound_symbol,self)->name));
-      else close_exception(((general_error *) (*Core._general_error)(_string_("[148] Wrong selector: ~S, cannot make a property\n"),
+      else close_exception(((general_error *) (*Core._general_error)(_string_(copy_string("[148] Wrong selector: ~S, cannot make a property\n")),
           _oid_(list::alloc(1,self)))));
         Result= (property *) V_CC;} 
     GC_UNBIND; return (Result);} 
@@ -408,12 +408,12 @@ property * make_a_property_any(OID self)
 // *  Part 4: Pretty printing                                          *
 // *********************************************************************
 // fuck
-/* The c++ function for: lbreak(_CL_obj:void) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
+/* The c++ function for: lbreak(_CL_obj:void) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE] */
 OID  lbreak_void()
 { { OID Result = 0;
     if (Core.pretty->pprint == CTRUE)
      { if (Core.pretty->pbreak == CTRUE)
-       { princ_string("\n");
+       { princ_string(copy_string("\n"));
         put_buffer_void();
         Result = indent_integer(Core.pretty->index);
         } 
@@ -428,7 +428,7 @@ OID  lbreak_void()
   } 
 
 
-/* The c++ function for: put_buffer(_CL_obj:void) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
+/* The c++ function for: put_buffer(_CL_obj:void) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE] */
 OID  put_buffer_void()
 { { OID Result = 0;
     { char * buffer = end_of_print_void();
@@ -493,7 +493,7 @@ void  set_level_integer(int n)
 
 // prints a bag as a box
 //
-/* The c++ function for: printbox(self:bag,start:integer,finish:integer,s:string) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
+/* The c++ function for: printbox(self:bag,start:integer,finish:integer,s:string) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE] */
 OID  printbox_bag1(bag *self,int start,int finish,char *s)
 { { OID Result = 0;
     { int  i = 1;
@@ -509,7 +509,7 @@ OID  printbox_bag1(bag *self,int start,int finish,char *s)
        printl_bag(self,s);
       else { while ((i <= n))
           { { while ((buffer_length_void() < start))
-              { princ_string(" ");
+              { princ_string(copy_string(" "));
                 } 
               } 
             { int  idx = buffer_length_void();
@@ -562,7 +562,7 @@ OID  printbox_bag1(bag *self,int start,int finish,char *s)
 //
 /* The c++ function for: printbox(self:bag) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
 OID  printbox_bag2(bag *self)
-{ return (printbox_bag1(self,buffer_length_void(),Core.pretty->width,", "));} 
+{ return (printbox_bag1(self,buffer_length_void(),Core.pretty->width,copy_string(", ")));} 
 
 
 /* The c++ function for: printbox(self:bag,s:string) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
@@ -610,7 +610,7 @@ void  printl_bag(bag *self,char *s)
 
 
 // print bounded prints a bounded expression using ( and )
-/* The c++ function for: printexp(self:any,comp:boolean) [NEW_ALLOC+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: printexp(self:any,comp:boolean) [NEW_ALLOC+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 void  printexp_any(OID self,ClaireBoolean *comp)
 { if (((INHERIT(OWNER(self),Language._Call)) && (((INHERIT(OBJECT(Call,self)->selector->isa,Kernel._operation)) ? ((comp != CTRUE) ? ((OBJECT(Call,self)->args->length == 2) ? CTRUE: CFALSE): CFALSE): CFALSE) != CTRUE)) || 
       ((INHERIT(OWNER(self),Language._Collect)) || 
@@ -629,16 +629,16 @@ void  printexp_any(OID self,ClaireBoolean *comp)
                                 (inherit_ask_class(OWNER(self),Language._Instruction) != CTRUE)))))))))))))))
    print_any(self);
   else { int  _Zl = Core.pretty->index;
-      princ_string("(");
+      princ_string(copy_string("("));
       set_level_integer(1);
       print_any(self);
-      princ_string(")");
+      princ_string(copy_string(")"));
       (Core.pretty->index = _Zl);
       } 
     } 
 
 
-/* The c++ function for: pretty_print(self:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
+/* The c++ function for: pretty_print(self:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE] */
 void  pretty_print_any(OID self)
 { print_in_string_void();
   (Core.pretty->pprint = CTRUE);

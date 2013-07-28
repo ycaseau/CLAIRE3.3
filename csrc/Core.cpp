@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file Core.cl 
-         [version 3.3.42 / safety 5] Sat Jan 28 08:50:12 2006 *****/
+         [version 3.3.46 / safety 5] Sun Feb 15 15:35:15 2009 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -227,13 +227,13 @@ void CoreClass::metaLoad() {
     Kernel._object,
     Kernel._integer,
     Kernel._boolean),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(eval_message_property,"eval_message_property"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(eval_message_property,"eval_message_property"));
   
   Core.noeval_message->addMethod(list::domain(2,Kernel._property,Kernel._integer),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(noeval_message_property2,"noeval_message_property2"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(noeval_message_property2,"noeval_message_property2"));
   
   Core.execute->addMethod(list::domain(3,Kernel._method,Kernel._integer,Kernel._boolean),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(execute_method,"execute_method"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(execute_method,"execute_method"));
   
   Core.eval->addMethod(list::domain(1,Kernel._any),Kernel._any,
   	NEW_ALLOC,_function_(eval_any,"eval_any"));
@@ -251,7 +251,7 @@ void CoreClass::metaLoad() {
     } 
   
   Core.inlineok_ask->addMethod(list::domain(2,Kernel._method,Kernel._string),Kernel._method,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+SAFE_RESULT,_function_(inlineok_ask_method,"inlineok?_method"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+SAFE_RESULT+STRING_UPDATE,_function_(inlineok_ask_method,"inlineok?_method"));
   
   Kernel.get->addMethod(list::domain(2,Kernel._slot,Kernel._object),Kernel._any,
   	0,_function_(get_slot,"get_slot"));
@@ -260,19 +260,19 @@ void CoreClass::metaLoad() {
   	SLOT_UPDATE+RETURN_ARG,_function_(put_slot,"put_slot"));
   
   Kernel.get->addMethod(list::domain(2,Kernel._property,Kernel._object),Kernel._any,
-  	NEW_ALLOC,_function_(get_property,"get_property"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(get_property,"get_property"));
   
   Kernel.funcall->addMethod(list::domain(2,Kernel._property,Kernel._any),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(funcall_property,"funcall_property"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(funcall_property,"funcall_property"));
   
   Core.read->addMethod(list::domain(2,Kernel._property,Kernel._object),Kernel._any,
-  	NEW_ALLOC,_function_(read_property,"read_property"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(read_property,"read_property"));
   
   Core.hold_ask->addMethod(list::domain(3,Kernel._property,Kernel._object,Kernel._any),Kernel._boolean,
-  	NEW_ALLOC,_function_(hold_ask_property,"hold?_property"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(hold_ask_property,"hold?_property"));
   
   Core.write->addMethod(list::domain(3,Kernel._property,Kernel._object,Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(write_property,"write_property"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(write_property,"write_property"));
   
   Core.range_is_wrong->addMethod(list::domain(2,Kernel._slot,Kernel._any),Kernel._any,
   	0,_function_(range_is_wrong_slot,"range_is_wrong_slot"));
@@ -289,50 +289,50 @@ void CoreClass::metaLoad() {
     Kernel._integer,
     Kernel._class,
     Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(update_property,"update_property"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(update_property,"update_property"));
   
   Core.update_plus->addMethod(list::domain(3,Kernel._relation,Kernel._any,Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(update_plus_relation,"update+_relation"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(update_plus_relation,"update+_relation"));
   
   Core.update_dash->addMethod(list::domain(3,Kernel._relation,Kernel._any,Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(update_dash_relation,"update-_relation"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(update_dash_relation,"update-_relation"));
   
   Kernel.add_I->addMethod(list::domain(4,Kernel._property,
     Kernel._object,
     Kernel._integer,
     Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(add_I_property,"add!_property"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(add_I_property,"add!_property"));
   
   Core.add_value->addMethod(list::domain(5,Kernel._property,
     Kernel._object,
     Kernel._integer,
     Kernel._bag,
     Kernel._any),Kernel._boolean,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(add_value_property,"add_value_property"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(add_value_property,"add_value_property"));
   
   Kernel.add->addMethod(list::domain(3,Kernel._property,Kernel._object,Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(add_property,"add_property"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(add_property,"add_property"));
   
   Core.known_ask->addMethod(list::domain(2,Kernel._property,Kernel._object),Kernel._boolean,
-  	NEW_ALLOC,_function_(known_ask_property,"known?_property"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(known_ask_property,"known?_property"));
   
   Core.unknown_ask->addMethod(list::domain(2,Kernel._property,Kernel._object),Kernel._boolean,
-  	NEW_ALLOC,_function_(unknown_ask_property,"unknown?_property"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(unknown_ask_property,"unknown?_property"));
   
   Kernel._delete->addMethod(list::domain(3,Kernel._property,Kernel._object,Kernel._any),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(delete_property,"delete_property"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(delete_property,"delete_property"));
   
   Core.erase->addMethod(list::domain(2,Kernel._property,Kernel._object),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(erase_property,"erase_property"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(erase_property,"erase_property"));
   
   Core.set_range->addMethod(list::domain(3,Kernel._property,Kernel._class,Kernel._type),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE+RETURN_ARG,_function_(set_range_property,"set_range_property"));
+  	NEW_ALLOC+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(set_range_property,"set_range_property"));
   
   Core.put_store->addMethod(list::domain(4,Kernel._property,
     Kernel._object,
     Kernel._any,
     Kernel._boolean),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE+RETURN_ARG,_function_(put_store_property2,"put_store_property2"));
+  	NEW_ALLOC+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(put_store_property2,"put_store_property2"));
   
   { (Core.multi_ask = property::make("multi?",1,claire.it,Kernel._any,0));
     ;} 
@@ -341,58 +341,58 @@ void CoreClass::metaLoad() {
   	0,_function_(multi_ask_any,"multi?_any"));
   
   Kernel.fastcall->addMethod(list::domain(3,Kernel._relation,Kernel._any,Kernel._any),Kernel._void,
-  	NEW_ALLOC,_function_(fastcall_relation2,"fastcall_relation2"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(fastcall_relation2,"fastcall_relation2"));
   
   { (Core.join = (operation *) Kernel._operation->instantiate("join",claire.it));
     ;} 
   
   Core.insert_definition->addMethod(list::domain(2,Kernel._property,Kernel._restriction),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(insert_definition_property,"insert_definition_property"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(insert_definition_property,"insert_definition_property"));
   
   Core.initialize->addMethod(list::domain(3,Kernel._restriction,Kernel._class,Kernel._list),Kernel._list,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(initialize_restriction1,"initialize_restriction1"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(initialize_restriction1,"initialize_restriction1"));
   
   Core.uniform->addMethod(list::domain(1,Kernel._restriction),Kernel._boolean,
-  	NEW_ALLOC,_function_(uniform_restriction,"uniform_restriction"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(uniform_restriction,"uniform_restriction"));
   
   Core.uniform->addMethod(list::domain(1,Kernel._property),Kernel._boolean,
-  	NEW_ALLOC,_function_(uniform_property,"uniform_property"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(uniform_property,"uniform_property"));
   
   Core.initialize->addMethod(list::domain(2,Kernel._restriction,Kernel._list),Kernel._list,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(initialize_restriction2,"initialize_restriction2"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(initialize_restriction2,"initialize_restriction2"));
   
   Core.hashinsert->addMethod(list::domain(1,Kernel._restriction),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(hashinsert_restriction,"hashinsert_restriction"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(hashinsert_restriction,"hashinsert_restriction"));
   
   Core.hashinsert->addMethod(list::domain(2,Kernel._class,Kernel._method),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(hashinsert_class,"hashinsert_class"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(hashinsert_class,"hashinsert_class"));
   
   Core.hashinsert->addMethod(list::domain(2,Kernel._list,Kernel._method),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+RETURN_ARG,_function_(hashinsert_list,"hashinsert_list"));
+  	NEW_ALLOC+BAG_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(hashinsert_list,"hashinsert_list"));
   
   Core.hashget->addMethod(list::domain(2,Kernel._class,Kernel._property),Kernel._object,
-  	RETURN_ARG,_function_(hashget_class,"hashget_class"));
+  	RETURN_ARG+STRING_UPDATE,_function_(hashget_class,"hashget_class"));
   
   Core.join->addMethod(list::domain(2,Kernel._list,Kernel._list),Kernel._boolean,
-  	NEW_ALLOC,_function_(join_list,"join_list"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(join_list,"join_list"));
   
   Core._at->addMethod(list::domain(2,Kernel._property,Kernel._class),Kernel._object,
-  	NEW_ALLOC+RETURN_ARG,_function_(_at_property1,"@_property1"));
+  	NEW_ALLOC+RETURN_ARG+STRING_UPDATE,_function_(_at_property1,"@_property1"));
   
   Core._at->addMethod(list::domain(2,Kernel._property,Kernel._list),Kernel._object,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(_at_property2,"@_property2"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(_at_property2,"@_property2"));
   
   Core.matching_ask->addMethod(list::domain(3,Kernel._list,Kernel._integer,Kernel._integer),Kernel._boolean,
-  	NEW_ALLOC,_function_(matching_ask_list,"matching?_list"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(matching_ask_list,"matching?_list"));
   
   Core.vmatch_ask->addMethod(list::domain(3,Kernel._any,Kernel._any,Kernel._integer),Kernel._boolean,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(vmatch_ask_any,"vmatch?_any"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(vmatch_ask_any,"vmatch?_any"));
   
   Core.tmatch_ask->addMethod(list::domain(2,Kernel._list,Kernel._list),Kernel._boolean,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(tmatch_ask_list,"tmatch?_list"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(tmatch_ask_list,"tmatch?_list"));
   
   Core.tmatch_ask->addMethod(list::domain(3,Kernel._any,Kernel._any,Kernel._list),Kernel._boolean,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(tmatch_ask_any,"tmatch?_any"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(tmatch_ask_any,"tmatch?_any"));
   
   Core.find_which->addMethod(list::domain(3,Kernel._property,Kernel._integer,Kernel._class),Kernel._object,
   	RETURN_ARG,_function_(find_which_property,"find_which_property"));
@@ -407,125 +407,125 @@ void CoreClass::metaLoad() {
     Kernel._list,
     Kernel._integer,
     Kernel._integer),Kernel._object,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(find_which_class,"find_which_class"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(find_which_class,"find_which_class"));
   
-  { (ClEnv->version = 3.42);
-    princ_string("-- CLAIRE run-time library v 3.");
-    princ_float(3.42);
-    princ_string(" [os: ");
-    princ_string("ntv");
-    princ_string(", C++:");
-    princ_string("MS VC++");
-    princ_string(" ] --\n");
+  { (ClEnv->version = 3.46);
+    princ_string(copy_string("-- CLAIRE run-time library v 3."));
+    princ_float(3.46);
+    princ_string(copy_string(" [os: "));
+    princ_string(copy_string("ntv"));
+    princ_string(copy_string(", C++:"));
+    princ_string(copy_string("MS VC++"));
+    princ_string(copy_string(" ] --\n"));
     } 
   
   Core.release->addMethod(list::domain(1,Kernel._void),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(release_void,"release_void"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(release_void,"release_void"));
   
   Core.about->addMethod(list::domain(1,Kernel._void),Kernel._any,
   	0,_function_(about_void,"about_void"));
   
   Core.get_args->addMethod(list::domain(1,Kernel._integer),Kernel._list,
-  	NEW_ALLOC,_function_(get_args_integer,"get_args_integer"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(get_args_integer,"get_args_integer"));
   
   Kernel.funcall->addMethod(list::domain(2,Kernel._method,Kernel._any),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(funcall_method1,"funcall_method1"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(funcall_method1,"funcall_method1"));
   
   Kernel.funcall->addMethod(list::domain(3,Kernel._method,Kernel._any,Kernel._any),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(funcall_method2,"funcall_method2"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(funcall_method2,"funcall_method2"));
   
   Kernel.funcall->addMethod(list::domain(4,Kernel._method,
     Kernel._any,
     Kernel._any,
     Kernel._any),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(funcall_method3,"funcall_method3"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(funcall_method3,"funcall_method3"));
   
   Core.apply->addMethod(list::domain(3,Kernel._function,Kernel._list,Kernel._list),Kernel._any,
   	0,_function_(apply_function,"apply_function"));
   
   Core.call->addMethod(list::domain(2,Kernel._property,Kernel._listargs),Kernel._any,
-  	NEW_ALLOC+SLOT_UPDATE,_function_(call_property,"call_property"));
+  	NEW_ALLOC+SLOT_UPDATE+STRING_UPDATE,_function_(call_property,"call_property"));
   
   Core.apply->addMethod(list::domain(2,Kernel._property,Kernel._list),Kernel._any,
-  	NEW_ALLOC+SLOT_UPDATE,_function_(apply_property,"apply_property"));
+  	NEW_ALLOC+SLOT_UPDATE+STRING_UPDATE,_function_(apply_property,"apply_property"));
   
   Core.apply->addMethod(list::domain(2,Kernel._method,Kernel._list),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(apply_method,"apply_method"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(apply_method,"apply_method"));
   
   Core.push_debug->addMethod(list::domain(3,Kernel._property,Kernel._integer,Kernel._integer),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(push_debug_property,"push_debug_property"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(push_debug_property,"push_debug_property"));
   
   Core.pop_debug->addMethod(list::domain(3,Kernel._property,Kernel._integer,Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(pop_debug_property,"pop_debug_property"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(pop_debug_property,"pop_debug_property"));
   
   Core.tr_indent->addMethod(list::domain(2,Kernel._boolean,Kernel._integer),Kernel._void,
-  	0,_function_(tr_indent_boolean,"tr_indent_boolean"));
+  	STRING_UPDATE,_function_(tr_indent_boolean,"tr_indent_boolean"));
   
   Core.identified_ask->addMethod(list::domain(1,Kernel._class),Kernel._boolean,
-  	0,_function_(identified_ask_class,"identified?_class"));
+  	STRING_UPDATE,_function_(identified_ask_class,"identified?_class"));
   
   Core.identical_ask->addMethod(list::domain(2,Kernel._any,Kernel._any),Kernel._boolean,
   	0,_function_(identical_ask_any,"identical?_any"));
   
   Kernel.put->addMethod(list::domain(3,Kernel._property,Kernel._object,Kernel._any),Kernel._any,
-  	NEW_ALLOC+SLOT_UPDATE+RETURN_ARG,_function_(put_property2,"put_property2"));
+  	NEW_ALLOC+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(put_property2,"put_property2"));
   
   Core.add_value->addMethod(list::domain(3,Kernel._property,Kernel._object,Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(add_value_property3,"add_value_property3"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(add_value_property3,"add_value_property3"));
   
   (Kernel.nth->addMethod(list::domain(2,Kernel._table,Kernel._any),Kernel._any,
-  	NEW_ALLOC,_function_(nth_table1,"nth_table1"))->typing = _oid_(_function_(nth_table1_type,"nth_table1_type")));
+  	NEW_ALLOC+STRING_UPDATE,_function_(nth_table1,"nth_table1"))->typing = _oid_(_function_(nth_table1_type,"nth_table1_type")));
   
   (Kernel.get->addMethod(list::domain(2,Kernel._table,Kernel._any),Kernel._any,
-  	NEW_ALLOC+RETURN_ARG,_function_(get_table,"get_table"))->typing = _oid_(_function_(get_table_type,"get_table_type")));
+  	NEW_ALLOC+RETURN_ARG+STRING_UPDATE,_function_(get_table,"get_table"))->typing = _oid_(_function_(get_table_type,"get_table_type")));
   
   Kernel.nth_equal->addMethod(list::domain(3,Kernel._table,Kernel._any,Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(nth_equal_table1,"nth=_table1"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(nth_equal_table1,"nth=_table1"));
   
   Kernel.nth_put->addMethod(list::domain(3,Kernel._table,Kernel._any,Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(nth_put_table,"nth_put_table"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(nth_put_table,"nth_put_table"));
   
   Kernel.put->addMethod(list::domain(3,Kernel._table,Kernel._any,Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE,_function_(put_table,"put_table"));
+  	NEW_ALLOC+BAG_UPDATE+STRING_UPDATE,_function_(put_table,"put_table"));
   
   Kernel.add->addMethod(list::domain(3,Kernel._table,Kernel._any,Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(add_table,"add_table"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(add_table,"add_table"));
   
   Kernel.add_I->addMethod(list::domain(3,Kernel._table,Kernel._any,Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(add_I_table,"add!_table"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(add_I_table,"add!_table"));
   
   Core.add_value->addMethod(list::domain(4,Kernel._table,
     Kernel._integer,
     Kernel._bag,
     Kernel._any),Kernel._boolean,
-  	NEW_ALLOC+BAG_UPDATE,_function_(add_value_array,"add_value_array"));
+  	NEW_ALLOC+BAG_UPDATE+STRING_UPDATE,_function_(add_value_array,"add_value_array"));
   
   Core.add_value->addMethod(list::domain(3,Kernel._table,Kernel._any,Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE,_function_(add_value_table3,"add_value_table3"));
+  	NEW_ALLOC+BAG_UPDATE+STRING_UPDATE,_function_(add_value_table3,"add_value_table3"));
   
   Kernel._delete->addMethod(list::domain(3,Kernel._table,Kernel._any,Kernel._any),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(delete_table,"delete_table"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(delete_table,"delete_table"));
   
   (Kernel.nth->addMethod(list::domain(3,Kernel._table,Kernel._any,Kernel._any),Kernel._any,
-  	NEW_ALLOC,_function_(nth_table2,"nth_table2"))->typing = _oid_(_function_(nth_table2_type,"nth_table2_type")));
+  	NEW_ALLOC+STRING_UPDATE,_function_(nth_table2,"nth_table2"))->typing = _oid_(_function_(nth_table2_type,"nth_table2_type")));
   
   Kernel.nth_equal->addMethod(list::domain(4,Kernel._table,
     Kernel._any,
     Kernel._any,
     Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(nth_equal_table2,"nth=_table2"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(nth_equal_table2,"nth=_table2"));
   
   Core.get_index->addMethod(list::domain(2,Kernel._table,Kernel._any),Kernel._integer,
-  	NEW_ALLOC+RETURN_ARG,_function_(get_index_table1,"get_index_table1"));
+  	NEW_ALLOC+RETURN_ARG+STRING_UPDATE,_function_(get_index_table1,"get_index_table1"));
   
   Core.get_index->addMethod(list::domain(3,Kernel._table,Kernel._integer,Kernel._integer),Kernel._integer,
-  	NEW_ALLOC,_function_(get_index_table2,"get_index_table2"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(get_index_table2,"get_index_table2"));
   
   Core.erase->addMethod(list::domain(1,Kernel._table),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+RETURN_ARG,_function_(erase_table,"erase_table"));
+  	NEW_ALLOC+BAG_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(erase_table,"erase_table"));
   
   Core.make_table->addMethod(list::domain(3,Kernel._type,Kernel._type,Kernel._any),Kernel._table,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(make_table_type,"make_table_type"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(make_table_type,"make_table_type"));
   
   { (Core.StopProperty = (table *) Kernel._table->instantiate("StopProperty",Core.it));
     (Core.StopProperty->multivalued_ask = Kernel._list);
@@ -552,7 +552,7 @@ void CoreClass::metaLoad() {
     ;} 
   
   Core.check_inverse->addMethod(list::domain(2,Kernel._any,Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(check_inverse_any,"check_inverse_any"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(check_inverse_any,"check_inverse_any"));
   
   { (Kernel._relation->open = 0);
     update_property(Kernel.inverse,
@@ -564,19 +564,19 @@ void CoreClass::metaLoad() {
     } 
   
   Core.invert->addMethod(list::domain(2,Kernel._relation,Kernel._any),Kernel._bag,
-  	NEW_ALLOC,_function_(invert_relation,"invert_relation"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(invert_relation,"invert_relation"));
   
   Core.domain_I->addMethod(list::domain(1,Kernel._restriction),Kernel._class,
-  	NEW_ALLOC+RETURN_ARG,_function_(domain_I_restriction,"domain!_restriction"));
+  	NEW_ALLOC+RETURN_ARG+STRING_UPDATE,_function_(domain_I_restriction,"domain!_restriction"));
   
   Core.methods->addMethod(list::domain(2,Kernel._class,Kernel._class),Kernel._set,
-  	NEW_ALLOC,_function_(methods_class,"methods_class"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(methods_class,"methods_class"));
   
   { (Core.reify = property::make("reify",1,claire.it,Kernel._any,0));
     ;} 
   
   Core.reify->addMethod(list::domain(1,Kernel._listargs),Kernel._void,
-  	SLOT_UPDATE+RETURN_ARG,_function_(reify_listargs,"reify_listargs"));
+  	SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(reify_listargs,"reify_listargs"));
   
   { (Core._star_stararg = property::make("**arg",0,Core.it,Kernel._any,0));
     (Core._star_stararg->open = 0);
@@ -630,7 +630,7 @@ void CoreClass::metaLoad() {
   	0,_function_(self_print_return_error_Core,"self_print_return_error_Core"));
   
   Kernel.self_print->addMethod(list::domain(1,Kernel._system_error),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE,_function_(self_print_system_error_Core,"self_print_system_error_Core"));
+  	NEW_ALLOC+SLOT_UPDATE+STRING_UPDATE,_function_(self_print_system_error_Core,"self_print_system_error_Core"));
   
   (Core._contradiction = ClaireClass::make("contradiction",Kernel._exception,claire.it));
   
@@ -638,10 +638,10 @@ void CoreClass::metaLoad() {
   	0,_function_(self_print_contradiction_Core,"self_print_contradiction_Core"));
   
   Core.format->addMethod(list::domain(2,Kernel._string,Kernel._list),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE,_function_(format_string,"format_string"));
+  	NEW_ALLOC+SLOT_UPDATE+STRING_UPDATE,_function_(format_string,"format_string"));
   
   Core.tformat->addMethod(list::domain(3,Kernel._string,Kernel._integer,Kernel._list),Kernel._any,
-  	NEW_ALLOC+SLOT_UPDATE,_function_(tformat_string,"tformat_string"));
+  	NEW_ALLOC+SLOT_UPDATE+STRING_UPDATE,_function_(tformat_string,"tformat_string"));
   
   Kernel.princ->addMethod(list::domain(1,Kernel._bag),Kernel._void,
   	NEW_ALLOC+SLOT_UPDATE,_function_(princ_bag,"princ_bag"));
@@ -653,7 +653,7 @@ void CoreClass::metaLoad() {
     } 
   
   Kernel.close->addMethod(list::domain(1,Core._global_variable),Core._global_variable,
-  	SAFE_RESULT,_function_(close_global_variable,"close_global_variable"));
+  	SAFE_RESULT+STRING_UPDATE,_function_(close_global_variable,"close_global_variable"));
   
   { (Core._inf_equal2 = (operation *) Kernel._operation->instantiate("<=2",claire.it));
     ;} 
@@ -665,7 +665,7 @@ void CoreClass::metaLoad() {
     } 
   
   Core.contradiction_I->addMethod(list::domain(1,Kernel._void),Kernel._void,
-  	RETURN_ARG,_function_(contradiction_I_void,"contradiction!_void"));
+  	RETURN_ARG+STRING_UPDATE,_function_(contradiction_I_void,"contradiction!_void"));
   
   { global_variable * _CL_obj = (Core.nil = (global_variable *) Core._global_variable->instantiate("nil",claire.it));
     (_CL_obj->range = Kernel.emptySet);
@@ -675,7 +675,7 @@ void CoreClass::metaLoad() {
   
   { global_variable * _CL_obj = (Core.claire_date = (global_variable *) Core._global_variable->instantiate("claire_date",claire.it));
     (_CL_obj->range = Kernel._string);
-    (_CL_obj->value = _string_("Sat Jan 28 08:50:12 2006\n"));
+    (_CL_obj->value = _string_(copy_string("Sun Feb 15 15:35:15 2009\n")));
     close_global_variable(_CL_obj);
     } 
   
@@ -749,10 +749,10 @@ void CoreClass::metaLoad() {
     ;} 
   
   Core.print_in_string->addMethod(list::domain(1,Kernel._void),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(print_in_string_void,"print_in_string_void"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(print_in_string_void,"print_in_string_void"));
   
   Core.end_of_string->addMethod(list::domain(1,Kernel._void),Kernel._string,
-  	SLOT_UPDATE,_function_(end_of_print_void,"end_of_print_void"));
+  	SLOT_UPDATE+STRING_UPDATE,_function_(end_of_print_void,"end_of_print_void"));
   
   Core.buffer_length->addMethod(list::domain(1,Kernel._void),Kernel._integer,
   	0,_function_(buffer_length_void,"buffer_length_void"));
@@ -761,7 +761,7 @@ void CoreClass::metaLoad() {
   	0,_function_(buffer_set_length_integer,"buffer_set_length_integer"));
   
   Core.apply_self_print->addMethod(list::domain(1,Kernel._any),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE+RETURN_ARG,_function_(apply_self_print_any,"apply_self_print_any"));
+  	NEW_ALLOC+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(apply_self_print_any,"apply_self_print_any"));
   
   Kernel.self_print->addMethod(list::domain(1,Kernel._any),Kernel._void,
   	NEW_ALLOC+SLOT_UPDATE,_function_(self_print_any_Core,"self_print_any_Core"));
@@ -770,7 +770,7 @@ void CoreClass::metaLoad() {
   	0,_function_(self_print_boolean_Core,"self_print_boolean_Core"));
   
   Kernel.self_print->addMethod(list::domain(1,Kernel._function),Kernel._void,
-  	0,_function_(self_print_function_Core,"self_print_function_Core"));
+  	STRING_UPDATE,_function_(self_print_function_Core,"self_print_function_Core"));
   
   Kernel.self_print->addMethod(list::domain(1,Kernel._restriction),Kernel._void,
   	NEW_ALLOC,_function_(self_print_restriction_Core,"self_print_restriction_Core"));
@@ -778,13 +778,13 @@ void CoreClass::metaLoad() {
   (Core._much_too_far = ClaireClass::make("much_too_far",Kernel._error,claire.it));
   
   Kernel.print->addMethod(list::domain(1,Kernel._any),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE,_function_(print_any,"print_any"));
+  	NEW_ALLOC+SLOT_UPDATE+STRING_UPDATE,_function_(print_any,"print_any"));
   
   Core.short_enough->addMethod(list::domain(1,Kernel._integer),Kernel._boolean,
-  	0,_function_(short_enough_integer,"short_enough_integer"));
+  	STRING_UPDATE,_function_(short_enough_integer,"short_enough_integer"));
   
   Core.complete_I->addMethod(list::domain(1,Kernel._object),Kernel._object,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(complete_I_object,"complete_I_object"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(complete_I_object,"complete_I_object"));
   
   { (Core.kill_I = property::make("kill!",2,claire.it,Kernel._any,0));
     ;} 
@@ -808,31 +808,31 @@ void CoreClass::metaLoad() {
   	0,_function_(unknown_ask_any,"unknown?_any"));
   
   Core.check_in->addMethod(list::domain(2,Kernel._any,Kernel._type),Kernel._any,
-  	RETURN_ARG,_function_(check_in_any,"check_in_any"));
+  	RETURN_ARG+STRING_UPDATE,_function_(check_in_any,"check_in_any"));
   
   Core.check_in->addMethod(list::domain(3,Kernel._bag,Kernel._class,Kernel._type),Kernel._bag,
-  	0,_function_(check_in_bag,"check_in_bag"));
+  	STRING_UPDATE,_function_(check_in_bag,"check_in_bag"));
   
   Kernel._inf->addMethod(list::domain(2,Kernel._any,Kernel._any),Kernel._boolean,
-  	NEW_ALLOC,_function_(_inf_any,"<_any"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(_inf_any,"<_any"));
   
   Kernel._sup->addMethod(list::domain(2,Kernel._any,Kernel._any),Kernel._boolean,
-  	NEW_ALLOC,_function_(_sup_any,">_any"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(_sup_any,">_any"));
   
   Kernel.ephemeral->addMethod(list::domain(1,Kernel._class),Kernel._any,
-  	SLOT_UPDATE+RETURN_ARG,_function_(ephemeral_class,"ephemeral_class"));
+  	SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(ephemeral_class,"ephemeral_class"));
   
   Kernel.ABSTRACT->addMethod(list::domain(1,Kernel._class),Kernel._any,
-  	SLOT_UPDATE+SAFE_RESULT,_function_(abstract_class,"abstract_class"));
+  	SLOT_UPDATE+SAFE_RESULT+STRING_UPDATE,_function_(abstract_class,"abstract_class"));
   
   Kernel.FINAL->addMethod(list::domain(1,Kernel._class),Kernel._any,
-  	SLOT_UPDATE+SAFE_RESULT,_function_(final_class,"final_class"));
+  	SLOT_UPDATE+SAFE_RESULT+STRING_UPDATE,_function_(final_class,"final_class"));
   
   (Core.NEW->addMethod(list::domain(1,Kernel._class),Kernel._object,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(new_class1,"new_class1"))->typing = _oid_(_function_(new_class1_type,"new_class1_type")));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(new_class1,"new_class1"))->typing = _oid_(_function_(new_class1_type,"new_class1_type")));
   
   (Core.NEW->addMethod(list::domain(2,Kernel._class,Kernel._symbol),Kernel._thing,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(new_class2,"new_class2"))->typing = _oid_(_function_(new_class2_type,"new_class2_type")));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(new_class2,"new_class2"))->typing = _oid_(_function_(new_class2_type,"new_class2_type")));
   
   (Core.new_I->addMethod(list::domain(1,Kernel._class),Kernel._object,
   	NEW_ALLOC,_function_(new_object_class,"new_object_class"))->typing = _oid_(_function_(new_object_class_type,"new_object_class_type")));
@@ -841,22 +841,22 @@ void CoreClass::metaLoad() {
   	NEW_ALLOC,_function_(new_thing_class,"new_thing_class"))->typing = _oid_(_function_(new_thing_class_type,"new_thing_class_type")));
   
   Core.meet->addMethod(list::domain(2,Kernel._class,Kernel._class),Kernel._class,
-  	RETURN_ARG,_function_(meet_class,"meet_class"));
+  	RETURN_ARG+STRING_UPDATE,_function_(meet_class,"meet_class"));
   
   Core.inherit_ask->addMethod(list::domain(2,Kernel._class,Kernel._class),Kernel._boolean,
-  	0,_function_(inherit_ask_class,"inherit?_class"));
+  	STRING_UPDATE,_function_(inherit_ask_class,"inherit?_class"));
   
   Core.class_I->addMethod(list::domain(2,Kernel._symbol,Kernel._class),Kernel._class,
   	NEW_ALLOC,_function_(class_I_symbol,"class!_symbol"));
   
   Kernel.ABSTRACT->addMethod(list::domain(1,Kernel._property),Kernel._any,
-  	SLOT_UPDATE+SAFE_RESULT,_function_(abstract_property,"abstract_property"));
+  	SLOT_UPDATE+SAFE_RESULT+STRING_UPDATE,_function_(abstract_property,"abstract_property"));
   
   Kernel.FINAL->addMethod(list::domain(1,Kernel._relation),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(final_relation,"final_relation"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(final_relation,"final_relation"));
   
   Kernel.close->addMethod(list::domain(1,Kernel._module),Kernel._module,
-  	NEW_ALLOC+SLOT_UPDATE+SAFE_RESULT,_function_(close_module,"close_module"));
+  	NEW_ALLOC+SLOT_UPDATE+SAFE_RESULT+STRING_UPDATE,_function_(close_module,"close_module"));
   
   Core.get_symbol->addMethod(list::domain(2,Kernel._module,Kernel._string),Kernel._any,
   	0,_function_(get_symbol_module,"get_symbol_module"));
@@ -889,10 +889,10 @@ void CoreClass::metaLoad() {
   	RETURN_ARG,_function_(store_array1,"store_array1"));
   
   Kernel.commit->addMethod(list::domain(1,Kernel._integer),Kernel._void,
-  	0,_function_(commit_integer,"commit_integer"));
+  	STRING_UPDATE,_function_(commit_integer,"commit_integer"));
   
   Kernel.backtrack->addMethod(list::domain(1,Kernel._integer),Kernel._void,
-  	0,_function_(backtrack_integer,"backtrack_integer"));
+  	STRING_UPDATE,_function_(backtrack_integer,"backtrack_integer"));
   
   { global_variable * _CL_obj = (Core.world_plus = (global_variable *) Core._global_variable->instantiate("world+",claire.it));
     (_CL_obj->range = Kernel.emptySet);
@@ -913,7 +913,7 @@ void CoreClass::metaLoad() {
     } 
   
   Kernel.store->addMethod(list::domain(1,Kernel._listargs),Kernel._any,
-  	SLOT_UPDATE+RETURN_ARG,_function_(store_listargs,"store_listargs"));
+  	SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(store_listargs,"store_listargs"));
   
   Kernel.length->addMethod(list::domain(1,Kernel._string),Kernel._integer,
   	0,_function_(strlen,"strlen"));
@@ -931,13 +931,13 @@ void CoreClass::metaLoad() {
   	SAFE_RESULT,_function_(externC_string2,"externC_string2"))->typing = _oid_(_function_(externC_string2_type,"externC_string2_type")));
   
   Kernel.nth_get->addMethod(list::domain(3,Kernel._string,Kernel._integer,Kernel._integer),Kernel._char,
-  	RETURN_ARG,_function_(nth_get_string,"nth_get_string"));
+  	RETURN_ARG+STRING_UPDATE,_function_(nth_get_string,"nth_get_string"));
   
   Kernel.nth_put->addMethod(list::domain(4,Kernel._string,
     Kernel._integer,
     Kernel._char,
     Kernel._integer),Kernel._void,
-  	BAG_UPDATE+RETURN_ARG,_function_(nth_put_string,"nth_put_string"));
+  	BAG_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(nth_put_string,"nth_put_string"));
   
   Core.shell->addMethod(list::domain(1,Kernel._string),Kernel._void,
   	0,_function_(claire_shell,"claire_shell"));
@@ -952,10 +952,10 @@ void CoreClass::metaLoad() {
   	0,_function_(value_module,"value_module"));
   
   Kernel.make_string->addMethod(list::domain(1,Kernel._symbol),Kernel._string,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(make_string_symbol,"make_string_symbol"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(make_string_symbol,"make_string_symbol"));
   
   Kernel.self_print->addMethod(list::domain(1,Kernel._symbol),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE,_function_(self_print_symbol_Core,"self_print_symbol_Core"));
+  	NEW_ALLOC+SLOT_UPDATE+STRING_UPDATE,_function_(self_print_symbol_Core,"self_print_symbol_Core"));
   
   (Core._plus->addMethod(list::domain(2,Kernel._integer,Kernel._integer),Kernel._integer,
   	0,_function_(_plus_integer,"+_integer"))->typing = _oid_(_function_(_plus_integer_type,"+_integer_type")));
@@ -982,16 +982,16 @@ void CoreClass::metaLoad() {
   	0,_function_(or_integer,"or_integer"));
   
   Kernel._inf->addMethod(list::domain(2,Kernel._integer,Kernel._integer),Kernel._boolean,
-  	0,_function_(_inf_integer,"<_integer"));
+  	STRING_UPDATE,_function_(_inf_integer,"<_integer"));
   
   Kernel._inf_equal->addMethod(list::domain(2,Kernel._integer,Kernel._integer),Kernel._boolean,
-  	0,_function_(_inf_equal_integer,"<=_integer"));
+  	STRING_UPDATE,_function_(_inf_equal_integer,"<=_integer"));
   
   Kernel._sup->addMethod(list::domain(2,Kernel._integer,Kernel._integer),Kernel._boolean,
-  	0,_function_(_sup_integer,">_integer"));
+  	STRING_UPDATE,_function_(_sup_integer,">_integer"));
   
   Kernel.nth->addMethod(list::domain(2,Kernel._integer,Kernel._integer),Kernel._boolean,
-  	0,_function_(nth_integer,"nth_integer"));
+  	STRING_UPDATE,_function_(nth_integer,"nth_integer"));
   
   Core.factor_ask->addMethod(list::domain(2,Kernel._integer,Kernel._integer),Kernel._boolean,
   	0,_function_(factor_ask_integer,"factor?_integer"));
@@ -1009,10 +1009,10 @@ void CoreClass::metaLoad() {
   	NEW_ALLOC,_function_(pair_any,"pair_any"));
   
   (Core.pair_1->addMethod(list::domain(1,Kernel._list),Kernel._any,
-  	RETURN_ARG,_function_(pair_1_list,"pair_1_list"))->typing = _oid_(_function_(pair_1_list_type,"pair_1_list_type")));
+  	RETURN_ARG+STRING_UPDATE,_function_(pair_1_list,"pair_1_list"))->typing = _oid_(_function_(pair_1_list_type,"pair_1_list_type")));
   
   (Core.pair_2->addMethod(list::domain(1,Kernel._list),Kernel._any,
-  	RETURN_ARG,_function_(pair_2_list,"pair_2_list"))->typing = _oid_(_function_(pair_2_list_type,"pair_2_list_type")));
+  	RETURN_ARG+STRING_UPDATE,_function_(pair_2_list,"pair_2_list"))->typing = _oid_(_function_(pair_2_list_type,"pair_2_list_type")));
   
   Kernel.self_print->addFloatMethod(list::domain(1,Kernel._float),Kernel._void,
   	0,_function_(print_float,"print_float"),_function_(print_float_,"print_float_"));
@@ -1045,7 +1045,7 @@ void CoreClass::metaLoad() {
   	NEW_ALLOC,_function_(atan_float,"atan_float"),_function_(atan_float_,"atan_float_"));
   
   Kernel.string_I->addFloatMethod(list::domain(1,Kernel._float),Kernel._string,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(string_I_float,"string!_float"),_function_(string_I_float_,"string!_float_"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(string_I_float,"string!_float"),_function_(string_I_float_,"string!_float_"));
   
   Kernel.princ->addFloatMethod(list::domain(2,Kernel._float,Kernel._integer),Kernel._void,
   	0,_function_(print_format_float,"print_format_float"),_function_(print_format_float_,"print_format_float_"));
@@ -1054,61 +1054,61 @@ void CoreClass::metaLoad() {
   	0,_function_(length_bag,"length_bag"));
   
   (Kernel.nth->addMethod(list::domain(2,Kernel._bag,Kernel._integer),Kernel._any,
-  	RETURN_ARG,_function_(nth_bag,"nth_bag"))->typing = _oid_(_function_(nth_bag_type,"nth_bag_type")));
+  	RETURN_ARG+STRING_UPDATE,_function_(nth_bag,"nth_bag"))->typing = _oid_(_function_(nth_bag_type,"nth_bag_type")));
   
   Kernel.nth_get->addMethod(list::domain(2,Kernel._bag,Kernel._integer),Kernel._any,
-  	RETURN_ARG,_function_(nth_get_bag,"nth_get_bag"));
+  	RETURN_ARG+STRING_UPDATE,_function_(nth_get_bag,"nth_get_bag"));
   
   (Core.min->addMethod(list::domain(2,Kernel._method,Kernel._bag),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(min_method,"min_method"))->typing = _oid_(_function_(min_method_type,"min_method_type")));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(min_method,"min_method"))->typing = _oid_(_function_(min_method_type,"min_method_type")));
   
   (Core.max->addMethod(list::domain(2,Kernel._method,Kernel._bag),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(max_method,"max_method"))->typing = _oid_(_function_(max_method_type,"max_method_type")));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(max_method,"max_method"))->typing = _oid_(_function_(max_method_type,"max_method_type")));
   
   Kernel._7_plus->addMethod(list::domain(2,Kernel._bag,Kernel._bag),Kernel._list,
-  	NEW_ALLOC,_function_(_7_plus_bag,"/+_bag"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(_7_plus_bag,"/+_bag"));
   
   (Core.last->addMethod(list::domain(1,Kernel._list),Kernel._any,
-  	RETURN_ARG,_function_(last_list,"last_list"))->typing = _oid_(_function_(last_list_type,"last_list_type")));
+  	RETURN_ARG+STRING_UPDATE,_function_(last_list,"last_list"))->typing = _oid_(_function_(last_list_type,"last_list_type")));
   
   Core.rmlast->addMethod(list::domain(1,Kernel._list),Kernel._list,
   	RETURN_ARG,_function_(rmlast_list,"rmlast_list"));
   
   Kernel.nth_equal->addMethod(list::domain(3,Kernel._list,Kernel._integer,Kernel._any),Kernel._any,
-  	BAG_UPDATE+RETURN_ARG,_function_(nth_set_list,"nth_set_list"));
+  	BAG_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(nth_set_list,"nth_set_list"));
   
   Core.car->addMethod(list::domain(1,Kernel._list),Kernel._any,
-  	RETURN_ARG,_function_(car_list,"car_list"));
+  	RETURN_ARG+STRING_UPDATE,_function_(car_list,"car_list"));
   
   Core.hashlist->addMethod(list::domain(1,Kernel._integer),Kernel._list,
-  	NEW_ALLOC,_function_(hashlist_integer,"hashlist_integer"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(hashlist_integer,"hashlist_integer"));
   
   Core.hashsize->addMethod(list::domain(1,Kernel._list),Kernel._integer,
   	0,_function_(hashsize_list,"hashsize_list"));
   
   Core.sort->addMethod(list::domain(2,Kernel._method,Kernel._list),Kernel._list,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(sort_method,"sort_method"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(sort_method,"sort_method"));
   
   Core.quicksort->addMethod(list::domain(4,Kernel._list,
     Kernel._method,
     Kernel._integer,
     Kernel._integer),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(quicksort_list,"quicksort_list"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(quicksort_list,"quicksort_list"));
   
   Core.build_powerset->addMethod(list::domain(1,Kernel._list),Kernel._set,
-  	NEW_ALLOC+BAG_UPDATE,_function_(build_powerset_list,"build_powerset_list"));
+  	NEW_ALLOC+BAG_UPDATE+STRING_UPDATE,_function_(build_powerset_list,"build_powerset_list"));
   
   Core.tuple_I->addMethod(list::domain(1,Kernel._list),Kernel._tuple,
   	NEW_ALLOC,_function_(tuple_I_list,"tuple!_list"));
   
   Core.make_copy_list->addMethod(list::domain(2,Kernel._integer,Kernel._any),Kernel._list,
-  	NEW_ALLOC+BAG_UPDATE,_function_(make_copy_list_integer,"make_copy_list_integer"));
+  	NEW_ALLOC+BAG_UPDATE+STRING_UPDATE,_function_(make_copy_list_integer,"make_copy_list_integer"));
   
   Core.difference->addMethod(list::domain(2,Kernel._set,Kernel._set),Kernel._set,
   	NEW_ALLOC,_function_(difference_set,"difference_set"));
   
   Kernel.nth_equal->addMethod(list::domain(3,Kernel._array,Kernel._integer,Kernel._any),Kernel._void,
-  	RETURN_ARG,_function_(nth_equal_array,"nth=_array"));
+  	RETURN_ARG+STRING_UPDATE,_function_(nth_equal_array,"nth=_array"));
   
   Kernel.self_print->addMethod(list::domain(1,Kernel._array),Kernel._void,
   	NEW_ALLOC,_function_(self_print_array_Core,"self_print_array_Core"));
@@ -1117,7 +1117,7 @@ void CoreClass::metaLoad() {
   	0,_function_(self_print_char_Core,"self_print_char_Core"));
   
   Kernel._inf_equal->addMethod(list::domain(2,Kernel._char,Kernel._char),Kernel._boolean,
-  	0,_function_(_inf_equal_char,"<=_char"));
+  	STRING_UPDATE,_function_(_inf_equal_char,"<=_char"));
   
   Core.Address->addMethod(list::domain(1,Kernel._any),Kernel._integer,
   	0,_function_(CL_Address,"CL_Address"));
@@ -1139,25 +1139,25 @@ void CoreClass::metaLoad() {
     ;} 
   
   Core.finite_ask->addMethod(list::domain(1,Kernel._type),Kernel._boolean,
-  	NEW_ALLOC,_function_(finite_ask_type,"finite?_type"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(finite_ask_type,"finite?_type"));
   
   Core.enumerate->addMethod(list::domain(1,Kernel._any),Kernel._bag,
-  	NEW_ALLOC+RETURN_ARG,_function_(enumerate_any,"enumerate_any"));
+  	NEW_ALLOC+RETURN_ARG+STRING_UPDATE,_function_(enumerate_any,"enumerate_any"));
   
   { (Core._equaltype_ask = (operation *) Kernel._operation->instantiate("=type?",claire.it));
     ;} 
   
   Core._equaltype_ask->addMethod(list::domain(2,Kernel._type,Kernel._type),Kernel._boolean,
-  	NEW_ALLOC,_function_(_equaltype_ask_any,"=type?_any"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(_equaltype_ask_any,"=type?_any"));
   
   Kernel.sort_I->addMethod(list::domain(1,Kernel._type),Kernel._class,
   	NEW_ALLOC+RETURN_ARG,_function_(sort_I_type,"sort!_type"));
   
   Kernel._Z->addMethod(list::domain(2,Kernel._any,Kernel._class),Kernel._boolean,
-  	0,_function_(_Z_any1,"%_any1"));
+  	STRING_UPDATE,_function_(_Z_any1,"%_any1"));
   
   Core._Ztype->addMethod(list::domain(2,Kernel._any,Kernel._any),Kernel._boolean,
-  	NEW_ALLOC,_function_(Ztype_any,"Ztype_any"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(Ztype_any,"Ztype_any"));
   
   (Core._Type = ClaireClass::make("Type",Kernel._type,claire.it));
   
@@ -1170,7 +1170,7 @@ void CoreClass::metaLoad() {
   	NEW_ALLOC,_function_(self_print_Union_Core,"self_print_Union_Core"));
   
   Core.finite_ask->addMethod(list::domain(1,Core._Union),Kernel._boolean,
-  	NEW_ALLOC,_function_(finite_ask_Union,"finite?_Union"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(finite_ask_Union,"finite?_Union"));
   
   { (Core._Interval = ClaireClass::make("Interval",Core._Type,claire.it));
     CL_ADD_SLOT(Core._Interval,Interval,Core.arg1,arg1,Kernel._integer,CNULL);
@@ -1184,7 +1184,7 @@ void CoreClass::metaLoad() {
   	0,_function_(finite_ask_Interval,"finite?_Interval"));
   
   Core._dash_dash->addMethod(list::domain(2,Kernel._integer,Kernel._integer),Core._Interval,
-  	NEW_ALLOC,_function_(_dash_dash_integer,"--_integer"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(_dash_dash_integer,"--_integer"));
   
   { (Core._Param = ClaireClass::make("Param",Core._Type,claire.it));
     CL_ADD_SLOT(Core._Param,Param,Kernel.arg,arg,Kernel._class,CNULL);
@@ -1193,10 +1193,10 @@ void CoreClass::metaLoad() {
     } 
   
   Kernel.self_print->addMethod(list::domain(1,Core._Param),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE,_function_(self_print_Param_Core,"self_print_Param_Core"));
+  	NEW_ALLOC+SLOT_UPDATE+STRING_UPDATE,_function_(self_print_Param_Core,"self_print_Param_Core"));
   
   Core.finite_ask->addMethod(list::domain(1,Core._Param),Kernel._boolean,
-  	NEW_ALLOC,_function_(finite_ask_Param,"finite?_Param"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(finite_ask_Param,"finite?_Param"));
   
   { (Core._subtype = ClaireClass::make("subtype",Core._Type,claire.it));
     CL_ADD_SLOT(Core._subtype,subtype,Kernel.arg,arg,Kernel._class,CNULL);
@@ -1207,13 +1207,13 @@ void CoreClass::metaLoad() {
   	NEW_ALLOC,_function_(self_print_subtype_Core,"self_print_subtype_Core"));
   
   Core.finite_ask->addMethod(list::domain(1,Core._subtype),Kernel._boolean,
-  	NEW_ALLOC,_function_(finite_ask_subtype,"finite?_subtype"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(finite_ask_subtype,"finite?_subtype"));
   
   Kernel.nth->addMethod(list::domain(2,Kernel._class,Kernel._type),Kernel._type,
-  	NEW_ALLOC,_function_(nth_class1,"nth_class1"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(nth_class1,"nth_class1"));
   
   Kernel.nth->addMethod(list::domain(3,Kernel._class,Kernel._list,Kernel._list),Kernel._type,
-  	NEW_ALLOC+SLOT_UPDATE+RETURN_ARG,_function_(nth_class2,"nth_class2"));
+  	NEW_ALLOC+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(nth_class2,"nth_class2"));
   
   Core.param_I->addMethod(list::domain(2,Kernel._class,Kernel._type),Kernel._type,
   	NEW_ALLOC,_function_(param_I_class,"param_I_class"));
@@ -1222,7 +1222,7 @@ void CoreClass::metaLoad() {
   	NEW_ALLOC,_function_(nth_type,"nth_type"));
   
   Core.finite_ask->addMethod(list::domain(1,Kernel._tuple),Kernel._boolean,
-  	NEW_ALLOC,_function_(finite_ask_tuple,"finite?_tuple"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(finite_ask_tuple,"finite?_tuple"));
   
   { (Core._Reference = ClaireClass::make("Reference",Core._Type,claire.it));
     CL_ADD_SLOT(Core._Reference,Reference,Core.args,args,Kernel._list,CNULL);
@@ -1234,16 +1234,16 @@ void CoreClass::metaLoad() {
   	NEW_ALLOC,_function_(self_print_Reference_Core,"self_print_Reference_Core"));
   
   Kernel.get->addMethod(list::domain(2,Core._Reference,Kernel._any),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(get_Reference,"get_Reference"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(get_Reference,"get_Reference"));
   
   Core._at->addMethod(list::domain(3,Core._Reference,Kernel._list,Kernel._any),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(_at_Reference,"@_Reference"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(_at_Reference,"@_Reference"));
   
   Kernel.set_I->addMethod(list::domain(1,Kernel._collection),Kernel._set,
-  	NEW_ALLOC,_function_(set_I_collection,"set!_collection"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(set_I_collection,"set!_collection"));
   
   Core.size->addMethod(list::domain(1,Kernel._collection),Kernel._integer,
-  	NEW_ALLOC,_function_(size_collection,"size_collection"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(size_collection,"size_collection"));
   
   ;
   Kernel.set_I->addMethod(list::domain(1,Kernel._set),Kernel._set,
@@ -1253,19 +1253,19 @@ void CoreClass::metaLoad() {
   	0,_function_(size_set,"size_set"));
   
   Core.size->addMethod(list::domain(1,Kernel._list),Kernel._integer,
-  	NEW_ALLOC,_function_(size_list2_Core,"size_list2_Core"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(size_list2_Core,"size_list2_Core"));
   
   Kernel.set_I->addMethod(list::domain(1,Kernel._class),Kernel._set,
-  	NEW_ALLOC+RETURN_ARG,_function_(set_I_class,"set!_class"));
+  	NEW_ALLOC+RETURN_ARG+STRING_UPDATE,_function_(set_I_class,"set!_class"));
   
   Core.size->addMethod(list::domain(1,Kernel._class),Kernel._integer,
   	SAFE_RESULT,_function_(size_class,"size_class"));
   
   Kernel.set_I->addMethod(list::domain(1,Core._Union),Kernel._set,
-  	NEW_ALLOC,_function_(set_I_Union,"set!_Union"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(set_I_Union,"set!_Union"));
   
   Core.size->addMethod(list::domain(1,Core._Union),Kernel._integer,
-  	NEW_ALLOC,_function_(size_Union,"size_Union"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(size_Union,"size_Union"));
   
   Kernel.set_I->addMethod(list::domain(1,Core._Interval),Kernel._set,
   	NEW_ALLOC,_function_(set_I_Interval,"set!_Interval"));
@@ -1274,28 +1274,28 @@ void CoreClass::metaLoad() {
   	0,_function_(size_Interval,"size_Interval"));
   
   Kernel.set_I->addMethod(list::domain(1,Core._Param),Kernel._set,
-  	NEW_ALLOC,_function_(set_I_Param,"set!_Param"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(set_I_Param,"set!_Param"));
   
   Core.size->addMethod(list::domain(1,Core._Param),Kernel._integer,
-  	NEW_ALLOC,_function_(size_Param,"size_Param"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(size_Param,"size_Param"));
   
   Kernel.set_I->addMethod(list::domain(1,Core._subtype),Kernel._set,
-  	NEW_ALLOC+BAG_UPDATE,_function_(set_I_subtype,"set!_subtype"));
+  	NEW_ALLOC+BAG_UPDATE+STRING_UPDATE,_function_(set_I_subtype,"set!_subtype"));
   
   Core.size->addMethod(list::domain(1,Core._subtype),Kernel._integer,
-  	NEW_ALLOC,_function_(size_subtype,"size_subtype"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(size_subtype,"size_subtype"));
   
   Kernel.set_I->addMethod(list::domain(1,Kernel._tuple),Kernel._set,
-  	NEW_ALLOC,_function_(set_I_tuple,"set!_tuple"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(set_I_tuple,"set!_tuple"));
   
   Core.size->addMethod(list::domain(1,Kernel._tuple),Kernel._integer,
-  	NEW_ALLOC,_function_(size_tuple,"size_tuple"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(size_tuple,"size_tuple"));
   
   Kernel.member_ask->addMethod(list::domain(2,Kernel._any,Kernel._type),Kernel._boolean,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(member_ask_any,"member?_any"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(member_ask_any,"member?_any"));
   
   Core.class_I->addMethod(list::domain(1,Kernel._type),Kernel._class,
-  	NEW_ALLOC+RETURN_ARG,_function_(class_I_type,"class!_type"));
+  	NEW_ALLOC+RETURN_ARG+STRING_UPDATE,_function_(class_I_type,"class!_type"));
   
   { ephemeral_class(Core._Union);
     ephemeral_class(Core._Param);
@@ -1304,23 +1304,23 @@ void CoreClass::metaLoad() {
     } 
   
   Core.U->addMethod(list::domain(2,Kernel._type,Kernel._type),Kernel._type,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(U_type,"U_type"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(U_type,"U_type"));
   
   (Kernel._dot_dot->addMethod(list::domain(2,Kernel._integer,Kernel._integer),nth_class1(Kernel._type,Kernel._integer),
-  	NEW_ALLOC,_function_(_dot_dot_integer,".._integer"))->typing = _oid_(_function_(_dot_dot_integer_type,".._integer_type")));
+  	NEW_ALLOC+STRING_UPDATE,_function_(_dot_dot_integer,".._integer"))->typing = _oid_(_function_(_dot_dot_integer_type,".._integer_type")));
   
   { (Core.but = (operation *) Kernel._operation->instantiate("but",claire.it));
     ;} 
   
   (Core.but->addMethod(list::domain(2,Kernel._any,Kernel._any),nth_class1(Kernel._bag,Kernel._any),
-  	NEW_ALLOC,_function_(but_any,"but_any"))->typing = _oid_(_function_(but_any_type,"but_any_type")));
+  	NEW_ALLOC+STRING_UPDATE,_function_(but_any,"but_any"))->typing = _oid_(_function_(but_any_type,"but_any_type")));
   
   { (Core._backslash = (operation *) Kernel._operation->instantiate("\\",claire.it));
     (Core._backslash->precedence = Core.U->precedence);
     ;} 
   
   Core._backslash->addMethod(list::domain(2,Kernel._type,Kernel._type),Kernel._set,
-  	NEW_ALLOC,_function_(_backslash_type,"\\_type"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(_backslash_type,"\\_type"));
   
   { (Core.glb = (operation *) Kernel._operation->instantiate("glb",claire.it));
     (Core.glb->precedence = Kernel._exp->precedence);
@@ -1330,40 +1330,40 @@ void CoreClass::metaLoad() {
     ;} 
   
   Core.glb->addMethod(list::domain(2,Kernel._set,Kernel._type),Kernel._set,
-  	NEW_ALLOC,_function_(glb_set,"glb_set"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(glb_set,"glb_set"));
   
   Core.glb->addMethod(list::domain(2,Core._Union,Kernel._type),Kernel._type,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(glb_Union,"glb_Union"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(glb_Union,"glb_Union"));
   
   Core.glb->addMethod(list::domain(2,Core._Interval,Kernel._type),Kernel._type,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(glb_Interval,"glb_Interval"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(glb_Interval,"glb_Interval"));
   
   Core.glb->addMethod(list::domain(2,Kernel._class,Kernel._type),Kernel._type,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(glb_class,"glb_class"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(glb_class,"glb_class"));
   
   Core.glb->addMethod(list::domain(2,Core._Param,Kernel._type),Kernel._type,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(glb_Param,"glb_Param"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(glb_Param,"glb_Param"));
   
   Core.glb->addMethod(list::domain(2,Core._subtype,Kernel._type),Kernel._type,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(glb_subtype,"glb_subtype"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(glb_subtype,"glb_subtype"));
   
   Core.glb->addMethod(list::domain(2,Kernel._tuple,Kernel._type),Kernel._type,
-  	NEW_ALLOC+RETURN_ARG,_function_(glb_tuple,"glb_tuple"));
+  	NEW_ALLOC+RETURN_ARG+STRING_UPDATE,_function_(glb_tuple,"glb_tuple"));
   
   Core.glb->addMethod(list::domain(2,Core._Reference,Kernel._type),Kernel._type,
   	RETURN_ARG,_function_(glb_Reference,"glb_Reference"));
   
   Kernel._exp->addMethod(list::domain(2,Kernel._type,Kernel._type),Kernel._type,
-  	NEW_ALLOC+RETURN_ARG,_function_(_exp_type,"^_type"));
+  	NEW_ALLOC+RETURN_ARG+STRING_UPDATE,_function_(_exp_type,"^_type"));
   
   Core.join->addMethod(list::domain(2,Kernel._class,Kernel._class),Kernel._type,
-  	0,_function_(join_class,"join_class"));
+  	STRING_UPDATE,_function_(join_class,"join_class"));
   
   Kernel._exp->addMethod(list::domain(2,Kernel._list,Kernel._list),Kernel._list,
-  	NEW_ALLOC,_function_(_exp_list,"^_list"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(_exp_list,"^_list"));
   
   Core.Uall->addMethod(list::domain(1,Kernel._list),Kernel._type,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(Uall_list,"Uall_list"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(Uall_list,"Uall_list"));
   
   { (Core._inf_equalt = (operation *) Kernel._operation->instantiate("<=t",Core.it));
     (Core._inf_equalt->precedence = Kernel._inf_equal->precedence);
@@ -1373,61 +1373,61 @@ void CoreClass::metaLoad() {
     ;} 
   
   Core._inf_equalt->addMethod(list::domain(2,Kernel._bag,Kernel._type),Kernel._boolean,
-  	NEW_ALLOC,_function_(_inf_equalt_bag2,"<=t_bag2"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(_inf_equalt_bag2,"<=t_bag2"));
   
   Core._inf_equalt->addMethod(list::domain(2,Kernel._class,Kernel._type),Kernel._boolean,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(_inf_equalt_class,"<=t_class"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(_inf_equalt_class,"<=t_class"));
   
   Core._inf_equalt->addMethod(list::domain(2,Core._Union,Kernel._type),Kernel._boolean,
-  	NEW_ALLOC,_function_(_inf_equalt_Union,"<=t_Union"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(_inf_equalt_Union,"<=t_Union"));
   
   Core._inf_equalt->addMethod(list::domain(2,Core._Interval,Kernel._type),Kernel._boolean,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(_inf_equalt_Interval,"<=t_Interval"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(_inf_equalt_Interval,"<=t_Interval"));
   
   Core._inf_equalt->addMethod(list::domain(2,Core._subtype,Kernel._type),Kernel._boolean,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(_inf_equalt_subtype,"<=t_subtype"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(_inf_equalt_subtype,"<=t_subtype"));
   
   Core._inf_equalt->addMethod(list::domain(2,Core._Param,Kernel._type),Kernel._boolean,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(_inf_equalt_Param,"<=t_Param"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(_inf_equalt_Param,"<=t_Param"));
   
   Core._inf_equalt->addMethod(list::domain(2,Core._Reference,Kernel._type),Kernel._boolean,
   	0,_function_(_inf_equalt_Reference,"<=t_Reference"));
   
   Core._inf_equalt->addMethod(list::domain(2,Kernel._tuple,Kernel._type),Kernel._boolean,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(_inf_equalt_tuple,"<=t_tuple"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(_inf_equalt_tuple,"<=t_tuple"));
   
   Core._inf_equalt->addMethod(list::domain(2,Kernel._type,Kernel._type),Kernel._boolean,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(_inf_equalt_type,"<=t_type"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(_inf_equalt_type,"<=t_type"));
   
   Kernel._inf_equal->addMethod(list::domain(2,Kernel._type,Kernel._type),Kernel._boolean,
-  	NEW_ALLOC,_function_(_inf_equal_type,"<=_type"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(_inf_equal_type,"<=_type"));
   
   Core.member->addMethod(list::domain(1,Kernel._type),Kernel._type,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(member_type,"member_type"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(member_type,"member_type"));
   
   Core.of_extract->addMethod(list::domain(1,Kernel._type),Kernel._type,
-  	RETURN_ARG,_function_(of_extract_type,"of_extract_type"));
+  	RETURN_ARG+STRING_UPDATE,_function_(of_extract_type,"of_extract_type"));
   
   Core._at->addMethod(list::domain(2,Kernel._type,Kernel._property),Kernel._type,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(_at_type,"@_type"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(_at_type,"@_type"));
   
   Core.unique_ask->addMethod(list::domain(1,Kernel._type),Kernel._boolean,
-  	0,_function_(unique_ask_type,"unique?_type"));
+  	STRING_UPDATE,_function_(unique_ask_type,"unique?_type"));
   
   Core.the->addMethod(list::domain(1,Kernel._type),Kernel._any,
-  	NEW_ALLOC+RETURN_ARG,_function_(the_type,"the_type"));
+  	NEW_ALLOC+RETURN_ARG+STRING_UPDATE,_function_(the_type,"the_type"));
   
   Kernel.integer_I->addMethod(list::domain(1,nth_class1(Kernel._set,Kernel._integer)),Kernel._integer,
-  	NEW_ALLOC,_function_(integer_I_set,"integer!_set"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(integer_I_set,"integer!_set"));
   
   Core.make_set->addMethod(list::domain(1,Kernel._integer),Kernel._set,
-  	NEW_ALLOC,_function_(make_set_integer,"make_set_integer"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(make_set_integer,"make_set_integer"));
   
   Core.abstract_type->addMethod(list::domain(1,Kernel._set),Kernel._type,
-  	NEW_ALLOC,_function_(abstract_type_set,"abstract_type_set"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(abstract_type_set,"abstract_type_set"));
   
   Core.abstract_type->addMethod(list::domain(3,Kernel._operation,Kernel._type,Kernel._type),Kernel._type,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(abstract_type_operation,"abstract_type_operation"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(abstract_type_operation,"abstract_type_operation"));
   
   { set_range_property(Kernel.subclass,Kernel._class,GC_OBJECT(ClaireType,nth_class2(Kernel._set,list::alloc(Kernel._any,1,_oid_(Kernel.of)),list::alloc(1,_oid_(set::alloc(1,_oid_(Kernel._class)))))));
     set_range_property(Kernel.ancestors,Kernel._class,GC_OBJECT(ClaireType,nth_class2(Kernel._list,list::alloc(Kernel._any,1,_oid_(Kernel.of)),list::alloc(1,_oid_(set::alloc(1,_oid_(Kernel._class)))))));
@@ -1448,13 +1448,13 @@ void CoreClass::metaLoad() {
   	RETURN_ARG,_function_(second_arg_type_type,"second_arg_type_type"));
   
   Core.meet_arg_types->addMethod(list::domain(2,Kernel._type,Kernel._type),Kernel._type,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(meet_arg_types_type,"meet_arg_types_type"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(meet_arg_types_type,"meet_arg_types_type"));
   
   Core.first_member_type->addMethod(list::domain(2,Kernel._type,Kernel._type),Kernel._type,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(first_member_type_type,"first_member_type_type"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(first_member_type_type,"first_member_type_type"));
   
   (Kernel.nth->addMethod(list::domain(2,Kernel._array,Kernel._integer),Kernel._any,
-  	RETURN_ARG,_function_(nth_array,"nth_array"))->typing = _oid_(_function_(nth_array_type,"nth_array_type")));
+  	RETURN_ARG+STRING_UPDATE,_function_(nth_array,"nth_array"))->typing = _oid_(_function_(nth_array_type,"nth_array_type")));
   
   (Core.make_array->addMethod(list::domain(3,Kernel._integer,Kernel._type,Kernel._any),Kernel._array,
   	NEW_ALLOC,_function_(make_array_integer,"make_array_integer"))->typing = _oid_(_function_(make_array_integer_type,"make_array_integer_type")));
@@ -1463,7 +1463,7 @@ void CoreClass::metaLoad() {
   	NEW_ALLOC,_function_(make_list_integer2,"make_list_integer2"))->typing = _oid_(_function_(make_list_integer2_type,"make_list_integer2_type")));
   
   (Core.make_set->addMethod(list::domain(1,nth_class2(Kernel._array,list::alloc(Kernel._any,1,_oid_(Kernel.of)),list::alloc(Kernel.emptySet,1,_oid_(Kernel._any)))),Kernel._set,
-  	NEW_ALLOC+RETURN_ARG,_function_(make_set_array,"make_set_array"))->typing = _oid_(_function_(make_set_array_type,"make_set_array_type")));
+  	NEW_ALLOC+RETURN_ARG+STRING_UPDATE,_function_(make_set_array,"make_set_array"))->typing = _oid_(_function_(make_set_array_type,"make_set_array_type")));
   
   (Kernel.list_I->addMethod(list::domain(1,nth_class2(Kernel._array,list::alloc(Kernel._any,1,_oid_(Kernel.of)),list::alloc(Kernel.emptySet,1,_oid_(Kernel._any)))),Kernel._list,
   	NEW_ALLOC,_function_(list_I_array,"list_I_array"))->typing = _oid_(_function_(list_I_array_type,"list_I_array_type")));

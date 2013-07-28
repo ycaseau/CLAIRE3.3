@@ -1,4 +1,4 @@
-// interface defination for module Core, Sat Jan 28 08:50:12 2006
+// interface defination for module Core, Sun Feb 15 15:37:16 2009
 #ifndef CLAIREH_Core
 #define CLAIREH_Core
 

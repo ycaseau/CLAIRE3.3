@@ -110,6 +110,7 @@ claire/c_test(x:any) : void
         OPT.loop_gc := false,
         OPT.Optimize/use_update := false,
         OPT.Optimize/use_nth= := false,
+        OPT.Optimize/use_string_update := false,   // v3.3.46
         OPT.Optimize/max_vars := 0,
         OPT.Optimize/online? := false,
         OPT.legal_modules := module.instances,

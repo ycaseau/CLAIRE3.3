@@ -1,5 +1,5 @@
-/***** CLAIRE Compilation of file d:\claire\v3.3\src\meta\read.cl 
-         [version 3.3.42 / safety 5] Sat Jan 28 08:50:18 2006 *****/
+/***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\read.cl 
+         [version 3.3.46 / safety 5] Sun Feb 15 15:35:19 2009 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -26,7 +26,7 @@
 // global definitions
 // *arrow*:boolean :: false
 // here we define the basic keywords
-/* The c++ function for: keyword?(x:any) [0] */
+/* The c++ function for: keyword?(x:any) [STRING_UPDATE] */
 ClaireBoolean * keyword_ask_any(OID x)
 { return (inherit_ask_class(OWNER(x),Reader._reserved_keyword));} 
 
@@ -56,7 +56,7 @@ OID  stop_ask_integer(int n)
 // this is used to keep comments when translating CLAIRE to another language
 // read the next unit (definition, block or expression)
 //
-/* The c++ function for: nextunit(r:meta_reader) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: nextunit(r:meta_reader) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 OID  nextunit_meta_reader(meta_reader *r)
 { GC_BIND;
   { OID Result = 0;
@@ -179,7 +179,7 @@ OID  nextunit_meta_reader(meta_reader *r)
 // by testing stop?(first(r))
 // Note: it actually reads a fragment
 //
-/* The c++ function for: nexts(r:meta_reader,e:keyword) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: nexts(r:meta_reader,e:keyword) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 OID  nexts_meta_reader(meta_reader *r,keyword *e)
 { GC_BIND;
   { OID Result = 0;
@@ -209,7 +209,7 @@ OID  nexts_meta_reader(meta_reader *r,keyword *e)
 
 // loops until the right expression is built (ends with e ',', '}' or ')')
 //
-/* The c++ function for: loopexp(r:meta_reader,x:any,e:keyword,loop:boolean) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: loopexp(r:meta_reader,x:any,e:keyword,loop:boolean) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 OID  loopexp_meta_reader(meta_reader *r,OID x,keyword *e,ClaireBoolean *loop)
 { if ((r->toplevel == CTRUE) && 
       ((e == Reader.none) && 
@@ -240,7 +240,7 @@ OID  loopexp_meta_reader(meta_reader *r,OID x,keyword *e,ClaireBoolean *loop)
           if (w == _oid_(Reader._equal_sup))
            (r->last_arrow = CTRUE);
           else if (((equal(w,Reader.arrow->value) == CTRUE) ? CTRUE : ((w == _oid_(Reader.L__equal)) ? CTRUE : CFALSE)) != CTRUE)
-           Serror_string("[149] wrong keyword (~S) after ~S",list::alloc(2,w,y));
+           Serror_string(copy_string("[149] wrong keyword (~S) after ~S"),list::alloc(2,w,y));
           Result = nextmethod_meta_reader(r,
             x,
             y,
@@ -248,7 +248,7 @@ OID  loopexp_meta_reader(meta_reader *r,OID x,keyword *e,ClaireBoolean *loop)
             CFALSE,
             equal(w,_oid_(Reader._equal_sup)));
           } 
-        else Serror_string("[150] Illegal use of :~S after ~S",list::alloc(2,y,x));
+        else Serror_string(copy_string("[150] Illegal use of :~S after ~S"),list::alloc(2,y,x));
           } 
       else { OID  y = GC_OID(nexte_meta_reader(r));
           if ((y == _oid_(e)) || 
@@ -257,7 +257,7 @@ OID  loopexp_meta_reader(meta_reader *r,OID x,keyword *e,ClaireBoolean *loop)
            { if (y != _oid_(e))
              (r->last_arrow = CTRUE);
             if (boolean_I_any(stop_ask_integer(firstc_meta_reader(r))) == CTRUE)
-             Serror_string("[151] ~S not allowed after ~S\n",list::alloc(2,_oid_(char_I_integer(firstc_meta_reader(r))),_oid_(e)));
+             Serror_string(copy_string("[151] ~S not allowed after ~S\n"),list::alloc(2,_oid_(char_I_integer(firstc_meta_reader(r))),_oid_(e)));
             else Result = x;
               } 
           else if ((equal(y,Reader.triangle->value) == CTRUE) || 
@@ -274,7 +274,7 @@ OID  loopexp_meta_reader(meta_reader *r,OID x,keyword *e,ClaireBoolean *loop)
              Result = loopexp_meta_reader(r,GC_OID(combine_any(x,y,GC_OID(nexte_meta_reader(r)))),e,CTRUE);
             else Result = loopexp_meta_reader(r,GC_OID(combine_I_any(x,y,GC_OID(nexte_meta_reader(r)))),e,CTRUE);
               } 
-          else Serror_string("[152] Separation missing between ~S \nand ~S [~S?]",list::alloc(3,x,
+          else Serror_string(copy_string("[152] Separation missing between ~S \nand ~S [~S?]"),list::alloc(3,x,
               y,
               _oid_(e)));
             } 
@@ -284,7 +284,7 @@ OID  loopexp_meta_reader(meta_reader *r,OID x,keyword *e,ClaireBoolean *loop)
 
 
 // this is the special form for x :op y - new in v3.3.32
-/* The c++ function for: extended_operator(p:property,x:any,y:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: extended_operator(p:property,x:any,y:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 OID  extended_operator_property(property *p,OID x,OID y)
 { GC_BIND;
   { OID Result = 0;
@@ -333,7 +333,7 @@ OID  extended_operator_property(property *p,OID x,OID y)
 // reading the next compact expression - comments are ignored but they can
 // be attached to the last read expression
 //
-/* The c++ function for: nexte(r:meta_reader) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
+/* The c++ function for: nexte(r:meta_reader) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE] */
 OID  nexte_meta_reader(meta_reader *r)
 { GC_BIND;
   { OID Result = 0;
@@ -349,7 +349,7 @@ OID  nexte_meta_reader(meta_reader *r)
 // v3.3
 // reading the next compact expression/ same
 //
-/* The c++ function for: nextexp(r:meta_reader,str:boolean) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: nextexp(r:meta_reader,str:boolean) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 OID  nextexp_meta_reader(meta_reader *r,ClaireBoolean *str)
 { GC_RESERVE(10);  // v3.0.55 optim !
   { OID Result = 0;
@@ -367,7 +367,7 @@ OID  nextexp_meta_reader(meta_reader *r,ClaireBoolean *str)
       else if (n == 44)
        Result = r->comma;
       else if (n == r->eof)
-       Serror_string("[153] eof inside an expression",Kernel.nil);
+       Serror_string(copy_string("[153] eof inside an expression"),Kernel.nil);
       else if (n == 59)
        { { OID gc_local;
           while (((firstc_meta_reader(r) != r->eof) && 
@@ -442,7 +442,7 @@ OID  nextexp_meta_reader(meta_reader *r,ClaireBoolean *str)
                          GC__OID(x, 6);} 
                       GC__OID(x = nexti_meta_reader(r,x), 6);
                       } 
-                    else Serror_string("[154] ~S<~S not allowed",list::alloc(2,x,y));
+                    else Serror_string(copy_string("[154] ~S<~S not allowed"),list::alloc(2,x,y));
                       } 
                   else if (firstc_meta_reader(r) == 91)
                    { OID  l = GC_OID(nextseq_meta_reader(cnext_meta_reader(r),93));
@@ -483,7 +483,7 @@ OID  nextexp_meta_reader(meta_reader *r,ClaireBoolean *str)
 
 // reads a compact expression that starts with an ident
 //
-/* The c++ function for: nexti(r:meta_reader,val:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: nexti(r:meta_reader,val:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 OID  nexti_meta_reader(meta_reader *r,OID val)
 { GC_BIND;
   { OID Result = 0;
@@ -497,11 +497,11 @@ OID  nexti_meta_reader(meta_reader *r,OID val)
         if (_Za2 == _oid_(Reader.in))
          { _Za3= GC_OID(nexte_meta_reader(r));
           if (equal(GC_OID(nexte_meta_reader(r)),GC_OID(Reader.OR->value)) != CTRUE)
-           Serror_string("[155] missing | in exists / forall",Kernel.nil);
+           Serror_string(copy_string("[155] missing | in exists / forall"),Kernel.nil);
           } 
         else if (equal(_Za2,r->comma) == CTRUE)
          cnext_meta_reader(r);
-        else Serror_string("[156] wrong use of exists(~S ~S ...",list::alloc(2,_oid_(v),_Za2));
+        else Serror_string(copy_string("[156] wrong use of exists(~S ~S ..."),list::alloc(2,_oid_(v),_Za2));
           { Exists * _CL_obj = ((Exists *) GC_OBJECT(Exists,new_object_class(Language._Exists)));
           (_CL_obj->var = v);
           (_CL_obj->set_arg = _Za3);
@@ -542,7 +542,7 @@ OID  nexti_meta_reader(meta_reader *r,OID val)
        { (OBJECT(ClaireObject,s)->isa = Language._Lselect);
         Result = s;
         } 
-      else Serror_string("[157] ~S cannot follow list{",list::alloc(1,s));
+      else Serror_string(copy_string("[157] ~S cannot follow list{"),list::alloc(1,s));
         } 
     else if (((INHERIT(OWNER(val),Language._Call)) && ((OBJECT(Call,val)->selector == Kernel.nth) && 
           ((*(OBJECT(Call,val)->args))[1] == _oid_(Kernel._list)))) && 
@@ -559,7 +559,7 @@ OID  nexti_meta_reader(meta_reader *r,OID val)
         (OBJECT(Select,s)->of = x);
         Result = s;
         } 
-      else Serror_string("[157] ~S cannot follow list{",list::alloc(1,s));
+      else Serror_string(copy_string("[157] ~S cannot follow list{"),list::alloc(1,s));
         } 
     else if (((INHERIT(OWNER(val),Language._Call)) && ((OBJECT(Call,val)->selector == Kernel.nth) && 
           ((*(OBJECT(Call,val)->args))[1] == _oid_(Kernel._set)))) && 
@@ -574,17 +574,17 @@ OID  nexti_meta_reader(meta_reader *r,OID val)
        { (OBJECT(Select,s)->of = x);
         Result = s;
         } 
-      else Serror_string("[157] ~S cannot follow list{",list::alloc(1,s));
+      else Serror_string(copy_string("[157] ~S cannot follow list{"),list::alloc(1,s));
         } 
     else if (firstc_meta_reader(r) == 58)
      Result = nextvariable_meta_reader(r,val);
     else if (firstc_meta_reader(r) == 64)
      { OID  _Za1 = read_ident_port(cnext_meta_reader(r)->fromp);
       if (inherit_ask_class(OWNER(_Za1),Kernel._class) != CTRUE)
-       Serror_string("[158] wrong type in call ~S@~S",list::alloc(2,val,_Za1));
+       Serror_string(copy_string("[158] wrong type in call ~S@~S"),list::alloc(2,val,_Za1));
       if (firstc_meta_reader(r) == 40)
        Result = readcall_meta_reader(r,val,_Za1);
-      else Serror_string("[159] missing ( after ~S@~S",list::alloc(2,val,_Za1));
+      else Serror_string(copy_string("[159] missing ( after ~S@~S"),list::alloc(2,val,_Za1));
         } 
     else Result = val;
       GC_UNBIND; return (Result);} 
@@ -593,7 +593,7 @@ OID  nexti_meta_reader(meta_reader *r,OID val)
 
 // we have read the escape character #
 //
-/* The c++ function for: read_escape(r:meta_reader) [0] */
+/* The c++ function for: read_escape(r:meta_reader) [STRING_UPDATE] */
 OID  read_escape_meta_reader(meta_reader *r)
 { { OID Result = 0;
     if (firstc_meta_reader(cnext_meta_reader(r)) == 47)
@@ -644,7 +644,7 @@ OID  nexts_I_meta_reader1(meta_reader *r,keyword *e)
     { OID  x = GC_OID(nexts_meta_reader(r,e));
       if (boolean_I_any(stop_ask_integer(firstc_meta_reader(r))) != CTRUE)
        Result = x;
-      else Serror_string("[161] Missing keyword ~S after ~S",list::alloc(2,_oid_(e),x));
+      else Serror_string(copy_string("[161] Missing keyword ~S after ~S"),list::alloc(2,_oid_(e),x));
         } 
     GC_UNBIND; return (Result);} 
   } 
@@ -659,7 +659,7 @@ OID  nexte_I_meta_reader(meta_reader *r,keyword *e)
     { OID  x = GC_OID(nexte_meta_reader(r));
       if (nexte_meta_reader(r) == _oid_(e))
        Result = x;
-      else Serror_string("[161] Missing keyword ~S after ~S",list::alloc(2,_oid_(e),x));
+      else Serror_string(copy_string("[161] Missing keyword ~S after ~S"),list::alloc(2,_oid_(e),x));
         } 
     GC_UNBIND; return (Result);} 
   } 
@@ -675,7 +675,7 @@ OID  nexts_I_meta_reader2(meta_reader *r,int e)
        { cnext_meta_reader(r);
         Result = x;
         } 
-      else Serror_string("[162] Missing separator ~S after ~S",list::alloc(2,_oid_(char_I_integer(e)),x));
+      else Serror_string(copy_string("[162] Missing separator ~S after ~S"),list::alloc(2,_oid_(char_I_integer(e)),x));
         } 
     GC_UNBIND; return (Result);} 
   } 
@@ -691,7 +691,7 @@ OID  nexts_I_meta_reader3(meta_reader *r,keyword *e,int n)
       if ((firstc_meta_reader(r) == n) || 
           (boolean_I_any(stop_ask_integer(firstc_meta_reader(r))) != CTRUE))
        Result = x;
-      else Serror_string("[163] wrong separator ~S after ~S",list::alloc(2,_oid_(char_I_integer(firstc_meta_reader(r))),x));
+      else Serror_string(copy_string("[163] wrong separator ~S after ~S"),list::alloc(2,_oid_(char_I_integer(firstc_meta_reader(r))),x));
         } 
     GC_UNBIND; return (Result);} 
   } 
@@ -728,12 +728,12 @@ ClaireBoolean * extended_comment_ask_meta_reader(meta_reader *r,char *s)
 
 // produce the equivalent extended comment
 //
-/* The c++ function for: extended_comment!(r:meta_reader,s:string) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
+/* The c++ function for: extended_comment!(r:meta_reader,s:string) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE] */
 OID  extended_comment_I_meta_reader(meta_reader *r,char *s)
 { GC_BIND;
   { OID Result = 0;
     { int  i = get_string(s,_char_(']'));
-      int  k = included_string(s,"//",CTRUE);
+      int  k = included_string(s,copy_string("//"),CTRUE);
       int  m = strlen(s);
       int  cx = firstc_meta_reader(r);
       print_in_string_void();
@@ -750,7 +750,7 @@ OID  extended_comment_I_meta_reader(meta_reader *r,char *s)
        k= (m+1);
       if ((i == 3) && 
           (s[i - 1] == '\?'))
-       { princ_string("assert(");
+       { princ_string(copy_string("assert("));
         { int  j = (i+2);
           int  g0017 = m;
           { OID gc_local;
@@ -760,9 +760,9 @@ OID  extended_comment_I_meta_reader(meta_reader *r,char *s)
               } 
             } 
           } 
-        princ_string(")");
+        princ_string(copy_string(")"));
         } 
-      else { princ_string("trace(");
+      else { princ_string(copy_string("trace("));
           { int  j = 2;
             int  g0018 = (i-1);
             { OID gc_local;
@@ -772,7 +772,7 @@ OID  extended_comment_I_meta_reader(meta_reader *r,char *s)
                 } 
               } 
             } 
-          princ_string(",\"");
+          princ_string(copy_string(",\""));
           { int  j = (i+2);
             int  g0019 = (k-1);
             { OID gc_local;
@@ -782,9 +782,9 @@ OID  extended_comment_I_meta_reader(meta_reader *r,char *s)
                 } 
               } 
             } 
-          princ_string("\\n\"");
+          princ_string(copy_string("\\n\""));
           if ((k+3) <= m)
-           { princ_string(",");
+           { princ_string(copy_string(","));
             { int  j = (k+3);
               int  g0020 = m;
               { OID gc_local;
@@ -795,7 +795,7 @@ OID  extended_comment_I_meta_reader(meta_reader *r,char *s)
                 } 
               } 
             } 
-          princ_string(")");
+          princ_string(copy_string(")"));
           } 
         { OID  s2 = GC_OID(read_string(end_of_print_void()));
         (Reader.reader->nb_line = (Reader.reader->nb_line+1));

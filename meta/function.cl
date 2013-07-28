@@ -443,7 +443,7 @@ mClaire/atan(self:float) : float
  -> (let y := 0.0 in (externC("y = atan(self)"), y))
  
 string!(self:float) : string -> (print_in_string(), princ(self), end_of_string())
-princ(self:float,i:integer) : void -> function!(print_format_float)
+princ(self:float,i:integer) : void -> function!(print_format_float)           // v3.3.42
 
 
 //--------- BAG --------------------------------------------------------

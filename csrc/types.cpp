@@ -1,5 +1,5 @@
-/***** CLAIRE Compilation of file d:\claire\v3.3\src\meta\types.cl 
-         [version 3.3.42 / safety 5] Sat Jan 28 08:50:12 2006 *****/
+/***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\types.cl 
+         [version 3.3.46 / safety 5] Sun Feb 15 15:35:15 2009 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -29,7 +29,7 @@
 // *   Part 1: Common Set Methods                                      *
 // *********************************************************************
 // ----------------------- useful methods ------------------------------
-/* The c++ function for: finite?(self:type) [NEW_ALLOC] */
+/* The c++ function for: finite?(self:type) [NEW_ALLOC+STRING_UPDATE] */
 ClaireBoolean * finite_ask_type(ClaireType *self)
 { { ClaireBoolean *Result ;
     if (Kernel._set == self->isa)
@@ -67,7 +67,7 @@ bag * enumerate_any(OID self)
        V_CC = make_set_integer(self);
       else if (INHERIT(OWNER(self),Kernel._collection))
        V_CC = OBJECT(bag,(*Kernel.set_I)(self));
-      else close_exception(((general_error *) (*Core._general_error)(_string_("[178] cannot enumerate ~S"),
+      else close_exception(((general_error *) (*Core._general_error)(_string_(copy_string("[178] cannot enumerate ~S")),
           _oid_(list::alloc(1,self)))));
         Result= (bag *) V_CC;} 
     return (Result);} 
@@ -75,7 +75,7 @@ bag * enumerate_any(OID self)
 
 
 // =type? is an operation (equality on types)
-/* The c++ function for: =type?(self:type,ens:type) [NEW_ALLOC] */
+/* The c++ function for: =type?(self:type,ens:type) [NEW_ALLOC+STRING_UPDATE] */
 ClaireBoolean * _equaltype_ask_any(ClaireType *self,ClaireType *ens)
 { return (((_inf_equal_type(self,ens) == CTRUE) ? ((_inf_equal_type(ens,self) == CTRUE) ? CTRUE: CFALSE): CFALSE));} 
 
@@ -103,7 +103,7 @@ ClaireBoolean * _Z_any1(OID self,ClaireClass *ens)
 
 
 // an extension for %
-/* The c++ function for: mClaire/%type(x:any,y:any) [NEW_ALLOC] */
+/* The c++ function for: mClaire/%type(x:any,y:any) [NEW_ALLOC+STRING_UPDATE] */
 ClaireBoolean * Ztype_any(OID x,OID y)
 { { ClaireBoolean *Result ;
     if ((INHERIT(OWNER(x),Kernel._type)) && 
@@ -171,13 +171,13 @@ ClaireBoolean * finite_ask_Interval(Interval *self)
 
 
 // true constructor
-/* The c++ function for: --(x:integer,y:integer) [NEW_ALLOC] */
+/* The c++ function for: --(x:integer,y:integer) [NEW_ALLOC+STRING_UPDATE] */
 Interval * _dash_dash_integer(int x,int y)
 { { Interval *Result ;
     { ClaireObject *V_CC ;
       if (x <= y)
        V_CC = _dot_dot_integer(x,y);
-      else close_exception(((general_error *) (*Core._general_error)(_string_("[182] the interval (~S -- ~S) is empty"),
+      else close_exception(((general_error *) (*Core._general_error)(_string_(copy_string("[182] the interval (~S -- ~S) is empty")),
           _oid_(list::alloc(2,x,y)))));
         Result= (Interval *) V_CC;} 
     return (Result);} 
@@ -185,35 +185,35 @@ Interval * _dash_dash_integer(int x,int y)
 
 
 // Parameterized class. -------------------------------------------
-/* The c++ function for: self_print(self:Param) [NEW_ALLOC+SLOT_UPDATE] */
+/* The c++ function for: self_print(self:Param) [NEW_ALLOC+SLOT_UPDATE+STRING_UPDATE] */
 void  self_print_Param_Core(Param *self)
 { GC_BIND;
   if ((self->params->length == 1) && 
       (((*(self->params))[1] == _oid_(Kernel.of)) && 
         (Kernel._set == OWNER((*(self->args))[1]))))
    { print_any(_oid_(self->arg));
-    princ_string("<");
+    princ_string(copy_string("<"));
     print_any((*(OBJECT(set,(*(self->args))[1])))[1]);
-    princ_string(">");
+    princ_string(copy_string(">"));
     } 
   else { print_any(_oid_(self->arg));
-      princ_string("[");
+      princ_string(copy_string("["));
       { int  i = 1;
         int  g0100 = self->args->length;
         { OID gc_local;
           while ((i <= g0100))
           { GC_LOOP;
             if (i != 1)
-             princ_string(", ");
+             princ_string(copy_string(", "));
             print_any((*(self->params))[i]);
-            princ_string(":(");
+            princ_string(copy_string(":("));
             print_any((*(self->args))[i]);
-            princ_string(")");
+            princ_string(copy_string(")"));
             ++i;
             GC_UNLOOP;} 
           } 
         } 
-      princ_string("]");
+      princ_string(copy_string("]"));
       } 
     GC_UNBIND;} 
 
@@ -269,7 +269,7 @@ ClaireType * nth_class1(ClaireClass *self,ClaireType *x)
         V_CC = _CL_obj;
         } 
       else if (inherit_ask_class(self,Kernel._type) != CTRUE)
-       close_exception(((general_error *) (*Core._general_error)(_string_("[177] subtyping of ~S not allowed"),
+       close_exception(((general_error *) (*Core._general_error)(_string_(copy_string("[177] subtyping of ~S not allowed")),
         _oid_(list::alloc(1,_oid_(self))))));
       else { subtype * _CL_obj = ((subtype *) GC_OBJECT(subtype,new_object_class(Core._subtype)));
           (_CL_obj->arg = ((self == Core._subtype) ?
@@ -285,7 +285,7 @@ ClaireType * nth_class1(ClaireClass *self,ClaireType *x)
 
 // create a Param with a list of parameters (constant properties) l1 and a list
 // of types l2
-/* The c++ function for: nth(self:class,l1:list,l2:list) [NEW_ALLOC+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: nth(self:class,l1:list,l2:list) [NEW_ALLOC+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 ClaireType * nth_class2(ClaireClass *self,list *l1,list *l2)
 { GC_BIND;
   { ClaireType *Result ;
@@ -297,7 +297,7 @@ ClaireType * nth_class2(ClaireClass *self,list *l1,list *l2)
       else if (((self == Kernel._list) || 
             (self == Kernel._set)) && 
           ((*(l1))[1] != _oid_(Kernel.of)))
-       close_exception(((general_error *) (*Core._general_error)(_string_("[177] the subtyping expression ~S[~A] is not allowed"),
+       close_exception(((general_error *) (*Core._general_error)(_string_(copy_string("[177] the subtyping expression ~S[~A] is not allowed")),
         _oid_(list::alloc(2,_oid_(self),_oid_(l1))))));
       else { Param * _CL_obj = ((Param *) GC_OBJECT(Param,new_object_class(Core._Param)));
           (_CL_obj->arg = self);
@@ -481,7 +481,7 @@ set * set_I_class(ClaireClass *x)
         { GC_LOOP;
           if ((INHERIT(OBJECT(ClaireClass,c),Kernel._primitive)) && 
               (c != _oid_(Kernel._boolean)))
-           close_exception(((general_error *) (*Core._general_error)(_string_("[178] cannot enumerate ~S"),
+           close_exception(((general_error *) (*Core._general_error)(_string_(copy_string("[178] cannot enumerate ~S")),
             _oid_(list::alloc(1,c)))));
           else GC__ANY(rep = append_list(rep,OBJECT(ClaireClass,c)->instances), 1);
             GC_UNLOOP;} 
@@ -516,7 +516,7 @@ set * set_I_Union(Union *x)
   } 
 
 
-/* The c++ function for: size(x:Union) [NEW_ALLOC] */
+/* The c++ function for: size(x:Union) [NEW_ALLOC+STRING_UPDATE] */
 int  size_Union(Union *x)
 { GC_BIND;
   { int Result = 0;
@@ -540,7 +540,7 @@ int  size_Interval(Interval *self)
 
 
 // param
-/* The c++ function for: set!(x:Param) [NEW_ALLOC] */
+/* The c++ function for: set!(x:Param) [NEW_ALLOC+STRING_UPDATE] */
 set * set_I_Param(Param *x)
 { GC_BIND;
   { set *Result ;
@@ -662,7 +662,7 @@ int  size_tuple(tuple *l)
 
 // generic collection membership
 // v3.2.24: this is extensible through the redefinition of %
-/* The c++ function for: member?(x:any,y:type) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
+/* The c++ function for: member?(x:any,y:type) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE] */
 ClaireBoolean * member_ask_any(OID x,ClaireType *y)
 { GC_BIND;
   { ClaireBoolean *Result ;
@@ -740,7 +740,7 @@ ClaireBoolean * member_ask_any(OID x,ClaireType *y)
             if ((Kernel._method == m->isa) && ((CLREAD(restriction,m,domain)->length == 2) && 
                 ((*(CLREAD(restriction,m,domain)))[2] != _oid_(Kernel._any))))
              V_CC = OBJECT(ClaireBoolean,eval_message_property(Kernel._Z,m,start,CTRUE));
-            else close_exception(((general_error *) (*Core._general_error)(_string_("[179] (~S % ~S): not implemented!"),
+            else close_exception(((general_error *) (*Core._general_error)(_string_(copy_string("[179] (~S % ~S): not implemented!")),
                 _oid_(list::alloc(2,x,_oid_(y))))));
               } 
           } 
@@ -799,7 +799,7 @@ ClaireClass * class_I_type(ClaireType *x)
 // reduction is done by enumeration if needed during the type subsumption
 // union is left-associative: A U B U C is represented by (A U B) U C  => never(t2(x:Union) % union)
 // a union of intervals is ALWAYS disjoint
-/* The c++ function for: U(x:type,y:type) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: U(x:type,y:type) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 ClaireType * U_type(ClaireType *x,ClaireType *y)
 { GC_BIND;
   { ClaireType *Result ;
@@ -872,7 +872,7 @@ ClaireType * U_type(ClaireType *x,ClaireType *y)
 
 
 // the Interval construction method has a smart second-order type  - fix on v3.1.06
-/* The c++ function for: ..(x:integer,y:integer) [NEW_ALLOC] */
+/* The c++ function for: ..(x:integer,y:integer) [NEW_ALLOC+STRING_UPDATE] */
 ClaireType * _dot_dot_integer(int x,int y)
 { { ClaireType *Result ;
     if (x <= y)
@@ -928,7 +928,7 @@ ClaireType * but_any_type(ClaireType *s,ClaireType *x)
   } 
 
 
-/* The c++ function for: \(x:type,y:type) [NEW_ALLOC] */
+/* The c++ function for: \(x:type,y:type) [NEW_ALLOC+STRING_UPDATE] */
 set * _backslash_type(ClaireType *x,ClaireType *y)
 { GC_BIND;
   { set *Result ;
@@ -953,7 +953,7 @@ set * _backslash_type(ClaireType *x,ClaireType *y)
 // glb operation ---------------------------------------------------
 // should use type
 // new in v3.0.60: we reintroduce a glb method
-/* The c++ function for: glb(x:set,y:type) [NEW_ALLOC] */
+/* The c++ function for: glb(x:set,y:type) [NEW_ALLOC+STRING_UPDATE] */
 set * glb_set(set *x,ClaireType *y)
 { GC_BIND;
   { set *Result ;
@@ -970,7 +970,7 @@ set * glb_set(set *x,ClaireType *y)
   } 
 
 
-/* The c++ function for: glb(x:Union,y:type) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: glb(x:Union,y:type) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 ClaireType * glb_Union(Union *x,ClaireType *y)
 { GC_BIND;
   { ClaireType *Result ;
@@ -981,7 +981,7 @@ ClaireType * glb_Union(Union *x,ClaireType *y)
   } 
 
 
-/* The c++ function for: glb(x:Interval,y:type) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: glb(x:Interval,y:type) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 ClaireType * glb_Interval(Interval *x,ClaireType *y)
 { GC_BIND;
   { ClaireType *Result ;
@@ -1010,7 +1010,7 @@ ClaireType * glb_Interval(Interval *x,ClaireType *y)
   } 
 
 
-/* The c++ function for: glb(x:class,y:type) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: glb(x:class,y:type) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 ClaireType * glb_class(ClaireClass *x,ClaireType *y)
 { GC_BIND;
   { ClaireType *Result ;
@@ -1052,7 +1052,7 @@ ClaireType * glb_class(ClaireClass *x,ClaireType *y)
   } 
 
 
-/* The c++ function for: glb(x:Param,y:type) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: glb(x:Param,y:type) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 ClaireType * glb_Param(Param *x,ClaireType *y)
 { GC_RESERVE(9);  // v3.0.55 optim !
   { ClaireType *Result ;
@@ -1102,7 +1102,7 @@ ClaireType * glb_Param(Param *x,ClaireType *y)
 
 // notice that a param whose class is a type must use of (only parameter allowed!)
 // the result is a subtype
-/* The c++ function for: glb(x:subtype,y:type) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: glb(x:subtype,y:type) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 ClaireType * glb_subtype(subtype *x,ClaireType *y)
 { GC_BIND;
   { ClaireType *Result ;
@@ -1134,7 +1134,7 @@ ClaireType * glb_subtype(subtype *x,ClaireType *y)
 
 
 // set, Interval, list
-/* The c++ function for: glb(x:tuple,y:type) [NEW_ALLOC+RETURN_ARG] */
+/* The c++ function for: glb(x:tuple,y:type) [NEW_ALLOC+RETURN_ARG+STRING_UPDATE] */
 ClaireType * glb_tuple(tuple *x,ClaireType *y)
 { GC_BIND;
   { ClaireType *Result ;
@@ -1179,7 +1179,7 @@ ClaireType * glb_Reference(Reference *x,ClaireType *y)
 
 
 // this will be greatly simplified in a few minutes !
-/* The c++ function for: ^(x:type,y:type) [NEW_ALLOC+RETURN_ARG] */
+/* The c++ function for: ^(x:type,y:type) [NEW_ALLOC+RETURN_ARG+STRING_UPDATE] */
 ClaireType * _exp_type(ClaireType *x,ClaireType *y)
 { return (OBJECT(ClaireType,(*Core.glb)(_oid_(x),
     _oid_(y))));} 
@@ -1207,7 +1207,7 @@ ClaireType * join_class(ClaireClass *x,ClaireClass *y)
 
 
 // for lists
-/* The c++ function for: ^(x:list,y:list) [NEW_ALLOC] */
+/* The c++ function for: ^(x:list,y:list) [NEW_ALLOC+STRING_UPDATE] */
 list * _exp_list(list *x,list *y)
 { GC_RESERVE(1);  // HOHO v3.0.55 optim !
   { list *Result ;
@@ -1238,7 +1238,7 @@ list * _exp_list(list *x,list *y)
 
 
 // a combined union
-/* The c++ function for: Uall(l:list) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
+/* The c++ function for: Uall(l:list) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE] */
 ClaireType * Uall_list(list *l)
 { GC_RESERVE(1);  // HOHO v3.0.55 optim !
   { ClaireType *Result ;
@@ -1259,7 +1259,7 @@ ClaireType * Uall_list(list *l)
 // ------------------- The inclusion operation ------------------------
 // hand-made
 // v3.2: extend from set to bags
-/* The c++ function for: <=t(s:bag,y:type) [NEW_ALLOC] */
+/* The c++ function for: <=t(s:bag,y:type) [NEW_ALLOC+STRING_UPDATE] */
 ClaireBoolean * _inf_equalt_bag2(bag *s,ClaireType *y)
 { { ClaireBoolean *Result ;
     { ClaireType * z = of_bag(s);
@@ -1281,7 +1281,7 @@ ClaireBoolean * _inf_equalt_bag2(bag *s,ClaireType *y)
 
 
 // class
-/* The c++ function for: <=t(x:class,y:type) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
+/* The c++ function for: <=t(x:class,y:type) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE] */
 ClaireBoolean * _inf_equalt_class(ClaireClass *x,ClaireType *y)
 { GC_BIND;
   { ClaireBoolean *Result ;
@@ -1329,7 +1329,7 @@ ClaireBoolean * _inf_equalt_class(ClaireClass *x,ClaireType *y)
 
 
 // Union
-/* The c++ function for: <=t(x:Union,y:type) [NEW_ALLOC] */
+/* The c++ function for: <=t(x:Union,y:type) [NEW_ALLOC+STRING_UPDATE] */
 ClaireBoolean * _inf_equalt_Union(Union *x,ClaireType *y)
 { GC_BIND;
   { ClaireBoolean *Result ;
@@ -1339,7 +1339,7 @@ ClaireBoolean * _inf_equalt_Union(Union *x,ClaireType *y)
 
 
 // Interval
-/* The c++ function for: <=t(x:Interval,y:type) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
+/* The c++ function for: <=t(x:Interval,y:type) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE] */
 ClaireBoolean * _inf_equalt_Interval(Interval *x,ClaireType *y)
 { GC_BIND;
   { ClaireBoolean *Result ;
@@ -1357,7 +1357,7 @@ ClaireBoolean * _inf_equalt_Interval(Interval *x,ClaireType *y)
 
 
 // subtype
-/* The c++ function for: <=t(x:subtype,y:type) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
+/* The c++ function for: <=t(x:subtype,y:type) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE] */
 ClaireBoolean * _inf_equalt_subtype(subtype *x,ClaireType *y)
 { GC_BIND;
   { ClaireBoolean *Result ;
@@ -1373,7 +1373,7 @@ ClaireBoolean * _inf_equalt_subtype(subtype *x,ClaireType *y)
 
 
 // Param is similar !
-/* The c++ function for: <=t(x:Param,y:type) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
+/* The c++ function for: <=t(x:Param,y:type) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE] */
 ClaireBoolean * _inf_equalt_Param(Param *x,ClaireType *y)
 { GC_BIND;
   { ClaireBoolean *Result ;
@@ -1395,7 +1395,7 @@ ClaireBoolean * _inf_equalt_Reference(Reference *x,ClaireType *y)
 
 
 // tuple : the only subtlety is the de-normalization of U within a tuple type
-/* The c++ function for: <=t(x:tuple,y:type) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
+/* The c++ function for: <=t(x:tuple,y:type) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE] */
 ClaireBoolean * _inf_equalt_tuple(tuple *x,ClaireType *y)
 { GC_BIND;
   { ClaireBoolean *Result ;
@@ -1456,7 +1456,7 @@ ClaireBoolean * _inf_equalt_tuple(tuple *x,ClaireType *y)
 
 // this is a generic ordering when y is a type Interval, a subtype or a Param
 // x <= one such type is actually easy
-/* The c++ function for: <=t(x:type,y:type) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
+/* The c++ function for: <=t(x:type,y:type) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE] */
 ClaireBoolean * _inf_equalt_type(ClaireType *x,ClaireType *y)
 { GC_BIND;
   { ClaireBoolean *Result ;
@@ -1499,7 +1499,7 @@ ClaireBoolean * _inf_equalt_type(ClaireType *x,ClaireType *y)
 
 // for extensibility !
 // default order for types
-/* The c++ function for: <=(x:type,y:type) [NEW_ALLOC] */
+/* The c++ function for: <=(x:type,y:type) [NEW_ALLOC+STRING_UPDATE] */
 ClaireBoolean * _inf_equal_type(ClaireType *x,ClaireType *y)
 { return (OBJECT(ClaireBoolean,_oid_((ClaireObject *) Core._inf_equalt->fcall(((int) x),((int) y)))));} 
 
@@ -1510,7 +1510,7 @@ ClaireBoolean * _inf_equal_type(ClaireType *x,ClaireType *y)
 // --------------------- extract tuple type information -------------
 // extract a member type, that is a valid type for all members (z) of instances of
 // the type x.This is much simpler in v3.0
-/* The c++ function for: member(x:type) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: member(x:type) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 ClaireType * member_type(ClaireType *x)
 { GC_BIND;
   { ClaireType *Result ;
@@ -1581,7 +1581,7 @@ ClaireType * of_extract_type(ClaireType *x)
 // --------------------- extract range information ------------------
 // the method @ is used to extract the range information contained
 // in a type. This method returns a type and is crucial for compiling !
-/* The c++ function for: @(x:type,p:property) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: @(x:type,p:property) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 ClaireType * _at_type(ClaireType *x,property *p)
 { GC_BIND;
   { ClaireType *Result ;
@@ -1640,7 +1640,7 @@ OID  the_type(ClaireType *x)
 
 // bitvector made easy
 // v0.01: should not use set[0 .. 29] => burden on caller is too heavy
-/* The c++ function for: integer!(s:set[integer]) [NEW_ALLOC] */
+/* The c++ function for: integer!(s:set[integer]) [NEW_ALLOC+STRING_UPDATE] */
 int  integer_I_set(set *s)
 { { int Result = 0;
     { int  n = 0;
@@ -1707,7 +1707,7 @@ ClaireType * abstract_type_set(set *xt1)
 
 
 // abstract interpretation of integer arithmetique
-/* The c++ function for: abstract_type(p:operation,xt1:type,xt2:type) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: abstract_type(p:operation,xt1:type,xt2:type) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 ClaireType * abstract_type_operation(operation *p,ClaireType *xt1,ClaireType *xt2)
 { GC_BIND;
   { ClaireType *Result ;
@@ -1757,7 +1757,7 @@ ClaireType * second_arg_type_type(ClaireType *x,ClaireType *y)
 { return (y);} 
 
 
-/* The c++ function for: meet_arg_types(x:type,y:type) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: meet_arg_types(x:type,y:type) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 ClaireType * meet_arg_types_type(ClaireType *x,ClaireType *y)
 { return (U_type(x,y));} 
 
@@ -1770,13 +1770,13 @@ ClaireType * first_member_type_type(ClaireType *x,ClaireType *y)
 // v3.3.10
 // we place here all methods that require second order types !!!!
 //nth_get(a:array,n:integer) : type[member(a)] -> function!(nth_get_array)
-/* The c++ function for: nth(self:array,x:integer) [RETURN_ARG] */
+/* The c++ function for: nth(self:array,x:integer) [RETURN_ARG+STRING_UPDATE] */
 OID  nth_array(OID *self,int x)
 { { OID Result = 0;
     if ((x > 0) && 
         (x <= self[0]))
      Result = nth_get_array(self,x);
-    else { OID  V_CL0123;close_exception(((general_error *) (*Core._general_error)(_string_("[180] nth[~S] out of scope for ~S"),
+    else { OID  V_CL0123;close_exception(((general_error *) (*Core._general_error)(_string_(copy_string("[180] nth[~S] out of scope for ~S")),
           _oid_(list::alloc(2,x,_array_(self))))));
         
         Result=_void_(V_CL0123);} 

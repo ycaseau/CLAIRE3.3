@@ -1,5 +1,5 @@
-/***** CLAIRE Compilation of file d:\claire\v3.3\src\meta\object.cl 
-         [version 3.3.42 / safety 5] Sat Jan 28 08:50:12 2006 *****/
+/***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\object.cl 
+         [version 3.3.46 / safety 5] Sun Feb 15 15:35:15 2009 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -24,11 +24,11 @@
 // *   Part 4: Basics of Exceptions                                    *
 // *********************************************************************
 // release() should produce a version number
-/* The c++ function for: release(_CL_obj:void) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
+/* The c++ function for: release(_CL_obj:void) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE] */
 OID  release_void()
 { GC_BIND;
   { OID Result = 0;
-    Result = _string_(append_string("3.",GC_STRING(string_I_float(ClEnv->version))));
+    Result = _string_(append_string(copy_string("3."),GC_STRING(string_I_float(ClEnv->version))));
     GC_UNBIND; return (Result);} 
   } 
 
@@ -134,7 +134,7 @@ OID  call_property(property *p,listargs *l)
 { return (apply_property(p,l));} 
 
 
-/* The c++ function for: apply(p:property,l:list) [NEW_ALLOC+SLOT_UPDATE] */
+/* The c++ function for: apply(p:property,l:list) [NEW_ALLOC+SLOT_UPDATE+STRING_UPDATE] */
 OID  apply_property(property *p,list *l)
 { { OID Result = 0;
     { int  start = ClEnv->index;
@@ -165,7 +165,7 @@ OID  apply_method(method *m,list *l)
 // push and pop debug info on the stack
 // this method also does the tracing and the steppping
 // NOTE: self should be either a property or a restriction
-/* The c++ function for: push_debug(prop:property,arity:integer,start:integer) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: push_debug(prop:property,arity:integer,start:integer) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 void  push_debug_property(property *prop,int arity,int start)
 { GC_BIND;
   { int  i = ClEnv->index;
@@ -176,18 +176,18 @@ void  push_debug_property(property *prop,int arity,int start)
      { ClairePort * p = use_as_output_port(ClEnv->ctrace);
       (ClEnv->trace_I = 0);
       tr_indent_boolean(CFALSE,n);
-      princ_string(" ");
+      princ_string(copy_string(" "));
       print_any(_oid_(prop));
-      princ_string("(");
+      princ_string(copy_string("("));
       print_any(GC_OID(ClEnv->stack[start]));
-      princ_string("");
+      princ_string(copy_string(""));
       { int  j = (start+1);
         { OID gc_local;
           while ((j < (start+arity)))
           { GC_LOOP;
-            princ_string(",");
+            princ_string(copy_string(","));
             print_any(GC_OID(ClEnv->stack[j]));
-            princ_string("");
+            princ_string(copy_string(""));
             ++j;
             GC_UNLOOP;} 
           } 
@@ -196,9 +196,9 @@ void  push_debug_property(property *prop,int arity,int start)
        (ClEnv->step_I = n);
       if (0 <= ClEnv->count_call)
        { (ClEnv->count_call = (ClEnv->count_call+1));
-        princ_string(" [");
+        princ_string(copy_string(" ["));
         princ_integer(ClEnv->count_call);
-        princ_string("]");
+        princ_string(copy_string("]"));
         if (ClEnv->count_call == ClEnv->count_level)
          { if (ClEnv->count_trigger == _oid_(Core.call_step))
            (ClEnv->step_I = n);
@@ -213,7 +213,7 @@ void  push_debug_property(property *prop,int arity,int start)
         } 
       if (n == ClEnv->step_I)
        (*Core.call_step)(_oid_(prop));
-      else princ_string(")\n");
+      else princ_string(copy_string(")\n"));
         (ClEnv->trace_I = (n+1));
       use_as_output_port(p);
       } 
@@ -267,7 +267,7 @@ void  push_debug_property(property *prop,int arity,int start)
             } 
           } 
         
-        if (g0046I == CTRUE) close_exception(((general_error *) (*Core._general_error)(_string_("stop as required in ~S(~A)"),
+        if (g0046I == CTRUE) close_exception(((general_error *) (*Core._general_error)(_string_(copy_string("stop as required in ~S(~A)")),
             _oid_(list::alloc(2,_oid_(prop),GC_OID(_oid_(get_args_integer(start))))))));
           } 
       } 
@@ -306,9 +306,9 @@ void  pop_debug_property(property *self,int n,OID val)
         if ((self->trace_I+ClEnv->verbose) > 4)
          { ClairePort * p = use_as_output_port(ClEnv->ctrace);
           tr_indent_boolean(CTRUE,(i-1));
-          princ_string(" ");
+          princ_string(copy_string(" "));
           print_any(val);
-          princ_string("\n");
+          princ_string(copy_string("\n"));
           use_as_output_port(p);
           } 
         if (i <= ClEnv->step_I)
@@ -394,7 +394,7 @@ void  add_value_property3(property *self,ClaireObject *x,OID y)
      close_exception(((selector_error *) (*Core._selector_error)(_oid_(self),
       _oid_(list::alloc(1,_oid_(x))))));
     else if (multi_ask_any(_oid_(self)) != CTRUE)
-     close_exception(((general_error *) (*Core._general_error)(_string_("[134] Cannot apply add to ~S"),
+     close_exception(((general_error *) (*Core._general_error)(_string_(copy_string("[134] Cannot apply add to ~S")),
       _oid_(list::alloc(1,_oid_(self))))));
     else { int  n = CLREAD(slot,s,index);
         bag * l1 = OBJECT(bag,slot_get_object(x,n,Kernel._object));
@@ -409,12 +409,12 @@ void  add_value_property3(property *self,ClaireObject *x,OID y)
 
 
 // access
-/* The c++ function for: nth(a:table,x:any) [NEW_ALLOC] */
+/* The c++ function for: nth(a:table,x:any) [NEW_ALLOC+STRING_UPDATE] */
 OID  nth_table1(table *a,OID x)
 { { OID Result = 0;
     { OID  p = a->params;
       if (belong_to(x,_oid_(a->domain)) != CTRUE)
-       close_exception(((general_error *) (*Core._general_error)(_string_("[135] ~S does not belong to the domain of ~S"),
+       close_exception(((general_error *) (*Core._general_error)(_string_(copy_string("[135] ~S does not belong to the domain of ~S")),
         _oid_(list::alloc(2,x,_oid_(a))))));
       { OID  v;
         if (INHERIT(OWNER(p),Kernel._integer))
@@ -427,7 +427,7 @@ OID  nth_table1(table *a,OID x)
           if ((v != CNULL) || 
             (belong_to(v,_oid_(a->range)) == CTRUE))
          Result = v;
-        else { OID  V_CL0051;close_exception(((general_error *) (*Core._general_error)(_string_("[138] the value ~S(~S) is unknown !"),
+        else { OID  V_CL0051;close_exception(((general_error *) (*Core._general_error)(_string_(copy_string("[138] the value ~S(~S) is unknown !")),
               _oid_(list::alloc(2,_oid_(a),x)))));
             
             Result=_void_(V_CL0051);} 
@@ -448,7 +448,7 @@ ClaireType * nth_table1_type(ClaireType *a,ClaireType *x)
   } 
 
 
-/* The c++ function for: get(a:table,x:any) [RETURN_ARG] */
+/* The c++ function for: get(a:table,x:any) [NEW_ALLOC+RETURN_ARG+STRING_UPDATE] */
 OID  get_table(table *a,OID x)
 { { OID Result = 0;
     { OID  p = a->params;
@@ -474,10 +474,10 @@ ClaireType * get_table_type(ClaireType *a,ClaireType *x)
 
 
 // interface update method for a[x] := y
-/* The c++ function for: nth=(a:table,x:any,y:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: nth=(a:table,x:any,y:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 void  nth_equal_table1(table *a,OID x,OID y)
 { if (belong_to(x,_oid_(a->domain)) != CTRUE)
-   close_exception(((general_error *) (*Core._general_error)(_string_("[135] ~S does not belong to the domain of ~S"),
+   close_exception(((general_error *) (*Core._general_error)(_string_(copy_string("[135] ~S does not belong to the domain of ~S")),
     _oid_(list::alloc(2,x,_oid_(a))))));
   if (belong_to(y,_oid_(a->range)) != CTRUE)
    close_exception(((range_error *) (*Core._range_error)(_oid_(a),
@@ -489,7 +489,7 @@ void  nth_equal_table1(table *a,OID x,OID y)
 
 // internal form without checks
 // equivalent of update = put + put_inverse
-/* The c++ function for: nth_put(a:table,x:any,y:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: nth_put(a:table,x:any,y:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 void  nth_put_table(table *a,OID x,OID y)
 { GC_BIND;
   if ((((a->if_write == CNULL) ? CTRUE : CFALSE) != CTRUE) && 
@@ -497,7 +497,7 @@ void  nth_put_table(table *a,OID x,OID y)
    fastcall_relation2(a,x,y);
   else if (multi_ask_any(_oid_(a)) == CTRUE)
    { OID  r = GC_OID(get_property(Kernel.inverse,a));
-    OID  old = get_table(a,x);
+    OID  old = GC_OID(get_table(a,x));
     { OID  g0052UU;
       if (OBJECT(set,y)->length == 0)
        g0052UU = y;
@@ -522,10 +522,10 @@ void  nth_put_table(table *a,OID x,OID y)
       } 
     } 
   else { OID  r = GC_OID(get_property(Kernel.inverse,a));
-      OID  z = get_table(a,x);
+      OID  z = GC_OID(get_table(a,x));
       if (equal(z,y) != CTRUE)
        { if (r != CNULL)
-         { OID  z = get_table(a,x);
+         { OID  z = GC_OID(get_table(a,x));
           if ((z != CNULL) && 
               ((r != _oid_(a)) || 
                   (equal(x,z) != CTRUE)))
@@ -541,8 +541,9 @@ void  nth_put_table(table *a,OID x,OID y)
 // put does NOT update the inverse
 /* The c++ function for: put(a:table,x:any,y:any) [NEW_ALLOC+BAG_UPDATE] */
 void  put_table(table *a,OID x,OID y)
-{ { OID  p = a->params;
-    OID  z = get_table(a,x);
+{ GC_BIND;
+  { OID  p = a->params;
+    OID  z = GC_OID(get_table(a,x));
     if (equal(z,y) != CTRUE)
      { if (INHERIT(OWNER(p),Kernel._integer))
        store_list(((list *) a->graph),(*Kernel._dash)(x,
@@ -554,14 +555,14 @@ void  put_table(table *a,OID x,OID y)
           } 
         ;} 
     } 
-  } 
+  GC_UNBIND;} 
 
 
 // adds a value to a multi-valued table: interface method
-/* The c++ function for: add(a:table,x:any,y:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: add(a:table,x:any,y:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 void  add_table(table *a,OID x,OID y)
 { if (belong_to(x,_oid_(a->domain)) != CTRUE)
-   close_exception(((general_error *) (*Core._general_error)(_string_("[135] ~S does not belong to the domain of ~S"),
+   close_exception(((general_error *) (*Core._general_error)(_string_(copy_string("[135] ~S does not belong to the domain of ~S")),
     _oid_(list::alloc(2,x,_oid_(a))))));
   if (belong_to(y,_oid_(member_type(a->range))) != CTRUE)
    close_exception(((range_error *) (*Core._range_error)(_oid_(a),
@@ -586,7 +587,7 @@ void  add_I_table(table *a,OID x,OID y)
 
 
 // this methods adds a value to a multi-slot (used by the compiler)
-/* The c++ function for: add_value(self:table,n:integer,l:bag,y:any) [NEW_ALLOC+BAG_UPDATE] */
+/* The c++ function for: add_value(self:table,n:integer,l:bag,y:any) [NEW_ALLOC+BAG_UPDATE+STRING_UPDATE] */
 ClaireBoolean * add_value_array(table *self,int n,bag *l,OID y)
 { GC_BIND;
   { ClaireBoolean *Result ;
@@ -649,14 +650,14 @@ OID  delete_table(table *a,OID x,OID y)
 
 
 // direct access to 2-dim tables
-/* The c++ function for: nth(a:table,x:any,y:any) [NEW_ALLOC] */
+/* The c++ function for: nth(a:table,x:any,y:any) [NEW_ALLOC+STRING_UPDATE] */
 OID  nth_table2(table *a,OID x,OID y)
 { { OID Result = 0;
     { OID  p = a->params;
       OID  v;
       if (INHERIT(OWNER(p),Kernel._list))
        { if (((belong_to(x,(*(((bag *) a->domain)))[1]) == CTRUE) ? ((belong_to(y,(*(((bag *) a->domain)))[2]) == CTRUE) ? CTRUE: CFALSE): CFALSE) != CTRUE)
-         close_exception(((general_error *) (*Core._general_error)(_string_("[135] ~S does not belong to the domain of ~S"),
+         close_exception(((general_error *) (*Core._general_error)(_string_(copy_string("[135] ~S does not belong to the domain of ~S")),
           _oid_(list::alloc(2,x,_oid_(a))))));
         v = (*(a->graph))[get_index_table2(a,x,y)];
         } 
@@ -664,7 +665,7 @@ OID  nth_table2(table *a,OID x,OID y)
         if ((v != CNULL) || 
           (belong_to(v,_oid_(a->range)) == CTRUE))
        Result = v;
-      else { OID  V_CL0054;close_exception(((general_error *) (*Core._general_error)(_string_("~S(~S) is unknown !"),
+      else { OID  V_CL0054;close_exception(((general_error *) (*Core._general_error)(_string_(copy_string("~S(~S) is unknown !")),
             _oid_(list::alloc(2,_oid_(a),x)))));
           
           Result=_void_(V_CL0054);} 
@@ -685,12 +686,12 @@ ClaireType * nth_table2_type(ClaireType *a,ClaireType *x,ClaireType *y)
 
 
 // sets a value in a 2-dim table
-/* The c++ function for: nth=(a:table,x:any,y:any,z:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: nth=(a:table,x:any,y:any,z:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 void  nth_equal_table2(table *a,OID x,OID y,OID z)
 { { OID  p = a->params;
     if (INHERIT(OWNER(p),Kernel._list))
      { if (((belong_to(x,(*(((bag *) a->domain)))[1]) == CTRUE) ? ((belong_to(y,(*(((bag *) a->domain)))[2]) == CTRUE) ? CTRUE: CFALSE): CFALSE) != CTRUE)
-       close_exception(((general_error *) (*Core._general_error)(_string_("[135] ~S does not belong to the domain of ~S"),
+       close_exception(((general_error *) (*Core._general_error)(_string_(copy_string("[135] ~S does not belong to the domain of ~S")),
         _oid_(list::alloc(2,_oid_(list::alloc(2,x,y)),_oid_(a))))));
       if (belong_to(z,_oid_(a->range)) != CTRUE)
        close_exception(((range_error *) (*Core._range_error)(_oid_(a),
@@ -736,7 +737,7 @@ int  get_index_table2(table *a,int x,int y)
 
 
 // erase an table means to clean its graph so that it becomes empty.
-/* The c++ function for: erase(a:table) [NEW_ALLOC+BAG_UPDATE+RETURN_ARG] */
+/* The c++ function for: erase(a:table) [NEW_ALLOC+BAG_UPDATE+RETURN_ARG+STRING_UPDATE] */
 void  erase_table(table *a)
 { GC_BIND;
   { OID  p = a->params;
@@ -855,7 +856,7 @@ OID  funcall_lambda3(lambda *self,OID x,OID y,OID z)
 
 // for historical reasons
 // dealing with inverse
-/* The c++ function for: check_inverse(%r1:any,%r2:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
+/* The c++ function for: check_inverse(%r1:any,%r2:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE] */
 void  check_inverse_any(OID _Zr1,OID _Zr2)
 { GC_BIND;
   { ClaireRelation * r1 = OBJECT(ClaireRelation,_Zr1);
@@ -870,14 +871,14 @@ void  check_inverse_any(OID _Zr1,OID _Zr2)
         (_inf_equal_type(r2->domain,GC_OBJECT(ClaireType,((multi_ask_any(_oid_(r1)) == CTRUE) ?
           member_type(r1->range) :
           r1->range ))) != CTRUE))
-     close_exception(((general_error *) (*Core._general_error)(_string_("[137] ~S and ~S cannot be inverses for one another"),
+     close_exception(((general_error *) (*Core._general_error)(_string_(copy_string("[137] ~S and ~S cannot be inverses for one another")),
       _oid_(list::alloc(2,_oid_(r1),_oid_(r2))))));
     } 
   GC_UNBIND;} 
 
 
 // very useful
-/* The c++ function for: invert(r:relation,x:any) [NEW_ALLOC] */
+/* The c++ function for: invert(r:relation,x:any) [NEW_ALLOC+STRING_UPDATE] */
 bag * invert_relation(ClaireRelation *r,OID x)
 { GC_BIND;
   { bag *Result ;
@@ -958,7 +959,7 @@ ClaireClass * domain_I_restriction(restriction *x)
 { return (class_I_type(OBJECT(ClaireType,(*(x->domain))[1])));} 
 
 
-/* The c++ function for: methods(d:class,r:class) [NEW_ALLOC] */
+/* The c++ function for: methods(d:class,r:class) [NEW_ALLOC+STRING_UPDATE] */
 set * methods_class(ClaireClass *d,ClaireClass *r)
 { GC_BIND;
   { set *Result ;
@@ -1193,7 +1194,7 @@ void  format_string(char *self,list *larg)
 
 
 // special version that prints in the trace port
-/* The c++ function for: tformat(self:string,i:integer,l:list) [NEW_ALLOC+SLOT_UPDATE] */
+/* The c++ function for: tformat(self:string,i:integer,l:list) [NEW_ALLOC+SLOT_UPDATE+STRING_UPDATE] */
 OID  tformat_string(char *self,int i,list *l)
 { { OID Result = 0;
     if (i <= ClEnv->verbose)
@@ -1225,7 +1226,7 @@ void  princ_bag(bag *s)
 // a global variable is a named object with a special evaluation
 // NOTE: we need to refine the scheme for global constants !
 // GV are defeasible
-/* The c++ function for: close(self:global_variable) [SAFE_RESULT] */
+/* The c++ function for: close(self:global_variable) [SAFE_RESULT+STRING_UPDATE] */
 global_variable * close_global_variable(global_variable *self)
 { if (((self->value == CNULL) ? CTRUE : (((Kernel._set == self->range->isa) || 
       (belong_to(self->value,_oid_(self->range)) == CTRUE)) ? CTRUE : CFALSE)) != CTRUE)

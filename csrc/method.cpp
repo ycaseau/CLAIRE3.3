@@ -1,5 +1,5 @@
-/***** CLAIRE Compilation of file d:\claire\v3.3\src\meta\method.cl 
-         [version 3.3.42 / safety 5] Sat Jan 28 08:50:12 2006 *****/
+/***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\method.cl 
+         [version 3.3.46 / safety 5] Sun Feb 15 15:35:15 2009 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -67,13 +67,13 @@ OID  eval_message_property(property *self,ClaireObject *r,int start,ClaireBoolea
             (((self->trace_I+ClEnv->verbose) > 4) || 
                 (n == ClEnv->step_I)))
          { (ClEnv->trace_I = 0);
-          princ_string("read: ");
+          princ_string(copy_string("read: "));
           print_any(_oid_(self));
-          princ_string("(");
+          princ_string(copy_string("("));
           print_any(ClEnv->stack[start]);
-          princ_string(") = ");
+          princ_string(copy_string(") = "));
           print_any(val);
-          princ_string("\n");
+          princ_string(copy_string("\n"));
           (ClEnv->trace_I = n);
           } 
         } 
@@ -101,7 +101,7 @@ OID  noeval_message_property2(property *self,int start)
 
 // a generic method : same as previously but (1) can be called by other methods
 // and (2) takes care of the debugging piece, which implies a slower run (GC)
-/* The c++ function for: execute(self:method,start:integer,int?:boolean) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
+/* The c++ function for: execute(self:method,start:integer,int?:boolean) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE] */
 OID  execute_method(method *self,int start,ClaireBoolean *int_ask)
 { GC_BIND;
   { OID Result = 0;
@@ -177,7 +177,7 @@ method * inlineok_ask_method(method *self,char *s)
         } 
       ClEnv->cHandle--;} 
     else if (belong_to(_oid_(ClEnv->exception_I),_oid_(Kernel._any)) == CTRUE)
-    { c_handle.catchIt();tformat_string("---- WARNING: inline definition of ~S is wrong\n",0,list::alloc(1,_oid_(self)));
+    { c_handle.catchIt();tformat_string(copy_string("---- WARNING: inline definition of ~S is wrong\n"),0,list::alloc(1,_oid_(self)));
       } 
     else PREVIOUS_HANDLER;} 
   return (self);} 
@@ -232,7 +232,7 @@ OID  funcall_property(property *self,OID x)
 
 
 // reading a value from a property (unknown is not allowed)
-/* The c++ function for: read(self:property,x:object) [NEW_ALLOC] */
+/* The c++ function for: read(self:property,x:object) [NEW_ALLOC+STRING_UPDATE] */
 OID  read_property(property *self,ClaireObject *x)
 { GC_BIND;
   { OID Result = 0;
@@ -278,7 +278,7 @@ ClaireBoolean * hold_ask_property(property *self,ClaireObject *x,OID y)
 //  write = check + put + put_inverse + propagate
 //  if_write = put + put_inverse + propagate  (propagate => if_write)
 //  update = put + put_inverse
-/* The c++ function for: write(self:property,x:object,y:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: write(self:property,x:object,y:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 void  write_property(property *self,ClaireObject *x,OID y)
 { GC_BIND;
   { ClaireObject * s = GC_OBJECT(ClaireObject,_at_property1(self,OWNER(_oid_(x))));
@@ -287,7 +287,7 @@ void  write_property(property *self,ClaireObject *x,OID y)
        range_is_wrong_slot(((slot *) s),y);
       else if ((self->open < 1) && 
           (slot_get_object(x,CLREAD(slot,s,index),CLREAD(slot,s,srange)) != CNULL))
-       close_exception(((general_error *) (*Core._general_error)(_string_("[132] Cannot change ~S(~S)"),
+       close_exception(((general_error *) (*Core._general_error)(_string_(copy_string("[132] Cannot change ~S(~S)")),
         _oid_(list::alloc(2,_oid_(self),_oid_(x))))));
       else if ((((self->if_write == CNULL) ? CTRUE : CFALSE) != CTRUE) && 
           (multi_ask_any(_oid_(self)) != CTRUE))
@@ -320,7 +320,7 @@ OID  range_is_wrong_slot(slot *self,OID y)
 // to remove
 /* The c++ function for: put(p:property,x:object,n:integer,s:class,y:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
 void  put_property1(property *p,ClaireObject *x,int n,ClaireClass *s,OID y)
-{ tformat_string("are you still using this dead thing (put instead of update) ??? !! \n",0,list::empty());
+{ tformat_string(copy_string("are you still using this dead thing (put instead of update) ??? !! \n"),0,list::empty());
   update_property(p,
     x,
     n,
@@ -404,13 +404,13 @@ void  update_plus_relation(ClaireRelation *self,OID x,OID y)
               x,
               r->store_ask);
             } 
-        else close_exception(((general_error *) (*Core._general_error)(_string_("[133] Inversion of ~S(~S,~S) impossible"),
+        else close_exception(((general_error *) (*Core._general_error)(_string_(copy_string("[133] Inversion of ~S(~S,~S) impossible")),
             _oid_(list::alloc(3,_oid_(self),
               x,
               y)))));
           } 
       else if (INHERIT(r->isa,Kernel._table))
-       { OID  old_y = get_table(((table *) r),y);
+       { OID  old_y = GC_OID(get_table(((table *) r),y));
         int  i = get_index_table1(((table *) r),y);
         if (r->multivalued_ask != CFALSE)
          add_value_array(((table *) r),i,OBJECT(bag,old_y),x);
@@ -442,7 +442,7 @@ void  update_dash_relation(ClaireRelation *r,OID x,OID y)
       } 
     } 
   else if (INHERIT(r->isa,Kernel._table))
-   { OID  l = get_table(((table *) r),x);
+   { OID  l = GC_OID(get_table(((table *) r),x));
     int  i = get_index_table1(((table *) r),x);
     OID  v;
     if (INHERIT(OWNER(l),Kernel._bag))
@@ -474,7 +474,7 @@ void  add_I_property(property *self,ClaireObject *x,int n,OID y)
 
 // this methods adds a value to a multi-slot (internal form)
 // this is the multi-valued equivalent of put
-/* The c++ function for: add_value(self:property,x:object,n:integer,l:bag,y:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
+/* The c++ function for: add_value(self:property,x:object,n:integer,l:bag,y:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE] */
 ClaireBoolean * add_value_property(property *self,ClaireObject *x,int n,bag *l,OID y)
 { GC_BIND;
   { ClaireBoolean *Result ;
@@ -504,7 +504,7 @@ ClaireBoolean * add_value_property(property *self,ClaireObject *x,int n,bag *l,O
 
 
 // same method with error checking
-/* The c++ function for: add(self:property,x:object,y:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: add(self:property,x:object,y:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 void  add_property(property *self,ClaireObject *x,OID y)
 { GC_BIND;
   { ClaireObject * s = GC_OBJECT(ClaireObject,_at_property1(self,OWNER(_oid_(x))));
@@ -512,7 +512,7 @@ void  add_property(property *self,ClaireObject *x,OID y)
      close_exception(((selector_error *) (*Core._selector_error)(_oid_(self),
       _oid_(list::alloc(1,_oid_(x))))));
     else if (multi_ask_any(_oid_(self)) != CTRUE)
-     close_exception(((general_error *) (*Core._general_error)(_string_("[134] Cannot apply add to ~S"),
+     close_exception(((general_error *) (*Core._general_error)(_string_(copy_string("[134] Cannot apply add to ~S")),
       _oid_(list::alloc(1,_oid_(self))))));
     else if (belong_to(y,_oid_(member_type(CLREAD(restriction,s,range)))) == CTRUE)
      { if (((self->if_write == CNULL) ? CTRUE : CFALSE) != CTRUE)
@@ -692,7 +692,7 @@ ClaireBoolean * multi_ask_any(OID x)
 // arguments have precise sorts that match the relation sort
 // the demon does everything: put + inverse + propagation
 // thus write(R,x,y) <=> fastcall(R,x,y) <=> f(x,y)
-/* The c++ function for: fastcall(r:relation,x:any,y:any) [NEW_ALLOC] */
+/* The c++ function for: fastcall(r:relation,x:any,y:any) [NEW_ALLOC+STRING_UPDATE] */
 void  fastcall_relation2(ClaireRelation *r,OID x,OID y)
 { GC_BIND;
   { OID  f = r->if_write;
@@ -718,14 +718,14 @@ void  fastcall_relation2(ClaireRelation *r,OID x,OID y)
 // *********************************************************************
 // the dictionarty slot
 // insertion in the definition tree
-/* The c++ function for: insert_definition(p:property,r:restriction) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: insert_definition(p:property,r:restriction) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 void  insert_definition_property(property *p,restriction *r)
 { (p->definition = initialize_restriction1(r,class_I_type(OBJECT(ClaireType,(*(r->domain))[1])),p->definition));
   } 
 
 
 // insert a restriction with class-domain d into a property p
-/* The c++ function for: initialize(x:restriction,d:class,l:list) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: initialize(x:restriction,d:class,l:list) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 list * initialize_restriction1(restriction *x,ClaireClass *d,list *l)
 { { list *Result ;
     { property * p = x->selector;
@@ -741,7 +741,7 @@ list * initialize_restriction1(restriction *x,ClaireClass *d,list *l)
       if (p->dictionary == CTRUE)
        { if (uniform_restriction(x) == CTRUE)
          { if (ClEnv->verbose == 4)
-           tformat_string("--- hashinsert ~S \n",0,list::alloc(1,_oid_(x)));
+           tformat_string(copy_string("--- hashinsert ~S \n"),0,list::alloc(1,_oid_(x)));
           hashinsert_restriction(x);
           } 
         else (p->dictionary = CFALSE);
@@ -783,7 +783,7 @@ list * initialize_restriction1(restriction *x,ClaireClass *d,list *l)
                 } 
             } 
           } 
-        else close_exception(((general_error *) (*Core._general_error)(_string_("Cannot create a non-uniform restriction ~S of interface ~S"),
+        else close_exception(((general_error *) (*Core._general_error)(_string_(copy_string("Cannot create a non-uniform restriction ~S of interface ~S")),
             _oid_(list::alloc(2,_oid_(x),_oid_(p))))));
           } 
       Result = initialize_restriction2(x,l);
@@ -793,7 +793,7 @@ list * initialize_restriction1(restriction *x,ClaireClass *d,list *l)
 
 
 // only uniform properties can use the dictionary representation
-/* The c++ function for: uniform(x:restriction) [NEW_ALLOC] */
+/* The c++ function for: uniform(x:restriction) [NEW_ALLOC+STRING_UPDATE] */
 ClaireBoolean * uniform_restriction(restriction *x)
 { { ClaireBoolean *Result ;
     { list * l = x->domain;
@@ -850,7 +850,7 @@ ClaireBoolean * uniform_restriction(restriction *x)
 
 // v3.3.36      
 // v3.0.54 check that a uniform property only uses methods !
-/* The c++ function for: uniform(p:property) [NEW_ALLOC] */
+/* The c++ function for: uniform(p:property) [NEW_ALLOC+STRING_UPDATE] */
 ClaireBoolean * uniform_property(property *p)
 { { ClaireBoolean *Result ;
     { ClaireBoolean *v_and;
@@ -875,7 +875,7 @@ ClaireBoolean * uniform_property(property *p)
 
 
 // insert a restriction in a list with the good order
-/* The c++ function for: initialize(x:restriction,l:list) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: initialize(x:restriction,l:list) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 list * initialize_restriction2(restriction *x,list *l)
 { GC_RESERVE(1);  // HOHO v3.0.55 optim !
   { list *Result ;
@@ -898,7 +898,7 @@ list * initialize_restriction2(restriction *x,list *l)
                   } 
               else if ((tmatch_ask_list(l2,x->domain) != CTRUE) && 
                   (join_list(x->domain,l2) == CTRUE))
-               tformat_string("~S and ~S are conflicting",2,list::alloc(2,(*(l))[1],_oid_(x)));
+               tformat_string(copy_string("~S and ~S are conflicting"),2,list::alloc(2,(*(l))[1],_oid_(x)));
               } 
             ++i;
             GC_UNLOOP;} 
@@ -913,7 +913,7 @@ list * initialize_restriction2(restriction *x,list *l)
 
 
 // definition of dictionary: standart hash-table
-/* The c++ function for: hashinsert(m:restriction) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: hashinsert(m:restriction) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 OID  hashinsert_restriction(restriction *m)
 { { OID Result = 0;
     { ClaireClass * c = domain_I_restriction(m);
@@ -927,7 +927,7 @@ OID  hashinsert_restriction(restriction *m)
   } 
 
 
-/* The c++ function for: hashinsert(c:class,x:method) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: hashinsert(c:class,x:method) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 OID  hashinsert_class(ClaireClass *c,method *x)
 { if (boolean_I_any(_oid_(c->dictionary)) != CTRUE)
    (c->dictionary = hashlist_integer(29));
@@ -936,7 +936,7 @@ OID  hashinsert_class(ClaireClass *c,method *x)
 
 
 // v3.3.06: returns the new hash list when x is inserted (not necessarily the same list since l may grow)
-/* The c++ function for: hashinsert(l:list,x:method) [NEW_ALLOC+BAG_UPDATE+RETURN_ARG] */
+/* The c++ function for: hashinsert(l:list,x:method) [NEW_ALLOC+BAG_UPDATE+RETURN_ARG+STRING_UPDATE] */
 OID  hashinsert_list(list *l,method *x)
 { GC_RESERVE(1);  // HOHO v3.0.55 optim !
   { OID Result = 0;
@@ -1011,7 +1011,7 @@ ClaireObject * hashget_class(ClaireClass *c,property *p)
 
 // look if two signature have a non-empty intersection
 // note that the first case with classes is necessary for bootstraping
-/* The c++ function for: join(x:list,y:list) [NEW_ALLOC] */
+/* The c++ function for: join(x:list,y:list) [NEW_ALLOC+STRING_UPDATE] */
 ClaireBoolean * join_list(list *x,list *y)
 { { ClaireBoolean *Result ;
     { int  n = x->length;
@@ -1089,7 +1089,7 @@ ClaireObject * _at_property1(property *self,ClaireClass *x)
 
 
 // finds a property through its full domain
-/* The c++ function for: @(self:property,lt:list) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
+/* The c++ function for: @(self:property,lt:list) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE] */
 ClaireObject * _at_property2(property *self,list *lt)
 { GC_BIND;
   { ClaireObject *Result ;
@@ -1252,7 +1252,7 @@ ClaireBoolean * vmatch_ask_any(OID t,OID x,int n)
 
 // method's pattern matching based on types (i.e. l2 is another list
 // of types).
-/* The c++ function for: tmatch?(l:list,l2:list) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
+/* The c++ function for: tmatch?(l:list,l2:list) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE] */
 ClaireBoolean * tmatch_ask_list(list *l,list *l2)
 { { ClaireBoolean *Result ;
     { int  x = l2->length;
@@ -1286,7 +1286,7 @@ ClaireBoolean * tmatch_ask_list(list *l,list *l2)
 
 // types pattern matching (t is the variable and t2 the pattern)
 // note that less is redefinable
-/* The c++ function for: tmatch?(t:any,mClaire/t2:any,l:list) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
+/* The c++ function for: tmatch?(t:any,mClaire/t2:any,l:list) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE] */
 ClaireBoolean * tmatch_ask_any(OID t,OID t2,list *l)
 { GC_BIND;
   { ClaireBoolean *Result ;
@@ -1395,7 +1395,7 @@ ClaireObject * find_which_list(list *l,ClaireClass *c,int n,int m)
 
 
 // special version for super
-/* The c++ function for: find_which(c:class,l:list,n:integer,m:integer) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
+/* The c++ function for: find_which(c:class,l:list,n:integer,m:integer) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE] */
 ClaireObject * find_which_class(ClaireClass *c,list *l,int n,int m)
 { { ClaireObject *Result ;
     { OID V_C;{ ITERATE(r);

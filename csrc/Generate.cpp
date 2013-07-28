@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file Generate.cl 
-         [version 3.3.42 / safety 5] Sat Jan 28 08:50:24 2006 *****/
+         [version 3.3.46 / safety 5] Sun Feb 15 15:37:28 2009 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -278,51 +278,51 @@ void GenerateClass::metaLoad() {
     } 
   
   Language.ident->addMethod(list::domain(1,Kernel._symbol),Kernel._void,
-  	NEW_ALLOC+RETURN_ARG,_function_(ident_symbol,"ident_symbol"));
+  	NEW_ALLOC+RETURN_ARG+STRING_UPDATE,_function_(ident_symbol,"ident_symbol"));
   
   Language.ident->addMethod(list::domain(1,Kernel._thing),Kernel._void,
-  	NEW_ALLOC+RETURN_ARG,_function_(ident_thing,"ident_thing"));
+  	NEW_ALLOC+RETURN_ARG+STRING_UPDATE,_function_(ident_thing,"ident_thing"));
   
   Language.ident->addMethod(list::domain(1,Kernel._class),Kernel._void,
-  	NEW_ALLOC+RETURN_ARG,_function_(ident_class,"ident_class"));
+  	NEW_ALLOC+RETURN_ARG+STRING_UPDATE,_function_(ident_class,"ident_class"));
   
   Generate.interface_I->addMethod(list::domain(1,Kernel._class),Kernel._void,
-  	NEW_ALLOC,_function_(interface_I_class,"interface!_class"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(interface_I_class,"interface!_class"));
   
   Generate.class_princ->addMethod(list::domain(1,Kernel._class),Kernel._void,
-  	NEW_ALLOC+RETURN_ARG,_function_(class_princ_class,"class_princ_class"));
+  	NEW_ALLOC+RETURN_ARG+STRING_UPDATE,_function_(class_princ_class,"class_princ_class"));
   
   Generate.indent_c->addMethod(list::domain(1,Kernel._void),Kernel._any,
-  	0,_function_(indent_c_void,"indent_c_void"));
+  	STRING_UPDATE,_function_(indent_c_void,"indent_c_void"));
   
   Generate.breakline->addMethod(list::domain(1,Kernel._void),Kernel._any,
-  	0,_function_(breakline_void,"breakline_void"));
+  	STRING_UPDATE,_function_(breakline_void,"breakline_void"));
   
   Generate.new_block->addMethod(list::domain(1,Kernel._void),Kernel._void,
-  	SLOT_UPDATE,_function_(new_block_void,"new_block_void"));
+  	SLOT_UPDATE+STRING_UPDATE,_function_(new_block_void,"new_block_void"));
   
   Generate.close_block->addMethod(list::domain(1,Kernel._void),Kernel._void,
-  	SLOT_UPDATE,_function_(close_block_void,"close_block_void"));
+  	SLOT_UPDATE+STRING_UPDATE,_function_(close_block_void,"close_block_void"));
   
   (Generate._producer->open = 3);
   
   Generate.c_test->addMethod(list::domain(1,Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(c_test_any,"c_test_any"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(c_test_any,"c_test_any"));
   
   Generate.c_test->addMethod(list::domain(1,Kernel._method),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(c_test_method,"c_test_method"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(c_test_method,"c_test_method"));
   
   Generate.compile->addMethod(list::domain(1,Kernel._module),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(compile_module,"compile_module"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(compile_module,"compile_module"));
   
   Generate.generate_files->addMethod(list::domain(1,Kernel._module),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(generate_files_module,"generate_files_module"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(generate_files_module,"generate_files_module"));
   
   Generate.generate_f2f->addMethod(list::domain(1,Kernel._module),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(generate_f2f_module,"generate_f2f_module"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(generate_f2f_module,"generate_f2f_module"));
   
   Generate.generate_file->addMethod(list::domain(2,Kernel._string,Kernel._module),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(generate_file_string1,"generate_file_string1"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(generate_file_string1,"generate_file_string1"));
   
   { (Generate.classFile = (table *) Kernel._table->instantiate("classFile",Generate.it));
     (Generate.classFile->range = Kernel._port);
@@ -333,76 +333,76 @@ void GenerateClass::metaLoad() {
     } 
   
   Generate.generate_classes->addMethod(list::domain(1,Kernel._module),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(generate_classes_module,"generate_classes_module"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(generate_classes_module,"generate_classes_module"));
   
   Generate.generate_c2f->addMethod(list::domain(1,Kernel._module),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(generate_c2f_module,"generate_c2f_module"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(generate_c2f_module,"generate_c2f_module"));
   
   Generate.generate_interface->addMethod(list::domain(2,Kernel._module,Kernel._bag),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE,_function_(generate_interface_module,"generate_interface_module"));
+  	NEW_ALLOC+SLOT_UPDATE+STRING_UPDATE,_function_(generate_interface_module,"generate_interface_module"));
   
   Generate.generate_objects->addMethod(list::domain(1,Kernel._module),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE,_function_(generate_objects_module,"generate_objects_module"));
+  	NEW_ALLOC+SLOT_UPDATE+STRING_UPDATE,_function_(generate_objects_module,"generate_objects_module"));
   
   Generate.generate_meta_load->addMethod(list::domain(1,Kernel._module),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(generate_meta_load_module,"generate_meta_load_module"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(generate_meta_load_module,"generate_meta_load_module"));
   
   Generate.global_var_def_ask->addMethod(list::domain(1,Kernel._any),Kernel._boolean,
-  	NEW_ALLOC,_function_(global_var_def_ask_any,"global_var_def?_any"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(global_var_def_ask_any,"global_var_def?_any"));
   
   Generate.getRange->addMethod(list::domain(1,Core._global_variable),Kernel._class,
-  	NEW_ALLOC+RETURN_ARG,_function_(getRange_global_variable,"getRange_global_variable"));
+  	NEW_ALLOC+RETURN_ARG+STRING_UPDATE,_function_(getRange_global_variable,"getRange_global_variable"));
   
   Generate.generate_functions->addMethod(list::domain(1,Kernel._module),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(generate_functions_module,"generate_functions_module"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(generate_functions_module,"generate_functions_module"));
   
   Generate.parents->addMethod(list::domain(2,Kernel._module,Kernel._list),Kernel._list,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(parents_module,"parents_module"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(parents_module,"parents_module"));
   
   Generate.parents->addMethod(list::domain(1,Kernel._list),Kernel._list,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(parents_list,"parents_list"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(parents_list,"parents_list"));
   
   Kernel.get->addMethod(list::domain(1,Kernel._module),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE,_function_(get_module2,"get_module2"));
+  	NEW_ALLOC+BAG_UPDATE+STRING_UPDATE,_function_(get_module2,"get_module2"));
   
   Generate.generate_file->addMethod(list::domain(2,Kernel._string,Kernel._string),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(generate_file_string2,"generate_file_string2"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(generate_file_string2,"generate_file_string2"));
   
   Optimize.make_c_function->addMethod(list::domain(3,Core._lambda,Kernel._string,Kernel._any),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(make_c_function_lambda_Generate,"make_c_function_lambda_Generate"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(make_c_function_lambda_Generate,"make_c_function_lambda_Generate"));
   
   Generate.print_c_function->addMethod(list::domain(3,Core._lambda,Kernel._string,Kernel._any),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(print_c_function_lambda2,"print_c_function_lambda2"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(print_c_function_lambda2,"print_c_function_lambda2"));
   
   Generate.print_body->addMethod(list::domain(5,Language._If,
     Kernel._string,
     Kernel._class,
     Language._If,
     Kernel._boolean),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(print_body_If,"print_body_If"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(print_body_If,"print_body_If"));
   
   Generate.print_body->addMethod(list::domain(5,Kernel._any,
     Kernel._string,
     Kernel._class,
     Kernel._any,
     Kernel._boolean),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(print_body_any,"print_body_any"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(print_body_any,"print_body_any"));
   
   Generate.print_body->addMethod(list::domain(5,Language._Do,
     Kernel._string,
     Kernel._class,
     Kernel._any,
     Kernel._boolean),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(print_body_Do,"print_body_Do"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(print_body_Do,"print_body_Do"));
   
   Generate.outer_statement->addMethod(list::domain(4,Kernel._any,
     Kernel._string,
     Kernel._class,
     Kernel._boolean),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(outer_statement_any,"outer_statement_any"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(outer_statement_any,"outer_statement_any"));
   
   Generate.c_safe->addMethod(list::domain(1,Kernel._any),Kernel._boolean,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(c_safe_any,"c_safe_any"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(c_safe_any,"c_safe_any"));
   
   { global_variable * v2072 = (Generate.WrongMethod = (global_variable *) Core._global_variable->instantiate("WrongMethod",claire.it));
     (v2072->range = Kernel._any);
@@ -411,131 +411,131 @@ void GenerateClass::metaLoad() {
     } 
   
   Generate.check_sort->addMethod(list::domain(1,Kernel._method),Kernel._class,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(check_sort_method,"check_sort_method"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(check_sort_method,"check_sort_method"));
   
   Generate.typed_args_list->addMethod(list::domain(1,Kernel._list),Kernel._any,
-  	NEW_ALLOC+RETURN_ARG,_function_(typed_args_list_list,"typed_args_list_list"));
+  	NEW_ALLOC+RETURN_ARG+STRING_UPDATE,_function_(typed_args_list_list,"typed_args_list_list"));
   
   Generate.need_debug_ask->addMethod(list::domain(1,Kernel._any),Kernel._boolean,
-  	NEW_ALLOC,_function_(need_debug_ask_any,"need_debug?_any"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(need_debug_ask_any,"need_debug?_any"));
   
   Generate.get_dependents->addMethod(list::domain(1,Kernel._method),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(get_dependents_method,"get_dependents_method"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(get_dependents_method,"get_dependents_method"));
   
   Kernel.c_princ->addMethod(list::domain(1,Kernel._function),Kernel._void,
-  	0,_function_(c_princ_function,"c_princ_function"));
+  	STRING_UPDATE,_function_(c_princ_function,"c_princ_function"));
   
   Generate.set_outfile->addMethod(list::domain(1,Core._lambda),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE,_function_(set_outfile_lambda,"set_outfile_lambda"));
+  	NEW_ALLOC+SLOT_UPDATE+STRING_UPDATE,_function_(set_outfile_lambda,"set_outfile_lambda"));
   
   { (Generate.set_outfile->open = 4);
     (Generate.inline_exp->open = 4);
     } 
   
   Generate.c_func->addMethod(list::domain(1,Kernel._any),Kernel._boolean,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(c_func_any,"c_func_any"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(c_func_any,"c_func_any"));
   
   Generate.expression->addMethod(list::domain(2,Kernel._thing,Kernel._any),Kernel._void,
-  	NEW_ALLOC,_function_(expression_thing,"expression_thing"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(expression_thing,"expression_thing"));
   
   Generate.expression->addMethod(list::domain(2,Kernel._integer,Kernel._any),Kernel._void,
   	0,_function_(expression_integer,"expression_integer"));
   
   Generate.expression->addMethod(list::domain(2,Kernel._any,Kernel._any),Kernel._void,
-  	NEW_ALLOC,_function_(expression_any,"expression_any"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(expression_any,"expression_any"));
   
   Generate.expression->addMethod(list::domain(2,Kernel._string,Kernel._any),Kernel._void,
-  	NEW_ALLOC,_function_(expression_string,"expression_string"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(expression_string,"expression_string"));
   
   Generate.expression->addFloatMethod(list::domain(2,Kernel._float,Kernel._any),Kernel._void,
   	0,_function_(expression_float,"expression_float"),_function_(expression_float_,"expression_float_"));
   
   Generate.expression->addMethod(list::domain(2,Kernel._boolean,Kernel._any),Kernel._void,
-  	NEW_ALLOC,_function_(expression_boolean,"expression_boolean"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(expression_boolean,"expression_boolean"));
   
   Generate.expression->addMethod(list::domain(2,Kernel._environment,Kernel._any),Kernel._void,
-  	NEW_ALLOC,_function_(expression_environment,"expression_environment"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(expression_environment,"expression_environment"));
   
   Generate.expression->addMethod(list::domain(2,Language._Variable,Kernel._any),Kernel._void,
-  	NEW_ALLOC+RETURN_ARG,_function_(expression_Variable,"expression_Variable"));
+  	NEW_ALLOC+RETURN_ARG+STRING_UPDATE,_function_(expression_Variable,"expression_Variable"));
   
   Generate.expression->addMethod(list::domain(2,Core._global_variable,Kernel._any),Kernel._void,
-  	NEW_ALLOC,_function_(expression_global_variable,"expression_global_variable"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(expression_global_variable,"expression_global_variable"));
   
   Generate.expression->addMethod(list::domain(2,Language._Set,Kernel._any),Kernel._void,
-  	NEW_ALLOC,_function_(expression_Set,"expression_Set"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(expression_Set,"expression_Set"));
   
   Generate.expression->addMethod(list::domain(2,Kernel._set,Kernel._any),Kernel._void,
-  	NEW_ALLOC,_function_(expression_set2,"expression_set2"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(expression_set2,"expression_set2"));
   
   Generate.expression->addMethod(list::domain(2,Language._Tuple,Kernel._any),Kernel._void,
-  	NEW_ALLOC,_function_(expression_Tuple,"expression_Tuple"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(expression_Tuple,"expression_Tuple"));
   
   Generate.expression->addMethod(list::domain(2,Kernel._tuple,Kernel._any),Kernel._void,
-  	NEW_ALLOC,_function_(expression_tuple,"expression_tuple"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(expression_tuple,"expression_tuple"));
   
   Generate.expression->addMethod(list::domain(2,Language._List,Kernel._any),Kernel._void,
-  	NEW_ALLOC,_function_(expression_List,"expression_List"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(expression_List,"expression_List"));
   
   Generate.expression->addMethod(list::domain(2,Kernel._list,Kernel._any),Kernel._void,
-  	NEW_ALLOC,_function_(expression_list,"expression_list"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(expression_list,"expression_list"));
   
   Generate.expression->addMethod(list::domain(2,Language._Call,Kernel._any),Kernel._void,
-  	NEW_ALLOC+RETURN_ARG,_function_(expression_Call2,"expression_Call2"));
+  	NEW_ALLOC+RETURN_ARG+STRING_UPDATE,_function_(expression_Call2,"expression_Call2"));
   
   Generate.expression->addMethod(list::domain(2,Language._Call_method1,Kernel._any),Kernel._void,
-  	NEW_ALLOC+RETURN_ARG,_function_(expression_Call_method12,"expression_Call_method12"));
+  	NEW_ALLOC+RETURN_ARG+STRING_UPDATE,_function_(expression_Call_method12,"expression_Call_method12"));
   
   Generate.expression->addMethod(list::domain(2,Language._Call_method2,Kernel._any),Kernel._void,
-  	NEW_ALLOC+RETURN_ARG,_function_(expression_Call_method22,"expression_Call_method22"));
+  	NEW_ALLOC+RETURN_ARG+STRING_UPDATE,_function_(expression_Call_method22,"expression_Call_method22"));
   
   Generate.expression->addMethod(list::domain(2,Language._Call_method,Kernel._any),Kernel._void,
-  	NEW_ALLOC+RETURN_ARG,_function_(expression_Call_method2,"expression_Call_method2"));
+  	NEW_ALLOC+RETURN_ARG+STRING_UPDATE,_function_(expression_Call_method2,"expression_Call_method2"));
   
   Generate.bexpression->addMethod(list::domain(2,Kernel._any,Kernel._any),Kernel._void,
-  	NEW_ALLOC+RETURN_ARG,_function_(bexpression_any,"bexpression_any"));
+  	NEW_ALLOC+RETURN_ARG+STRING_UPDATE,_function_(bexpression_any,"bexpression_any"));
   
   Generate.expression->addMethod(list::domain(2,Language._If,Kernel._any),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE+RETURN_ARG,_function_(expression_If,"expression_If"));
+  	NEW_ALLOC+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(expression_If,"expression_If"));
   
   Generate.expression->addMethod(list::domain(2,Language._Assign,Kernel._any),Kernel._void,
-  	NEW_ALLOC,_function_(expression_Assign,"expression_Assign"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(expression_Assign,"expression_Assign"));
   
   Generate.expression->addMethod(list::domain(2,Optimize._to_protect,Kernel._any),Kernel._void,
-  	NEW_ALLOC+RETURN_ARG,_function_(expression_to_protect,"expression_to_protect"));
+  	NEW_ALLOC+RETURN_ARG+STRING_UPDATE,_function_(expression_to_protect,"expression_to_protect"));
   
   Generate.gc_protect->addMethod(list::domain(1,Kernel._class),Kernel._string,
-  	0,_function_(gc_protect_class,"gc_protect_class"));
+  	STRING_UPDATE,_function_(gc_protect_class,"gc_protect_class"));
   
   Generate.expression->addMethod(list::domain(2,Language._Gassign,Kernel._any),Kernel._void,
-  	NEW_ALLOC,_function_(expression_Gassign,"expression_Gassign"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(expression_Gassign,"expression_Gassign"));
   
   Generate.expression->addMethod(list::domain(2,Language._And,Kernel._any),Kernel._void,
-  	NEW_ALLOC,_function_(expression_And,"expression_And"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(expression_And,"expression_And"));
   
   Generate.expression->addMethod(list::domain(2,Language._Or,Kernel._any),Kernel._void,
-  	NEW_ALLOC,_function_(expression_Or,"expression_Or"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(expression_Or,"expression_Or"));
   
   Generate.expression->addMethod(list::domain(2,Optimize._to_CL,Kernel._any),Kernel._void,
-  	NEW_ALLOC+RETURN_ARG,_function_(expression_to_CL,"expression_to_CL"));
+  	NEW_ALLOC+RETURN_ARG+STRING_UPDATE,_function_(expression_to_CL,"expression_to_CL"));
   
   Generate.expression->addMethod(list::domain(2,Optimize._to_C,Kernel._any),Kernel._void,
-  	NEW_ALLOC+RETURN_ARG,_function_(expression_to_C,"expression_to_C"));
+  	NEW_ALLOC+RETURN_ARG+STRING_UPDATE,_function_(expression_to_C,"expression_to_C"));
   
   Generate.expression->addMethod(list::domain(2,Optimize._C_cast,Kernel._any),Kernel._void,
-  	NEW_ALLOC,_function_(expression_C_cast,"expression_C_cast"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(expression_C_cast,"expression_C_cast"));
   
   Generate.expression->addMethod(list::domain(2,Language._Call_slot,Kernel._any),Kernel._void,
-  	NEW_ALLOC,_function_(expression_Call_slot,"expression_Call_slot"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(expression_Call_slot,"expression_Call_slot"));
   
   Generate.expression->addMethod(list::domain(2,Language._Call_table,Kernel._any),Kernel._void,
-  	NEW_ALLOC,_function_(expression_Call_table,"expression_Call_table"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(expression_Call_table,"expression_Call_table"));
   
   Generate.expression->addMethod(list::domain(2,Language._Call_array,Kernel._any),Kernel._void,
-  	NEW_ALLOC,_function_(expression_Call_array,"expression_Call_array"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(expression_Call_array,"expression_Call_array"));
   
   Generate.expression->addMethod(list::domain(2,Language._Update,Kernel._any),Kernel._void,
-  	NEW_ALLOC,_function_(expression_Update,"expression_Update"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(expression_Update,"expression_Update"));
   
   Generate.sign_equal->addMethod(list::domain(1,Kernel._boolean),Kernel._void,
   	0,_function_(sign_equal_boolean,"sign_equal_boolean"));
@@ -544,145 +544,145 @@ void GenerateClass::metaLoad() {
   	0,_function_(sign_or_boolean,"sign_or_boolean"));
   
   Optimize.bool_exp->addMethod(list::domain(3,Kernel._any,Kernel._boolean,Kernel._any),Kernel._void,
-  	NEW_ALLOC,_function_(bool_exp_any_Generate,"bool_exp_any_Generate"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(bool_exp_any_Generate,"bool_exp_any_Generate"));
   
   Generate.any_bool_exp->addMethod(list::domain(4,Kernel._any,
     Kernel._boolean,
     Kernel._any,
     Kernel._boolean),Kernel._void,
-  	NEW_ALLOC,_function_(any_bool_exp_any,"any_bool_exp_any"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(any_bool_exp_any,"any_bool_exp_any"));
   
   Optimize.bool_exp->addMethod(list::domain(3,Optimize._to_CL,Kernel._boolean,Kernel._any),Kernel._void,
-  	NEW_ALLOC+RETURN_ARG,_function_(bool_exp_to_CL_Generate,"bool_exp_to_CL_Generate"));
+  	NEW_ALLOC+RETURN_ARG+STRING_UPDATE,_function_(bool_exp_to_CL_Generate,"bool_exp_to_CL_Generate"));
   
   Optimize.bool_exp->addMethod(list::domain(3,Language._If,Kernel._boolean,Kernel._any),Kernel._void,
-  	NEW_ALLOC,_function_(bool_exp_If_Generate,"bool_exp_If_Generate"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(bool_exp_If_Generate,"bool_exp_If_Generate"));
   
   Optimize.bool_exp->addMethod(list::domain(3,Language._And,Kernel._boolean,Kernel._any),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE+RETURN_ARG,_function_(bool_exp_And_Generate,"bool_exp_And_Generate"));
+  	NEW_ALLOC+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(bool_exp_And_Generate,"bool_exp_And_Generate"));
   
   Optimize.bool_exp->addMethod(list::domain(3,Language._Or,Kernel._boolean,Kernel._any),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE+RETURN_ARG,_function_(bool_exp_Or_Generate,"bool_exp_Or_Generate"));
+  	NEW_ALLOC+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(bool_exp_Or_Generate,"bool_exp_Or_Generate"));
   
   Optimize.bool_exp->addMethod(list::domain(3,Language._Call_method1,Kernel._boolean,Kernel._any),Kernel._void,
-  	NEW_ALLOC+RETURN_ARG,_function_(bool_exp_Call_method1_Generate,"bool_exp_Call_method1_Generate"));
+  	NEW_ALLOC+RETURN_ARG+STRING_UPDATE,_function_(bool_exp_Call_method1_Generate,"bool_exp_Call_method1_Generate"));
   
   Optimize.bool_exp->addMethod(list::domain(3,Language._Call_method2,Kernel._boolean,Kernel._any),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE+RETURN_ARG,_function_(bool_exp_Call_method2_Generate,"bool_exp_Call_method2_Generate"));
+  	NEW_ALLOC+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(bool_exp_Call_method2_Generate,"bool_exp_Call_method2_Generate"));
   
   Generate.bool_exp_ask->addMethod(list::domain(1,Kernel._any),Kernel._boolean,
-  	NEW_ALLOC,_function_(bool_exp_ask_any,"bool_exp?_any"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(bool_exp_ask_any,"bool_exp?_any"));
   
   Generate.args_list->addMethod(list::domain(3,Kernel._bag,Kernel._any,Kernel._boolean),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE+RETURN_ARG,_function_(args_list_bag,"args_list_bag"));
+  	NEW_ALLOC+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(args_list_bag,"args_list_bag"));
   
   Generate.check_var->addMethod(list::domain(3,Kernel._string,Kernel._any,Kernel._any),Kernel._string,
-  	NEW_ALLOC+RETURN_ARG,_function_(check_var_string,"check_var_string"));
+  	NEW_ALLOC+RETURN_ARG+STRING_UPDATE,_function_(check_var_string,"check_var_string"));
   
   Generate.build_Variable->addMethod(list::domain(2,Kernel._string,Kernel._any),Language._Variable,
   	NEW_ALLOC,_function_(build_Variable_string,"build_Variable_string"));
   
   Generate.unfold_args->addMethod(list::domain(1,Kernel._list),Kernel._list,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(unfold_args_list,"unfold_args_list"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(unfold_args_list,"unfold_args_list"));
   
   Generate.c_type_sort->addMethod(list::domain(1,Kernel._any),Kernel._type,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(c_type_sort_any,"c_type_sort_any"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(c_type_sort_any,"c_type_sort_any"));
   
   Generate.unfold_arg->addMethod(list::domain(3,Kernel._list,Kernel._list,Kernel._any),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(unfold_arg_list,"unfold_arg_list"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(unfold_arg_list,"unfold_arg_list"));
   
   Generate.unfold_use->addMethod(list::domain(4,Kernel._list,
     Kernel._any,
     Kernel._any,
     Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(unfold_use_list,"unfold_use_list"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(unfold_use_list,"unfold_use_list"));
   
   Generate.statement->addMethod(list::domain(3,Kernel._any,Kernel._any,Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(statement_any,"statement_any"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(statement_any,"statement_any"));
   
   Generate.self_statement->addMethod(list::domain(3,Language._Construct,Kernel._any,Kernel._any),Kernel._void,
-  	NEW_ALLOC,_function_(self_statement_Construct,"self_statement_Construct"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(self_statement_Construct,"self_statement_Construct"));
   
   Generate.self_statement->addMethod(list::domain(3,Language._If,Kernel._any,Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(self_statement_If,"self_statement_If"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(self_statement_If,"self_statement_If"));
   
   Generate.self_statement->addMethod(list::domain(3,Language._Do,Kernel._any,Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(self_statement_Do,"self_statement_Do"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(self_statement_Do,"self_statement_Do"));
   
   Generate.inner_statement->addMethod(list::domain(3,Kernel._any,Kernel._any,Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(inner_statement_any,"inner_statement_any"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(inner_statement_any,"inner_statement_any"));
   
   Generate.self_statement->addMethod(list::domain(3,Language._Let,Kernel._any,Kernel._any),Kernel._void,
-  	NEW_ALLOC,_function_(self_statement_Let,"self_statement_Let"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(self_statement_Let,"self_statement_Let"));
   
   Generate.self_statement->addMethod(list::domain(3,Language._And,Kernel._any,Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(self_statement_And,"self_statement_And"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(self_statement_And,"self_statement_And"));
   
   Generate.self_statement->addMethod(list::domain(3,Language._Or,Kernel._any,Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(self_statement_Or,"self_statement_Or"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(self_statement_Or,"self_statement_Or"));
   
   Generate.self_statement->addMethod(list::domain(3,Language._While,Kernel._any,Kernel._any),Kernel._void,
-  	NEW_ALLOC,_function_(self_statement_While,"self_statement_While"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(self_statement_While,"self_statement_While"));
   
   Generate.self_statement->addMethod(list::domain(3,Language._Assign,Kernel._any,Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(self_statement_Assign,"self_statement_Assign"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(self_statement_Assign,"self_statement_Assign"));
   
   Generate.self_statement->addMethod(list::domain(3,Language._Gassign,Kernel._any,Kernel._any),Kernel._void,
-  	NEW_ALLOC,_function_(self_statement_Gassign,"self_statement_Gassign"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(self_statement_Gassign,"self_statement_Gassign"));
   
   Generate.self_statement->addMethod(list::domain(3,Optimize._to_protect,Kernel._any,Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(self_statement_to_protect,"self_statement_to_protect"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(self_statement_to_protect,"self_statement_to_protect"));
   
   Generate.self_statement->addMethod(list::domain(3,Language._For,Kernel._any,Kernel._any),Kernel._void,
-  	NEW_ALLOC,_function_(self_statement_For,"self_statement_For"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(self_statement_For,"self_statement_For"));
   
   Generate.self_statement->addMethod(list::domain(3,Language._Iteration,Kernel._any,Kernel._any),Kernel._void,
-  	NEW_ALLOC,_function_(self_statement_Iteration,"self_statement_Iteration"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(self_statement_Iteration,"self_statement_Iteration"));
   
   Generate.self_statement->addMethod(list::domain(3,Language._Return,Kernel._any,Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(self_statement_Return,"self_statement_Return"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(self_statement_Return,"self_statement_Return"));
   
   Generate.self_statement->addMethod(list::domain(3,Language._Call,Kernel._any,Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(self_statement_Call,"self_statement_Call"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(self_statement_Call,"self_statement_Call"));
   
   Generate.self_statement->addMethod(list::domain(3,Language._Call_method,Kernel._any,Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(self_statement_Call_method,"self_statement_Call_method"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(self_statement_Call_method,"self_statement_Call_method"));
   
   Generate.self_statement->addMethod(list::domain(3,Language._Call_method1,Kernel._any,Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(self_statement_Call_method1,"self_statement_Call_method1"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(self_statement_Call_method1,"self_statement_Call_method1"));
   
   Generate.self_statement->addMethod(list::domain(3,Language._Call_method2,Kernel._any,Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(self_statement_Call_method2,"self_statement_Call_method2"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(self_statement_Call_method2,"self_statement_Call_method2"));
   
   Generate.self_statement->addMethod(list::domain(3,Language._Super,Kernel._any,Kernel._any),Kernel._void,
-  	NEW_ALLOC,_function_(self_statement_Super,"self_statement_Super"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(self_statement_Super,"self_statement_Super"));
   
   Generate.self_statement->addMethod(list::domain(3,Language._Cast,Kernel._any,Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(self_statement_Cast,"self_statement_Cast"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(self_statement_Cast,"self_statement_Cast"));
   
   Generate.self_statement->addMethod(list::domain(3,Language._Handle,Kernel._any,Kernel._any),Kernel._void,
-  	NEW_ALLOC,_function_(self_statement_Handle,"self_statement_Handle"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(self_statement_Handle,"self_statement_Handle"));
   
   Generate.self_statement->addMethod(list::domain(3,Optimize._to_CL,Kernel._any,Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(self_statement_to_CL,"self_statement_to_CL"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(self_statement_to_CL,"self_statement_to_CL"));
   
   Generate.self_statement->addMethod(list::domain(3,Optimize._to_C,Kernel._any,Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(self_statement_to_C,"self_statement_to_C"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(self_statement_to_C,"self_statement_to_C"));
   
   Generate.self_statement->addMethod(list::domain(3,Optimize._C_cast,Kernel._any,Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(self_statement_C_cast,"self_statement_C_cast"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(self_statement_C_cast,"self_statement_C_cast"));
   
   Generate.self_statement->addMethod(list::domain(3,Language._Call_slot,Kernel._any,Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(self_statement_Call_slot,"self_statement_Call_slot"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(self_statement_Call_slot,"self_statement_Call_slot"));
   
   Generate.self_statement->addMethod(list::domain(3,Language._Call_table,Kernel._any,Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(self_statement_Call_table,"self_statement_Call_table"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(self_statement_Call_table,"self_statement_Call_table"));
   
   Generate.self_statement->addMethod(list::domain(3,Language._Call_array,Kernel._any,Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(self_statement_Call_array,"self_statement_Call_array"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(self_statement_Call_array,"self_statement_Call_array"));
   
   Generate.self_statement->addMethod(list::domain(3,Language._Update,Kernel._any,Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(self_statement_Update,"self_statement_Update"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(self_statement_Update,"self_statement_Update"));
   
   { (Generate._c_producer = ClaireClass::make("c_producer",Generate._producer,Generate.it));
     CL_ADD_SLOT(Generate._c_producer,Generate_c_producer,Generate.bad_names,bad_names,nth_class1(Kernel._list,Kernel._symbol),CNULL);
@@ -699,219 +699,225 @@ void GenerateClass::metaLoad() {
       _oid_(Kernel._star),
       _oid_(Kernel._7),
       _oid_(Core._sup_sup)));
-    (Generate.C_plus_plusPRODUCER->extension = ".cpp");
-    (Generate.C_plus_plusPRODUCER->comment = "C++");
-    { Generate_c_producer * v6880 = Generate.C_plus_plusPRODUCER; 
-      list * v6881;
-      { GC_ANY(v6881= list::empty(Kernel.emptySet));
-        ((list *) v6881)->addFast(_oid_(symbol_I_string2("do")));
-        ((list *) v6881)->addFast(_oid_(symbol_I_string2("if")));
-        ((list *) v6881)->addFast(_oid_(symbol_I_string2("and")));
-        ((list *) v6881)->addFast(_oid_(symbol_I_string2("or")));
-        ((list *) v6881)->addFast(_oid_(symbol_I_string2("not")));
-        ((list *) v6881)->addFast(_oid_(symbol_I_string2("printf")));
-        ((list *) v6881)->addFast(_oid_(symbol_I_string2("void")));
-        ((list *) v6881)->addFast(_oid_(Optimize._Pattern->name));
-        ((list *) v6881)->addFast(_oid_(symbol_I_string2("exception")));
-        ((list *) v6881)->addFast(_oid_(symbol_I_string2("return")));
-        ((list *) v6881)->addFast(_oid_(symbol_I_string2("new")));
-        ((list *) v6881)->addFast(_oid_(symbol_I_string2("class")));
-        ((list *) v6881)->addFast(_oid_(symbol_I_string2("private")));
-        ((list *) v6881)->addFast(_oid_(symbol_I_string2("operator")));
-        ((list *) v6881)->addFast(_oid_(symbol_I_string2("default")));
-        ((list *) v6881)->addFast(_oid_(symbol_I_string2("Handle")));
-        ((list *) v6881)->addFast(_oid_(symbol_I_string2("import")));
-        ((list *) v6881)->addFast(_oid_(symbol_I_string2("catch")));
-        ((list *) v6881)->addFast(_oid_(symbol_I_string2("stdout")));
-        ((list *) v6881)->addFast(_oid_(symbol_I_string2("stdin")));
-        ((list *) v6881)->addFast(_oid_(symbol_I_string2("break")));
-        ((list *) v6881)->addFast(_oid_(symbol_I_string2("char")));
-        ((list *) v6881)->addFast(_oid_(symbol_I_string2("interface")));
-        ((list *) v6881)->addFast(_oid_(symbol_I_string2("EOF")));
-        ((list *) v6881)->addFast(_oid_(symbol_I_string2("relation")));
-        ((list *) v6881)->addFast(_oid_(symbol_I_string2("System")));
-        ((list *) v6881)->addFast(_oid_(symbol_I_string2("object")));
-        ((list *) v6881)->addFast(_oid_(symbol_I_string2("delete")));
-        ((list *) v6881)->addFast(_oid_(symbol_I_string2("boolean")));
-        ((list *) v6881)->addFast(_oid_(symbol_I_string2("function")));
-        ((list *) v6881)->addFast(_oid_(symbol_I_string2("type")));
-        ((list *) v6881)->addFast(_oid_(symbol_I_string2("system_thing")));
-        ((list *) v6881)->addFast(_oid_(symbol_I_string2("environment")));
-        ((list *) v6881)->addFast(_oid_(symbol_I_string2("abstract")));
-        ((list *) v6881)->addFast(_oid_(symbol_I_string2("final")));
-        ((list *) v6881)->addFast(_oid_(symbol_I_string2("system_object")));
-        ((list *) v6881)->addFast(_oid_(symbol_I_string2("NEW_ALLOC")));
-        ((list *) v6881)->addFast(_oid_(symbol_I_string2("BAG_UPDATE")));
-        ((list *) v6881)->addFast(_oid_(symbol_I_string2("SLOT_UPDATE")));
-        ((list *) v6881)->addFast(_oid_(symbol_I_string2("RETURN_ARG")));
-        ((list *) v6881)->addFast(_oid_(symbol_I_string2("SAFE_RESULT")));
-        ((list *) v6881)->addFast(_oid_(symbol_I_string2("SAFE_GC")));
-        ((list *) v6881)->addFast(_oid_(symbol_I_string2("collection")));
-        ((list *) v6881)->addFast(_oid_(symbol_I_string2("error")));} 
-      (v6880->bad_names = v6881);} 
-    { Generate_c_producer * v6882 = Generate.C_plus_plusPRODUCER; 
-      list * v6883;
-      { GC_ANY(v6883= list::empty(Kernel.emptySet));
-        ((list *) v6883)->addFast(_oid_(symbol_I_string2("DO")));
-        ((list *) v6883)->addFast(_oid_(symbol_I_string2("IF")));
-        ((list *) v6883)->addFast(_oid_(symbol_I_string2("ClaireAnd")));
-        ((list *) v6883)->addFast(_oid_(symbol_I_string2("ClaireOr")));
-        ((list *) v6883)->addFast(_oid_(symbol_I_string2("NOT")));
-        ((list *) v6883)->addFast(_oid_(symbol_I_string2("PRINTF")));
-        ((list *) v6883)->addFast(_oid_(symbol_I_string2("ClaireVoid")));
-        ((list *) v6883)->addFast(_oid_(symbol_I_string2("ClairePattern")));
-        ((list *) v6883)->addFast(_oid_(symbol_I_string2("ClaireException")));
-        ((list *) v6883)->addFast(_oid_(symbol_I_string2("RETURN")));
-        ((list *) v6883)->addFast(_oid_(symbol_I_string2("NEW")));
-        ((list *) v6883)->addFast(_oid_(symbol_I_string2("ClaireClass")));
-        ((list *) v6883)->addFast(_oid_(symbol_I_string2("PRIVATE")));
-        ((list *) v6883)->addFast(_oid_(symbol_I_string2("ClaireOperator")));
-        ((list *) v6883)->addFast(_oid_(symbol_I_string2("DEFAULT")));
-        ((list *) v6883)->addFast(_oid_(symbol_I_string2("ClaireHandle")));
-        ((list *) v6883)->addFast(_oid_(symbol_I_string2("ClaireImport")));
-        ((list *) v6883)->addFast(_oid_(symbol_I_string2("CATCH")));
-        ((list *) v6883)->addFast(_oid_(symbol_I_string2("STDOUT")));
-        ((list *) v6883)->addFast(_oid_(symbol_I_string2("STDIN")));
-        ((list *) v6883)->addFast(_oid_(symbol_I_string2("BREAK")));
-        ((list *) v6883)->addFast(_oid_(symbol_I_string2("ClaireChar")));
-        ((list *) v6883)->addFast(_oid_(symbol_I_string2("ClaireInterface")));
-        ((list *) v6883)->addFast(_oid_(symbol_I_string2("_eof")));
-        ((list *) v6883)->addFast(_oid_(symbol_I_string2("ClaireRelation")));
-        ((list *) v6883)->addFast(_oid_(symbol_I_string2("Core")));
-        ((list *) v6883)->addFast(_oid_(symbol_I_string2("ClaireObject")));
-        ((list *) v6883)->addFast(_oid_(symbol_I_string2("_delete")));
-        ((list *) v6883)->addFast(_oid_(symbol_I_string2("ClaireBoolean")));
-        ((list *) v6883)->addFast(_oid_(symbol_I_string2("ClaireFunction")));
-        ((list *) v6883)->addFast(_oid_(symbol_I_string2("ClaireType")));
-        ((list *) v6883)->addFast(_oid_(symbol_I_string2("SystemThing")));
-        ((list *) v6883)->addFast(_oid_(symbol_I_string2("ClaireEnvironment")));
-        ((list *) v6883)->addFast(_oid_(symbol_I_string2("ABSTRACT")));
-        ((list *) v6883)->addFast(_oid_(symbol_I_string2("FINAL")));
-        ((list *) v6883)->addFast(_oid_(symbol_I_string2("SystemObject")));
-        ((list *) v6883)->addFast(_oid_(symbol_I_string2("_NEW_ALLOC")));
-        ((list *) v6883)->addFast(_oid_(symbol_I_string2("_BAG_UPDATE")));
-        ((list *) v6883)->addFast(_oid_(symbol_I_string2("_SLOT_UPDATE")));
-        ((list *) v6883)->addFast(_oid_(symbol_I_string2("_RETURN_ARG")));
-        ((list *) v6883)->addFast(_oid_(symbol_I_string2("_SAFE_RESULT")));
-        ((list *) v6883)->addFast(_oid_(symbol_I_string2("_SAFE_GC")));
-        ((list *) v6883)->addFast(_oid_(symbol_I_string2("ClaireCollection")));
-        ((list *) v6883)->addFast(_oid_(symbol_I_string2("ClaireError")));} 
-      (v6882->good_names = v6883);} 
+    (Generate.C_plus_plusPRODUCER->extension = copy_string(".cpp"));
+    (Generate.C_plus_plusPRODUCER->comment = copy_string("C++"));
+    { Generate_c_producer * v6876 = Generate.C_plus_plusPRODUCER; 
+      list * v6877;
+      { GC_ANY(v6877= list::empty(Kernel.emptySet));
+        ((list *) v6877)->addFast(_oid_(symbol_I_string2(copy_string("do"))));
+        ((list *) v6877)->addFast(_oid_(symbol_I_string2(copy_string("if"))));
+        ((list *) v6877)->addFast(_oid_(symbol_I_string2(copy_string("and"))));
+        ((list *) v6877)->addFast(_oid_(symbol_I_string2(copy_string("or"))));
+        ((list *) v6877)->addFast(_oid_(symbol_I_string2(copy_string("not"))));
+        ((list *) v6877)->addFast(_oid_(symbol_I_string2(copy_string("printf"))));
+        ((list *) v6877)->addFast(_oid_(symbol_I_string2(copy_string("void"))));
+        ((list *) v6877)->addFast(_oid_(Optimize._Pattern->name));
+        ((list *) v6877)->addFast(_oid_(symbol_I_string2(copy_string("exception"))));
+        ((list *) v6877)->addFast(_oid_(symbol_I_string2(copy_string("return"))));
+        ((list *) v6877)->addFast(_oid_(symbol_I_string2(copy_string("new"))));
+        ((list *) v6877)->addFast(_oid_(symbol_I_string2(copy_string("class"))));
+        ((list *) v6877)->addFast(_oid_(symbol_I_string2(copy_string("private"))));
+        ((list *) v6877)->addFast(_oid_(symbol_I_string2(copy_string("operator"))));
+        ((list *) v6877)->addFast(_oid_(symbol_I_string2(copy_string("default"))));
+        ((list *) v6877)->addFast(_oid_(symbol_I_string2(copy_string("Handle"))));
+        ((list *) v6877)->addFast(_oid_(symbol_I_string2(copy_string("import"))));
+        ((list *) v6877)->addFast(_oid_(symbol_I_string2(copy_string("catch"))));
+        ((list *) v6877)->addFast(_oid_(symbol_I_string2(copy_string("stdout"))));
+        ((list *) v6877)->addFast(_oid_(symbol_I_string2(copy_string("stdin"))));
+        ((list *) v6877)->addFast(_oid_(symbol_I_string2(copy_string("break"))));
+        ((list *) v6877)->addFast(_oid_(symbol_I_string2(copy_string("char"))));
+        ((list *) v6877)->addFast(_oid_(symbol_I_string2(copy_string("interface"))));
+        ((list *) v6877)->addFast(_oid_(symbol_I_string2(copy_string("EOF"))));
+        ((list *) v6877)->addFast(_oid_(symbol_I_string2(copy_string("relation"))));
+        ((list *) v6877)->addFast(_oid_(symbol_I_string2(copy_string("System"))));
+        ((list *) v6877)->addFast(_oid_(symbol_I_string2(copy_string("object"))));
+        ((list *) v6877)->addFast(_oid_(symbol_I_string2(copy_string("delete"))));
+        ((list *) v6877)->addFast(_oid_(symbol_I_string2(copy_string("boolean"))));
+        ((list *) v6877)->addFast(_oid_(symbol_I_string2(copy_string("function"))));
+        ((list *) v6877)->addFast(_oid_(symbol_I_string2(copy_string("type"))));
+        ((list *) v6877)->addFast(_oid_(symbol_I_string2(copy_string("system_thing"))));
+        ((list *) v6877)->addFast(_oid_(symbol_I_string2(copy_string("environment"))));
+        ((list *) v6877)->addFast(_oid_(symbol_I_string2(copy_string("abstract"))));
+        ((list *) v6877)->addFast(_oid_(symbol_I_string2(copy_string("final"))));
+        ((list *) v6877)->addFast(_oid_(symbol_I_string2(copy_string("system_object"))));
+        ((list *) v6877)->addFast(_oid_(symbol_I_string2(copy_string("NEW_ALLOC"))));
+        ((list *) v6877)->addFast(_oid_(symbol_I_string2(copy_string("BAG_UPDATE"))));
+        ((list *) v6877)->addFast(_oid_(symbol_I_string2(copy_string("SLOT_UPDATE"))));
+        ((list *) v6877)->addFast(_oid_(symbol_I_string2(copy_string("RETURN_ARG"))));
+        ((list *) v6877)->addFast(_oid_(symbol_I_string2(copy_string("SAFE_RESULT"))));
+        ((list *) v6877)->addFast(_oid_(symbol_I_string2(copy_string("SAFE_GC"))));
+        ((list *) v6877)->addFast(_oid_(symbol_I_string2(copy_string("collection"))));
+        ((list *) v6877)->addFast(_oid_(symbol_I_string2(copy_string("error"))));
+        ((list *) v6877)->addFast(_oid_(symbol_I_string2(copy_string("register"))));
+        ((list *) v6877)->addFast(_oid_(symbol_I_string2(copy_string("template"))));
+        ((list *) v6877)->addFast(_oid_(symbol_I_string2(copy_string("STRING_UPDATE"))));} 
+      (v6876->bad_names = v6877);} 
+    { Generate_c_producer * v6878 = Generate.C_plus_plusPRODUCER; 
+      list * v6879;
+      { GC_ANY(v6879= list::empty(Kernel.emptySet));
+        ((list *) v6879)->addFast(_oid_(symbol_I_string2(copy_string("DO"))));
+        ((list *) v6879)->addFast(_oid_(symbol_I_string2(copy_string("IF"))));
+        ((list *) v6879)->addFast(_oid_(symbol_I_string2(copy_string("ClaireAnd"))));
+        ((list *) v6879)->addFast(_oid_(symbol_I_string2(copy_string("ClaireOr"))));
+        ((list *) v6879)->addFast(_oid_(symbol_I_string2(copy_string("NOT"))));
+        ((list *) v6879)->addFast(_oid_(symbol_I_string2(copy_string("PRINTF"))));
+        ((list *) v6879)->addFast(_oid_(symbol_I_string2(copy_string("ClaireVoid"))));
+        ((list *) v6879)->addFast(_oid_(symbol_I_string2(copy_string("ClairePattern"))));
+        ((list *) v6879)->addFast(_oid_(symbol_I_string2(copy_string("ClaireException"))));
+        ((list *) v6879)->addFast(_oid_(symbol_I_string2(copy_string("RETURN"))));
+        ((list *) v6879)->addFast(_oid_(symbol_I_string2(copy_string("NEW"))));
+        ((list *) v6879)->addFast(_oid_(symbol_I_string2(copy_string("ClaireClass"))));
+        ((list *) v6879)->addFast(_oid_(symbol_I_string2(copy_string("PRIVATE"))));
+        ((list *) v6879)->addFast(_oid_(symbol_I_string2(copy_string("ClaireOperator"))));
+        ((list *) v6879)->addFast(_oid_(symbol_I_string2(copy_string("DEFAULT"))));
+        ((list *) v6879)->addFast(_oid_(symbol_I_string2(copy_string("ClaireHandle"))));
+        ((list *) v6879)->addFast(_oid_(symbol_I_string2(copy_string("ClaireImport"))));
+        ((list *) v6879)->addFast(_oid_(symbol_I_string2(copy_string("CATCH"))));
+        ((list *) v6879)->addFast(_oid_(symbol_I_string2(copy_string("STDOUT"))));
+        ((list *) v6879)->addFast(_oid_(symbol_I_string2(copy_string("STDIN"))));
+        ((list *) v6879)->addFast(_oid_(symbol_I_string2(copy_string("BREAK"))));
+        ((list *) v6879)->addFast(_oid_(symbol_I_string2(copy_string("ClaireChar"))));
+        ((list *) v6879)->addFast(_oid_(symbol_I_string2(copy_string("ClaireInterface"))));
+        ((list *) v6879)->addFast(_oid_(symbol_I_string2(copy_string("_eof"))));
+        ((list *) v6879)->addFast(_oid_(symbol_I_string2(copy_string("ClaireRelation"))));
+        ((list *) v6879)->addFast(_oid_(symbol_I_string2(copy_string("Core"))));
+        ((list *) v6879)->addFast(_oid_(symbol_I_string2(copy_string("ClaireObject"))));
+        ((list *) v6879)->addFast(_oid_(symbol_I_string2(copy_string("_delete"))));
+        ((list *) v6879)->addFast(_oid_(symbol_I_string2(copy_string("ClaireBoolean"))));
+        ((list *) v6879)->addFast(_oid_(symbol_I_string2(copy_string("ClaireFunction"))));
+        ((list *) v6879)->addFast(_oid_(symbol_I_string2(copy_string("ClaireType"))));
+        ((list *) v6879)->addFast(_oid_(symbol_I_string2(copy_string("SystemThing"))));
+        ((list *) v6879)->addFast(_oid_(symbol_I_string2(copy_string("ClaireEnvironment"))));
+        ((list *) v6879)->addFast(_oid_(symbol_I_string2(copy_string("ABSTRACT"))));
+        ((list *) v6879)->addFast(_oid_(symbol_I_string2(copy_string("FINAL"))));
+        ((list *) v6879)->addFast(_oid_(symbol_I_string2(copy_string("SystemObject"))));
+        ((list *) v6879)->addFast(_oid_(symbol_I_string2(copy_string("_NEW_ALLOC"))));
+        ((list *) v6879)->addFast(_oid_(symbol_I_string2(copy_string("_BAG_UPDATE"))));
+        ((list *) v6879)->addFast(_oid_(symbol_I_string2(copy_string("_SLOT_UPDATE"))));
+        ((list *) v6879)->addFast(_oid_(symbol_I_string2(copy_string("_RETURN_ARG"))));
+        ((list *) v6879)->addFast(_oid_(symbol_I_string2(copy_string("_SAFE_RESULT"))));
+        ((list *) v6879)->addFast(_oid_(symbol_I_string2(copy_string("_SAFE_GC"))));
+        ((list *) v6879)->addFast(_oid_(symbol_I_string2(copy_string("ClaireCollection"))));
+        ((list *) v6879)->addFast(_oid_(symbol_I_string2(copy_string("ClaireError"))));
+        ((list *) v6879)->addFast(_oid_(symbol_I_string2(copy_string("ClaireRegister"))));
+        ((list *) v6879)->addFast(_oid_(symbol_I_string2(copy_string("ClaireTemplate"))));
+        ((list *) v6879)->addFast(_oid_(symbol_I_string2(copy_string("_STRING_UPDATE"))));} 
+      (v6878->good_names = v6879);} 
     (Generate.C_plus_plusPRODUCER->interfaces = list::alloc(12,_oid_(Kernel._port),
-      _string_("ClairePort *"),
+      _string_(copy_string("ClairePort *")),
       _oid_(Kernel._string),
-      _string_("char *"),
+      _string_(copy_string("char *")),
       _oid_(Kernel._char),
-      _string_("ClaireChar *"),
+      _string_(copy_string("ClaireChar *")),
       _oid_(Kernel._float),
-      _string_("double "),
+      _string_(copy_string("double ")),
       _oid_(Kernel._array),
-      _string_("OID *"),
+      _string_(copy_string("OID *")),
       _oid_(Kernel._function),
-      _string_("OID (*)()")));
+      _string_(copy_string("OID (*)()"))));
     ;} 
   
   (Generate.PRODUCER->value= _oid_(Generate.C_plus_plusPRODUCER));
   
   Generate.c_string->addMethod(list::domain(2,Generate._c_producer,Language._Variable),Kernel._string,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(c_string_c_producer1,"c_string_c_producer1"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(c_string_c_producer1,"c_string_c_producer1"));
   
   Generate.c_string->addMethod(list::domain(2,Generate._c_producer,Kernel._symbol),Kernel._string,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(c_string_c_producer2,"c_string_c_producer2"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(c_string_c_producer2,"c_string_c_producer2"));
   
   Kernel.string_I->addMethod(list::domain(2,Generate._c_producer,Language._Variable),Kernel._string,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(string_I_c_producer1,"string!_c_producer1"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(string_I_c_producer1,"string!_c_producer1"));
   
   Kernel.string_I->addMethod(list::domain(2,Generate._c_producer,Kernel._symbol),Kernel._string,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(string_I_c_producer2,"string!_c_producer2"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(string_I_c_producer2,"string!_c_producer2"));
   
   Language.ident->addMethod(list::domain(2,Generate._c_producer,Language._Variable),Kernel._void,
-  	NEW_ALLOC,_function_(ident_c_producer3,"ident_c_producer3"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(ident_c_producer3,"ident_c_producer3"));
   
   Language.ident->addMethod(list::domain(2,Generate._c_producer,Kernel._symbol),Kernel._void,
-  	0,_function_(ident_c_producer,"ident_c_producer"));
+  	STRING_UPDATE,_function_(ident_c_producer,"ident_c_producer"));
   
   Generate.class_princ->addMethod(list::domain(2,Generate._c_producer,Kernel._class),Kernel._void,
-  	RETURN_ARG,_function_(class_princ_c_producer,"class_princ_c_producer"));
+  	RETURN_ARG+STRING_UPDATE,_function_(class_princ_c_producer,"class_princ_c_producer"));
   
   Generate.produce->addMethod(list::domain(2,Generate._c_producer,Kernel._any),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE,_function_(produce_c_producer2,"produce_c_producer2"));
+  	NEW_ALLOC+SLOT_UPDATE+STRING_UPDATE,_function_(produce_c_producer2,"produce_c_producer2"));
   
   Generate.globalVar->addMethod(list::domain(2,Generate._c_producer,Core._global_variable),Kernel._void,
-  	NEW_ALLOC,_function_(globalVar_c_producer,"globalVar_c_producer"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(globalVar_c_producer,"globalVar_c_producer"));
   
   Generate.stat_exp->addMethod(list::domain(3,Generate._c_producer,Kernel._any,Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(stat_exp_c_producer,"stat_exp_c_producer"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(stat_exp_c_producer,"stat_exp_c_producer"));
   
   Generate.namespace_I->addMethod(list::domain(2,Generate._c_producer,Kernel._module),Kernel._void,
-  	NEW_ALLOC,_function_(namespace_I_c_producer,"namespace!_c_producer"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(namespace_I_c_producer,"namespace!_c_producer"));
   
   Kernel.module_I->addMethod(list::domain(2,Generate._c_producer,Kernel._module),Kernel._void,
-  	RETURN_ARG,_function_(module_I_c_producer,"module!_c_producer"));
+  	RETURN_ARG+STRING_UPDATE,_function_(module_I_c_producer,"module!_c_producer"));
   
   Generate.declare->addMethod(list::domain(2,Generate._c_producer,Kernel._property),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE,_function_(declare_c_producer,"declare_c_producer"));
+  	NEW_ALLOC+SLOT_UPDATE+STRING_UPDATE,_function_(declare_c_producer,"declare_c_producer"));
   
   Generate.start_module_interface->addMethod(list::domain(2,Generate._c_producer,Kernel._module),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE,_function_(start_module_interface_c_producer,"start_module_interface_c_producer"));
+  	NEW_ALLOC+SLOT_UPDATE+STRING_UPDATE,_function_(start_module_interface_c_producer,"start_module_interface_c_producer"));
   
   Generate.end_module_interface->addMethod(list::domain(2,Generate._c_producer,Kernel._module),Kernel._void,
   	0,_function_(end_module_interface_c_producer,"end_module_interface_c_producer"));
   
   Generate.generate_end_file->addMethod(list::domain(2,Generate._c_producer,Kernel._module),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(generate_end_file_c_producer,"generate_end_file_c_producer"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(generate_end_file_c_producer,"generate_end_file_c_producer"));
   
   Generate.generate_classes->addMethod(list::domain(3,Generate._c_producer,Kernel._string,Kernel._module),Kernel._void,
-  	NEW_ALLOC,_function_(generate_classes_c_producer,"generate_classes_c_producer"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(generate_classes_c_producer,"generate_classes_c_producer"));
   
   Generate.generate_start_file->addMethod(list::domain(2,Generate._c_producer,Kernel._module),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(generate_start_file_c_producer,"generate_start_file_c_producer"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(generate_start_file_c_producer,"generate_start_file_c_producer"));
   
   Generate.generate_meta_load->addMethod(list::domain(2,Generate._c_producer,Kernel._module),Kernel._void,
-  	SLOT_UPDATE,_function_(generate_meta_load_c_producer,"generate_meta_load_c_producer"));
+  	SLOT_UPDATE+STRING_UPDATE,_function_(generate_meta_load_c_producer,"generate_meta_load_c_producer"));
   
   Generate.start_file->addMethod(list::domain(2,Kernel._string,Kernel._module),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(start_file_string,"start_file_string"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(start_file_string,"start_file_string"));
   
   Generate.define_variable->addMethod(list::domain(3,Generate._c_producer,Kernel._class,Kernel._string),Kernel._void,
-  	NEW_ALLOC,_function_(define_variable_c_producer2,"define_variable_c_producer2"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(define_variable_c_producer2,"define_variable_c_producer2"));
   
   Generate.generate_profile->addMethod(list::domain(2,Generate._c_producer,Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(generate_profile_c_producer,"generate_profile_c_producer"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(generate_profile_c_producer,"generate_profile_c_producer"));
   
   Generate.generate_interface->addMethod(list::domain(2,Generate._c_producer,Kernel._module),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE,_function_(generate_interface_c_producer,"generate_interface_c_producer"));
+  	NEW_ALLOC+SLOT_UPDATE+STRING_UPDATE,_function_(generate_interface_c_producer,"generate_interface_c_producer"));
   
   Generate.global_var_def_I->addMethod(list::domain(3,Generate._c_producer,Kernel._module,Language._Let),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(global_var_def_I_c_producer,"global_var_def!_c_producer"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(global_var_def_I_c_producer,"global_var_def!_c_producer"));
   
   Generate.gc_introduction->addMethod(list::domain(2,Generate._c_producer,Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(gc_introduction_c_producer,"gc_introduction_c_producer"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(gc_introduction_c_producer,"gc_introduction_c_producer"));
   
   Generate.gc_usage->addMethod(list::domain(2,Kernel._any,Kernel._boolean),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(gc_usage_any,"gc_usage_any"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(gc_usage_any,"gc_usage_any"));
   
   Generate.gc_or->addMethod(list::domain(2,Kernel._any,Kernel._any),Kernel._any,
-  	RETURN_ARG,_function_(gc_or_any,"gc_or_any"));
+  	RETURN_ARG+STRING_UPDATE,_function_(gc_or_any,"gc_or_any"));
   
   Generate.gc_usage_star->addMethod(list::domain(2,Kernel._list,Kernel._boolean),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(gc_usage_star_list,"gc_usage*_list"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(gc_usage_star_list,"gc_usage*_list"));
   
   Generate.debug_intro->addMethod(list::domain(3,Generate._c_producer,Core._lambda,Kernel._method),Kernel._void,
-  	NEW_ALLOC,_function_(debug_intro_c_producer,"debug_intro_c_producer"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(debug_intro_c_producer,"debug_intro_c_producer"));
   
   Generate.protect_result->addMethod(list::domain(4,Generate._c_producer,
     Kernel._class,
     Kernel._boolean,
     Kernel._any),Kernel._string,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(protect_result_c_producer,"protect_result_c_producer"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(protect_result_c_producer,"protect_result_c_producer"));
   
   Generate.generate_function_start->addMethod(list::domain(5,Generate._c_producer,
     Core._lambda,
     Kernel._class,
     Kernel._any,
     Kernel._string),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(generate_function_start_c_producer,"generate_function_start_c_producer"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(generate_function_start_c_producer,"generate_function_start_c_producer"));
   
   Generate.generate_regular_function->addMethod(list::domain(6,Generate._c_producer,
     Core._lambda,
@@ -919,16 +925,16 @@ void GenerateClass::metaLoad() {
     Kernel._class,
     Kernel._any,
     Kernel._list),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(generate_regular_function_c_producer,"generate_regular_function_c_producer"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(generate_regular_function_c_producer,"generate_regular_function_c_producer"));
   
   Generate.generate_float_function->addMethod(list::domain(3,Generate._c_producer,Kernel._method,Kernel._string),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(generate_float_function_c_producer,"generate_float_function_c_producer"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(generate_float_function_c_producer,"generate_float_function_c_producer"));
   
   Generate.at->addMethod(list::domain(1,Generate._c_producer),Kernel._void,
   	0,_function_(at_c_producer,"at_c_producer"));
   
   Generate.generate_tuple_function->addMethod(list::domain(3,Generate._c_producer,Kernel._method,Kernel._string),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(generate_tuple_function_c_producer,"generate_tuple_function_c_producer"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(generate_tuple_function_c_producer,"generate_tuple_function_c_producer"));
   
   Generate.create_function_entry->addMethod(list::domain(4,Generate._c_producer,
     Core._lambda,
@@ -940,122 +946,122 @@ void GenerateClass::metaLoad() {
     Kernel._function,
     Kernel._list,
     Kernel._class),Kernel._any,
-  	NEW_ALLOC+SLOT_UPDATE,_function_(update_function_entry_c_producer,"update_function_entry_c_producer"));
+  	NEW_ALLOC+SLOT_UPDATE+STRING_UPDATE,_function_(update_function_entry_c_producer,"update_function_entry_c_producer"));
   
   Optimize.c_interface->addMethod(list::domain(1,Kernel._class),Kernel._string,
-  	RETURN_ARG,_function_(c_interface_class1_Generate,"c_interface_class1_Generate"));
+  	RETURN_ARG+STRING_UPDATE,_function_(c_interface_class1_Generate,"c_interface_class1_Generate"));
   
   Optimize.c_interface->addMethod(list::domain(2,Kernel._class,Kernel._string),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(c_interface_class2_Generate,"c_interface_class2_Generate"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(c_interface_class2_Generate,"c_interface_class2_Generate"));
   
   Optimize.c_interface->addMethod(list::domain(1,Kernel._method),Kernel._void,
-  	NEW_ALLOC,_function_(c_interface_method_Generate,"c_interface_method_Generate"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(c_interface_method_Generate,"c_interface_method_Generate"));
   
   Generate.interface_I->addMethod(list::domain(2,Generate._c_producer,Kernel._class),Kernel._void,
-  	NEW_ALLOC,_function_(interface_I_c_producer,"interface!_c_producer"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(interface_I_c_producer,"interface!_c_producer"));
   
   Generate.to_cl->addMethod(list::domain(4,Generate._c_producer,
     Kernel._any,
     Kernel._class,
     Kernel._any),Kernel._void,
-  	NEW_ALLOC+RETURN_ARG,_function_(to_cl_c_producer,"to_cl_c_producer"));
+  	NEW_ALLOC+RETURN_ARG+STRING_UPDATE,_function_(to_cl_c_producer,"to_cl_c_producer"));
   
   Generate.to_c->addMethod(list::domain(4,Generate._c_producer,
     Kernel._any,
     Kernel._class,
     Kernel._any),Kernel._void,
-  	NEW_ALLOC+RETURN_ARG,_function_(to_c_c_producer1,"to_c_c_producer1"));
+  	NEW_ALLOC+RETURN_ARG+STRING_UPDATE,_function_(to_c_c_producer1,"to_c_c_producer1"));
   
   Generate.to_c->addMethod(list::domain(2,Generate._c_producer,Kernel._class),Kernel._void,
-  	NEW_ALLOC,_function_(to_c_c_producer2,"to_c_c_producer2"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(to_c_c_producer2,"to_c_c_producer2"));
   
   Generate.public_static->addMethod(list::domain(1,Generate._c_producer),Kernel._void,
   	0,_function_(public_static_c_producer,"public_static_c_producer"));
   
   Generate.bool_exp_I->addMethod(list::domain(3,Generate._c_producer,Kernel._any,Kernel._any),Kernel._void,
-  	NEW_ALLOC,_function_(bool_exp_I_c_producer,"bool_exp!_c_producer"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(bool_exp_I_c_producer,"bool_exp!_c_producer"));
   
   Generate.inherit_exp->addMethod(list::domain(4,Generate._c_producer,
     Kernel._any,
     Kernel._any,
     Kernel._any),Kernel._void,
-  	NEW_ALLOC,_function_(inherit_exp_c_producer,"inherit_exp_c_producer"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(inherit_exp_c_producer,"inherit_exp_c_producer"));
   
   Generate.bitvector_exp->addMethod(list::domain(4,Generate._c_producer,
     Kernel._any,
     Kernel._any,
     Kernel._any),Kernel._void,
-  	NEW_ALLOC,_function_(bitvector_exp_c_producer,"bitvector_exp_c_producer"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(bitvector_exp_c_producer,"bitvector_exp_c_producer"));
   
   Generate.equal_exp->addMethod(list::domain(5,Generate._c_producer,
     Kernel._any,
     Kernel._boolean,
     Kernel._any,
     Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(equal_exp_c_producer,"equal_exp_c_producer"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(equal_exp_c_producer,"equal_exp_c_producer"));
   
   Generate.char_exp_ask->addMethod(list::domain(2,Generate._c_producer,Kernel._any),Kernel._boolean,
-  	0,_function_(char_exp_ask_c_producer2,"char_exp?_c_producer2"));
+  	STRING_UPDATE,_function_(char_exp_ask_c_producer2,"char_exp?_c_producer2"));
   
   Generate.char_exp->addMethod(list::domain(3,Generate._c_producer,Kernel._any,Kernel._any),Kernel._void,
-  	NEW_ALLOC,_function_(char_exp_c_producer2,"char_exp_c_producer2"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(char_exp_c_producer2,"char_exp_c_producer2"));
   
   Generate.c_member->addMethod(list::domain(5,Generate._c_producer,
     Kernel._any,
     Kernel._class,
     Kernel._property,
     Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(c_member_c_producer,"c_member_c_producer"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(c_member_c_producer,"c_member_c_producer"));
   
   Generate.addFast->addMethod(list::domain(1,Generate._c_producer),Kernel._void,
   	0,_function_(addFast_c_producer,"addFast_c_producer"));
   
   Kernel.cast_I->addMethod(list::domain(3,Generate._c_producer,Optimize._C_cast,Kernel._any),Kernel._void,
-  	NEW_ALLOC,_function_(cast_I_c_producer,"cast!_c_producer"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(cast_I_c_producer,"cast!_c_producer"));
   
   Generate.gc_protection_exp->addMethod(list::domain(5,Generate._c_producer,
     Language._Variable,
     Kernel._boolean,
     Kernel._any,
     Kernel._any),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE,_function_(gc_protection_exp_c_producer,"gc_protection_exp_c_producer"));
+  	NEW_ALLOC+SLOT_UPDATE+STRING_UPDATE,_function_(gc_protection_exp_c_producer,"gc_protection_exp_c_producer"));
   
   Generate.bag_expression->addMethod(list::domain(5,Generate._c_producer,
     Kernel._class,
     Kernel._bag,
     Kernel._type,
     Kernel._any),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE,_function_(bag_expression_c_producer,"bag_expression_c_producer"));
+  	NEW_ALLOC+SLOT_UPDATE+STRING_UPDATE,_function_(bag_expression_c_producer,"bag_expression_c_producer"));
   
   Generate.generate_s_file->addMethod(list::domain(3,Kernel._string,Kernel._list,Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(generate_s_file_string,"generate_s_file_string"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(generate_s_file_string,"generate_s_file_string"));
   
   Generate.create_load_modules->addMethod(list::domain(4,Kernel._string,
     Kernel._port,
     Kernel._list,
     Kernel._any),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE,_function_(create_load_modules_string,"create_load_modules_string"));
+  	NEW_ALLOC+SLOT_UPDATE+STRING_UPDATE,_function_(create_load_modules_string,"create_load_modules_string"));
   
   Generate.methods_interface->addMethod(list::domain(2,Generate._c_producer,Kernel._class),Kernel._void,
-  	NEW_ALLOC,_function_(methods_interface_c_producer,"methods_interface_c_producer"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(methods_interface_c_producer,"methods_interface_c_producer"));
   
   Generate.methods_bodies->addMethod(list::domain(2,Generate._c_producer,Kernel._class),Kernel._void,
-  	NEW_ALLOC,_function_(methods_bodies_c_producer,"methods_bodies_c_producer"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(methods_bodies_c_producer,"methods_bodies_c_producer"));
   
   Generate.inline_exp->addMethod(list::domain(3,Generate._c_producer,Language._Call_method1,Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(inline_exp_c_producer1,"inline_exp_c_producer1"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(inline_exp_c_producer1,"inline_exp_c_producer1"));
   
   Generate.inline_exp->addMethod(list::domain(3,Generate._c_producer,Language._Call_method2,Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(inline_exp_c_producer2,"inline_exp_c_producer2"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(inline_exp_c_producer2,"inline_exp_c_producer2"));
   
   Generate.inline_exp->addMethod(list::domain(3,Generate._c_producer,Language._Call_method,Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(inline_exp_c_producer3,"inline_exp_c_producer3"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(inline_exp_c_producer3,"inline_exp_c_producer3"));
   
   Generate.print_external_call->addMethod(list::domain(3,Generate._c_producer,Language._Call_method,Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(print_external_call_c_producer,"print_external_call_c_producer"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(print_external_call_c_producer,"print_external_call_c_producer"));
   
   Generate.inline_exp->addMethod(list::domain(3,Generate._c_producer,Language._Call,Kernel._any),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE+RETURN_ARG,_function_(inline_exp_c_producer5,"inline_exp_c_producer5"));
+  	NEW_ALLOC+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(inline_exp_c_producer5,"inline_exp_c_producer5"));
   
   { (Generate.fcall_ask = property::make("fcall?",3,Generate.it,Kernel._any,0));
     (Generate.fcall_ask->open = 3);
@@ -1078,72 +1084,73 @@ void GenerateClass::metaLoad() {
     } 
   
   Generate.fcall_ask->addMethod(list::domain(1,Language._Call),Kernel._boolean,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(fcall_ask_Call2_Generate,"fcall?_Call2_Generate"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(fcall_ask_Call2_Generate,"fcall?_Call2_Generate"));
   
   Generate.get_restrictions->addMethod(list::domain(2,Language._Call,Kernel._list),param_I_class(Kernel._list,Kernel._method),
-  	NEW_ALLOC,_function_(get_restrictions_Call2,"get_restrictions_Call2"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(get_restrictions_Call2,"get_restrictions_Call2"));
   
   Generate.fcall_exp->addMethod(list::domain(2,Language._Call,Kernel._any),Kernel._void,
-  	NEW_ALLOC,_function_(fcall_exp_Call2_Generate,"fcall_exp_Call2_Generate"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(fcall_exp_Call2_Generate,"fcall_exp_Call2_Generate"));
   
   Generate.c_sorted_arg->addMethod(list::domain(4,Kernel._any,
     Kernel._class,
     Kernel._any,
     Kernel._boolean),Kernel._void,
-  	NEW_ALLOC,_function_(c_sorted_arg_any,"c_sorted_arg_any"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(c_sorted_arg_any,"c_sorted_arg_any"));
   
   Generate.c_sorted_args->addMethod(list::domain(4,Language._Call,
     Kernel._list,
     Kernel._any,
     Kernel._boolean),Kernel._void,
-  	NEW_ALLOC,_function_(c_sorted_args_Call,"c_sorted_args_Call"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(c_sorted_args_Call,"c_sorted_args_Call"));
   
   Generate.bitvector_I->addMethod(list::domain(2,Generate._c_producer,Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(bitvector_I_c_producer,"bitvector!_c_producer"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(bitvector_I_c_producer,"bitvector!_c_producer"));
   
   { global_variable * v2072 = (Generate.bitvectorList = (global_variable *) Core._global_variable->instantiate("bitvectorList",Compile.it));
     (v2072->range = Kernel.emptySet);
-    (v2072->value = _oid_(list::alloc(6,_string_("NEW_ALLOC"),
-      _string_("BAG_UPDATE"),
-      _string_("SLOT_UPDATE"),
-      _string_("RETURN_ARG"),
-      _string_("SAFE_RESULT"),
-      _string_("SAFE_GC"))));
+    (v2072->value = _oid_(list::alloc(7,_string_(copy_string("NEW_ALLOC")),
+      _string_(copy_string("BAG_UPDATE")),
+      _string_(copy_string("SLOT_UPDATE")),
+      _string_(copy_string("RETURN_ARG")),
+      _string_(copy_string("SAFE_RESULT")),
+      _string_(copy_string("SAFE_GC")),
+      _string_(copy_string("STRING_UPDATE")))));
     close_global_variable(v2072);
     } 
   
   Generate.bitvectorSum->addMethod(list::domain(1,Kernel._integer),Kernel._void,
-  	0,_function_(bitvectorSum_integer,"bitvectorSum_integer"));
+  	STRING_UPDATE,_function_(bitvectorSum_integer,"bitvectorSum_integer"));
   
   Generate.signature_I->addMethod(list::domain(2,Generate._c_producer,Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(signature_I_c_producer,"signature!_c_producer"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE,_function_(signature_I_c_producer,"signature!_c_producer"));
   
   Generate.getC->addMethod(list::domain(1,Kernel._any),Kernel._any,
   	NEW_ALLOC+RETURN_ARG,_function_(getC_any,"getC_any"));
   
   Generate.gassign->addMethod(list::domain(3,Generate._c_producer,Language._Gassign,Kernel._any),Kernel._void,
-  	NEW_ALLOC,_function_(gassign_c_producer,"gassign_c_producer"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(gassign_c_producer,"gassign_c_producer"));
   
   Generate.call_slot->addMethod(list::domain(3,Generate._c_producer,Language._Call_slot,Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(call_slot_c_producer,"call_slot_c_producer"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(call_slot_c_producer,"call_slot_c_producer"));
   
   Generate.call_table->addMethod(list::domain(3,Generate._c_producer,Language._Call_table,Kernel._any),Kernel._void,
-  	NEW_ALLOC,_function_(call_table_c_producer,"call_table_c_producer"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(call_table_c_producer,"call_table_c_producer"));
   
   Generate.call_array->addMethod(list::domain(3,Generate._c_producer,Language._Call_array,Kernel._any),Kernel._void,
-  	NEW_ALLOC,_function_(call_array_c_producer,"call_array_c_producer"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(call_array_c_producer,"call_array_c_producer"));
   
   Generate.update->addMethod(list::domain(3,Generate._c_producer,Language._Update,Kernel._any),Kernel._void,
-  	NEW_ALLOC,_function_(update_c_producer,"update_c_producer"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(update_c_producer,"update_c_producer"));
   
   Generate.object_test->addMethod(list::domain(4,Generate._c_producer,
     Kernel._any,
     Kernel._boolean,
     Kernel._any),Kernel._void,
-  	NEW_ALLOC,_function_(object_test_c_producer,"object_test_c_producer"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(object_test_c_producer,"object_test_c_producer"));
   
   Generate.exp_to_protect->addMethod(list::domain(3,Generate._c_producer,Optimize._to_protect,Kernel._any),Kernel._void,
-  	NEW_ALLOC+RETURN_ARG,_function_(exp_to_protect_c_producer,"exp_to_protect_c_producer"));
+  	NEW_ALLOC+RETURN_ARG+STRING_UPDATE,_function_(exp_to_protect_c_producer,"exp_to_protect_c_producer"));
   
   Generate.macro->addMethod(list::domain(1,Generate._c_producer),Kernel._void,
   	0,_function_(macro_c_producer,"macro_c_producer"));
@@ -1155,58 +1162,58 @@ void GenerateClass::metaLoad() {
   	0,_function_(any_interface_c_producer,"any_interface_c_producer"));
   
   Generate.pointer_cast->addMethod(list::domain(2,Generate._c_producer,Kernel._class),Kernel._void,
-  	0,_function_(pointer_cast_c_producer,"pointer_cast_c_producer"));
+  	STRING_UPDATE,_function_(pointer_cast_c_producer,"pointer_cast_c_producer"));
   
   Generate.exp_Assign->addMethod(list::domain(3,Generate._c_producer,Language._Assign,Kernel._any),Kernel._void,
-  	NEW_ALLOC,_function_(exp_Assign_c_producer,"exp_Assign_c_producer"));
+  	NEW_ALLOC+STRING_UPDATE,_function_(exp_Assign_c_producer,"exp_Assign_c_producer"));
   
   Generate.stat_handle->addMethod(list::domain(4,Generate._c_producer,
     Language._Handle,
     Kernel._any,
     Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(stat_handle_c_producer,"stat_handle_c_producer"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(stat_handle_c_producer,"stat_handle_c_producer"));
   
   Generate.stat_construct->addMethod(list::domain(4,Generate._c_producer,
     Language._Construct,
     Kernel._any,
     Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(stat_construct_c_producer,"stat_construct_c_producer"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(stat_construct_c_producer,"stat_construct_c_producer"));
   
   Generate.stat_while->addMethod(list::domain(4,Generate._c_producer,
     Language._While,
     Kernel._any,
     Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(stat_while_c_producer,"stat_while_c_producer"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(stat_while_c_producer,"stat_while_c_producer"));
   
   Generate.stat_gassign->addMethod(list::domain(4,Generate._c_producer,
     Language._Gassign,
     Kernel._any,
     Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(stat_gassign_c_producer,"stat_gassign_c_producer"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(stat_gassign_c_producer,"stat_gassign_c_producer"));
   
   Generate.stat_for->addMethod(list::domain(4,Generate._c_producer,
     Language._For,
     Kernel._any,
     Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(stat_for_c_producer,"stat_for_c_producer"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(stat_for_c_producer,"stat_for_c_producer"));
   
   Generate.stat_iteration->addMethod(list::domain(4,Generate._c_producer,
     Language._Iteration,
     Kernel._any,
     Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(stat_iteration_c_producer,"stat_iteration_c_producer"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(stat_iteration_c_producer,"stat_iteration_c_producer"));
   
   Generate.stat_super->addMethod(list::domain(4,Generate._c_producer,
     Language._Super,
     Kernel._any,
     Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(stat_super_c_producer,"stat_super_c_producer"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(stat_super_c_producer,"stat_super_c_producer"));
   
   Generate.stat_let->addMethod(list::domain(4,Generate._c_producer,
     Language._Let,
     Kernel._any,
     Kernel._any),Kernel._void,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(stat_let_c_producer,"stat_let_c_producer"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE,_function_(stat_let_c_producer,"stat_let_c_producer"));
   
   GC_UNBIND;} 
 

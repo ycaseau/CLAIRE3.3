@@ -1,4 +1,4 @@
-// interface defination for module Language, Sat Jan 28 08:50:16 2006
+// interface defination for module Language, Sun Feb 15 15:37:17 2009
 #ifndef CLAIREH_Language
 #define CLAIREH_Language
 
@@ -644,6 +644,7 @@ global_variable * _SLOT_UPDATE;
 global_variable * _RETURN_ARG;
 global_variable * _SAFE_RESULT;
 global_variable * _SAFE_GC;
+global_variable * _STRING_UPDATE;
 property * bit_vector;
 ClaireClass * _demon;
 table * demons;

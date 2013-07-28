@@ -6,7 +6,7 @@
         
         Author: YVES CASEAU
         Created: YC  24/01/2006 07:33:22
-        Last Change: YC  24/01/2006 07:33:22
+	Last change: YC 15/02/2009 15:32:27
 */
 /***********************************************************************/
 /**   microCLAIRE                                       Yves Caseau    */
@@ -103,6 +103,8 @@
 #define SAFE_GC (1 << 6)          // the arguments do not need to be protected although
                                   // an allocation may occur in the method, mostly because the
                                   // arguments are pushed on the stack !
+#define STRING_UPDATE (1 << 7)    // a (non constant) string may be modified
+// #define C_STRING_UPDATE (1 << 7)    // a (non constant) string may be modified
 
 /* declare function pointers for functions with arbitrary args */
 #ifdef CLPC

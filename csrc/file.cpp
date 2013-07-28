@@ -1,5 +1,5 @@
-/***** CLAIRE Compilation of file d:\claire\v3.3\src\meta\file.cl 
-         [version 3.3.42 / safety 5] Sat Jan 28 08:50:19 2006 *****/
+/***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\file.cl 
+         [version 3.3.46 / safety 5] Sun Feb 15 15:35:19 2009 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -67,7 +67,7 @@ OID  skipc_meta_reader(meta_reader *self)
 
 
 // look for a meaningful termination char such as ) or ]
-/* The c++ function for: skipc!(r:meta_reader) [NEW_ALLOC+SLOT_UPDATE] */
+/* The c++ function for: skipc!(r:meta_reader) [NEW_ALLOC+SLOT_UPDATE+STRING_UPDATE] */
 OID  skipc_I_meta_reader(meta_reader *r)
 { { OID Result = 0;
     { OID  c = skipc_meta_reader(r);
@@ -139,7 +139,7 @@ OID  checkno_meta_reader(meta_reader *r,int n,OID y)
 
 // reads a keyword inside a control structure
 //
-/* The c++ function for: verify(t:any,x:any,y:any) [NEW_ALLOC+RETURN_ARG] */
+/* The c++ function for: verify(t:any,x:any,y:any) [NEW_ALLOC+RETURN_ARG+STRING_UPDATE] */
 OID  verify_any(OID t,OID x,OID y)
 { { OID Result = 0;
     if (belong_to(x,t) == CTRUE)
@@ -254,27 +254,27 @@ void  restore_state_meta_reader(meta_reader *self)
 // *********************************************************************
 // sload is the interactive version.
 //
-/* The c++ function for: load_file(self:string,b:boolean) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
+/* The c++ function for: load_file(self:string,b:boolean) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE] */
 OID  load_file_string(char *self,ClaireBoolean *b)
 { GC_RESERVE(1);  // HOHO v3.0.55 optim !
   (Reader.reader->index = 0);
   (Reader.reader->maxstack = 0);
   (Reader.reader->nb_line = 1);
   (Reader.reader->external = self);
-  tformat_string("---- [load CLAIRE file: ~A]\n",2,list::alloc(1,_string_(self)));
-  { char * s2 = GC_STRING(append_string(self,".cl"));
+  tformat_string(copy_string("---- [load CLAIRE file: ~A]\n"),2,list::alloc(1,_string_(self)));
+  { char * s2 = GC_STRING(append_string(self,copy_string(".cl")));
     ClairePort * p1;
     { ClaireHandler c_handle = ClaireHandler();
       if ERROR_IN 
-      { p1 = fopen_string(s2,"r");
+      { p1 = fopen_string(s2,copy_string("r"));
         ClEnv->cHandle--;} 
       else if (belong_to(_oid_(ClEnv->exception_I),_oid_(Kernel._any)) == CTRUE)
       { c_handle.catchIt();{ ClaireHandler c_handle = ClaireHandler();
           if ERROR_IN 
-          { p1 = fopen_string(self,"r");
+          { p1 = fopen_string(self,copy_string("r"));
             ClEnv->cHandle--;} 
           else if (belong_to(_oid_(ClEnv->exception_I),_oid_(Kernel._any)) == CTRUE)
-          { c_handle.catchIt();close_exception(((general_error *) (*Core._general_error)(_string_("[120] the file ~A cannot be opened"),
+          { c_handle.catchIt();close_exception(((general_error *) (*Core._general_error)(_string_(copy_string("[120] the file ~A cannot be opened")),
               _oid_(list::alloc(1,_string_(self))))));
             } 
           else PREVIOUS_HANDLER;} 
@@ -294,26 +294,26 @@ OID  load_file_string(char *self,ClaireBoolean *b)
       { GC_LOOP;
         if (b == CTRUE)
          { princ_integer(Reader.reader->nb_line);
-          princ_string(":");
+          princ_string(copy_string(":"));
           print_any(_staritem_star);
-          princ_string("\n");
+          princ_string(copy_string("\n"));
           } 
         (ClEnv->index= (top+(Reader.reader->maxstack+1)));
         if (Kernel._string == OWNER(_staritem_star))
          { if ((OBJECT(ClaireBoolean,Language.NeedComment->value)) == CTRUE)
            { if (Language.LastComment->value != CNULL)
              (Language.LastComment->value= (*Kernel._7_plus)(GC_OID(Language.LastComment->value),
-              GC_OID(_string_(append_string("\n-- ",string_v(_staritem_star))))));
-            else (Language.LastComment->value= _string_(append_string(GC_STRING(append_string(GC_STRING(append_string(GC_STRING(append_string(GC_STRING(append_string("[",GC_STRING(Reader.reader->external))),"(")),GC_STRING(string_I_integer (Reader.reader->nb_line)))),")]\n-- ")),string_v(_staritem_star))));
+              GC_OID(_string_(append_string(copy_string("\n-- "),string_v(_staritem_star))))));
+            else (Language.LastComment->value= _string_(append_string(GC_STRING(append_string(GC_STRING(append_string(GC_STRING(append_string(GC_STRING(append_string(copy_string("["),GC_STRING(Reader.reader->external))),copy_string("("))),GC_STRING(string_I_integer (Reader.reader->nb_line)))),copy_string(")]\n-- "))),string_v(_staritem_star))));
               } 
           } 
         else { GC__OID(_staritem_star = OPT_EVAL(_staritem_star), 1);
             (Language.LastComment->value= CNULL);
             } 
           if (b == CTRUE)
-         { princ_string("=> ");
+         { princ_string(copy_string("=> "));
           print_any(_staritem_star);
-          princ_string(" \n\n");
+          princ_string(copy_string(" \n\n"));
           } 
         GC__OID(_staritem_star = readblock_port(p1), 1);
         GC_UNLOOP;} 
@@ -322,7 +322,7 @@ OID  load_file_string(char *self,ClaireBoolean *b)
     (ClEnv->index= top);
     (Reader.reader->toplevel = b2);
     (Reader.reader->fromp = p2);
-    (Reader.reader->external = "toplevel");
+    (Reader.reader->external = copy_string("toplevel"));
     fclose_port(p1);
     } 
   { OID Result = 0;
@@ -362,7 +362,7 @@ void  load_file_module(module *self,ClaireBoolean *b)
         x_support = GC_OBJECT(list,self->made_of);
         for (START(x_support); NEXT(x);)
         { GC_LOOP;
-          load_file_string(GC_STRING(append_string(GC_STRING(append_string(s,string_v(x))),".cl")),b);
+          load_file_string(GC_STRING(append_string(GC_STRING(append_string(s,string_v(x))),copy_string(".cl"))),b);
           GC_UNLOOP;} 
         } 
       } 
@@ -413,7 +413,7 @@ OID  sload_module(module *self)
 // list of modules that we know will be in the result. result represent
 // the current list of ordered modules
 //
-/* The c++ function for: add_modules(self:module,l:set,result:list) [NEW_ALLOC+BAG_UPDATE+RETURN_ARG] */
+/* The c++ function for: add_modules(self:module,l:set,result:list) [NEW_ALLOC+BAG_UPDATE+RETURN_ARG+STRING_UPDATE] */
 list * add_modules_module(module *self,set *l,list *result)
 { if (result->memq(_oid_(self)) == CTRUE) 
   { { list *Result ;
@@ -471,28 +471,28 @@ list * add_modules_list(list *self)
 
 
 // load a file of expressions (quite useful)
-/* The c++ function for: eload(self:string) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
+/* The c++ function for: eload(self:string) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE] */
 OID  eload_string(char *self)
 { GC_RESERVE(1);  // HOHO v3.0.55 optim !
   (Reader.reader->index = 0);
   (Reader.reader->maxstack = 0);
   (Reader.reader->nb_line = 1);
   (Reader.reader->external = self);
-  tformat_string("---- [eload CLAIRE file: ~A]\n",2,list::alloc(1,_string_(self)));
-  { char * s2 = GC_STRING(append_string(self,".cl"));
+  tformat_string(copy_string("---- [eload CLAIRE file: ~A]\n"),2,list::alloc(1,_string_(self)));
+  { char * s2 = GC_STRING(append_string(self,copy_string(".cl")));
     ClairePort * p0 = (Reader.reader->fromp);
     ClairePort * p1;
     { ClaireHandler c_handle = ClaireHandler();
       if ERROR_IN 
-      { p1 = fopen_string(s2,"r");
+      { p1 = fopen_string(s2,copy_string("r"));
         ClEnv->cHandle--;} 
       else if (belong_to(_oid_(ClEnv->exception_I),_oid_(Kernel._any)) == CTRUE)
       { c_handle.catchIt();{ ClaireHandler c_handle = ClaireHandler();
           if ERROR_IN 
-          { p1 = fopen_string(self,"r");
+          { p1 = fopen_string(self,copy_string("r"));
             ClEnv->cHandle--;} 
           else if (belong_to(_oid_(ClEnv->exception_I),_oid_(Kernel._any)) == CTRUE)
-          { c_handle.catchIt();close_exception(((general_error *) (*Core._general_error)(_string_("[120] the file ~A cannot be opened"),
+          { c_handle.catchIt();close_exception(((general_error *) (*Core._general_error)(_string_(copy_string("[120] the file ~A cannot be opened")),
               _oid_(list::alloc(1,_string_(self))))));
             } 
           else PREVIOUS_HANDLER;} 
@@ -518,7 +518,7 @@ OID  eload_string(char *self)
     (ClEnv->index= top);
     (Reader.reader->fromp = p0);
     (Reader.reader->toplevel = b2);
-    (Reader.reader->external = "toplevel");
+    (Reader.reader->external = copy_string("toplevel"));
     fclose_port(p1);
     } 
   { OID Result = 0;
@@ -534,7 +534,7 @@ OID  eload_string(char *self)
 // This method reads from a CLAIRE port (self).
 // We first check if self is the current reading port.
 // the last character read (and not used) is in last(reader)
-/* The c++ function for: readblock(p:port) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: readblock(p:port) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 OID  readblock_port(ClairePort *p)
 { GC_BIND;
   { OID Result = 0;
@@ -548,7 +548,7 @@ OID  readblock_port(ClairePort *p)
               ((equal(val,Reader.reader->curly) == CTRUE) || 
                 ((equal(val,Reader.reader->comma) == CTRUE) || 
                   (equal(val,Reader.reader->bracket) == CTRUE))))
-           Serror_string("[117] Loose ~S in file",list::alloc(1,val));
+           Serror_string(copy_string("[117] Loose ~S in file"),list::alloc(1,val));
           Result = val;
           } 
         } 
@@ -575,7 +575,7 @@ OID  read_port(ClairePort *p)
             ((equal(val,Reader.reader->curly) == CTRUE) || 
               ((equal(val,Reader.reader->comma) == CTRUE) || 
                 (equal(val,Reader.reader->bracket) == CTRUE))))
-         Serror_string("[117] Loose ~S in file",list::alloc(1,val));
+         Serror_string(copy_string("[117] Loose ~S in file"),list::alloc(1,val));
         Result = val;
         } 
       } 
@@ -584,7 +584,7 @@ OID  read_port(ClairePort *p)
 
 
 // read into a string
-/* The c++ function for: read(self:string) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
+/* The c++ function for: read(self:string) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE] */
 OID  read_string(char *self)
 { GC_BIND;
   { OID Result = 0;
@@ -707,7 +707,7 @@ OID  kill_class(ClaireClass *self)
 
 
 // our two very special inline methods
-/* The c++ function for: min(x:integer,y:integer) [SAFE_RESULT] */
+/* The c++ function for: min(x:integer,y:integer) [SAFE_RESULT+STRING_UPDATE] */
 int  min_integer(int x,int y)
 { { int Result = 0;
     Result = ((x <= y) ?
@@ -717,7 +717,7 @@ int  min_integer(int x,int y)
   } 
 
 
-/* The c++ function for: max(x:integer,y:integer) [SAFE_RESULT] */
+/* The c++ function for: max(x:integer,y:integer) [SAFE_RESULT+STRING_UPDATE] */
 int  max_integer(int x,int y)
 { { int Result = 0;
     Result = ((x <= y) ?
@@ -727,12 +727,12 @@ int  max_integer(int x,int y)
   } 
 
 
-/* The c++ function for: min(g0082:any,g0083:any) [RETURN_ARG] */
+/* The c++ function for: min(g0082:any,g0083:any) [RETURN_ARG+STRING_UPDATE] */
 OID  min_float_(OID g0082,OID g0083)
 { return _float_(min_float(float_v(g0082),float_v(g0083)));} 
 
 
-/* The c++ function for: min(x:float,y:float) [RETURN_ARG] */
+/* The c++ function for: min(x:float,y:float) [RETURN_ARG+STRING_UPDATE] */
 double  min_float(double x,double y)
 { { double Result =0.0;
     Result = ((x <= y) ?
@@ -742,12 +742,12 @@ double  min_float(double x,double y)
   } 
 
 
-/* The c++ function for: max(g0084:any,g0085:any) [RETURN_ARG] */
+/* The c++ function for: max(g0084:any,g0085:any) [RETURN_ARG+STRING_UPDATE] */
 OID  max_float_(OID g0084,OID g0085)
 { return _float_(max_float(float_v(g0084),float_v(g0085)));} 
 
 
-/* The c++ function for: max(x:float,y:float) [RETURN_ARG] */
+/* The c++ function for: max(x:float,y:float) [RETURN_ARG+STRING_UPDATE] */
 double  max_float(double x,double y)
 { { double Result =0.0;
     Result = ((x <= y) ?
@@ -757,7 +757,7 @@ double  max_float(double x,double y)
   } 
 
 
-/* The c++ function for: min(x:any,y:any) [NEW_ALLOC+RETURN_ARG] */
+/* The c++ function for: min(x:any,y:any) [NEW_ALLOC+RETURN_ARG+STRING_UPDATE] */
 OID  min_any(OID x,OID y)
 { { OID Result = 0;
     if ((OBJECT(ClaireBoolean,(*Kernel._inf_equal)(x,
@@ -768,7 +768,7 @@ OID  min_any(OID x,OID y)
   } 
 
 
-/* The c++ function for: max(x:any,y:any) [NEW_ALLOC+RETURN_ARG] */
+/* The c++ function for: max(x:any,y:any) [NEW_ALLOC+RETURN_ARG+STRING_UPDATE] */
 OID  max_any(OID x,OID y)
 { { OID Result = 0;
     if ((OBJECT(ClaireBoolean,(*Kernel._inf_equal)(x,
@@ -801,22 +801,22 @@ list * hashgrow_list(list *l,property *hi)
 
 
 // check if the value if known?
-/* The c++ function for: known?(a:table,x:any) [0] */
+/* The c++ function for: known?(a:table,x:any) [NEW_ALLOC] */
 ClaireBoolean * known_ask_table(table *a,OID x)
 { return (_I_equal_any(get_table(a,x),CNULL));} 
 
 
-/* The c++ function for: unknown?(a:table,x:any) [0] */
+/* The c++ function for: unknown?(a:table,x:any) [NEW_ALLOC] */
 ClaireBoolean * unknown_ask_table(table *a,OID x)
 { return (equal(get_table(a,x),CNULL));} 
 
 
-/* The c++ function for: float!(g0086:string) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
+/* The c++ function for: float!(g0086:string) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE] */
 OID  float_I_string_(char *g0086)
 { return _float_(float_I_string(g0086));} 
 
 
-/* The c++ function for: float!(self:string) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
+/* The c++ function for: float!(self:string) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE] */
 double  float_I_string(char *self)
 { GC_BIND;
   { double Result =0.0;
@@ -825,7 +825,7 @@ double  float_I_string(char *self)
        Result = float_v(x);
       else if (INHERIT(OWNER(x),Kernel._integer))
        Result = to_float(x);
-      else close_exception(((general_error *) (*Core._general_error)(_string_("[??] ~A is not a float"),
+      else close_exception(((general_error *) (*Core._general_error)(_string_(copy_string("[??] ~A is not a float")),
           _oid_(list::alloc(1,_string_(self))))));
         } 
     GC_UNBIND; return (Result);} 
@@ -833,7 +833,7 @@ double  float_I_string(char *self)
 
 
 // v3.00.46 a new macro
-/* The c++ function for: >=(self:any,x:any) [NEW_ALLOC] */
+/* The c++ function for: >=(self:any,x:any) [NEW_ALLOC+STRING_UPDATE] */
 ClaireBoolean * _sup_equal_any(OID self,OID x)
 { return (OBJECT(ClaireBoolean,(*Kernel._inf_equal)(x,
     self)));} 

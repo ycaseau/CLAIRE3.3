@@ -1,5 +1,5 @@
-/***** CLAIRE Compilation of file d:\claire\v3.3\src\meta\syntax.cl 
-         [version 3.3.42 / safety 5] Sat Jan 28 08:50:18 2006 *****/
+/***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\syntax.cl 
+         [version 3.3.46 / safety 5] Sun Feb 15 15:35:19 2009 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -14,7 +14,7 @@
 //| cf. copyright info in file object.cl: about()               |
 //+-------------------------------------------------------------+
 // store the line number in debug mode
-/* The c++ function for: DBregister(c:Call) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: DBregister(c:Call) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 Call * DBregister_Call(Call *c)
 { GC_BIND;
   if (0 <= ClEnv->debug_I)
@@ -33,7 +33,7 @@ Call * DBregister_Call(Call *c)
   } 
 
 
-/* The c++ function for: Call!(p:property,l:list) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: Call!(p:property,l:list) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 Call * Call_I_property(property *p,list *l)
 { GC_BIND;
   { Call *Result ;
@@ -52,7 +52,7 @@ Call * Call_I_property(property *p,list *l)
 
 // who is an operation?
 //
-/* The c++ function for: operation?(y:any) [0] */
+/* The c++ function for: operation?(y:any) [STRING_UPDATE] */
 ClaireBoolean * operation_ask_any(OID y)
 { return (((y == _oid_(Reader.as)) ? CTRUE : 
   ((y == _oid_(Reader.L__equal)) ? CTRUE : 
@@ -65,7 +65,7 @@ ClaireBoolean * operation_ask_any(OID y)
 
 // produce an expression from an operation
 //
-/* The c++ function for: combine(x:any,y:any,z:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: combine(x:any,y:any,z:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 OID  combine_any(OID x,OID y,OID z)
 { GC_BIND;
   { OID Result = 0;
@@ -79,7 +79,7 @@ OID  combine_any(OID x,OID y,OID z)
   } 
 
 
-/* The c++ function for: combine!(x:any,y:any,z:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: combine!(x:any,y:any,z:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 OID  combine_I_any(OID x,OID y,OID z)
 { GC_BIND;
   { OID Result = 0;
@@ -134,7 +134,7 @@ OID  combine_I_any(OID x,OID y,OID z)
               y,
               z)));
             } 
-        else Serror_string("[164] ~S cannot be assigned with :=",list::alloc(1,x));
+        else Serror_string(copy_string("[164] ~S cannot be assigned with :="),list::alloc(1,x));
           } 
       else if (INHERIT(OWNER(x),Language._Do))
        { list * l = GC_OBJECT(list,OBJECT(Do,x)->args);
@@ -235,7 +235,7 @@ OID  combine_I_any(OID x,OID y,OID z)
 
 // allows to treats Calls, Assigns, Gassign in an homogeneous way
 //
-/* The c++ function for: operation!(x:any) [0] */
+/* The c++ function for: operation!(x:any) [STRING_UPDATE] */
 OID  operation_I_any(OID x)
 { { OID Result = 0;
     if (INHERIT(OWNER(x),Language._Or))
@@ -262,7 +262,7 @@ OID  operation_I_any(OID x)
   } 
 
 
-/* The c++ function for: operand!(x:any,n:integer) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: operand!(x:any,n:integer) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 OID  operand_I_any(OID x,int n)
 { GC_BIND;
   { OID Result = 0;
@@ -491,7 +491,7 @@ OID  readlet_meta_reader(meta_reader *r,keyword *e)
         add_I_property(Kernel.instances,Language._Let_plus,11,_oid_(_CL_obj));
         Result = _oid_(_CL_obj);
         } 
-      else Serror_string("[165] ~S is illegal after a let",list::alloc(1,_Zdef));
+      else Serror_string(copy_string("[165] ~S is illegal after a let"),list::alloc(1,_Zdef));
         } 
     GC_UNBIND; return (Result);} 
   } 
@@ -552,7 +552,7 @@ OID  readwhen_meta_reader(meta_reader *r,keyword *e)
         unbind_I_meta_reader(r,_Zbind);
         Result = _oid_(x);
         } 
-      else Serror_string("[165] ~S is illegal after a when",list::alloc(1,_Zdef));
+      else Serror_string(copy_string("[165] ~S is illegal after a when"),list::alloc(1,_Zdef));
         } 
     GC_UNBIND; return (Result);} 
   } 
@@ -597,7 +597,7 @@ OID  readcase_meta_reader(meta_reader *r,keyword *e)
   { OID Result = 0;
     { OID  _Zv = GC_OID(nexte_meta_reader(r));
       if (skipc_I_meta_reader(r) != 40)
-       Serror_string("[166] Missing ( after case ~S",list::alloc(1,_Zv));
+       Serror_string(copy_string("[166] Missing ( after case ~S"),list::alloc(1,_Zv));
       { Case * _Zx;
         { { Case * _CL_obj = ((Case *) GC_OBJECT(Case,new_object_class(Language._Case)));
             (_CL_obj->var = _Zv);
@@ -615,14 +615,14 @@ OID  readcase_meta_reader(meta_reader *r,keyword *e)
             (_Zx->args = _Zx->args->addFast(_Zt)->addFast(nexts_meta_reader(r,Reader.none)));
             if ((boolean_I_any(stop_ask_integer(firstc_meta_reader(r))) != CTRUE) && 
                 (boolean_I_any(stop_ask_integer(skipc_meta_reader(r))) != CTRUE))
-             Serror_string("[167] missing ) or , after ~S",list::alloc(1,_oid_(_Zx)));
+             Serror_string(copy_string("[167] missing ) or , after ~S"),list::alloc(1,_oid_(_Zx)));
             GC_UNLOOP;} 
           } 
         next_meta_reader(r);
         if ((e != Reader.none) && 
             ((boolean_I_any(stop_ask_integer(skipc_meta_reader(r))) != CTRUE) && 
               (nexte_meta_reader(r) != _oid_(e))))
-         Serror_string("[161] missing ~S after ~S",list::alloc(2,_oid_(e),_oid_(_Zx)));
+         Serror_string(copy_string("[161] missing ~S after ~S"),list::alloc(2,_oid_(e),_oid_(_Zx)));
         Result = _oid_(_Zx);
         } 
       } 
@@ -632,7 +632,7 @@ OID  readcase_meta_reader(meta_reader *r,keyword *e)
 
 // if the expression begins with "{"
 //
-/* The c++ function for: readset(r:meta_reader,%a1:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: readset(r:meta_reader,%a1:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 OID  readset_meta_reader(meta_reader *r,OID _Za1)
 { GC_BIND;
   { OID Result = 0;
@@ -673,7 +673,7 @@ OID  readset_meta_reader(meta_reader *r,OID _Za1)
               { list * _Zbind = GC_OBJECT(list,bind_I_meta_reader(r,v));
                 OID  x;
                 { if (equal(GC_OID(nexte_meta_reader(r)),GC_OID(Reader.OR->value)) != CTRUE)
-                   Serror_string("[168] missing | in selection",Kernel.nil);
+                   Serror_string(copy_string("[168] missing | in selection"),Kernel.nil);
                   else x = nexts_I_meta_reader2(r,125);
                     GC_OID(x);} 
                 unbind_I_meta_reader(r,_Zbind);
@@ -698,7 +698,7 @@ OID  readset_meta_reader(meta_reader *r,OID _Za1)
             } 
           else if (operation_ask_any(_Za2) == CTRUE)
            Result = readset_meta_reader(r,GC_OID(loopexp_meta_reader(r,GC_OID(combine_any(_Za1,_Za2,GC_OID(nexte_meta_reader(r)))),Reader.none,CFALSE)));
-          else Serror_string("[169] missing separation between ~S and ~S",list::alloc(2,_Za1,_Za2));
+          else Serror_string(copy_string("[169] missing separation between ~S and ~S"),list::alloc(2,_Za1,_Za2));
             } 
         } 
       GC_UNBIND; return (Result);} 
@@ -709,12 +709,12 @@ OID  readset_meta_reader(meta_reader *r,OID _Za1)
 OID  dereference_any(OID x)
 { { OID Result = 0;
     if (INHERIT(OWNER(x),Kernel._unbound_symbol))
-     { OID  V_CL0051;close_exception(((general_error *) (*Core._general_error)(_string_("[170] cannot use ~S in a set constant"),
+     { OID  V_CL0051;close_exception(((general_error *) (*Core._general_error)(_string_(copy_string("[170] cannot use ~S in a set constant")),
         _oid_(list::alloc(1,x)))));
       
       Result=_void_(V_CL0051);} 
     else if (INHERIT(OWNER(x),Language._Variable))
-     { OID  V_CL0052;close_exception(((general_error *) (*Core._general_error)(_string_("[170] cannot use a variable (~S) in a set constant"),
+     { OID  V_CL0052;close_exception(((general_error *) (*Core._general_error)(_string_(copy_string("[170] cannot use a variable (~S) in a set constant")),
         _oid_(list::alloc(1,x)))));
       
       Result=_void_(V_CL0052);} 
@@ -743,7 +743,7 @@ OID  nextseq_meta_reader(meta_reader *r,int e)
           } 
         else if (firstc_meta_reader(r) == 44)
          Result = _oid_(cons_any(x,OBJECT(list,nextseq_meta_reader(cnext_meta_reader(r),e))));
-        else Serror_string("[171] Read the character ~S inside a sequence",list::alloc(1,_oid_(char_I_integer(firstc_meta_reader(r)))));
+        else Serror_string(copy_string("[171] Read the character ~S inside a sequence"),list::alloc(1,_oid_(char_I_integer(firstc_meta_reader(r)))));
           } 
       GC_UNBIND; return (Result);} 
   } 
@@ -751,7 +751,7 @@ OID  nextseq_meta_reader(meta_reader *r,int e)
 
 // read the next block: a sequence of exp. Must end with a e = ) | ] | }
 //
-/* The c++ function for: readblock(r:meta_reader,x:any,e:integer) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: readblock(r:meta_reader,x:any,e:integer) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 OID  readblock_meta_reader(meta_reader *r,OID x,int e)
 { GC_BIND;
   skipc_meta_reader(r);
@@ -765,7 +765,7 @@ OID  readblock_meta_reader(meta_reader *r,OID x,int e)
       Result = x;
       } 
     else if (boolean_I_any(stop_ask_integer(firstc_meta_reader(r))) == CTRUE)
-     Serror_string("[172] the sequence ...~S must end with ~A",list::alloc(2,x,_oid_(char_I_integer(e))));
+     Serror_string(copy_string("[172] the sequence ...~S must end with ~A"),list::alloc(2,x,_oid_(char_I_integer(e))));
     else if (x == _oid_(Reader._cl_if))
      Result = readblock_meta_reader(r,GC_OID(readif_meta_reader(r,e)),e);
     else if (x == _oid_(Reader._cl_Zif))
@@ -779,7 +779,7 @@ OID  readblock_meta_reader(meta_reader *r,OID x,int e)
         } 
       } 
     else if (x == _oid_(Reader._cl_else))
-     Serror_string("[173] Expression starting with else",Kernel.nil);
+     Serror_string(copy_string("[173] Expression starting with else"),Kernel.nil);
     else if (keyword_ask_any(x) == CTRUE)
      Result = readblock_meta_reader(r,GC_OID(nextstruct_meta_reader(r,OBJECT(keyword,x),Reader.none)),e);
     else { OID  y = GC_OID(loopexp_meta_reader(r,x,Reader.none,CFALSE));
@@ -832,7 +832,7 @@ ClaireType * extract_of_type_Call(Call *x)
 
 // if the expression is a call -------------------------------------------
 //
-/* The c++ function for: readcall(r:meta_reader,x:any,t:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: readcall(r:meta_reader,x:any,t:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG+STRING_UPDATE] */
 OID  readcall_meta_reader(meta_reader *r,OID x,OID t)
 { GC_BIND;
   { OID Result = 0;
@@ -1048,7 +1048,7 @@ OID  readcall_meta_reader(meta_reader *r,OID x,OID t)
                   } 
                 
                 l=_oid_(V_CL0065);} 
-              else Serror_string("[174] Wrong instantiation list ~S(~S...",list::alloc(2,x,GC_OID(_oid_(list::alloc(1,l)))));
+              else Serror_string(copy_string("[174] Wrong instantiation list ~S(~S..."),list::alloc(2,x,GC_OID(_oid_(list::alloc(1,l)))));
                 } 
             } 
         { Definition * _CL_obj = ((Definition *) GC_OBJECT(Definition,new_object_class(Language._Definition)));
@@ -1116,7 +1116,7 @@ OID  readcall_meta_reader(meta_reader *r,OID x,OID t)
 
 // reads a definition (CLAIRE2 syntax)   - x and y are two expressions that have been read
 //
-/* The c++ function for: nextdefinition(r:meta_reader,x:any,y:any,old?:boolean) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
+/* The c++ function for: nextdefinition(r:meta_reader,x:any,y:any,old?:boolean) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE] */
 OID  nextdefinition_meta_reader(meta_reader *r,OID x,OID y,ClaireBoolean *old_ask)
 { GC_BIND;
   (r->last_arrow = CFALSE);
@@ -1132,7 +1132,7 @@ OID  nextdefinition_meta_reader(meta_reader *r,OID x,OID y,ClaireBoolean *old_as
       OID  w = GC_OID(nexte_meta_reader(r));
       if ((table_ask == CTRUE) ? (w == _oid_(Reader.L__equal)) : ((equal(w,Reader.arrow->value) == CTRUE) || 
           (w == _oid_(Reader._equal_sup))))
-       ;else Serror_string("[149] wrong keyword (~S) after ~S",list::alloc(2,w,z));
+       ;else Serror_string(copy_string("[149] wrong keyword (~S) after ~S"),list::alloc(2,w,z));
         Result = nextmethod_meta_reader(r,
         x,
         z,
@@ -1189,7 +1189,7 @@ OID  nextdefinition_meta_reader(meta_reader *r,OID x,OID y,ClaireBoolean *old_as
   } 
 
 
-/* The c++ function for: nextmethod(r:meta_reader,x:any,y:any,table?:boolean,old?:boolean,inl?:boolean) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
+/* The c++ function for: nextmethod(r:meta_reader,x:any,y:any,table?:boolean,old?:boolean,inl?:boolean) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE] */
 OID  nextmethod_meta_reader(meta_reader *r,OID x,OID y,ClaireBoolean *table_ask,ClaireBoolean *old_ask,ClaireBoolean *inl_ask)
 { GC_BIND;
   { OID Result = 0;
@@ -1336,7 +1336,7 @@ OID  nextinst_meta_reader(meta_reader *r,OID x)
 
 // reads a class Definition of the form C(p:t | p:t = v *)
 // new in v2.5
-/* The c++ function for: nextDefclass(r:meta_reader,x:any,old?:boolean) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
+/* The c++ function for: nextDefclass(r:meta_reader,x:any,old?:boolean) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+STRING_UPDATE] */
 Defclass * nextDefclass_meta_reader(meta_reader *r,OID x,ClaireBoolean *old_ask)
 { GC_BIND;
   skipc_meta_reader(r);
@@ -1371,7 +1371,7 @@ Defclass * nextDefclass_meta_reader(meta_reader *r,OID x,ClaireBoolean *old_ask)
                   g0079I = not_any(g0080UU);
                 } 
               
-              if (g0079I == CTRUE) Serror_string("[175] Wrong form ~S in ~S(~S)",list::alloc(3,y1,
+              if (g0079I == CTRUE) Serror_string(copy_string("[175] Wrong form ~S in ~S(~S)"),list::alloc(3,y1,
                   c,
                   l));
                 } 
@@ -1414,7 +1414,7 @@ Defclass * nextDefclass_meta_reader(meta_reader *r,OID x,ClaireBoolean *old_ask)
       else idt = extract_symbol_any(x);
         if ((old_ask == CTRUE) && 
           (skipc_meta_reader(r) != 93))
-       Serror_string("[176] Missing ] after ~S ",list::alloc(1,_oid_(y)));
+       Serror_string(copy_string("[176] Missing ] after ~S "),list::alloc(1,_oid_(y)));
       else if (old_ask == CTRUE)
        next_meta_reader(r);
       (y->ident = idt);
