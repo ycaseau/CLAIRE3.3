@@ -96,7 +96,7 @@ unfold_use(ldef:list,x:any,s:any,loop:any) : void
           else if (self % delimiter)
              error("[201] Loose delimiter in program: ~S", self)
           else stat_exp(PRODUCER,self,loop))    // new: v3.0.60: include a few tricks
-        else if (self % Call_method & self.arg = *close_exception*)
+        else if (self % Call_method & self.arg = *close_exception* & c_func(self.args[1])) // v3.3.34
           printf("~I;~I", expression(self, loop), breakline())    // v3.2.58
         else self_statement(self, s, loop),
         OPT.alloc_stack := b) ]
@@ -230,14 +230,16 @@ unfold_use(ldef:list,x:any,s:any,loop:any) : void
   -> stat_gassign(PRODUCER,self,s,loop) ]
 
 // this is the case where the value is to be protected
+// note: this should use the PRODUCER ...
 [self_statement(self:to_protect,s:any,loop:any) : void
  -> if (OPT.protection & s % string)
         let c := c_sort(self.arg) in
           (new_block(),
+           PRODUCER.stat :+ 1,                         // v3.3.32
            printf("~I~A(~I~I);", statement(self.arg, s, loop),
                   gc_protect(c),
                   (if (c inherit? object)
-                     (ident(psort(c_type(self.arg))), princ(","))),
+                     (class_princ(psort(c_type(self.arg))), princ(","))),   // v3.3.34
                   c_princ(s)),
            close_block())
      else statement(self.arg, s, loop) ]

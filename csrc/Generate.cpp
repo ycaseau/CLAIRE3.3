@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file Generate.cl 
-         [version 3.3.3 / safety 5] Sun Nov 23 11:55:54 2003 *****/
+         [version 3.3.34 / safety 5] Sun Mar 07 10:46:41 2004 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -268,6 +268,7 @@ void GenerateClass::metaLoad() {
     CL_ADD_SLOT(Generate._producer,Generate_producer,Generate.extension,extension,Kernel._string,CNULL);
     CL_ADD_SLOT(Generate._producer,Generate_producer,Kernel.comment,comment,Kernel._string,CNULL);
     CL_ADD_SLOT(Generate._producer,Generate_producer,Generate.interfaces,interfaces,Kernel._list,CNULL);
+    CL_ADD_SLOT(Generate._producer,Generate_producer,Kernel.stat,stat,Kernel._integer,0);
     } 
   
   { global_variable * v2072 = (Generate.PRODUCER = (global_variable *) Core._global_variable->instantiate("PRODUCER",claire.it));
@@ -700,100 +701,100 @@ void GenerateClass::metaLoad() {
       _oid_(Core._sup_sup)));
     (Generate.C_plus_plusPRODUCER->extension = ".cpp");
     (Generate.C_plus_plusPRODUCER->comment = "C++");
-    { Generate_c_producer * v6808 = Generate.C_plus_plusPRODUCER; 
-      list * v6809;
-      { GC_ANY(v6809= list::empty(Kernel.emptySet));
-        ((list *) v6809)->addFast(_oid_(symbol_I_string2("do")));
-        ((list *) v6809)->addFast(_oid_(symbol_I_string2("if")));
-        ((list *) v6809)->addFast(_oid_(symbol_I_string2("and")));
-        ((list *) v6809)->addFast(_oid_(symbol_I_string2("or")));
-        ((list *) v6809)->addFast(_oid_(symbol_I_string2("not")));
-        ((list *) v6809)->addFast(_oid_(symbol_I_string2("printf")));
-        ((list *) v6809)->addFast(_oid_(symbol_I_string2("void")));
-        ((list *) v6809)->addFast(_oid_(Optimize._Pattern->name));
-        ((list *) v6809)->addFast(_oid_(symbol_I_string2("exception")));
-        ((list *) v6809)->addFast(_oid_(symbol_I_string2("return")));
-        ((list *) v6809)->addFast(_oid_(symbol_I_string2("new")));
-        ((list *) v6809)->addFast(_oid_(symbol_I_string2("class")));
-        ((list *) v6809)->addFast(_oid_(symbol_I_string2("private")));
-        ((list *) v6809)->addFast(_oid_(symbol_I_string2("operator")));
-        ((list *) v6809)->addFast(_oid_(symbol_I_string2("default")));
-        ((list *) v6809)->addFast(_oid_(symbol_I_string2("Handle")));
-        ((list *) v6809)->addFast(_oid_(symbol_I_string2("import")));
-        ((list *) v6809)->addFast(_oid_(symbol_I_string2("catch")));
-        ((list *) v6809)->addFast(_oid_(symbol_I_string2("stdout")));
-        ((list *) v6809)->addFast(_oid_(symbol_I_string2("stdin")));
-        ((list *) v6809)->addFast(_oid_(symbol_I_string2("break")));
-        ((list *) v6809)->addFast(_oid_(symbol_I_string2("char")));
-        ((list *) v6809)->addFast(_oid_(symbol_I_string2("interface")));
-        ((list *) v6809)->addFast(_oid_(symbol_I_string2("EOF")));
-        ((list *) v6809)->addFast(_oid_(symbol_I_string2("relation")));
-        ((list *) v6809)->addFast(_oid_(symbol_I_string2("System")));
-        ((list *) v6809)->addFast(_oid_(symbol_I_string2("object")));
-        ((list *) v6809)->addFast(_oid_(symbol_I_string2("delete")));
-        ((list *) v6809)->addFast(_oid_(symbol_I_string2("boolean")));
-        ((list *) v6809)->addFast(_oid_(symbol_I_string2("function")));
-        ((list *) v6809)->addFast(_oid_(symbol_I_string2("type")));
-        ((list *) v6809)->addFast(_oid_(symbol_I_string2("system_thing")));
-        ((list *) v6809)->addFast(_oid_(symbol_I_string2("environment")));
-        ((list *) v6809)->addFast(_oid_(symbol_I_string2("abstract")));
-        ((list *) v6809)->addFast(_oid_(symbol_I_string2("final")));
-        ((list *) v6809)->addFast(_oid_(symbol_I_string2("system_object")));
-        ((list *) v6809)->addFast(_oid_(symbol_I_string2("NEW_ALLOC")));
-        ((list *) v6809)->addFast(_oid_(symbol_I_string2("BAG_UPDATE")));
-        ((list *) v6809)->addFast(_oid_(symbol_I_string2("SLOT_UPDATE")));
-        ((list *) v6809)->addFast(_oid_(symbol_I_string2("RETURN_ARG")));
-        ((list *) v6809)->addFast(_oid_(symbol_I_string2("SAFE_RESULT")));
-        ((list *) v6809)->addFast(_oid_(symbol_I_string2("SAFE_GC")));
-        ((list *) v6809)->addFast(_oid_(symbol_I_string2("collection")));} 
-      (v6808->bad_names = v6809);} 
-    { Generate_c_producer * v6810 = Generate.C_plus_plusPRODUCER; 
-      list * v6811;
-      { GC_ANY(v6811= list::empty(Kernel.emptySet));
-        ((list *) v6811)->addFast(_oid_(symbol_I_string2("DO")));
-        ((list *) v6811)->addFast(_oid_(symbol_I_string2("IF")));
-        ((list *) v6811)->addFast(_oid_(symbol_I_string2("ClaireAnd")));
-        ((list *) v6811)->addFast(_oid_(symbol_I_string2("ClaireOr")));
-        ((list *) v6811)->addFast(_oid_(symbol_I_string2("NOT")));
-        ((list *) v6811)->addFast(_oid_(symbol_I_string2("PRINTF")));
-        ((list *) v6811)->addFast(_oid_(symbol_I_string2("ClaireVoid")));
-        ((list *) v6811)->addFast(_oid_(symbol_I_string2("ClairePattern")));
-        ((list *) v6811)->addFast(_oid_(symbol_I_string2("ClaireException")));
-        ((list *) v6811)->addFast(_oid_(symbol_I_string2("RETURN")));
-        ((list *) v6811)->addFast(_oid_(symbol_I_string2("NEW")));
-        ((list *) v6811)->addFast(_oid_(symbol_I_string2("ClaireClass")));
-        ((list *) v6811)->addFast(_oid_(symbol_I_string2("PRIVATE")));
-        ((list *) v6811)->addFast(_oid_(symbol_I_string2("ClaireOperator")));
-        ((list *) v6811)->addFast(_oid_(symbol_I_string2("DEFAULT")));
-        ((list *) v6811)->addFast(_oid_(symbol_I_string2("ClaireHandle")));
-        ((list *) v6811)->addFast(_oid_(symbol_I_string2("ClaireImport")));
-        ((list *) v6811)->addFast(_oid_(symbol_I_string2("CATCH")));
-        ((list *) v6811)->addFast(_oid_(symbol_I_string2("STDOUT")));
-        ((list *) v6811)->addFast(_oid_(symbol_I_string2("STDIN")));
-        ((list *) v6811)->addFast(_oid_(symbol_I_string2("BREAK")));
-        ((list *) v6811)->addFast(_oid_(symbol_I_string2("ClaireChar")));
-        ((list *) v6811)->addFast(_oid_(symbol_I_string2("ClaireInterface")));
-        ((list *) v6811)->addFast(_oid_(symbol_I_string2("_eof")));
-        ((list *) v6811)->addFast(_oid_(symbol_I_string2("ClaireRelation")));
-        ((list *) v6811)->addFast(_oid_(symbol_I_string2("Core")));
-        ((list *) v6811)->addFast(_oid_(symbol_I_string2("ClaireObject")));
-        ((list *) v6811)->addFast(_oid_(symbol_I_string2("_delete")));
-        ((list *) v6811)->addFast(_oid_(symbol_I_string2("ClaireBoolean")));
-        ((list *) v6811)->addFast(_oid_(symbol_I_string2("ClaireFunction")));
-        ((list *) v6811)->addFast(_oid_(symbol_I_string2("ClaireType")));
-        ((list *) v6811)->addFast(_oid_(symbol_I_string2("SystemThing")));
-        ((list *) v6811)->addFast(_oid_(symbol_I_string2("ClaireEnvironment")));
-        ((list *) v6811)->addFast(_oid_(symbol_I_string2("ABSTRACT")));
-        ((list *) v6811)->addFast(_oid_(symbol_I_string2("FINAL")));
-        ((list *) v6811)->addFast(_oid_(symbol_I_string2("SystemObject")));
-        ((list *) v6811)->addFast(_oid_(symbol_I_string2("_NEW_ALLOC")));
-        ((list *) v6811)->addFast(_oid_(symbol_I_string2("_BAG_UPDATE")));
-        ((list *) v6811)->addFast(_oid_(symbol_I_string2("_SLOT_UPDATE")));
-        ((list *) v6811)->addFast(_oid_(symbol_I_string2("_RETURN_ARG")));
-        ((list *) v6811)->addFast(_oid_(symbol_I_string2("_SAFE_RESULT")));
-        ((list *) v6811)->addFast(_oid_(symbol_I_string2("_SAFE_GC")));
-        ((list *) v6811)->addFast(_oid_(symbol_I_string2("ClaireCollection")));} 
-      (v6810->good_names = v6811);} 
+    { Generate_c_producer * v6874 = Generate.C_plus_plusPRODUCER; 
+      list * v6878;
+      { GC_ANY(v6878= list::empty(Kernel.emptySet));
+        ((list *) v6878)->addFast(_oid_(symbol_I_string2("do")));
+        ((list *) v6878)->addFast(_oid_(symbol_I_string2("if")));
+        ((list *) v6878)->addFast(_oid_(symbol_I_string2("and")));
+        ((list *) v6878)->addFast(_oid_(symbol_I_string2("or")));
+        ((list *) v6878)->addFast(_oid_(symbol_I_string2("not")));
+        ((list *) v6878)->addFast(_oid_(symbol_I_string2("printf")));
+        ((list *) v6878)->addFast(_oid_(symbol_I_string2("void")));
+        ((list *) v6878)->addFast(_oid_(Optimize._Pattern->name));
+        ((list *) v6878)->addFast(_oid_(symbol_I_string2("exception")));
+        ((list *) v6878)->addFast(_oid_(symbol_I_string2("return")));
+        ((list *) v6878)->addFast(_oid_(symbol_I_string2("new")));
+        ((list *) v6878)->addFast(_oid_(symbol_I_string2("class")));
+        ((list *) v6878)->addFast(_oid_(symbol_I_string2("private")));
+        ((list *) v6878)->addFast(_oid_(symbol_I_string2("operator")));
+        ((list *) v6878)->addFast(_oid_(symbol_I_string2("default")));
+        ((list *) v6878)->addFast(_oid_(symbol_I_string2("Handle")));
+        ((list *) v6878)->addFast(_oid_(symbol_I_string2("import")));
+        ((list *) v6878)->addFast(_oid_(symbol_I_string2("catch")));
+        ((list *) v6878)->addFast(_oid_(symbol_I_string2("stdout")));
+        ((list *) v6878)->addFast(_oid_(symbol_I_string2("stdin")));
+        ((list *) v6878)->addFast(_oid_(symbol_I_string2("break")));
+        ((list *) v6878)->addFast(_oid_(symbol_I_string2("char")));
+        ((list *) v6878)->addFast(_oid_(symbol_I_string2("interface")));
+        ((list *) v6878)->addFast(_oid_(symbol_I_string2("EOF")));
+        ((list *) v6878)->addFast(_oid_(symbol_I_string2("relation")));
+        ((list *) v6878)->addFast(_oid_(symbol_I_string2("System")));
+        ((list *) v6878)->addFast(_oid_(symbol_I_string2("object")));
+        ((list *) v6878)->addFast(_oid_(symbol_I_string2("delete")));
+        ((list *) v6878)->addFast(_oid_(symbol_I_string2("boolean")));
+        ((list *) v6878)->addFast(_oid_(symbol_I_string2("function")));
+        ((list *) v6878)->addFast(_oid_(symbol_I_string2("type")));
+        ((list *) v6878)->addFast(_oid_(symbol_I_string2("system_thing")));
+        ((list *) v6878)->addFast(_oid_(symbol_I_string2("environment")));
+        ((list *) v6878)->addFast(_oid_(symbol_I_string2("abstract")));
+        ((list *) v6878)->addFast(_oid_(symbol_I_string2("final")));
+        ((list *) v6878)->addFast(_oid_(symbol_I_string2("system_object")));
+        ((list *) v6878)->addFast(_oid_(symbol_I_string2("NEW_ALLOC")));
+        ((list *) v6878)->addFast(_oid_(symbol_I_string2("BAG_UPDATE")));
+        ((list *) v6878)->addFast(_oid_(symbol_I_string2("SLOT_UPDATE")));
+        ((list *) v6878)->addFast(_oid_(symbol_I_string2("RETURN_ARG")));
+        ((list *) v6878)->addFast(_oid_(symbol_I_string2("SAFE_RESULT")));
+        ((list *) v6878)->addFast(_oid_(symbol_I_string2("SAFE_GC")));
+        ((list *) v6878)->addFast(_oid_(symbol_I_string2("collection")));} 
+      (v6874->bad_names = v6878);} 
+    { Generate_c_producer * v6880 = Generate.C_plus_plusPRODUCER; 
+      list * v6881;
+      { GC_ANY(v6881= list::empty(Kernel.emptySet));
+        ((list *) v6881)->addFast(_oid_(symbol_I_string2("DO")));
+        ((list *) v6881)->addFast(_oid_(symbol_I_string2("IF")));
+        ((list *) v6881)->addFast(_oid_(symbol_I_string2("ClaireAnd")));
+        ((list *) v6881)->addFast(_oid_(symbol_I_string2("ClaireOr")));
+        ((list *) v6881)->addFast(_oid_(symbol_I_string2("NOT")));
+        ((list *) v6881)->addFast(_oid_(symbol_I_string2("PRINTF")));
+        ((list *) v6881)->addFast(_oid_(symbol_I_string2("ClaireVoid")));
+        ((list *) v6881)->addFast(_oid_(symbol_I_string2("ClairePattern")));
+        ((list *) v6881)->addFast(_oid_(symbol_I_string2("ClaireException")));
+        ((list *) v6881)->addFast(_oid_(symbol_I_string2("RETURN")));
+        ((list *) v6881)->addFast(_oid_(symbol_I_string2("NEW")));
+        ((list *) v6881)->addFast(_oid_(symbol_I_string2("ClaireClass")));
+        ((list *) v6881)->addFast(_oid_(symbol_I_string2("PRIVATE")));
+        ((list *) v6881)->addFast(_oid_(symbol_I_string2("ClaireOperator")));
+        ((list *) v6881)->addFast(_oid_(symbol_I_string2("DEFAULT")));
+        ((list *) v6881)->addFast(_oid_(symbol_I_string2("ClaireHandle")));
+        ((list *) v6881)->addFast(_oid_(symbol_I_string2("ClaireImport")));
+        ((list *) v6881)->addFast(_oid_(symbol_I_string2("CATCH")));
+        ((list *) v6881)->addFast(_oid_(symbol_I_string2("STDOUT")));
+        ((list *) v6881)->addFast(_oid_(symbol_I_string2("STDIN")));
+        ((list *) v6881)->addFast(_oid_(symbol_I_string2("BREAK")));
+        ((list *) v6881)->addFast(_oid_(symbol_I_string2("ClaireChar")));
+        ((list *) v6881)->addFast(_oid_(symbol_I_string2("ClaireInterface")));
+        ((list *) v6881)->addFast(_oid_(symbol_I_string2("_eof")));
+        ((list *) v6881)->addFast(_oid_(symbol_I_string2("ClaireRelation")));
+        ((list *) v6881)->addFast(_oid_(symbol_I_string2("Core")));
+        ((list *) v6881)->addFast(_oid_(symbol_I_string2("ClaireObject")));
+        ((list *) v6881)->addFast(_oid_(symbol_I_string2("_delete")));
+        ((list *) v6881)->addFast(_oid_(symbol_I_string2("ClaireBoolean")));
+        ((list *) v6881)->addFast(_oid_(symbol_I_string2("ClaireFunction")));
+        ((list *) v6881)->addFast(_oid_(symbol_I_string2("ClaireType")));
+        ((list *) v6881)->addFast(_oid_(symbol_I_string2("SystemThing")));
+        ((list *) v6881)->addFast(_oid_(symbol_I_string2("ClaireEnvironment")));
+        ((list *) v6881)->addFast(_oid_(symbol_I_string2("ABSTRACT")));
+        ((list *) v6881)->addFast(_oid_(symbol_I_string2("FINAL")));
+        ((list *) v6881)->addFast(_oid_(symbol_I_string2("SystemObject")));
+        ((list *) v6881)->addFast(_oid_(symbol_I_string2("_NEW_ALLOC")));
+        ((list *) v6881)->addFast(_oid_(symbol_I_string2("_BAG_UPDATE")));
+        ((list *) v6881)->addFast(_oid_(symbol_I_string2("_SLOT_UPDATE")));
+        ((list *) v6881)->addFast(_oid_(symbol_I_string2("_RETURN_ARG")));
+        ((list *) v6881)->addFast(_oid_(symbol_I_string2("_SAFE_RESULT")));
+        ((list *) v6881)->addFast(_oid_(symbol_I_string2("_SAFE_GC")));
+        ((list *) v6881)->addFast(_oid_(symbol_I_string2("ClaireCollection")));} 
+      (v6880->good_names = v6881);} 
     (Generate.C_plus_plusPRODUCER->interfaces = list::alloc(12,_oid_(Kernel._port),
       _string_("ClairePort *"),
       _oid_(Kernel._string),
@@ -1015,7 +1016,7 @@ void GenerateClass::metaLoad() {
     Kernel._boolean,
     Kernel._any,
     Kernel._any),Kernel._void,
-  	NEW_ALLOC,_function_(gc_protection_exp_c_producer,"gc_protection_exp_c_producer"));
+  	NEW_ALLOC+SLOT_UPDATE,_function_(gc_protection_exp_c_producer,"gc_protection_exp_c_producer"));
   
   Generate.bag_expression->addMethod(list::domain(5,Generate._c_producer,
     Kernel._class,

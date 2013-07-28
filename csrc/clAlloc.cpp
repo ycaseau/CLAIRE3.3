@@ -103,7 +103,7 @@ void ClaireAllocation::init()
  index = 1;
  probe = NULL;                // v3.0.4
  ClEnv = (ClaireEnvironment *) makeStatic(sizeof(ClaireEnvironment) / 4 + 2);
- ClEnv->handlers = (jmp_buf *) CL_alloc(maxEnv);                   // handler stack
+ ClEnv->handlers = (jmp_buf *) CL_alloc( (size_t) (maxEnv * sizeof(jmp_buf))) ;  // v3.3.34 - a buf fix for FXJ
  ClEnv->stack = (int *) CL_alloc(maxStack);                        // eval stack
  currentNew = NULL;                                                // v3.0.60
  numGC = 0;                                                        // v3.2.50
@@ -181,7 +181,7 @@ int ClaireAllocation::newShort(int n)
   else {if (firstFree > alertFree)                                         // chain is empty
          {gc("Object");
           if (nextFree != NOTHING) value = newShort(n);
-          else value = newLong(n);}
+          else value = newLong(OPTIMIZE);}                                 // v3.3.34 (thanks to Sylvain) !
         else {value = firstFree;
               Cmemory[value] = n;
               firstFree += OPTIMIZE;}}

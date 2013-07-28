@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\pretty.cl 
-         [version 3.3.3 / safety 5] Sun Nov 23 11:55:44 2003 *****/
+         [version 3.3.34 / safety 5] Sun Mar 07 10:46:32 2004 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -416,9 +416,9 @@ OID  lbreak_void()
         Result = indent_integer(Core.pretty->index);
         } 
       else if (buffer_length_void() > Core.pretty->width)
-       { OID  V_CL0005;close_exception((ClaireException *) new_object_class(Core._much_too_far));
+       { OID  V_CL0006;close_exception((ClaireException *) new_object_class(Core._much_too_far));
         
-        Result=_void_(V_CL0005);} 
+        Result=_void_(V_CL0006);} 
       else Result = Kernel.cfalse;
         } 
     else Result = Kernel.cfalse;
@@ -444,9 +444,9 @@ OID  checkfar_void()
     if ((Core.pretty->pprint == CTRUE) && 
         ((Core.pretty->pbreak != CTRUE) && 
           (buffer_length_void() > Core.pretty->width)))
-     { OID  V_CL0006;close_exception((ClaireException *) new_object_class(Core._much_too_far));
+     { OID  V_CL0007;close_exception((ClaireException *) new_object_class(Core._much_too_far));
       
-      Result=_void_(V_CL0006);} 
+      Result=_void_(V_CL0007);} 
     else Result = Kernel.cfalse;
       return (Result);} 
   } 

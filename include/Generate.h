@@ -1,4 +1,4 @@
-// interface defination for module Generate, Sun Nov 23 11:55:52 2003
+// interface defination for module Generate, Sun Mar 07 10:46:40 2004
 #ifndef CLAIREH_Generate
 #define CLAIREH_Generate
 
@@ -13,7 +13,8 @@ class Generate_producer: public thing{
      OID body;
      char *extension;
      char *comment;
-     list *interfaces;} 
+     list *interfaces;
+     int stat;} 
 ;
 
 class Generate_c_producer: public Generate_producer{ 
@@ -67,7 +68,7 @@ extern void  expression_integer(int v1140,OID v15308);
 extern void  expression_any(OID v1140,OID v15308);
 extern void  expression_string(char *v1140,OID v15308);
 extern void  expression_float(double v1140,OID v15308);
-extern void  expression_float_(OID v6599,OID v6600);
+extern void  expression_float_(OID v6624,OID v6625);
 extern void  expression_boolean(ClaireBoolean *v1140,OID v15308);
 extern void  expression_environment(ClaireEnvironment *v1140,OID v15308);
 extern void  expression_Variable(Variable *v1140,OID v15308);

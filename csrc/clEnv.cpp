@@ -41,7 +41,8 @@ OID safe_exception(ClaireException *x)
   
 // returns the index of the lexical base in the stack (constructor)
 ClaireHandler::ClaireHandler()
-{ if (ClEnv->cHandle++ >= ClAlloc->maxEnv) Cerror(33,0,0);
+{ if (ClEnv->cHandle >= ClAlloc->maxEnv) Cerror(33,0,0);
+  ClEnv->cHandle++ ;                                           // v3.3.34 (Nicolas Museux)
   sIndex = ClEnv->index;
   sBase = ClEnv->base;
   debug = ClEnv->debug_I;

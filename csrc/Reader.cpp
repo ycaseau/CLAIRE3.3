@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file Reader.cl 
-         [version 3.3.3 / safety 5] Sun Nov 23 11:55:47 2003 *****/
+         [version 3.3.34 / safety 5] Sun Mar 07 10:46:36 2004 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -121,20 +121,21 @@ void ReaderClass::metaLoad() {
   Reader.PRcounter = property::make("PRcounter",claire.it);
   Reader.last_arrow = property::make("last_arrow",2,Reader.it);
   Reader.s_properties = property::make("s_properties",Reader.it);
+  Reader.extended_operator = property::make("extended_operator",Reader.it);
   
   // instructions from module sources
   (Reader._delimiter = ClaireClass::make("delimiter",Core._global_variable,claire.it));
   
   { global_variable * _CL_obj = (Reader.arrow = (global_variable *) Core._global_variable->instantiate("arrow",claire.it));
     (_CL_obj->range = Kernel._any);
-    { global_variable * g0100 = _CL_obj; 
-      OID  g0101;
+    { global_variable * g0105 = _CL_obj; 
+      OID  g0106;
       { keyword * _CL_obj = ((keyword *) new_object_class(Kernel._keyword));
         (_CL_obj->name = symbol_I_string2("->"));
         add_I_property(Kernel.instances,Kernel._keyword,11,_oid_(_CL_obj));
-        g0101 = _oid_(_CL_obj);
+        g0106 = _oid_(_CL_obj);
         } 
-      (g0100->value = g0101);} 
+      (g0105->value = g0106);} 
     close_global_variable(_CL_obj);
     } 
   
@@ -142,14 +143,14 @@ void ReaderClass::metaLoad() {
   
   { global_variable * _CL_obj = (Reader.triangle = (global_variable *) Core._global_variable->instantiate("triangle",claire.it));
     (_CL_obj->range = Kernel._any);
-    { global_variable * g0102 = _CL_obj; 
-      OID  g0103;
+    { global_variable * g0107 = _CL_obj; 
+      OID  g0108;
       { keyword * _CL_obj = ((keyword *) new_object_class(Kernel._keyword));
         (_CL_obj->name = symbol_I_string2("<:"));
         add_I_property(Kernel.instances,Kernel._keyword,11,_oid_(_CL_obj));
-        g0103 = _oid_(_CL_obj);
+        g0108 = _oid_(_CL_obj);
         } 
-      (g0102->value = g0103);} 
+      (g0107->value = g0108);} 
     close_global_variable(_CL_obj);
     } 
   
@@ -318,6 +319,9 @@ void ReaderClass::metaLoad() {
     Kernel._keyword,
     Kernel._boolean),Kernel._any,
   	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(loopexp_meta_reader,"loopexp_meta_reader"));
+  
+  Reader.extended_operator->addMethod(list::domain(3,Kernel._property,Kernel._any,Kernel._any),Kernel._any,
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(extended_operator_property,"extended_operator_property"));
   
   Reader.nexte->addMethod(list::domain(1,Reader._meta_reader),Kernel._any,
   	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(nexte_meta_reader,"nexte_meta_reader"));

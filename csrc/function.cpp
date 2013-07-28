@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\function.cl 
-         [version 3.3.3 / safety 5] Sun Nov 23 11:55:40 2003 *****/
+         [version 3.3.34 / safety 5] Sun Mar 07 10:46:29 2004 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -162,11 +162,11 @@ void  self_print_restriction_Core(restriction *self)
         } 
       princ_symbol(p->name);
       princ_string(" @ ");
-      { OID  g0053UU;
+      { OID  g0058UU;
         if (n == 1)
-         g0053UU = _oid_(c);
-        else g0053UU = _oid_(self->domain);
-          print_any(g0053UU);
+         g0058UU = _oid_(c);
+        else g0058UU = _oid_(self->domain);
+          print_any(g0058UU);
         } 
       princ_string("");
       } 
@@ -318,10 +318,10 @@ OID  check_in_any(OID self,ClaireType *y)
 { { OID Result = 0;
     if (belong_to(self,_oid_(y)) == CTRUE)
      Result = self;
-    else { OID  V_CL0054;close_exception(((general_error *) (*Core._general_error)(_string_("[124] the value ~S does not belong to the range ~S"),
+    else { OID  V_CL0059;close_exception(((general_error *) (*Core._general_error)(_string_("[124] the value ~S does not belong to the range ~S"),
           _oid_(list::alloc(2,self,_oid_(y))))));
         
-        Result=_void_(V_CL0054);} 
+        Result=_void_(V_CL0059);} 
       return (Result);} 
   } 
 
@@ -330,19 +330,19 @@ OID  check_in_any(OID self,ClaireType *y)
 bag * check_in_bag(bag *self,ClaireClass *c,ClaireType *y)
 { { bag *Result ;
     { ClaireObject *V_CC ;
-      { ClaireBoolean * g0055I;
-        { OID  g0056UU;
+      { ClaireBoolean * g0060I;
+        { OID  g0061UU;
           { ITERATE(z);
-            g0056UU= _oid_(CFALSE);
+            g0061UU= _oid_(CFALSE);
             for (START(self); NEXT(z);)
             if (belong_to(z,_oid_(y)) != CTRUE)
-             { g0056UU = Kernel.ctrue;
+             { g0061UU = Kernel.ctrue;
               break;} 
             } 
-          g0055I = not_any(g0056UU);
+          g0060I = not_any(g0061UU);
           } 
         
-        if (g0055I == CTRUE) V_CC = cast_I_bag(self,y);
+        if (g0060I == CTRUE) V_CC = cast_I_bag(self,y);
           else close_exception(((general_error *) (*Core._general_error)(_string_("[124] the value ~S does not belong to subtype[~S²]"),
           _oid_(list::alloc(2,_oid_(self),_oid_(y))))));
         } 
@@ -566,40 +566,40 @@ void  final_relation(ClaireRelation *r)
   if (INHERIT(r->isa,Kernel._property))
    { if (r->open <= 2)
      { (r->open = 1);
-      { ClaireRelation * g0057 = r; 
-        ClaireType * g0058;
-        { list * g0059UU;
+      { ClaireRelation * g0062 = r; 
+        ClaireType * g0063;
+        { list * g0064UU;
           { { bag *v_list; OID v_val;
               OID x,CLcount;
               v_list = CLREAD(property,r,restrictions);
-               g0059UU = v_list->clone();
+               g0064UU = v_list->clone();
               for (CLcount= 1; CLcount <= v_list->length; CLcount++)
               { x = (*(v_list))[CLcount];
                 v_val = (*(OBJECT(restriction,x)->domain))[1];
                 
-                (*((list *) g0059UU))[CLcount] = v_val;} 
+                (*((list *) g0064UU))[CLcount] = v_val;} 
               } 
-            GC_OBJECT(list,g0059UU);} 
-          g0058 = Uall_list(g0059UU);
+            GC_OBJECT(list,g0064UU);} 
+          g0063 = Uall_list(g0064UU);
           } 
-        (g0057->domain = g0058);} 
-      { ClaireRelation * g0060 = r; 
-        ClaireType * g0061;
-        { list * g0062UU;
+        (g0062->domain = g0063);} 
+      { ClaireRelation * g0065 = r; 
+        ClaireType * g0066;
+        { list * g0067UU;
           { { bag *v_list; OID v_val;
               OID x,CLcount;
               v_list = CLREAD(property,r,restrictions);
-               g0062UU = v_list->clone();
+               g0067UU = v_list->clone();
               for (CLcount= 1; CLcount <= v_list->length; CLcount++)
               { x = (*(v_list))[CLcount];
                 v_val = _oid_(OBJECT(restriction,x)->range);
                 
-                (*((list *) g0062UU))[CLcount] = v_val;} 
+                (*((list *) g0067UU))[CLcount] = v_val;} 
               } 
-            GC_OBJECT(list,g0062UU);} 
-          g0061 = Uall_list(g0062UU);
+            GC_OBJECT(list,g0067UU);} 
+          g0066 = Uall_list(g0067UU);
           } 
-        (g0060->range = g0061);} 
+        (g0065->range = g0066);} 
       } 
     } 
   GC_UNBIND;} 
@@ -721,10 +721,10 @@ void  externC_string(char *s)
 /* The c++ function for: externC(s:string,c:class) [SAFE_RESULT] */
 OID  externC_string2(char *s,ClaireClass *c)
 { { OID Result = 0;
-    { OID  V_CL0063;close_exception(((general_error *) (*Core._general_error)(_string_("cannot execute ~A"),
+    { OID  V_CL0070;close_exception(((general_error *) (*Core._general_error)(_string_("cannot execute ~A"),
         _oid_(list::alloc(1,_string_(s))))));
       
-      Result=_void_(V_CL0063);} 
+      Result=_void_(V_CL0070);} 
     return (Result);} 
   } 
 
@@ -910,9 +910,9 @@ ClaireType * pair_2_list_type(ClaireType *x)
 
 
 //------------------------ FLOAT ---------------------------------------------
-/* The c++ function for: +(g0064:any,g0065:any) [0] */
-OID  _plus_float_(OID g0064,OID g0065)
-{ return _float_(_plus_float(float_v(g0064),float_v(g0065)));} 
+/* The c++ function for: +(g0071:any,g0072:any) [0] */
+OID  _plus_float_(OID g0071,OID g0072)
+{ return _float_(_plus_float(float_v(g0071),float_v(g0072)));} 
 
 
 /* The c++ function for: +(self:float,x:float) [0] */
@@ -925,9 +925,9 @@ double  _plus_float(double self,double x)
   } 
 
 
-/* The c++ function for: -(g0066:any,g0067:any) [0] */
-OID  _dash_float_(OID g0066,OID g0067)
-{ return _float_(_dash_float(float_v(g0066),float_v(g0067)));} 
+/* The c++ function for: -(g0073:any,g0074:any) [0] */
+OID  _dash_float_(OID g0073,OID g0074)
+{ return _float_(_dash_float(float_v(g0073),float_v(g0074)));} 
 
 
 /* The c++ function for: -(self:float,x:float) [0] */
@@ -940,9 +940,9 @@ double  _dash_float(double self,double x)
   } 
 
 
-/* The c++ function for: *(g0068:any,g0069:any) [0] */
-OID  _star_float_(OID g0068,OID g0069)
-{ return _float_(_star_float(float_v(g0068),float_v(g0069)));} 
+/* The c++ function for: *(g0075:any,g0076:any) [0] */
+OID  _star_float_(OID g0075,OID g0076)
+{ return _float_(_star_float(float_v(g0075),float_v(g0076)));} 
 
 
 /* The c++ function for: *(self:float,x:float) [0] */
@@ -955,9 +955,9 @@ double  _star_float(double self,double x)
   } 
 
 
-/* The c++ function for: /(g0070:any,g0071:any) [0] */
-OID  _7_float_(OID g0070,OID g0071)
-{ return _float_(_7_float(float_v(g0070),float_v(g0071)));} 
+/* The c++ function for: /(g0077:any,g0078:any) [0] */
+OID  _7_float_(OID g0077,OID g0078)
+{ return _float_(_7_float(float_v(g0077),float_v(g0078)));} 
 
 
 /* The c++ function for: /(self:float,x:float) [0] */
@@ -970,9 +970,9 @@ double  _7_float(double self,double x)
   } 
 
 
-/* The c++ function for: -(g0072:any) [NEW_ALLOC] */
-OID  _dash_float2_(OID g0072)
-{ return _float_(_dash_float2(float_v(g0072)));} 
+/* The c++ function for: -(g0079:any) [NEW_ALLOC] */
+OID  _dash_float2_(OID g0079)
+{ return _float_(_dash_float2(float_v(g0079)));} 
 
 
 /* The c++ function for: -(self:float) [NEW_ALLOC] */
@@ -980,9 +980,9 @@ double  _dash_float2(double self)
 { return (((-1.0)*self));} 
 
 
-/* The c++ function for: sqrt(g0073:any) [0] */
-OID  sqrt_float_(OID g0073)
-{ return _float_(sqrt_float(float_v(g0073)));} 
+/* The c++ function for: sqrt(g0080:any) [0] */
+OID  sqrt_float_(OID g0080)
+{ return _float_(sqrt_float(float_v(g0080)));} 
 
 
 /* The c++ function for: sqrt(self:float) [0] */
@@ -995,9 +995,9 @@ double  sqrt_float(double self)
   } 
 
 
-/* The c++ function for: ^(g0074:any,g0075:any) [NEW_ALLOC] */
-OID  _exp_float_(OID g0074,OID g0075)
-{ return _float_(_exp_float(float_v(g0074),float_v(g0075)));} 
+/* The c++ function for: ^(g0081:any,g0082:any) [NEW_ALLOC] */
+OID  _exp_float_(OID g0081,OID g0082)
+{ return _float_(_exp_float(float_v(g0081),float_v(g0082)));} 
 
 
 /* The c++ function for: ^(self:float,x:float) [NEW_ALLOC] */
@@ -1011,9 +1011,9 @@ double  _exp_float(double self,double x)
   } 
 
 
-/* The c++ function for: log(g0076:any) [NEW_ALLOC] */
-OID  log_float_(OID g0076)
-{ return _float_(log_float(float_v(g0076)));} 
+/* The c++ function for: log(g0083:any) [NEW_ALLOC] */
+OID  log_float_(OID g0083)
+{ return _float_(log_float(float_v(g0083)));} 
 
 
 /* The c++ function for: log(self:float) [NEW_ALLOC] */
@@ -1027,9 +1027,9 @@ double  log_float(double self)
   } 
 
 
-/* The c++ function for: mClaire/atan(g0077:any) [NEW_ALLOC] */
-OID  atan_float_(OID g0077)
-{ return _float_(atan_float(float_v(g0077)));} 
+/* The c++ function for: mClaire/atan(g0084:any) [NEW_ALLOC] */
+OID  atan_float_(OID g0084)
+{ return _float_(atan_float(float_v(g0084)));} 
 
 
 /* The c++ function for: mClaire/atan(self:float) [NEW_ALLOC] */
@@ -1043,9 +1043,9 @@ double  atan_float(double self)
   } 
 
 
-/* The c++ function for: string!(g0078:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
-char * string_I_float_(OID g0078)
-{ return string_I_float(float_v(g0078));} 
+/* The c++ function for: string!(g0085:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
+char * string_I_float_(OID g0085)
+{ return string_I_float(float_v(g0085));} 
 
 
 /* The c++ function for: string!(self:float) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
@@ -1061,16 +1061,16 @@ int  length_bag(bag *self)
 { return (self->length);} 
 
 
-/* The c++ function for: nth(self:bag,x:integer) [0] */
+/* The c++ function for: nth(self:bag,x:integer) [RETURN_ARG] */
 OID  nth_bag(bag *self,int x)
 { { OID Result = 0;
     if ((x > 0) && 
         (x <= self->length))
      Result = (*(self))[x];
-    else { OID  V_CL0079;close_exception(((general_error *) (*Core._general_error)(_string_("[41] nth[~S] out of scope for ~S"),
+    else { OID  V_CL0086;close_exception(((general_error *) (*Core._general_error)(_string_("[41] nth[~S] out of scope for ~S"),
           _oid_(list::alloc(2,x,_oid_(self))))));
         
-        Result=_void_(V_CL0079);} 
+        Result=_void_(V_CL0086);} 
       return (Result);} 
   } 
 
@@ -1105,10 +1105,10 @@ OID  min_method(method *f,bag *self)
         } 
       Result = x;
       } 
-    else { OID  V_CL0080;close_exception(((general_error *) (*Core._general_error)(_string_("[183] min of empty set is undefined"),
+    else { OID  V_CL0087;close_exception(((general_error *) (*Core._general_error)(_string_("[183] min of empty set is undefined"),
           _oid_(Kernel.nil))));
         
-        Result=_void_(V_CL0080);} 
+        Result=_void_(V_CL0087);} 
       return (Result);} 
   } 
 
@@ -1130,10 +1130,10 @@ OID  max_method(method *f,bag *self)
         } 
       Result = x;
       } 
-    else { OID  V_CL0081;close_exception(((general_error *) (*Core._general_error)(_string_("[183] max of empty set is undefined"),
+    else { OID  V_CL0088;close_exception(((general_error *) (*Core._general_error)(_string_("[183] max of empty set is undefined"),
           _oid_(Kernel.nil))));
         
-        Result=_void_(V_CL0081);} 
+        Result=_void_(V_CL0088);} 
       return (Result);} 
   } 
 
@@ -1160,7 +1160,7 @@ list * _7_plus_bag(bag *x,bag *y)
             l= (list *) V_CC;} 
         GC_OBJECT(list,l);} 
       if (INHERIT(y->isa,Kernel._list))
-       l= append_list(l,((list *) y));
+       l= GC_OBJECT(list,append_list(l,((list *) y)));
       else { OID gc_local;
           ITERATE(z);
           for (START(y); NEXT(z);)
@@ -1181,10 +1181,10 @@ OID  last_list(list *self)
 { { OID Result = 0;
     if (self->length > 0)
      Result = (*(self))[self->length];
-    else { OID  V_CL0082;close_exception(((general_error *) (*Core._general_error)(_string_("[41] car(nil) is undefined"),
+    else { OID  V_CL0089;close_exception(((general_error *) (*Core._general_error)(_string_("[41] car(nil) is undefined"),
           _oid_(Kernel.nil))));
         
-        Result=_void_(V_CL0082);} 
+        Result=_void_(V_CL0089);} 
       return (Result);} 
   } 
 
@@ -1206,17 +1206,17 @@ OID  nth_set_list(list *self,int x,OID y)
 { { OID Result = 0;
     if ((x <= 0) || 
         (x > self->length))
-     { OID  V_CL0083;close_exception(((general_error *) (*Core._general_error)(_string_("[41] nth[~S] out of scope for ~S"),
+     { OID  V_CL0090;close_exception(((general_error *) (*Core._general_error)(_string_("[41] nth[~S] out of scope for ~S"),
         _oid_(list::alloc(2,x,_oid_(self))))));
       
-      Result=_void_(V_CL0083);} 
+      Result=_void_(V_CL0090);} 
     else if (belong_to(y,_oid_(of_bag(self))) == CTRUE)
      Result = ((*(self))[x]=y);
-    else { OID  V_CL0084;close_exception(((system_error *) (*Kernel._system_error)(17,
+    else { OID  V_CL0091;close_exception(((system_error *) (*Kernel._system_error)(17,
           y,
           _oid_(self))));
         
-        Result=_void_(V_CL0084);} 
+        Result=_void_(V_CL0091);} 
       return (Result);} 
   } 
 
@@ -1228,10 +1228,10 @@ OID  car_list(list *self)
 { { OID Result = 0;
     if (self->length > 0)
      Result = (*(self))[1];
-    else { OID  V_CL0085;close_exception(((general_error *) (*Core._general_error)(_string_("[41] car(nil) is undefined"),
+    else { OID  V_CL0092;close_exception(((general_error *) (*Core._general_error)(_string_("[41] car(nil) is undefined"),
           _oid_(Kernel.nil))));
         
-        Result=_void_(V_CL0085);} 
+        Result=_void_(V_CL0092);} 
       return (Result);} 
   } 
 
@@ -1241,12 +1241,12 @@ OID  car_list(list *self)
 list * hashlist_integer(int n)
 { GC_BIND;
   { list *Result ;
-    { list * l = make_list_integer(n,CNULL);
+    { list * l = GC_OBJECT(list,make_list_integer(n,CNULL));
       int  u = (((*(l))[0])-3);
       { int  i = (n+1);
-        int  g0086 = u;
+        int  g0093 = u;
         { OID gc_local;
-          while ((i <= g0086))
+          while ((i <= g0093))
           { l->addFast(CNULL);
             ++i;
             } 
@@ -1298,9 +1298,9 @@ void  quicksort_list(list *self,method *f,int n,int m)
         if (p != n)
          ((*(self))[p]=(*(self))[n]);
         { int  p = (n+1);
-          int  g0087 = m;
+          int  g0094 = m;
           { OID gc_local;
-            while ((p <= g0087))
+            while ((p <= g0094))
             { if ((OBJECT(ClaireBoolean,funcall_method2(f,(*(self))[p],x))) == CTRUE)
                { ((*(self))[n]=(*(self))[p]);
                 ++n;
@@ -1348,12 +1348,12 @@ set * build_powerset_list(list *self)
 list * make_copy_list_integer(int n,OID d)
 { GC_BIND;
   { list *Result ;
-    { list * l = make_list_integer(n,d);
+    { list * l = GC_OBJECT(list,make_list_integer(n,d));
       if (INHERIT(OWNER(d),Kernel._bag))
        { int  i = 1;
-        int  g0088 = n;
+        int  g0095 = n;
         { OID gc_local;
-          while ((i <= g0088))
+          while ((i <= g0095))
           { ((*(l))[i]=_oid_(copy_bag(OBJECT(bag,d))));
             ++i;
             } 

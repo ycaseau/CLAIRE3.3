@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file Optimize.cl 
-         [version 3.3.3 / safety 5] Sun Nov 23 11:55:50 2003 *****/
+         [version 3.3.34 / safety 5] Sun Mar 07 10:46:38 2004 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -263,31 +263,31 @@ void OptimizeClass::metaLoad() {
   
   { global_variable * v2072 = (Optimize.claire_modules = (global_variable *) Core._global_variable->instantiate("claire_modules",claire.it));
     (v2072->range = Kernel._list);
-    { global_variable * v11434 = v2072; 
-      OID  v11435;
-      { list * v13063;{ bag *v_list; OID v_val;
+    { global_variable * v11491 = v2072; 
+      OID  v11492;
+      { list * v13120;{ bag *v_list; OID v_val;
           OID v5264,CLcount;
           v_list = list::alloc(4,_string_("Kernel"),
             _string_("Core"),
             _string_("Language"),
             _string_("Reader"));
-           v13063 = v_list->clone();
+           v13120 = v_list->clone();
           for (CLcount= 1; CLcount <= v_list->length; CLcount++)
           { v5264 = (*(v_list))[CLcount];
             v_val = value_string(string_v(v5264));
             
-            (*((list *) v13063))[CLcount] = v_val;} 
+            (*((list *) v13120))[CLcount] = v_val;} 
           } 
         
-        v11435=_oid_(v13063);} 
-      (v11434->value = v11435);} 
+        v11492=_oid_(v13120);} 
+      (v11491->value = v11492);} 
     close_global_variable(v2072);
     } 
   
   { (Optimize.compiler = (Optimize_meta_compiler *) Optimize._meta_compiler->instantiate("compiler",claire.it));
     (Optimize.compiler->external = "MS VC++");
     (Optimize.compiler->env = "ntv");
-    (Optimize.compiler->version = _float_(3.3));
+    (Optimize.compiler->version = _float_(3.34));
     (Optimize.compiler->source = "");
     (Optimize.compiler->headers_dir = "");
     (Optimize.compiler->libraries = list::alloc(Kernel._string,1,_string_("Kernel")));

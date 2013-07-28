@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\method.cl 
-         [version 3.3.3 / safety 5] Sun Nov 23 11:55:40 2003 *****/
+         [version 3.3.34 / safety 5] Sun Mar 07 10:46:29 2004 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -210,7 +210,7 @@ OID  put_slot(slot *s,ClaireObject *x,OID y)
 OID  get_property(property *self,ClaireObject *x)
 { GC_BIND;
   { OID Result = 0;
-    { ClaireObject * s = _at_property1(self,OWNER(_oid_(x)));
+    { ClaireObject * s = GC_OBJECT(ClaireObject,_at_property1(self,OWNER(_oid_(x))));
       if (Kernel._slot == s->isa)
        Result = slot_get_object(x,CLREAD(slot,s,index),CLREAD(slot,s,srange));
       else Result = CNULL;
@@ -224,7 +224,7 @@ OID  get_property(property *self,ClaireObject *x)
 OID  funcall_property(property *self,OID x)
 { GC_BIND;
   { OID Result = 0;
-    { ClaireObject * s = _at_property1(self,OWNER(x));
+    { ClaireObject * s = GC_OBJECT(ClaireObject,_at_property1(self,OWNER(x)));
       if (Kernel._slot == s->isa)
        Result = slot_get_object(OBJECT(ClaireObject,x),CLREAD(slot,s,index),CLREAD(slot,s,srange));
       else if (Kernel._method == s->isa)
@@ -240,7 +240,7 @@ OID  funcall_property(property *self,OID x)
 OID  read_property(property *self,ClaireObject *x)
 { GC_BIND;
   { OID Result = 0;
-    { ClaireObject * s = _at_property1(self,OWNER(_oid_(x)));
+    { ClaireObject * s = GC_OBJECT(ClaireObject,_at_property1(self,OWNER(_oid_(x))));
       if (Kernel._slot == s->isa)
        { OID  z = slot_get_object(x,CLREAD(slot,s,index),CLREAD(slot,s,srange));
         if ((z != CNULL) || 
@@ -265,7 +265,7 @@ OID  read_property(property *self,ClaireObject *x)
 ClaireBoolean * hold_ask_property(property *self,ClaireObject *x,OID y)
 { GC_BIND;
   { ClaireBoolean *Result ;
-    { ClaireObject * s = _at_property1(self,OWNER(_oid_(x)));
+    { ClaireObject * s = GC_OBJECT(ClaireObject,_at_property1(self,OWNER(_oid_(x))));
       if (Kernel._slot == s->isa)
        { OID  z = slot_get_object(x,CLREAD(slot,s,index),CLREAD(slot,s,srange));
         Result = ((Kernel._set == OWNER(z)) ?
@@ -285,7 +285,7 @@ ClaireBoolean * hold_ask_property(property *self,ClaireObject *x,OID y)
 /* The c++ function for: write(self:property,x:object,y:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
 void  write_property(property *self,ClaireObject *x,OID y)
 { GC_BIND;
-  { ClaireObject * s = _at_property1(self,OWNER(_oid_(x)));
+  { ClaireObject * s = GC_OBJECT(ClaireObject,_at_property1(self,OWNER(_oid_(x))));
     if (Kernel._slot == s->isa)
      { if (belong_to(y,_oid_(CLREAD(restriction,s,range))) != CTRUE)
        range_is_wrong_slot(((slot *) s),y);
@@ -393,7 +393,7 @@ void  update_plus_relation(ClaireRelation *self,OID x,OID y)
         ((r != self) || 
             (equal(x,y) != CTRUE)))
      { if (INHERIT(r->isa,Kernel._property))
-       { ClaireObject * s = _at_property1(((property *) r),OWNER(y));
+       { ClaireObject * s = GC_OBJECT(ClaireObject,_at_property1(((property *) r),OWNER(y)));
         if (Kernel._slot == s->isa)
          { OID  old_y = get_slot(((slot *) s),OBJECT(ClaireObject,y));
           if (r->multivalued_ask != CFALSE)
@@ -433,7 +433,7 @@ void  update_plus_relation(ClaireRelation *self,OID x,OID y)
 void  update_dash_relation(ClaireRelation *r,OID x,OID y)
 { GC_BIND;
   if (INHERIT(r->isa,Kernel._property))
-   { ClaireObject * s = _at_property1(((property *) r),OWNER(x));
+   { ClaireObject * s = GC_OBJECT(ClaireObject,_at_property1(((property *) r),OWNER(x)));
     if (Kernel._slot == s->isa)
      { OID  l = get_slot(((slot *) s),OBJECT(ClaireObject,x));
       OID  v;
@@ -484,9 +484,9 @@ ClaireBoolean * add_value_property(property *self,ClaireObject *x,int n,bag *l,O
   { ClaireBoolean *Result ;
     if (Kernel._set == l->isa)
      { if (contain_ask_set(((set *) l),y) != CTRUE)
-       { set * l1 = ((set *) ((self->store_ask == CTRUE) ?
+       { set * l1 = GC_OBJECT(set,((set *) ((self->store_ask == CTRUE) ?
           copy_bag(l) :
-          l ))->addFast(y);
+          l ))->addFast(y));
         store_object(x,
           n,
           Kernel._object,
@@ -511,7 +511,7 @@ ClaireBoolean * add_value_property(property *self,ClaireObject *x,int n,bag *l,O
 /* The c++ function for: add(self:property,x:object,y:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
 void  add_property(property *self,ClaireObject *x,OID y)
 { GC_BIND;
-  { ClaireObject * s = _at_property1(self,OWNER(_oid_(x)));
+  { ClaireObject * s = GC_OBJECT(ClaireObject,_at_property1(self,OWNER(_oid_(x))));
     if (boolean_I_any(_oid_(s)) != CTRUE)
      close_exception(((selector_error *) (*Core._selector_error)(_oid_(self),
       _oid_(list::alloc(1,_oid_(x))))));
@@ -533,7 +533,7 @@ void  add_property(property *self,ClaireObject *x,OID y)
 ClaireBoolean * known_ask_property(property *self,ClaireObject *x)
 { GC_BIND;
   { ClaireBoolean *Result ;
-    { ClaireObject * s = _at_property1(self,OWNER(_oid_(x)));
+    { ClaireObject * s = GC_OBJECT(ClaireObject,_at_property1(self,OWNER(_oid_(x))));
       Result = ((Kernel._slot == s->isa) ?
         _I_equal_any(slot_get_object(x,CLREAD(slot,s,index),CLREAD(slot,s,srange)),CNULL) :
         CFALSE );
@@ -546,7 +546,7 @@ ClaireBoolean * known_ask_property(property *self,ClaireObject *x)
 ClaireBoolean * unknown_ask_property(property *self,ClaireObject *x)
 { GC_BIND;
   { ClaireBoolean *Result ;
-    { ClaireObject * s = _at_property1(self,OWNER(_oid_(x)));
+    { ClaireObject * s = GC_OBJECT(ClaireObject,_at_property1(self,OWNER(_oid_(x))));
       Result = ((Kernel._slot == s->isa) ?
         equal(slot_get_object(x,CLREAD(slot,s,index),CLREAD(slot,s,srange)),CNULL) :
         CTRUE );
@@ -560,7 +560,7 @@ ClaireBoolean * unknown_ask_property(property *self,ClaireObject *x)
 OID  delete_property(property *self,ClaireObject *x,OID y)
 { GC_BIND;
   { OID Result = 0;
-    { ClaireObject * s = _at_property1(self,OWNER(_oid_(x)));
+    { ClaireObject * s = GC_OBJECT(ClaireObject,_at_property1(self,OWNER(_oid_(x))));
       if (boolean_I_any(_oid_(s)) != CTRUE)
        { OID  V_CL0003;close_exception(((selector_error *) (*Core._selector_error)(_oid_(self),
           _oid_(list::alloc(1,_oid_(x))))));
@@ -592,7 +592,7 @@ OID  delete_property(property *self,ClaireObject *x,OID y)
 OID  erase_property(property *self,ClaireObject *x)
 { GC_BIND;
   { OID Result = 0;
-    { ClaireObject * s = _at_property1(self,OWNER(_oid_(x)));
+    { ClaireObject * s = GC_OBJECT(ClaireObject,_at_property1(self,OWNER(_oid_(x))));
       if (boolean_I_any(_oid_(s)) != CTRUE)
        { OID  V_CL0004;close_exception(((selector_error *) (*Core._selector_error)(_oid_(self),
           _oid_(list::alloc(1,_oid_(x))))));
@@ -664,7 +664,7 @@ void  set_range_property(property *p,ClaireClass *c,ClaireType *r)
 /* The c++ function for: put_store(self:property,x:object,y:any,b:boolean) [NEW_ALLOC+SLOT_UPDATE+RETURN_ARG] */
 void  put_store_property2(property *self,ClaireObject *x,OID y,ClaireBoolean *b)
 { GC_BIND;
-  { ClaireObject * s = _at_property1(self,OWNER(_oid_(x)));
+  { ClaireObject * s = GC_OBJECT(ClaireObject,_at_property1(self,OWNER(_oid_(x))));
     if (Kernel._slot == s->isa)
      { OID  z = slot_get_object(x,CLREAD(slot,s,index),CLREAD(slot,s,srange));
       if (equal(z,y) != CTRUE)
@@ -801,13 +801,14 @@ list * initialize_restriction1(restriction *x,ClaireClass *d,list *l)
 
 
 // only uniform properties can use the dictionary representation
-/* The c++ function for: uniform(x:restriction) [0] */
+/* The c++ function for: uniform(x:restriction) [NEW_ALLOC] */
 ClaireBoolean * uniform_restriction(restriction *x)
 { { ClaireBoolean *Result ;
     { list * l = x->domain;
       int  n = l->length;
       { OID  g0011UU;
-        { ITERATE(r);
+        { OID gc_local;
+          ITERATE(r);
           g0011UU= _oid_(CFALSE);
           for (START(x->selector->restrictions); NEXT(r);)
           { ClaireBoolean * g0012I;
@@ -821,9 +822,12 @@ ClaireBoolean * uniform_restriction(restriction *x)
                         else { { OID  g0015UU;
                             { int  i = 2;
                               int  g0010 = n;
-                              { g0015UU= _oid_(CFALSE);
+                              { OID gc_local;
+                                g0015UU= _oid_(CFALSE);
                                 while ((i <= g0010))
-                                { if (equal((*(l))[i],(*(l2))[i]) != CTRUE)
+                                { if (((equal((*(l))[i],(*(l2))[i]) == CTRUE) ? CTRUE : (((OWNER((*(l))[i]) != Kernel._class) && 
+                                      ((OWNER((*(l2))[i]) == OWNER((*(l2))[i])) && 
+                                        (_equaltype_ask_any(OBJECT(ClaireType,(*(l))[i]),OBJECT(ClaireType,(*(l2))[i])) == CTRUE))) ? CTRUE : CFALSE)) != CTRUE)
                                    { g0015UU = Kernel.ctrue;
                                     break;} 
                                   ++i;
@@ -855,7 +859,7 @@ ClaireBoolean * uniform_restriction(restriction *x)
 
 
 // v3.0.54 check that a uniform property only uses methods !
-/* The c++ function for: uniform(p:property) [0] */
+/* The c++ function for: uniform(p:property) [NEW_ALLOC] */
 ClaireBoolean * uniform_property(property *p)
 { { ClaireBoolean *Result ;
     { ClaireBoolean *v_and;
@@ -964,7 +968,7 @@ OID  hashinsert_list(list *l,method *x)
            { if ((hashsize_list(l)*3) > (l->length*2))
              { list * myl2;
               { { list * g0018 = l;
-                  list * g0019 = make_list_integer((((*(g0018))[0])*2),CNULL);
+                  list * g0019 = GC_OBJECT(list,make_list_integer((((*(g0018))[0])*2),CNULL));
                   { OID gc_local;
                     ITERATE(g0020);
                     for (START(g0018); NEXT(g0020);)
@@ -1317,7 +1321,7 @@ ClaireBoolean * tmatch_ask_any(OID t,OID t2,list *l)
                 g0039UU= _oid_(CFALSE);
                 while ((i <= g0037))
                 { GC_LOOP;
-                  if (tmatch_ask_any(GC_OID(_oid_(_at_type(OBJECT(ClaireType,t),OBJECT(property,(*(OBJECT(Param,t2)->params))[i])))),(*(OBJECT(Param,t2)->args))[i],l) != CTRUE)
+                  if (tmatch_ask_any(GC_OID(_oid_(_at_type(OBJECT(ClaireType,t),OBJECT(property,(*(OBJECT(Param,t2)->params))[i])))),GC_OID((*(OBJECT(Param,t2)->args))[i]),l) != CTRUE)
                    { g0039UU = Kernel.ctrue;
                     break;} 
                   ++i;

@@ -1,4 +1,4 @@
-// --- System configuration file for "cclaire" , ["Sun Nov 23 11:55:36 2003\n"] ---
+// --- System configuration file for "cclaire" , ["Sun Mar 07 10:46:25 2004\n"] ---
 
 #include <claire.h>
 #include <Kernel.h>

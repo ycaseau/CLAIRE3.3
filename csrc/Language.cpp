@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file Language.cl 
-         [version 3.3.3 / safety 5] Sun Nov 23 11:55:44 2003 *****/
+         [version 3.3.34 / safety 5] Sun Mar 07 10:46:33 2004 *****/
 
 #include <claire.h>
 #include <Kernel.h>

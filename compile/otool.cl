@@ -51,7 +51,7 @@ self_print(self:Compile/to_C) : void -> printf("C{~S}:~S", self.arg,self.set_arg
 // new: (to retrofit in v2.5) an object pointer may be dangerous
 Compile/c_gc?(self:Compile/to_C) : boolean
   -> (not(gcsafe?(self.set_arg)) & Compile/c_gc?(self.arg) &
-      self.set_arg Core/<=t object)                                   // v3.00.30 !!
+      (self.set_arg Core/<=t object | self.set_arg = string) )      // v3.00.30 !! + v3.3.34
 
 [c_type(self:Compile/to_C) : type
  -> self.set_arg glb ptype(c_type(get(arg, self))) ]                 // v3.2.28 (smart)
@@ -521,7 +521,7 @@ self_code(self:Pattern) : any
                         (OPT.use_nth= |                         // if use_nth ... we must protect
                          domain!(x.arg) = class |               // type expression
                          c_type(x.args[1]) <= tuple)            // tuple may be stack-allocated
-                     else false),                               // this method only concerns nth(x,y) calls
+                     else true),                               // v3.3.32 ! default is true here !!!
         any true) ]
 
 // ******************************************************************

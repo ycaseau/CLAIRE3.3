@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file c:\claire\v3.3\src\compile\osystem.cl 
-         [version 3.3.3 / safety 5] Sun Nov 23 11:55:49 2003 *****/
+         [version 3.3.34 / safety 5] Sun Mar 07 10:46:37 2004 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -21,7 +21,7 @@ ClaireType * c_type_any_Optimize(OID v9268)
   { ClaireType *Result ;
     { ClaireObject *V_CC ;
       if (INHERIT(OWNER(v9268),Language._Variable))
-       { OID  v5258 = get_property(Kernel.range,OBJECT(ClaireObject,v9268));
+       { OID  v5258 = GC_OID(get_property(Kernel.range,OBJECT(ClaireObject,v9268)));
         if (v5258 == CNULL)
          V_CC = Kernel._any;
         else V_CC = (((INHERIT(OWNER(v5258),Core._Union)) && (equal(_oid_(OBJECT(Union,v5258)->t1),_oid_(Kernel.emptySet)) == CTRUE)) ?

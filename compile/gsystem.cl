@@ -41,6 +41,7 @@ Compile/*length_array* :: (length @ array)
 Compile/*length_bag* :: (length @ bag)
 Compile/*close_exception* :: (close @ exception)            // v3.2.58  */
 
+
 // new: the target code production (the part that depends on the target language) is
 // encapsulated with a producer object
 producer <: thing(
@@ -49,7 +50,8 @@ producer <: thing(
    body:any = 0,                          // used to store the body of the current method
    extension:string,                      // extension for generated files
    comment:string,                        // a string that designates the target language
-   interfaces:list)                       // used to translate imported to C/.. entities
+   interfaces:list,                       // used to translate imported to C/.. entities
+   stat:integer = 0)                      // v3.3.32: stats about GC protection
 
 claire/PRODUCER:producer :: unknown
 
@@ -141,6 +143,7 @@ claire/c_test(x:any) : void
               generate_f2f(self),                  // module -> file in the FileToFile mode
               generate_interface(self, OPT.legal_modules)),
        l1 := difference(set!(OPT.need_modules), OPT.legal_modules),
+       //[1] ++++ v3.3.32 info: ~A GC protection inserted. // PRODUCER.stat,
        if l1 trace(2, "---- WARNING: ~S should be declared for ~S\n", l1, self)) ]
 
 // the first part is to generate the C files in the FileToFile mode

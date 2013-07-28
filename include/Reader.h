@@ -1,4 +1,4 @@
-// interface defination for module Reader, Sun Nov 23 11:55:46 2003
+// interface defination for module Reader, Sun Mar 07 10:46:35 2004
 #ifndef CLAIREH_Reader
 #define CLAIREH_Reader
 
@@ -53,6 +53,7 @@ extern OID  stop_ask_integer(int n);
 extern OID  nextunit_meta_reader(meta_reader *r);
 extern OID  nexts_meta_reader(meta_reader *r,keyword *e);
 extern OID  loopexp_meta_reader(meta_reader *r,OID x,keyword *e,ClaireBoolean *loop);
+extern OID  extended_operator_property(property *p,OID x,OID y);
 extern OID  nexte_meta_reader(meta_reader *r);
 extern OID  nextexp_meta_reader(meta_reader *r,ClaireBoolean *str);
 extern OID  nexti_meta_reader(meta_reader *r,OID val);
@@ -123,16 +124,16 @@ extern OID  kill_class(ClaireClass *self);
 extern int  min_integer(int x,int y);
 extern int  max_integer(int x,int y);
 extern double  min_float(double x,double y);
-extern OID  min_float_(OID g0077,OID g0078);
+extern OID  min_float_(OID g0080,OID g0081);
 extern double  max_float(double x,double y);
-extern OID  max_float_(OID g0079,OID g0080);
+extern OID  max_float_(OID g0082,OID g0083);
 extern OID  min_any(OID x,OID y);
 extern OID  max_any(OID x,OID y);
 extern list * hashgrow_list(list *l,property *hi);
 extern ClaireBoolean * known_ask_table(table *a,OID x);
 extern ClaireBoolean * unknown_ask_table(table *a,OID x);
 extern double  float_I_string(char *self);
-extern OID  float_I_string_(char *g0081);
+extern OID  float_I_string_(char *g0084);
 extern ClaireBoolean * _sup_equal_any(OID self,OID x);
 extern OID  inspect_any(OID self);
 extern OID  inspect_loop_any(OID _Zread,list *old);
@@ -341,6 +342,7 @@ property * PRtime;// claire/"PRtime"
 property * PRcounter;// claire/"PRcounter"
 property * last_arrow;// Reader/"last_arrow"
 property * s_properties;// Reader/"s_properties"
+property * extended_operator;// Reader/"extended_operator"
 
 // module definition 
  void metaLoad();};

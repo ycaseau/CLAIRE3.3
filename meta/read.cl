@@ -159,8 +159,7 @@ loopexp(r:meta_reader, x:any, e:keyword, loop:boolean) : any
          (if (y = =) loopexp(r, combine(x, :=, nexte(r)), e, true)
      //     else if (toplevel(r) & y = :) nextinst(r, x)
           else if (y = :) nextinst(r, x)    // AHA (v3.0.05)
-          else if operation?(y)
-             combine(x, :=, combine(x, y, loopexp(r, nexte(r), e, false)))
+          else if operation?(y) extended_operator(y,x,loopexp(r, nexte(r), e, false)) // v3.3.32
           else if (x % Call)
              let w := nexte(r) in
                (if (w = =>) r.last_arrow := true                  // v3.3.00
@@ -183,6 +182,17 @@ loopexp(r:meta_reader, x:any, e:keyword, loop:boolean) : any
                 else loopexp(r, combine!(x, y, nexte(r)), e, true))
             else Serror("[152] Separation missing between ~S \nand ~S [~S?]",
                         list(x, y, e))))
+
+// this is the special form for x :op y - new in v3.3.32
+extended_operator(p:property,x:any,y:any) : any
+  -> (case x (Call let r := (if (x.selector = nth) x.args[2] else x.args[1]),
+                       v := Variable(mClaire/pname = gensym()),
+                       x2 := (if (x.selector = nth) Call(nth,list(x.args[1],v))
+                              else Call(x.selector,list(v))) in
+                     (if (r % Call)
+                        Let(var = v, value = r, arg = combine(x2, :=, combine(x2,p,y)))
+                      else combine(x, :=, combine(x, p, y))),
+              any combine(x, :=, combine(x, p, y))))
 
 // reading the next compact expression - comments are ignored but they can
 // be attached to the last read expression

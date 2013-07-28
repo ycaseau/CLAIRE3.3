@@ -1,4 +1,4 @@
-// interface defination for module Core, Sun Nov 23 11:55:40 2003
+// interface defination for module Core, Sun Mar 07 10:46:29 2004
 #ifndef CLAIREH_Core
 #define CLAIREH_Core
 
@@ -299,25 +299,25 @@ extern ClaireType * pair_1_list_type(ClaireType *x);
 extern OID  pair_2_list(list *x);
 extern ClaireType * pair_2_list_type(ClaireType *x);
 extern double  _plus_float(double self,double x);
-extern OID  _plus_float_(OID g0064,OID g0065);
+extern OID  _plus_float_(OID g0071,OID g0072);
 extern double  _dash_float(double self,double x);
-extern OID  _dash_float_(OID g0066,OID g0067);
+extern OID  _dash_float_(OID g0073,OID g0074);
 extern double  _star_float(double self,double x);
-extern OID  _star_float_(OID g0068,OID g0069);
+extern OID  _star_float_(OID g0075,OID g0076);
 extern double  _7_float(double self,double x);
-extern OID  _7_float_(OID g0070,OID g0071);
+extern OID  _7_float_(OID g0077,OID g0078);
 extern double  _dash_float2(double self);
-extern OID  _dash_float2_(OID g0072);
+extern OID  _dash_float2_(OID g0079);
 extern double  sqrt_float(double self);
-extern OID  sqrt_float_(OID g0073);
+extern OID  sqrt_float_(OID g0080);
 extern double  _exp_float(double self,double x);
-extern OID  _exp_float_(OID g0074,OID g0075);
+extern OID  _exp_float_(OID g0081,OID g0082);
 extern double  log_float(double self);
-extern OID  log_float_(OID g0076);
+extern OID  log_float_(OID g0083);
 extern double  atan_float(double self);
-extern OID  atan_float_(OID g0077);
+extern OID  atan_float_(OID g0084);
 extern char * string_I_float(double self);
-extern char * string_I_float_(OID g0078);
+extern char * string_I_float_(OID g0085);
 extern int  length_bag(bag *self);
 extern OID  nth_bag(bag *self,int x);
 extern ClaireType * nth_bag_type(ClaireType *self,ClaireType *x);

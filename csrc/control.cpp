@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\control.cl 
-         [version 3.3.3 / safety 5] Sun Nov 23 11:55:44 2003 *****/
+         [version 3.3.34 / safety 5] Sun Mar 07 10:46:33 2004 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -313,7 +313,7 @@ void  self_print_Let_plus_Language(Let_plus *self)
     princ_string("let ");
     printexp_any(GC_OID(self->value),CFALSE);
     princ_string(" := ");
-    printexp_any((*(OBJECT(bag,(*Core.args)((*(l))[1]))))[3],CFALSE);
+    printexp_any(GC_OID((*(OBJECT(bag,(*Core.args)((*(l))[1]))))[3]),CFALSE);
     princ_string(" in ");
     lbreak_integer(2);
     print_any(GC_OID(OBJECT(Let,(*(l))[2])->value));
@@ -337,7 +337,7 @@ void  self_print_Let_star_Language(Let_star *self)
           (*Language.ppvariable)(GC_OID((*Language.var)(l)));
           { OID  lnext = GC_OID((*Kernel.arg)(l));
             if ((INHERIT(OWNER(lnext),Language._Let)) && ((INHERIT(OWNER(OBJECT(Let,lnext)->value),Language._Call)) && 
-                ((*(OBJECT(bag,(*Core.args)(GC_OID(OBJECT(Let,lnext)->value)))))[1] == _oid_(self->var))))
+                (equal(GC_OID((*(OBJECT(bag,(*Core.args)(GC_OID(OBJECT(Let,lnext)->value)))))[1]),GC_OID(_oid_(self->var))) == CTRUE)))
              { princ_string(",");
               GC__OID(l = lnext, 3);
               } 
@@ -437,26 +437,26 @@ OID  self_eval_For(For *self)
             } 
           else if (Kernel._array == OWNER(x))
            { int  n = array_v(x)[0];
-            int  g0025 = 1;
-            int  g0026 = n;
+            int  g0042 = 1;
+            int  g0043 = n;
             { OID gc_local;
               Result= _oid_(CFALSE);
-              while ((g0025 <= g0026))
+              while ((g0042 <= g0043))
               { GC_LOOP;
-                { OID  z = nth_get_array(array_v(x),g0025);
+                { OID  z = nth_get_array(array_v(x),g0042);
                   write_value_Variable(self->var,z);
                   eval_any(GC_OID(self->arg));
                   } 
-                ++g0025;
+                ++g0042;
                 GC_UNLOOP;} 
               } 
             } 
           else if (INHERIT(OWNER(x),Core._Interval))
            { int  y = OBJECT(Interval,x)->arg1;
-            int  g0027 = OBJECT(Interval,x)->arg2;
+            int  g0044 = OBJECT(Interval,x)->arg2;
             { OID gc_local;
               Result= _oid_(CFALSE);
-              while ((y <= g0027))
+              while ((y <= g0044))
               { GC_LOOP;
                 write_value_Variable(self->var,y);
                 eval_any(GC_OID(self->arg));
@@ -477,10 +477,10 @@ OID  self_eval_For(For *self)
                 } 
               GC_UNLOOP;} 
             } 
-          else { OID  V_CL0028;close_exception(((general_error *) (*Core._general_error)(_string_("[136] ~S is not a collection !"),
+          else { OID  V_CL0045;close_exception(((general_error *) (*Core._general_error)(_string_("[136] ~S is not a collection !"),
                 _oid_(list::alloc(1,x)))));
               
-              Result=_void_(V_CL0028);} 
+              Result=_void_(V_CL0045);} 
             ClEnv->cHandle--;} 
         else if (belong_to(_oid_(ClEnv->exception_I),_oid_(Core._return_error)) == CTRUE)
         { c_handle.catchIt();Result = (*Kernel.arg)(GC_OID(_oid_(ClEnv->exception_I)));
@@ -926,14 +926,16 @@ void  self_print_Case_Language(Case *self)
   { int  n = 1;
     int  m = self->args->length;
     (Core.pretty->index = (Core.pretty->index+1));
-    { while ((n <= m))
-      { { int  _Zl = Core.pretty->index;
-          printexp_any((*(self->args))[n],CFALSE);
+    { OID gc_local;
+      while ((n <= m))
+      { GC_LOOP;
+        { int  _Zl = Core.pretty->index;
+          printexp_any(GC_OID((*(self->args))[n]),CFALSE);
           princ_string(" ");
           if (buffer_length_void() > (Core.pretty->width-50))
            lbreak_integer(2);
           else set_level_void();
-            print_any((*(self->args))[(n+1)]);
+            print_any(GC_OID((*(self->args))[(n+1)]));
           (Core.pretty->index = _Zl);
           if ((n+1) != m)
            { princ_string(", ");
@@ -943,7 +945,7 @@ void  self_print_Case_Language(Case *self)
           princ_string("");
           n= (n+2);
           } 
-        } 
+        GC_UNLOOP;} 
       } 
     princ_string(")");
     (Core.pretty->index = (Core.pretty->index-2));
@@ -958,7 +960,7 @@ OID  self_eval_Case(Case *self)
     { OID  truc = GC_OID(OPT_EVAL(self->var));
       ClaireBoolean * flip = CTRUE;
       OID  previous = Kernel.cfalse;
-      { ClaireBoolean * g0029I;
+      { ClaireBoolean * g0053I;
         { OID V_C;{ OID gc_local;
             ITERATE(x);
             V_C= _oid_(CFALSE);
@@ -977,9 +979,9 @@ OID  self_eval_Case(Case *self)
                 GC_UNLOOP;} 
             } 
           
-          g0029I=OBJECT(ClaireBoolean,V_C);} 
+          g0053I=OBJECT(ClaireBoolean,V_C);} 
         
-        if (g0029I == CTRUE) Result = previous;
+        if (g0053I == CTRUE) Result = previous;
           else Result = Kernel.cfalse;
         } 
       } 
@@ -1066,9 +1068,9 @@ OID  self_eval_Handle(ClaireHandle *self)
           ClEnv->cHandle--;} 
         else if (belong_to(_oid_(ClEnv->exception_I),x) == CTRUE)
         { c_handle.catchIt();if (INHERIT(ClEnv->exception_I->isa,Core._return_error))
-           { OID  V_CL0030;close_exception(ClEnv->exception_I);
+           { OID  V_CL0056;close_exception(ClEnv->exception_I);
             
-            Result=_void_(V_CL0030);} 
+            Result=_void_(V_CL0056);} 
           else Result = OPT_EVAL(self->other);
             } 
         else PREVIOUS_HANDLER;} 
@@ -1086,16 +1088,16 @@ OID  self_eval_Handle(ClaireHandle *self)
 void  self_print_Construct_Language(Construct *self)
 { GC_BIND;
   { int  _Zl = Core.pretty->index;
-    { char * g0031UU;
+    { char * g0057UU;
       if (INHERIT(self->isa,Language._List))
-       g0031UU = "list";
+       g0057UU = "list";
       else if (INHERIT(self->isa,Language._Set))
-       g0031UU = "set";
+       g0057UU = "set";
       else if (INHERIT(self->isa,Language._Tuple))
-       g0031UU = "tuple";
+       g0057UU = "tuple";
       else if (INHERIT(self->isa,Language._Printf))
-       g0031UU = "printf";
-      else g0031UU = ((INHERIT(self->isa,Language._Error)) ?
+       g0057UU = "printf";
+      else g0057UU = ((INHERIT(self->isa,Language._Error)) ?
         "error" :
         ((INHERIT(self->isa,Language._Trace)) ?
           "trace" :
@@ -1104,11 +1106,11 @@ void  self_print_Construct_Language(Construct *self)
             ((INHERIT(self->isa,Language._Branch)) ?
               "branch" :
               string_I_symbol(self->isa->name) ) ) ) );
-      princ_string(g0031UU);
+      princ_string(g0057UU);
       } 
     if ((INHERIT(self->isa,Language._List)) || 
         (INHERIT(self->isa,Language._Set)))
-     { OID  _Zt = get_property(Kernel.of,self);
+     { OID  _Zt = GC_OID(get_property(Kernel.of,self));
       if (_Zt != CNULL)
        { if (equal(_Zt,_oid_(Kernel.emptySet)) != CTRUE)
          { princ_string("<");
@@ -1175,19 +1177,19 @@ OID  self_eval_Set(Set *self)
 { GC_BIND;
   { OID Result = 0;
     { set * s;
-      { { list * g0032UU;
+      { { list * g0058UU;
           { { bag *v_list; OID v_val;
               OID x,CLcount;
               v_list = self->args;
-               g0032UU = v_list->clone();
+               g0058UU = v_list->clone();
               for (CLcount= 1; CLcount <= v_list->length; CLcount++)
               { x = (*(v_list))[CLcount];
                 v_val = OPT_EVAL(x);
                 
-                (*((list *) g0032UU))[CLcount] = v_val;} 
+                (*((list *) g0058UU))[CLcount] = v_val;} 
               } 
-            GC_OBJECT(list,g0032UU);} 
-          s = set_I_bag(g0032UU);
+            GC_OBJECT(list,g0058UU);} 
+          s = set_I_bag(g0058UU);
           } 
         GC_OBJECT(set,s);} 
       if (((self->of == (NULL)) ? CTRUE : CFALSE) != CTRUE)
@@ -1219,22 +1221,22 @@ OID  self_eval_Set(Set *self)
 OID  self_eval_Tuple(Tuple *self)
 { GC_BIND;
   { OID Result = 0;
-    { tuple * V_CL0033;{ list * g0034UU;
+    { tuple * V_CL0059;{ list * g0060UU;
         { { bag *v_list; OID v_val;
             OID x,CLcount;
             v_list = self->args;
-             g0034UU = v_list->clone();
+             g0060UU = v_list->clone();
             for (CLcount= 1; CLcount <= v_list->length; CLcount++)
             { x = (*(v_list))[CLcount];
               v_val = OPT_EVAL(x);
               
-              (*((list *) g0034UU))[CLcount] = v_val;} 
+              (*((list *) g0060UU))[CLcount] = v_val;} 
             } 
-          GC_OBJECT(list,g0034UU);} 
-        V_CL0033 = tuple_I_list(g0034UU);
+          GC_OBJECT(list,g0060UU);} 
+        V_CL0059 = tuple_I_list(g0060UU);
         } 
       
-      Result=_oid_(V_CL0033);} 
+      Result=_oid_(V_CL0059);} 
     GC_UNBIND; return (Result);} 
   } 
 
@@ -1303,21 +1305,21 @@ void  self_eval_Error(Error *self)
     _oid_(list::alloc(1,_oid_(self))))));
   { general_error * x = GC_OBJECT(general_error,((general_error *) new_object_class(Core._general_error)));
     (x->cause = car_list(self->args));
-    { general_error * g0035 = x; 
-      OID  g0036;
-      { list * V_CL0037;{ bag *v_list; OID v_val;
+    { general_error * g0061 = x; 
+      OID  g0062;
+      { list * V_CL0063;{ bag *v_list; OID v_val;
           OID x,CLcount;
           v_list = GC_OBJECT(list,cdr_list(GC_OBJECT(list,self->args)));
-           V_CL0037 = v_list->clone();
+           V_CL0063 = v_list->clone();
           for (CLcount= 1; CLcount <= v_list->length; CLcount++)
           { x = (*(v_list))[CLcount];
             v_val = OPT_EVAL(x);
             
-            (*((list *) V_CL0037))[CLcount] = v_val;} 
+            (*((list *) V_CL0063))[CLcount] = v_val;} 
           } 
         
-        g0036=_oid_(V_CL0037);} 
-      (g0035->arg = g0036);} 
+        g0062=_oid_(V_CL0063);} 
+      (g0061->arg = g0062);} 
     close_exception(x);
     } 
   GC_UNBIND;} 
@@ -1398,7 +1400,7 @@ OID  self_eval_Trace(Trace *self)
       else a2 = Kernel.cfalse;
         if ((Kernel._string == OWNER(a2)) && 
           ((INHERIT(OWNER(i),Kernel._integer)) && (i <= ClEnv->verbose)))
-       { OID  p = get_property(Kernel.ctrace,ClEnv);
+       { OID  p = GC_OID(get_property(Kernel.ctrace,ClEnv));
         if (p != CNULL)
          p= GC_OID(ClAlloc->import(Kernel._port,(int *) use_as_output_port(EXPORT((ClairePort *),p))));
         format_string(string_v(a2),skip_list(l,2));
@@ -1443,7 +1445,8 @@ OID  self_eval_Assert(Assert *self)
 
 /* The c++ function for: self_eval(self:Branch) [NEW_ALLOC] */
 OID  self_eval_Branch(Branch *self)
-{ if (self->args->length != 1)
+{ GC_BIND;
+  if (self->args->length != 1)
    close_exception(((general_error *) (*Core._general_error)(_string_("[104] Syntax error with ~S (one arg. expected)"),
     _oid_(list::alloc(1,_oid_(self))))));
   { OID Result = 0;
@@ -1463,7 +1466,7 @@ OID  self_eval_Branch(Branch *self)
           } 
         } 
       else PREVIOUS_HANDLER;} 
-    return (Result);} 
+    GC_UNBIND; return (Result);} 
   } 
 
 

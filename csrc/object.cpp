@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\object.cl 
-         [version 3.3.3 / safety 5] Sun Nov 23 11:55:40 2003 *****/
+         [version 3.3.34 / safety 5] Sun Mar 07 10:46:29 2004 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -224,50 +224,50 @@ void  push_debug_property(property *prop,int arity,int start)
       (ClEnv->trace_I = (n+1));
       } 
     if (get_table(Core.StopProperty,_oid_(prop)) != CNULL)
-     { { ClaireBoolean * g0042I;
+     { { ClaireBoolean * g0044I;
         { ClaireBoolean *v_or;
           { v_or = ((equal(nth_table1(Core.StopProperty,_oid_(prop)),Core.nil->value) == CTRUE) ? CTRUE : CFALSE);
-            if (v_or == CTRUE) g0042I =CTRUE; 
-            else { { OID  g0043UU;
+            if (v_or == CTRUE) g0044I =CTRUE; 
+            else { { OID  g0045UU;
                 { OID gc_local;
                   ITERATE(l2);
-                  g0043UU= _oid_(CFALSE);
+                  g0045UU= _oid_(CFALSE);
                   bag *l2_support;
                   l2_support = OBJECT(bag,nth_table1(Core.StopProperty,_oid_(prop)));
                   for (START(l2_support); NEXT(l2);)
                   { GC_LOOP;
-                    { ClaireBoolean * g0044I;
-                      { OID  g0045UU;
+                    { ClaireBoolean * g0046I;
+                      { OID  g0047UU;
                         { int  j = 1;
-                          int  g0041 = (*Kernel.length)(l2);
+                          int  g0043 = (*Kernel.length)(l2);
                           { OID gc_local;
-                            g0045UU= _oid_(CFALSE);
-                            while ((j <= g0041))
+                            g0047UU= _oid_(CFALSE);
+                            while ((j <= g0043))
                             { GC_LOOP;
                               if ((((j+start) <= i) ? ((equal(GC_OID((*Kernel.nth)(l2,
                                 j)),GC_OID(ClEnv->stack[((start+j)-1)])) == CTRUE) ? CTRUE: CFALSE): CFALSE) != CTRUE)
-                               { g0045UU = Kernel.ctrue;
+                               { g0047UU = Kernel.ctrue;
                                 break;} 
                               ++j;
                               GC_UNLOOP;} 
                             } 
                           } 
-                        g0044I = not_any(g0045UU);
+                        g0046I = not_any(g0047UU);
                         } 
                       
-                      if (g0044I == CTRUE) { g0043UU = Kernel.ctrue;
+                      if (g0046I == CTRUE) { g0045UU = Kernel.ctrue;
                           break;} 
                         } 
                     GC_UNLOOP;} 
                   } 
-                v_or = boolean_I_any(g0043UU);
+                v_or = boolean_I_any(g0045UU);
                 } 
-              if (v_or == CTRUE) g0042I =CTRUE; 
-              else g0042I = CFALSE;} 
+              if (v_or == CTRUE) g0044I =CTRUE; 
+              else g0044I = CFALSE;} 
             } 
           } 
         
-        if (g0042I == CTRUE) close_exception(((general_error *) (*Core._general_error)(_string_("stop as required in ~S(~A)"),
+        if (g0044I == CTRUE) close_exception(((general_error *) (*Core._general_error)(_string_("stop as required in ~S(~A)"),
             _oid_(list::alloc(2,_oid_(prop),GC_OID(_oid_(get_args_integer(start))))))));
           } 
       } 
@@ -369,17 +369,17 @@ ClaireBoolean * identical_ask_any(OID x,OID y)
 OID  put_property2(property *self,ClaireObject *x,OID y)
 { GC_BIND;
   { OID Result = 0;
-    { ClaireObject * s = _at_property1(self,OWNER(_oid_(x)));
+    { ClaireObject * s = GC_OBJECT(ClaireObject,_at_property1(self,OWNER(_oid_(x))));
       if (Kernel._slot == s->isa)
        Result = store_object(x,
         CLREAD(slot,s,index),
         CLREAD(slot,s,srange),
         y,
         self->store_ask);
-      else { OID  V_CL0046;close_exception(((selector_error *) (*Core._selector_error)(_oid_(self),
+      else { OID  V_CL0048;close_exception(((selector_error *) (*Core._selector_error)(_oid_(self),
             _oid_(list::alloc(1,_oid_(x))))));
           
-          Result=_void_(V_CL0046);} 
+          Result=_void_(V_CL0048);} 
         } 
     GC_UNBIND; return (Result);} 
   } 
@@ -389,7 +389,7 @@ OID  put_property2(property *self,ClaireObject *x,OID y)
 /* The c++ function for: add_value(self:property,x:object,y:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
 void  add_value_property3(property *self,ClaireObject *x,OID y)
 { GC_BIND;
-  { ClaireObject * s = _at_property1(self,OWNER(_oid_(x)));
+  { ClaireObject * s = GC_OBJECT(ClaireObject,_at_property1(self,OWNER(_oid_(x))));
     if (boolean_I_any(_oid_(s)) != CTRUE)
      close_exception(((selector_error *) (*Core._selector_error)(_oid_(self),
       _oid_(list::alloc(1,_oid_(x))))));
@@ -427,10 +427,10 @@ OID  nth_table1(table *a,OID x)
           if ((v != CNULL) || 
             (belong_to(v,_oid_(a->range)) == CTRUE))
          Result = v;
-        else { OID  V_CL0047;close_exception(((general_error *) (*Core._general_error)(_string_("[138] the value ~S(~S) is unknown !"),
+        else { OID  V_CL0049;close_exception(((general_error *) (*Core._general_error)(_string_("[138] the value ~S(~S) is unknown !"),
               _oid_(list::alloc(2,_oid_(a),x)))));
             
-            Result=_void_(V_CL0047);} 
+            Result=_void_(V_CL0049);} 
           } 
       } 
     return (Result);} 
@@ -496,16 +496,16 @@ void  nth_put_table(table *a,OID x,OID y)
       (multi_ask_any(_oid_(a)) != CTRUE))
    fastcall_relation2(a,x,y);
   else if (multi_ask_any(_oid_(a)) == CTRUE)
-   { OID  r = get_property(Kernel.inverse,a);
+   { OID  r = GC_OID(get_property(Kernel.inverse,a));
     OID  old = get_table(a,x);
     if (old != CNULL)
-     { OID  g0048UU;
+     { OID  g0050UU;
       if (OBJECT(set,y)->length == 0)
-       g0048UU = y;
+       g0050UU = y;
       else if (a->multivalued_ask == Kernel._list)
-       g0048UU = CNULL;
-      else g0048UU = _oid_(Kernel.emptySet);
-        ((*(((list *) a->graph)))[get_index_table1(a,x)]=g0048UU);
+       g0050UU = CNULL;
+      else g0050UU = _oid_(Kernel.emptySet);
+        ((*(((list *) a->graph)))[get_index_table1(a,x)]=g0050UU);
       } 
     if (r != CNULL)
      { OID gc_local;
@@ -521,7 +521,7 @@ void  nth_put_table(table *a,OID x,OID y)
       add_I_table(a,x,z);
       } 
     } 
-  else { OID  r = get_property(Kernel.inverse,a);
+  else { OID  r = GC_OID(get_property(Kernel.inverse,a));
       OID  z = get_table(a,x);
       if (equal(z,y) != CTRUE)
        { if (r != CNULL)
@@ -591,9 +591,9 @@ ClaireBoolean * add_value_array(table *self,int n,bag *l,OID y)
   { ClaireBoolean *Result ;
     if (self->multivalued_ask == CTRUE)
      { if (belong_to(y,_oid_(l)) != CTRUE)
-       { set * l1 = ((set *) ((self->store_ask == CTRUE) ?
+       { set * l1 = GC_OBJECT(set,((set *) ((self->store_ask == CTRUE) ?
           copy_bag(l) :
-          l ))->addFast(y);
+          l ))->addFast(y));
         store_list(((list *) self->graph),n,_oid_(l1),self->store_ask);
         Result = CTRUE;
         } 
@@ -629,11 +629,11 @@ OID  delete_table(table *a,OID x,OID y)
       set * l1 = OBJECT(set,(*(a->graph))[i]);
       set * l;
       { bag *V_CC ;
-        { bag * g0049UU;
+        { bag * g0051UU;
           if (a->store_ask == CTRUE)
-           g0049UU = copy_bag(l1);
-          else g0049UU = l1;
-            V_CC = delete_bag(g0049UU,y);
+           g0051UU = copy_bag(l1);
+          else g0051UU = l1;
+            V_CC = delete_bag(g0051UU,y);
           } 
         l= (set *) V_CC;} 
       store_list(((list *) a->graph),i,_oid_(l),a->store_ask);
@@ -663,10 +663,10 @@ OID  nth_table2(table *a,OID x,OID y)
         if ((v != CNULL) || 
           (belong_to(v,_oid_(a->range)) == CTRUE))
        Result = v;
-      else { OID  V_CL0050;close_exception(((general_error *) (*Core._general_error)(_string_("~S(~S) is unknown !"),
+      else { OID  V_CL0052;close_exception(((general_error *) (*Core._general_error)(_string_("~S(~S) is unknown !"),
             _oid_(list::alloc(2,_oid_(a),x)))));
           
-          Result=_void_(V_CL0050);} 
+          Result=_void_(V_CL0052);} 
         } 
     return (Result);} 
   } 
@@ -752,9 +752,9 @@ void  erase_table(table *a)
       ((*(((list *) a->graph)))[get_index_table2(a,(*(OBJECT(bag,l)))[1],(*(OBJECT(bag,l)))[2])]=a->DEFAULT);
       } 
     else { int  i = 1;
-        int  g0051 = a->graph->length;
+        int  g0053 = a->graph->length;
         { OID gc_local;
-          while ((i <= g0051))
+          while ((i <= g0053))
           { ((*(((list *) a->graph)))[i]=CNULL);
             ++i;
             } 
@@ -877,7 +877,7 @@ bag * invert_relation(ClaireRelation *r,OID x)
 { GC_BIND;
   { bag *Result ;
     { ClaireObject *V_CC ;
-      { OID  r2 = get_property(Kernel.inverse,r);
+      { OID  r2 = GC_OID(get_property(Kernel.inverse,r));
         if (INHERIT(OWNER(r2),Kernel._table))
          { OID  v = nth_table1(OBJECT(table,r2),x);
           if (OBJECT(ClaireRelation,r2)->multivalued_ask != CFALSE)
@@ -885,7 +885,7 @@ bag * invert_relation(ClaireRelation *r,OID x)
           else V_CC = set::alloc(1,v);
             } 
         else if (INHERIT(OWNER(r2),Kernel._property))
-         { OID  v = get_property(OBJECT(property,r2),OBJECT(ClaireObject,x));
+         { OID  v = GC_OID(get_property(OBJECT(property,r2),OBJECT(ClaireObject,x)));
           if (OBJECT(ClaireRelation,r2)->multivalued_ask != CFALSE)
            V_CC = OBJECT(bag,v);
           else V_CC = set::alloc(1,v);
@@ -991,7 +991,7 @@ void  reify_listargs(listargs *l)
 void  self_print_general_error_Core(general_error *self)
 { GC_BIND;
   princ_string("**** An error has occurred.\n");
-  format_string(string_v(self->cause),GC_OBJECT(list,OBJECT(list,self->arg)));
+  format_string(GC_STRING(string_v(self->cause)),GC_OBJECT(list,OBJECT(list,self->arg)));
   princ_string("\n");
   GC_UNBIND;} 
 
@@ -1059,89 +1059,89 @@ void  self_print_system_error_Core(system_error *self)
     princ_string("**** An internal error [");
     princ_integer(n);
     princ_string("] has occured:\n");
-    { char * g0052UU;
+    { char * g0055UU;
       if (n == 1)
-       g0052UU = "dynamic allocation, item is too big (~S)";
+       g0055UU = "dynamic allocation, item is too big (~S)";
       else if (n == 2)
-       g0052UU = "dynamic allocation, too large for available memory (~S)";
+       g0055UU = "dynamic allocation, too large for available memory (~S)";
       else if (n == 3)
-       g0052UU = "object allocation, too large for available memory (~S)";
+       g0055UU = "object allocation, too large for available memory (~S)";
       else if (n == 5)
-       g0052UU = "nth[~S] outside of scope for ~S";
+       g0055UU = "nth[~S] outside of scope for ~S";
       else if (n == 7)
-       g0052UU = "Skip applied on ~S with a negative argument ~S";
+       g0055UU = "Skip applied on ~S with a negative argument ~S";
       else if (n == 8)
-       g0052UU = "List operation: cdr(()) is undefined";
+       g0055UU = "List operation: cdr(()) is undefined";
       else if (n == 9)
-       g0052UU = "String buffer is full: ~S";
+       g0055UU = "String buffer is full: ~S";
       else if (n == 10)
-       g0052UU = "Cannot create an imported entity from NULL reference";
+       g0055UU = "Cannot create an imported entity from NULL reference";
       else if (n == 11)
-       g0052UU = "nth_string[~S]: string too short~S";
+       g0055UU = "nth_string[~S]: string too short~S";
       else if (n == 12)
-       g0052UU = "Symbol Table table full";
+       g0055UU = "Symbol Table table full";
       else if (n == 13)
-       g0052UU = "Cannot create a subclass for ~S [~A]";
+       g0055UU = "Cannot create a subclass for ~S [~A]";
       else if (n == 16)
-       g0052UU = "Temporary output string buffer too small";
+       g0055UU = "Temporary output string buffer too small";
       else if (n == 17)
-       g0052UU = "Bag Type Error: ~S cannot be added to ~S";
+       g0055UU = "Bag Type Error: ~S cannot be added to ~S";
       else if (n == 18)
-       g0052UU = "definition of ~S is in conflict with an object from ~S";
+       g0055UU = "definition of ~S is in conflict with an object from ~S";
       else if (n == 19)
-       g0052UU = "Integer overflow";
+       g0055UU = "Integer overflow";
       else if (n == 20)
-       g0052UU = "Integer arithmetic: division/modulo of ~A by 0";
+       g0055UU = "Integer arithmetic: division/modulo of ~A by 0";
       else if (n == 21)
-       g0052UU = "Integer to character: ~S is a wrong value";
+       g0055UU = "Integer to character: ~S is a wrong value";
       else if (n == 22)
-       g0052UU = "Cannote create a string with negative length ~S";
+       g0055UU = "Cannote create a string with negative length ~S";
       else if (n == 23)
-       g0052UU = "Not enough memory to instal claire";
+       g0055UU = "Not enough memory to instal claire";
       else if (n == 24)
-       g0052UU = "execution stack is full [~A]";
+       g0055UU = "execution stack is full [~A]";
       else if (n == 26)
-       g0052UU = "Wrong usage of time counter [~A]";
+       g0055UU = "Wrong usage of time counter [~A]";
       else if (n == 27)
-       g0052UU = "internal garbage protection stack overflow";
+       g0055UU = "internal garbage protection stack overflow";
       else if (n == 28)
-       g0052UU = "the multivalued status of ~S is not compatible with ~S";
+       g0055UU = "the multivalued status of ~S is not compatible with ~S";
       else if (n == 29)
-       g0052UU = "There is no module ~S";
+       g0055UU = "There is no module ~S";
       else if (n == 30)
-       g0052UU = "Attempt to read a private symbol ~S";
+       g0055UU = "Attempt to read a private symbol ~S";
       else if (n == 31)
-       g0052UU = "External function not compiled yet";
+       g0055UU = "External function not compiled yet";
       else if (n == 32)
-       g0052UU = "Too many arguments (~S) for function ~S";
+       g0055UU = "Too many arguments (~S) for function ~S";
       else if (n == 33)
-       g0052UU = "Exception handling: stack overflow";
+       g0055UU = "Exception handling: stack overflow";
       else if (n == 34)
-       g0052UU = "User interrupt: EXECUTION ABORTED";
+       g0055UU = "User interrupt: EXECUTION ABORTED";
       else if (n == 35)
-       g0052UU = "reading char '~S': wrong char: ~S";
+       g0055UU = "reading char '~S': wrong char: ~S";
       else if (n == 36)
-       g0052UU = "cannot open file ~A";
+       g0055UU = "cannot open file ~A";
       else if (n == 37)
-       g0052UU = "world stack is full";
+       g0055UU = "world stack is full";
       else if (n == 38)
-       g0052UU = "Undefined access to ~S";
+       g0055UU = "Undefined access to ~S";
       else if (n == 39)
-       g0052UU = "cannot convert ~S to an integer";
+       g0055UU = "cannot convert ~S to an integer";
       else if (n == 40)
-       g0052UU = "integer multiplication overflow with ~S and ~S";
+       g0055UU = "integer multiplication overflow with ~S and ~S";
       else if (n == 41)
-       g0052UU = "wrong NTH access on ~S and ~S";
+       g0055UU = "wrong NTH access on ~S and ~S";
       else if (n == 42)
-       g0052UU = "Wrong array[~S] init value: ~S";
+       g0055UU = "Wrong array[~S] init value: ~S";
       else if (n == 43)
-       g0052UU = "Defeasible addition on list ~S requires pre-allocation (size ~S)";
+       g0055UU = "Defeasible addition on list ~S requires pre-allocation (size ~S)";
       else if (n == 50)
-       g0052UU = "C++ imported error (~S) : ~S";
+       g0055UU = "C++ imported error (~S) : ~S";
       else { (self->value = n);
-          g0052UU = "What the hell is this ! [code: ~S^]";
+          g0055UU = "What the hell is this ! [code: ~S^]";
           } 
-        format_string(g0052UU,list::alloc(2,GC_OID(self->value),GC_OID(self->arg)));
+        format_string(g0055UU,list::alloc(2,GC_OID(self->value),GC_OID(self->arg)));
       } 
     } 
   GC_UNBIND;} 

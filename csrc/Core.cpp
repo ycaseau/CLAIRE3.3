@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file Core.cl 
-         [version 3.3.3 / safety 5] Sun Nov 23 11:55:40 2003 *****/
+         [version 3.3.34 / safety 5] Sun Mar 07 10:46:29 2004 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -353,10 +353,10 @@ void CoreClass::metaLoad() {
   	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(initialize_restriction1,"initialize_restriction1"));
   
   Core.uniform->addMethod(list::domain(1,Kernel._restriction),Kernel._boolean,
-  	0,_function_(uniform_restriction,"uniform_restriction"));
+  	NEW_ALLOC,_function_(uniform_restriction,"uniform_restriction"));
   
   Core.uniform->addMethod(list::domain(1,Kernel._property),Kernel._boolean,
-  	0,_function_(uniform_property,"uniform_property"));
+  	NEW_ALLOC,_function_(uniform_property,"uniform_property"));
   
   Core.initialize->addMethod(list::domain(2,Kernel._restriction,Kernel._list),Kernel._list,
   	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(initialize_restriction2,"initialize_restriction2"));
@@ -409,9 +409,9 @@ void CoreClass::metaLoad() {
     Kernel._integer),Kernel._object,
   	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(find_which_class,"find_which_class"));
   
-  { (ClEnv->version = 3.3);
+  { (ClEnv->version = 3.34);
     princ_string("-- CLAIRE run-time library v 3.");
-    princ_float(3.3);
+    princ_float(3.34);
     princ_string(" [os: ");
     princ_string("ntv");
     princ_string(", C++:");
@@ -675,7 +675,7 @@ void CoreClass::metaLoad() {
   
   { global_variable * _CL_obj = (Core.claire_date = (global_variable *) Core._global_variable->instantiate("claire_date",claire.it));
     (_CL_obj->range = Kernel._string);
-    (_CL_obj->value = _string_("Sun Nov 23 11:55:40 2003\n"));
+    (_CL_obj->value = _string_("Sun Mar 07 10:46:29 2004\n"));
     close_global_variable(_CL_obj);
     } 
   

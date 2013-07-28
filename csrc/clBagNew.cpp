@@ -10,6 +10,8 @@
 #include <Kernel.h>
 #include <marie.h>
 
+
+
 // This file contains the definition of the bag, list, set and array classes.
 
 // ***************************************************************************
@@ -28,15 +30,13 @@
 
 // member methods ------------------------------------------------------------
 
-// read the i-th element of a list
-/*inline OID &bag::operator[](int i)  {
+// read the i-th element of a list (debug version non-inline !)
 #ifdef CLDEBUG
+OID &bag::operator[](int i)  {
    if (ClEnv->verbose > 12) printf("BAG:~%x [%d] -> %x (%d)\n",this,i,content[i],getADR(content) + i);
    return ((i <= length) ? content[i] : (Cerror(41,_oid_(this),i), content[1]));
-#else
-    return this->content[i];
+}
 #endif
-} */
 
 #define hash_order(x) ClRes->hashOid(0xFFFFFFFF,x)
 
@@ -95,7 +95,7 @@ list *bag::clone(ClaireType *t)
    obj->content = x;
    obj->length = length;
    obj->of = t;
-  if (ClAlloc->statusGC != 2) GC_PUSH(obj);                       // v3.2.20 : clone is protected too late ...
+  //if (ClAlloc->statusGC != 2) GC_PUSH(obj);                       // v3.2.20 : clone is protected toolate  ...
   return obj;}
 
 // API functions ------------------------------------------------------------
@@ -109,13 +109,14 @@ bag *copy_bag(bag *l)
  obj->isa = l->isa;
  obj->content = NULL;
  obj->of = l->of;                           // v3.1.08
- obj->length = l->length;
+ obj->length = 0;
  if (ClAlloc->statusGC != 2)  GC_PUSH(obj);  // v3.2.30
  OID *x = ClAlloc->makeContent(l->length);
- // for (i = 1; i <= l->length ; i++) x[i] = (*l)[i];
- if (l->length) memcpy(x+1,l->content+1,sizeof(OID) * l->length);  //<sb> v3.3.33
- obj->content = x;
- return obj;}}
+  //for (i = 1; i <= l->length ; i++) x[i] = (*l)[i];
+  if(l->length) memcpy(x+1,l->content+1,sizeof(OID) * l->length);  //<sb> v3.3.33
+ obj->length = l->length;
+  obj->content = x;
+  return obj;}}
 
 // new in v3.1.16: create an empty copy  
 bag *empty_bag(bag *l)
@@ -162,12 +163,13 @@ bag * cast_I_bag(bag *l, ClaireType *x)  { l->of = x; return l;}
 
 // create a list skeleton  - every method uses this one and
 // it performs the GC_PUSH
-inline list *list::make()
+list *list::make()
 {list *obj = (list *) ClAlloc->makeAny(4);
-  if (ClAlloc->statusGC != 2)  GC_PUSH(obj);    // v3.2.30
+  obj->length = 0;
   obj->isa = Kernel._list;
   obj->of = NULL;
   obj->content = NULL;                       // v3.2 make is the only one to use NULL ...
+  if (ClAlloc->statusGC != 2)  GC_PUSH(obj);    // v3.2.30
   return obj;}                               // ... and it MUST be replaced by something
 
 // create an empty list
@@ -181,8 +183,7 @@ list *list::empty()
 
 // create a typed empty list
 list *list::empty(ClaireType *t)
-{ClAlloc->currentNew = t;                              // v3.3.34: a method to avoid protecting the type
- list *obj = list::make();
+{list *obj = list::make();
  OID *x = ClAlloc->makeContent(1);
    obj->length = 0;
    obj->content = x;
@@ -238,14 +239,13 @@ list *list::alloc(int n,...)
 list *list::alloc(ClaireType *t, int n,...)
 {va_list ap;
  int i;
- ClAlloc->currentNew = t;                              // v3.3.34: a method to avoid protecting the type
- list *obj = list::make();                    // recall that make() protects the result
+ list *obj = list::make();
  OID *x = ClAlloc->makeContent(n);
-   obj->of = t;                               // moved so that t is protected with obj
    va_start(ap,n);
    for (i = 1; i <= n; i++) x[i] = va_arg(ap, OID);
    obj->length = n;
    obj->content = x;
+   obj->of = t;
    va_end(ap);
    return obj;}
 
@@ -270,13 +270,12 @@ list *list::domain(int n, ...)
 
 // add a new element to a list (without checking the type)
 list *list::addFast(OID x)
-{int i, m = length;
- if (m + 1 == (*this)[0])    // the memory zone is full
-    {OID *y = ClAlloc->makeContent(m + 1);
-        if (length) memcpy(y+1, content+1, sizeof(OID) * length); //<sb> v3.3.33
-        content = y;}
- length = m + 1;
- (*this)[m + 1] = x;        // add the element
+{if (length + 1 == *content)    // the memory zone is full
+    {OID *y = ClAlloc->makeContent(length + 1);
+    //for (i = 1; i <= m; i++) x[i] = y[i];
+    if(length) memcpy(y+1, content+1, sizeof(OID) * length); //<sb> v3.3.33
+    content = y;}
+ content[++length] = x;        // add the element
  return this;}
 
 
@@ -319,12 +318,12 @@ list *cons_any(OID val, list *l)
    int i;
    OID *x = ClAlloc->makeContent(l->length + 1);
      x[1] = val;
-     // for (i = 1; i <= l->length; i++) x[i + 1] = (*l)[i];
+     //for (i = 1; i <= l->length; i++) x[i + 1] = (*l)[i];
      if(l->length) memcpy(x+2,l->content+1,sizeof(OID) * l->length);  //<sb> v3.3.33
      obj->length = l->length + 1;
      obj->content = x;
      if (l->of == NULL || l->of->contains(val) == CFALSE ) // v3.3.24
-        obj->of = Kernel._any;
+     	obj->of = Kernel._any;
      else obj->of = l->of;                 // v3.2.36
      return obj;}
 
@@ -358,8 +357,8 @@ list *add_star_list(list *l1, list *l2)
        if (l1->of->contains(j) == CFALSE) Cerror(17,j,_oid_(l1));  // v3.2
  if (i + l2->length > l1->content[0])
     {OID *x = ClAlloc->makeContent(l1->length + l2->length);
-       // for ( i =1 ; i <= l1->length ; i++) x[i] = (*l1)[i];
-       if (l1->length) memcpy(x+1,l1->content + 1, sizeof(OID) * l1->length);  //<sb> v3.3.33
+       //for ( i =1 ; i <= l1->length ; i++) x[i] = (*l1)[i];
+       if(l1->length) memcpy(x+1,l1->content + 1, sizeof(OID) * l1->length);  //<sb> v3.3.33
        l1->content = x;}
  l1->length += l2->length;
  for (START(l2); NEXT(k);) (*l1)[i++] = k;
@@ -375,8 +374,8 @@ list *append_list(list *l1, list *l2)
        OID *x = ClAlloc->makeContent(n);
          //for (START(l1); NEXT(k);)  x[j++] = k;
          //for (START(l2); NEXT(k);) x[j++] = k;
-         if (l1->length) memcpy(x+1, l1->content+1,sizeof(OID) * l1->length);  //<sb> v3.3.33
-         if (l2->length) memcpy(x+l1->length+1,l2->content+1,sizeof(OID) * l2->length);  //<sb> v3.3.33
+         if(l1->length) memcpy(x+1, l1->content+1,sizeof(OID) * l1->length);  //<sb> v3.3.33
+         if(l2->length) memcpy(x+l1->length+1,l2->content+1,sizeof(OID) * l2->length);  //<sb> v3.3.33
          obj->of = ((l1->of == l2->of) ? l1->of : NULL);
          obj->length = n;
          obj->content = x;
@@ -386,17 +385,18 @@ list *append_list(list *l1, list *l2)
 // insert after a member, works only for a list
 list *add_at_list(list *l, int n, OID val)
 {int i,j,m = l->length;
- if (l->of == NULL || l->of->contains(val) == CFALSE )        // v3.3.24
-     Cerror(17,val,_oid_(l));
+ if (l->of == NULL || l->of->contains(val) == CFALSE ) // v3.3.24
+ 	Cerror(17,val,_oid_(l)); // v3.2
  if (n <= 0 || n > m + 1) Cerror(5,n,_oid_(l));                                 // v3.2.24 !
  if (m + 1 == (*l)[0])
     {OID *x = ClAlloc->makeContent(m + 1);
-     // for (i = 1; i <= m; i++) x[i] = (*l)[i];
-     if (m) memcpy(x+1,l->content+1,sizeof(OID) * m);  //<sb> v3.3.33
+     //for (i = 1; i <= m; i++) x[i] = (*l)[i];
+     if(m) memcpy(x+1,l->content+1,sizeof(OID) * m);  //<sb> v3.3.33
      l->content = x;}
  l->length = m + 1;
- // for ( j = m; j >= n ; j-- ) (*l)[j + 1] = (*l)[j];
- if ((m + 1 - n) > 0) memmove(l->content + n + 1, l->content + n, sizeof(OID) * (m + 1 - n));  //<sb> v3.3.33
+ //for ( j = m; j >= n ; j-- ) (*l)[j + 1] = (*l)[j];
+ if((m + 1 - n) > 0)
+ 	memmove(l->content + n + 1, l->content + n, sizeof(OID) * (m + 1 - n));  //<sb> v3.3.33
  (*l)[n] = val;
  return l;}
 
@@ -405,8 +405,8 @@ list *add_at_list(list *l, int n, OID val)
 list *delete_at_list (list *l, int n)
 {int j, m = l->length;
   if ((n < 1) || (n > m)) Cerror(5,n,_oid_(l));    // v3.2.44 : same error as 2.5
-  // for (j= n; j < m; j++) (*l)[j] = (*l)[j+1];
-  if (m - n) memmove(l->content+n, l->content + n + 1, sizeof(OID) * (m - n));  //<sb> v3.3.33
+  //for (j= n; j < m; j++) (*l)[j] = (*l)[j+1];
+  if(m - n) memmove(l->content+n, l->content + n + 1, sizeof(OID) * (m - n));  //<sb> v3.3.33
   l->length = (m - 1);
   return l;}
 
@@ -415,10 +415,11 @@ list *skip_list(list *l, int n)
 {int i, m = l->length;
     if (n < 0) Cerror(7,_oid_(l),n);
     if (m <= n) l->length = 0;
-    else {// for (i = n + 1; i <= m; i++) (*l)[i-n] = (*l)[i];
-    	  int len = m - n;
-          if (len) memmove(l->content + 1, l->content + 1 + n, sizeof(OID) * len);  //<sb> v3.3.33
-          l->length = m - n;}
+    else {
+    	//for (i = n + 1; i <= m; i++) (*l)[i-n] = (*l)[i];
+    	int len = m - n;
+        if(len) memmove(l->content + 1, l->content + 1 + n, sizeof(OID) * len);  //<sb> v3.3.33
+        l->length = m - n;}
    return l; }
 
 // old LISP cdr ....
@@ -428,7 +429,7 @@ list *cdr_list(list *l)
   else { list *obj = list::make();
          OID *x = ClAlloc->makeContent(m - 1);
           //for (i = 2; i <= m; i++) x[i - 1] = (*l)[i];
-          if (m - 1) memcpy(x+1,l->content + 2, sizeof(OID) * (m - 1));  //<sb> v3.3.33
+          if(m - 1) memcpy(x+1,l->content + 2, sizeof(OID) * (m - 1));  //<sb> v3.3.33
           obj->length = m - 1;
           obj->content = x;
           obj->of = l->of;
@@ -460,8 +461,7 @@ set *set::empty()
 
 // create a typed empty list
 set *set::empty(ClaireType *t)
-{ClAlloc->currentNew = t;                              // v3.3.34: a method to avoid protecting the type
- set *obj = set::make();
+{set *obj = set::make();
  OID *x = ClAlloc->makeContent(1);
    obj->length = 0;
    obj->content = x;
@@ -469,7 +469,7 @@ set *set::empty(ClaireType *t)
    return obj;}
 
 // create a list skeleton
-inline set *set::make()
+set *set::make()
 {set *obj = (set *) ClAlloc->makeAny(4);
   if (ClAlloc->statusGC != 2)  GC_PUSH(obj);    // v3.2.30
   obj->isa = Kernel._set;
@@ -524,14 +524,16 @@ set *set::addFast(OID val)
        //for (j = 1; j <= i; j++) y[j] = x[j];
        //y[j] = val;
        //for (j++; j <= m + 1; j++) y[j] = x[j - 1];
-       if (i) memcpy(y+1,x+1,sizeof(OID) * i);  //<sb> v3.3.33
+       if(i) memcpy(y+1,x+1,sizeof(OID) * i);  //<sb> v3.3.33
        y[i+1] = val;
-       if (m - i > 0) memcpy(y+2+i, x+i+1, sizeof(OID) * (m - i));  //<sb> v3.3.33
+       if(m - i >  0)
+       	memcpy(y+2+i, x+i+1, sizeof(OID) * (m - i));  //<sb> v3.3.33
        content = y;
-       return this;}
+      return this;}
   else                             // simply insert val between i and i+1
     { //for (j = m ; j >= i; j--) x[j+1] = x[j];
-      if(m - i + 1 > 0) memmove(x+i+1, x+i, sizeof(OID) * (m - i + 1));  //<sb> v3.3.33
+      if(m - i + 1 > 0)
+    	memmove(x+i+1, x+i, sizeof(OID) * (m - i + 1));  //<sb> v3.3.33
       x[i+1] = val;
       return this;}}
  else return this;}
@@ -575,7 +577,8 @@ ClaireBoolean *contain_ask_set(set *s,OID val)
           
 /* insert a value at the end of a list */
 set *add_set(set *l, OID val)
-{ if (l->of == NULL || l->of->contains(val) == CFALSE ) Cerror(17,val,_oid_(l)); // v3.3.24
+{if (l->of == NULL || l->of->contains(val) == CFALSE ) // v3.3.24
+	Cerror(17,val,_oid_(l)); // v3.2
   return l->addFast(val);}
 
 set *add_I_set(set *l, OID val)
@@ -627,18 +630,16 @@ set *append_set (set *l1, set *l2)
               {for (k = i1; (k <= m1 && (equal(x2,(*l1)[k]) == CFALSE));k++) ;
                if (k > m1) x[j++] = x2; }             // v3.2.44 fixed !
               else x[j++] = x2;}}}
-  if (i1 > m1) {//for (;(i2 <= m2); i2++)  x[j++] = (*l2)[i2];     // adds what remain in l2..
-               memcpy(x+j, l2->content + i2, sizeof(OID) * (m2 - i2 + 1)); } //<sb> v3.3.33
-  else {//for (;(i1 <= m1); i1++)  x[j++] = (*l1)[i1];     // .. or l1
+  if (i1 > m1) {
+  	//for (;(i2 <= m2); i2++)  x[j++] = (*l2)[i2];     // adds what remain in l2..
+  	memcpy(x+j, l2->content + i2, sizeof(OID) * (m2 - i2 + 1));  //<sb> v3.3.33
+  } else {
+  	//for (;(i1 <= m1); i1++)  x[j++] = (*l1)[i1];     // .. or l1
   	memcpy(x+j,l1->content + i1, sizeof(OID) * (m1 - i1 + 1)); }  //<sb> v3.3.33
-  if (i1 > m1) for (;(i2 <= m2); i2++)  x[j++] = (*l2)[i2];     // adds what remain in l2..
-  else          for (;(i1 <= m1); i1++)  x[j++] = (*l1)[i1];     // .. or l1
   s->content = x;
   s->of = ((l1->of == l2->of) ? l1->of : NULL);
   s->length = (j - 1);
   return s;}
-
-
 
 /* remove duplicates: very useful ; works on bags*/
 set *set_I_bag (bag *l)
@@ -681,7 +682,7 @@ set *sequence_integer(int n, int m)
 // tuples are also types: tuple(1,2) % tuple(integer,integer)
 
 // create a tuple skeleton
-inline tuple *tuple::make()
+tuple *tuple::make()
 {tuple *obj = (tuple *) ClAlloc->makeAny(4);
   if (ClAlloc->statusGC != 2)  GC_PUSH(obj);                   // v3.2.30
   obj->isa = Kernel._tuple;
@@ -817,9 +818,11 @@ list *list_I_array(OID *a)
    obj->content = x;
    if (ClAlloc->statusGC != 2) GC_PUSH(obj);                       // v3.2.54 : protected because of _float_
    if (ARRAYTYPE(a) != Kernel._float)
-     {// for (i = 1; i <= n ; i++) x[i] = a[i];
-      if (n) memcpy(x+1,a+1,sizeof(OID) * n); }  //<sb> v3.3.33
-   else for (i = 1; i <= n; i++) x[i] = _float_( ((double *) a)[i]);
+     { //for (i = 1; i <= n ; i++) x[i] = a[i];
+     if(n) memcpy(x+1,a+1,sizeof(OID) * n); }  //<sb> v3.3.33
+   else {
+   	for (i = 1; i <= n; i++) x[i] = _float_( ((double *) a)[i]);
+   }
    return obj;}
 
 // creates an array from a list and a type

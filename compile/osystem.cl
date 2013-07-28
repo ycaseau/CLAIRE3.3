@@ -463,6 +463,7 @@ claire/safe(x:any) : type[x] -> x
  write(Core/status, self_eval @ If, bit_vector(SAFE_GC)),
  write(Core/status, self_eval @ Do, bit_vector(SAFE_GC)))
 
+
 // useful #1: show a status
 [claire/showstatus(m:method) : any
   -> let l1 := list("NEW_ALLOC","BAG_UPDATE","SLOT_UPDATE","RETURN_ARG","SAFE_RESULT","SAFE_GC"),

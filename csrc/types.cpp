@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\types.cl 
-         [version 3.3.3 / safety 5] Sun Nov 23 11:55:40 2003 *****/
+         [version 3.3.34 / safety 5] Sun Mar 07 10:46:29 2004 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -35,15 +35,15 @@ ClaireBoolean * finite_ask_type(ClaireType *self)
     if (Kernel._set == self->isa)
      Result = CTRUE;
     else if (INHERIT(self->isa,Kernel._list))
-     { OID  g0089UU;
+     { OID  g0096UU;
       { ITERATE(t);
-        g0089UU= _oid_(CFALSE);
+        g0096UU= _oid_(CFALSE);
         for (START(((bag *) self)); NEXT(t);)
         if ((*Core.finite_ask)(t) != Kernel.ctrue)
-         { g0089UU = Kernel.ctrue;
+         { g0096UU = Kernel.ctrue;
           break;} 
         else ;} 
-      Result = not_any(g0089UU);
+      Result = not_any(g0096UU);
       } 
     else if (INHERIT(self->isa,Kernel._class))
      { int  n = CLREAD(ClaireClass,self,open);
@@ -108,15 +108,15 @@ ClaireBoolean * Ztype_any(OID x,OID y)
 { { ClaireBoolean *Result ;
     if ((INHERIT(OWNER(x),Kernel._type)) && 
         (Kernel._set == OWNER(y)))
-     { OID  g0090UU;
+     { OID  g0097UU;
       { ITERATE(z);
-        g0090UU= _oid_(CFALSE);
+        g0097UU= _oid_(CFALSE);
         for (START(OBJECT(set,y)); NEXT(z);)
         if (_equaltype_ask_any(OBJECT(ClaireType,x),OBJECT(ClaireType,z)) == CTRUE)
-         { g0090UU = Kernel.ctrue;
+         { g0097UU = Kernel.ctrue;
           break;} 
         } 
-      Result = boolean_I_any(g0090UU);
+      Result = boolean_I_any(g0097UU);
       } 
     else Result = belong_to(x,y);
       return (Result);} 
@@ -187,7 +187,8 @@ Interval * _dash_dash_integer(int x,int y)
 // Parameterized class. -------------------------------------------
 /* The c++ function for: self_print(self:Param) [NEW_ALLOC+SLOT_UPDATE] */
 void  self_print_Param_Core(Param *self)
-{ if ((self->params->length == 1) && 
+{ GC_BIND;
+  if ((self->params->length == 1) && 
       (((*(self->params))[1] == _oid_(Kernel.of)) && 
         (Kernel._set == OWNER((*(self->args))[1]))))
    { print_any(_oid_(self->arg));
@@ -198,22 +199,23 @@ void  self_print_Param_Core(Param *self)
   else { print_any(_oid_(self->arg));
       princ_string("[");
       { int  i = 1;
-        int  g0091 = self->args->length;
+        int  g0098 = self->args->length;
         { OID gc_local;
-          while ((i <= g0091))
-          { if (i != 1)
+          while ((i <= g0098))
+          { GC_LOOP;
+            if (i != 1)
              princ_string(", ");
             print_any((*(self->params))[i]);
             princ_string(":(");
             print_any((*(self->args))[i]);
             princ_string(")");
             ++i;
-            } 
+            GC_UNLOOP;} 
           } 
         } 
       princ_string("]");
       } 
-    } 
+    GC_UNBIND;} 
 
 
 /* The c++ function for: finite?(self:Param) [NEW_ALLOC] */
@@ -342,15 +344,15 @@ ClaireType * nth_type(ClaireType *self)
 /* The c++ function for: finite?(self:tuple) [NEW_ALLOC] */
 ClaireBoolean * finite_ask_tuple(tuple *self)
 { { ClaireBoolean *Result ;
-    { OID  g0092UU;
+    { OID  g0099UU;
       { ITERATE(x);
-        g0092UU= _oid_(CFALSE);
+        g0099UU= _oid_(CFALSE);
         for (START(self); NEXT(x);)
         if ((*Core.finite_ask)(x) != Kernel.ctrue)
-         { g0092UU = Kernel.ctrue;
+         { g0099UU = Kernel.ctrue;
           break;} 
         } 
-      Result = not_any(g0092UU);
+      Result = not_any(g0099UU);
       } 
     return (Result);} 
   } 
@@ -379,9 +381,9 @@ OID  get_Reference(Reference *self,OID y)
   { OID Result = 0;
     { list * l = GC_OBJECT(list,self->args);
       { int  i = 1;
-        int  g0093 = l->length;
+        int  g0100 = l->length;
         { OID gc_local;
-          while ((i <= g0093))
+          while ((i <= g0100))
           { GC_LOOP;
             GC__OID(y = funcall_property(OBJECT(property,(*(l))[i]),y), 1);
             ++i;
@@ -399,9 +401,9 @@ OID  get_Reference(Reference *self,OID y)
 OID  _at_Reference(Reference *self,list *l,OID y)
 { GC_RESERVE(1);  // HOHO v3.0.55 optim !
   ;{ int  i = 1;
-    int  g0094 = l->length;
+    int  g0101 = l->length;
     { OID gc_local;
-      while ((i <= g0094))
+      while ((i <= g0101))
       { GC_LOOP;
         GC__OID(y = _oid_(_at_type(OBJECT(ClaireType,y),OBJECT(property,(*(l))[i]))), 1);
         ++i;
@@ -608,9 +610,9 @@ set * set_I_tuple(tuple *x)
               } 
             GC_OBJECT(set,l1);} 
           { int  n = 2;
-            int  g0095 = l->length;
+            int  g0102 = l->length;
             { OID gc_local;
-              while ((n <= g0095))
+              while ((n <= g0102))
               { GC_LOOP;
                 { set * l2 = GC_OBJECT(set,set::empty(Kernel._any));
                   { OID gc_local;
@@ -644,9 +646,9 @@ int  size_tuple(tuple *l)
      Result = 1;
     else { int  m = (*Core.size)((*(l))[1]);
         { int  n = 2;
-          int  g0096 = l->length;
+          int  g0103 = l->length;
           { OID gc_local;
-            while ((n <= g0096))
+            while ((n <= g0103))
             { m= (m*((*Core.size)((*(l))[n])));
               ++n;
               } 
@@ -678,21 +680,21 @@ ClaireBoolean * member_ask_any(OID x,ClaireType *y)
         { ClaireBoolean *v_and;
           { v_and = _Z_any1(x,CLREAD(Param,y,arg));
             if (v_and == CFALSE) V_CC =CFALSE; 
-            else { { OID  g0098UU;
+            else { { OID  g0105UU;
                 { OID gc_local;
                   ITERATE(p);
-                  g0098UU= _oid_(CFALSE);
+                  g0105UU= _oid_(CFALSE);
                   bag *p_support;
                   p_support = GC_OBJECT(list,CLREAD(Param,y,params));
                   for (START(p_support); NEXT(p);)
                   { GC_LOOP;
-                    if (Ztype_any(funcall_property(OBJECT(property,p),x),(*(l))[n]) != CTRUE)
-                     { g0098UU = Kernel.ctrue;
+                    if (Ztype_any(GC_OID(funcall_property(OBJECT(property,p),x)),(*(l))[n]) != CTRUE)
+                     { g0105UU = Kernel.ctrue;
                       break;} 
                     else ++n;
                       GC_UNLOOP;} 
                   } 
-                v_and = not_any(g0098UU);
+                v_and = not_any(g0105UU);
                 } 
               if (v_and == CFALSE) V_CC =CFALSE; 
               else V_CC = CTRUE;} 
@@ -708,20 +710,20 @@ ClaireBoolean * member_ask_any(OID x,ClaireType *y)
          { ClaireBoolean *v_and;
           { v_and = ((OBJECT(bag,x)->length == n) ? CTRUE : CFALSE);
             if (v_and == CFALSE) V_CC =CFALSE; 
-            else { { OID  g0099UU;
+            else { { OID  g0106UU;
                 { int  i = 1;
-                  int  g0097 = n;
+                  int  g0104 = n;
                   { OID gc_local;
-                    g0099UU= _oid_(CFALSE);
-                    while ((i <= g0097))
+                    g0106UU= _oid_(CFALSE);
+                    while ((i <= g0104))
                     { if (belong_to((*(OBJECT(bag,x)))[i],(*(((bag *) y)))[i]) != CTRUE)
-                       { g0099UU = Kernel.ctrue;
+                       { g0106UU = Kernel.ctrue;
                         break;} 
                       ++i;
                       } 
                     } 
                   } 
-                v_and = not_any(g0099UU);
+                v_and = not_any(g0106UU);
                 } 
               if (v_and == CFALSE) V_CC =CFALSE; 
               else V_CC = CTRUE;} 
@@ -815,7 +817,7 @@ ClaireType * U_type(ClaireType *x,ClaireType *y)
     else if ((OBJECT(ClaireBoolean,_oid_((ClaireObject *) Core._inf_equalt->fcall(((int) x),((int) y))))) == CTRUE)
      Result = y;
     else if (INHERIT(y->isa,Core._Union))
-     Result = U_type(U_type(x,GC_OBJECT(ClaireType,OBJECT(ClaireType,(*Core.t1)(_oid_(y))))),GC_OBJECT(ClaireType,CLREAD(Union,y,t2)));
+     Result = U_type(GC_OBJECT(ClaireType,U_type(x,GC_OBJECT(ClaireType,OBJECT(ClaireType,(*Core.t1)(_oid_(y)))))),GC_OBJECT(ClaireType,CLREAD(Union,y,t2)));
     else if ((INHERIT(x->isa,Core._Interval)) && (INHERIT(y->isa,Core._Interval)))
      { if (((CLREAD(Interval,y,arg1)-1) <= CLREAD(Interval,x,arg2)) && 
           (CLREAD(Interval,x,arg1) <= CLREAD(Interval,y,arg1)))
@@ -830,7 +832,7 @@ ClaireType * U_type(ClaireType *x,ClaireType *y)
           } 
         } 
     else if ((INHERIT(x->isa,Core._Union)) && (INHERIT(y->isa,Core._Interval)))
-     { ClaireType * z = U_type(GC_OBJECT(ClaireType,CLREAD(Union,x,t2)),y);
+     { ClaireType * z = GC_OBJECT(ClaireType,U_type(GC_OBJECT(ClaireType,CLREAD(Union,x,t2)),y));
       if (INHERIT(z->isa,Core._Union))
        { Union * _CL_obj = ((Union *) GC_OBJECT(Union,new_object_class(Core._Union)));
         (_CL_obj->t1 = U_type(GC_OBJECT(ClaireType,OBJECT(ClaireType,(*Core.t1)(_oid_(x)))),y));
@@ -848,7 +850,7 @@ ClaireType * U_type(ClaireType *x,ClaireType *y)
        a= (a-1);
       if (belong_to((b+1),_oid_(y)) == CTRUE)
        ++b;
-      Result = U_type(_dot_dot_integer(a,b),y);
+      Result = U_type(GC_OBJECT(ClaireType,_dot_dot_integer(a,b)),y);
       } 
     else { if (Kernel._set == y->isa)
          { { set * z_out = set::empty(Kernel.emptySet);
@@ -995,7 +997,7 @@ ClaireType * glb_Interval(Interval *x,ClaireType *y)
       else Result = glb_Interval(((Interval *) y),x);
         } 
     else if (INHERIT(y->isa,Core._Union))
-     Result = U_type(glb_Interval(x,GC_OBJECT(ClaireType,CLREAD(Union,y,t1))),glb_Interval(x,GC_OBJECT(ClaireType,CLREAD(Union,y,t2))));
+     Result = U_type(GC_OBJECT(ClaireType,glb_Interval(x,GC_OBJECT(ClaireType,CLREAD(Union,y,t1)))),GC_OBJECT(ClaireType,glb_Interval(x,GC_OBJECT(ClaireType,CLREAD(Union,y,t2)))));
     else Result = Kernel.emptySet;
       GC_UNBIND; return (Result);} 
   } 
@@ -1020,20 +1022,20 @@ ClaireType * glb_class(ClaireClass *x,ClaireType *y)
       } 
     else if ((x->open == ClEnv->ABSTRACT) && 
         (boolean_I_any(_oid_(x->instances)) != CTRUE))
-     { list * g0100UU;
+     { list * g0107UU;
       { { bag *v_list; OID v_val;
           OID z,CLcount;
           v_list = x->subclass;
-           g0100UU = v_list->clone();
+           g0107UU = v_list->clone();
           for (CLcount= 1; CLcount <= v_list->length; CLcount++)
           { z = (*(v_list))[CLcount];
             v_val = (*Core.glb)(z,
               _oid_(y));
             
-            (*((list *) g0100UU))[CLcount] = v_val;} 
+            (*((list *) g0107UU))[CLcount] = v_val;} 
           } 
-        GC_OBJECT(list,g0100UU);} 
-      Result = Uall_list(g0100UU);
+        GC_OBJECT(list,g0107UU);} 
+      Result = Uall_list(g0107UU);
       } 
     else Result = ((INHERIT(y->isa,Kernel._class)) ?
       join_class(x,((ClaireClass *) y)) :
@@ -1049,7 +1051,7 @@ ClaireType * glb_Param(Param *x,ClaireType *y)
   { ClaireType *Result ;
     if (INHERIT(y->isa,Core._Param))
      { ClaireType * c = join_class(x->arg,CLREAD(Param,y,arg));
-      list * lp = GC_OBJECT(list,list_I_set(GC_OBJECT(set,set_I_bag(append_list(GC_OBJECT(list,x->params),GC_OBJECT(list,CLREAD(Param,y,params)))))));
+      list * lp = GC_OBJECT(list,list_I_set(GC_OBJECT(set,set_I_bag(GC_OBJECT(list,append_list(GC_OBJECT(list,x->params),GC_OBJECT(list,CLREAD(Param,y,params))))))));
       list * l = list::empty(Kernel._any);
       { OID gc_local;
         ITERATE(p);
@@ -1137,23 +1139,23 @@ ClaireType * glb_tuple(tuple *x,ClaireType *y)
     else if (INHERIT(y->isa,Core._Param))
      Result = Kernel.emptySet;
     else if (INHERIT(y->isa,Kernel._tuple))
-     Result = tuple_I_list(_exp_list(((list *) x),((list *) y)));
+     Result = tuple_I_list(GC_OBJECT(list,_exp_list(((list *) x),((list *) y))));
     else if (INHERIT(y->isa,Core._subtype))
      { if (CLREAD(subtype,y,arg) == Kernel._tuple)
-       { list * g0101UU;
+       { list * g0108UU;
         { { bag *v_list; OID v_val;
             OID z,CLcount;
             v_list = x;
-             g0101UU = v_list->clone();
+             g0108UU = v_list->clone();
             for (CLcount= 1; CLcount <= v_list->length; CLcount++)
             { z = (*(v_list))[CLcount];
               v_val = (*Core.glb)(z,
                 GC_OID(_oid_(CLREAD(subtype,y,t1))));
               
-              (*((list *) g0101UU))[CLcount] = v_val;} 
+              (*((list *) g0108UU))[CLcount] = v_val;} 
             } 
-          GC_OBJECT(list,g0101UU);} 
-        Result = tuple_I_list(g0101UU);
+          GC_OBJECT(list,g0108UU);} 
+        Result = tuple_I_list(g0108UU);
         } 
       else Result = Kernel.emptySet;
         } 
@@ -1206,9 +1208,9 @@ list * _exp_list(list *x,list *y)
       list * r = list::empty();
       if (n == y->length)
        { int  i = 1;
-        int  g0102 = n;
+        int  g0109 = n;
         { OID gc_local;
-          while ((i <= g0102))
+          while ((i <= g0109))
           { GC_LOOP;
             { ClaireType * z = GC_OBJECT(ClaireType,OBJECT(ClaireType,(*Core.glb)((*(x))[i],
                 (*(y))[i])));
@@ -1256,15 +1258,15 @@ ClaireBoolean * _inf_equalt_bag2(bag *s,ClaireType *y)
     { ClaireType * z = of_bag(s);
       if (equal(_oid_(z),_oid_(Kernel.emptySet)) != CTRUE)
        Result = OBJECT(ClaireBoolean,_oid_((ClaireObject *) Core._inf_equalt->fcall(((int) z),((int) y))));
-      else { OID  g0103UU;
+      else { OID  g0110UU;
           { ITERATE(x);
-            g0103UU= _oid_(CFALSE);
+            g0110UU= _oid_(CFALSE);
             for (START(s); NEXT(x);)
             if (Ztype_any(x,_oid_(y)) != CTRUE)
-             { g0103UU = Kernel.ctrue;
+             { g0110UU = Kernel.ctrue;
               break;} 
             } 
-          Result = not_any(g0103UU);
+          Result = not_any(g0110UU);
           } 
         } 
     return (Result);} 
@@ -1283,34 +1285,34 @@ ClaireBoolean * _inf_equalt_class(ClaireClass *x,ClaireType *y)
     else if (INHERIT(y->isa,Core._Union))
      { if ((x->open == 0) && 
           (boolean_I_any(_oid_(x->instances)) != CTRUE))
-       { OID  g0104UU;
+       { OID  g0111UU;
         { OID gc_local;
           ITERATE(c);
-          g0104UU= _oid_(CFALSE);
+          g0111UU= _oid_(CFALSE);
           for (START(x->subclass); NEXT(c);)
           if (_inf_equalt_class(OBJECT(ClaireClass,c),y) != CTRUE)
-           { g0104UU = Kernel.ctrue;
+           { g0111UU = Kernel.ctrue;
             break;} 
           else ;} 
-        Result = not_any(g0104UU);
+        Result = not_any(g0111UU);
         } 
       else Result = ((_inf_equalt_class(x,GC_OBJECT(ClaireType,CLREAD(Union,y,t1))) == CTRUE) ? CTRUE : ((_inf_equalt_class(x,GC_OBJECT(ClaireType,CLREAD(Union,y,t2))) == CTRUE) ? CTRUE : CFALSE));
         } 
     else if (Kernel._set == y->isa)
      { if ((x->open == 0) && 
           (boolean_I_any(_oid_(x->subclass)) != CTRUE))
-       { OID  g0105UU;
+       { OID  g0112UU;
         { OID gc_local;
           ITERATE(u);
-          g0105UU= _oid_(CFALSE);
+          g0112UU= _oid_(CFALSE);
           bag *u_support;
           u_support = GC_OBJECT(bag,enumerate_any(_oid_(x)));
           for (START(u_support); NEXT(u);)
           if (contain_ask_set(((set *) y),u) != CTRUE)
-           { g0105UU = Kernel.ctrue;
+           { g0112UU = Kernel.ctrue;
             break;} 
           } 
-        Result = not_any(g0105UU);
+        Result = not_any(g0112UU);
         } 
       else Result = CFALSE;
         } 
@@ -1393,9 +1395,9 @@ ClaireBoolean * _inf_equalt_tuple(tuple *x,ClaireType *y)
     { OID  itest;
       { { OID  j_some = CNULL;
           { int  j = 1;
-            int  g0107 = x->length;
+            int  g0114 = x->length;
             { OID gc_local;
-              while ((j <= g0107))
+              while ((j <= g0114))
               { if (INHERIT(OWNER((*(x))[j]),Core._Union))
                  { j_some= j;
                   break;} 
@@ -1419,21 +1421,21 @@ ClaireBoolean * _inf_equalt_tuple(tuple *x,ClaireType *y)
        { ClaireBoolean *v_and;
         { v_and = ((x->length == ((bag *) y)->length) ? CTRUE : CFALSE);
           if (v_and == CFALSE) Result =CFALSE; 
-          else { { OID  g0108UU;
+          else { { OID  g0115UU;
               { int  i = 1;
-                int  g0106 = x->length;
+                int  g0113 = x->length;
                 { OID gc_local;
-                  g0108UU= _oid_(CFALSE);
-                  while ((i <= g0106))
+                  g0115UU= _oid_(CFALSE);
+                  while ((i <= g0113))
                   { if ((*Core._inf_equalt)((*(x))[i],
                       (*(((bag *) y)))[i]) != Kernel.ctrue)
-                     { g0108UU = Kernel.ctrue;
+                     { g0115UU = Kernel.ctrue;
                       break;} 
                     ++i;
                     } 
                   } 
                 } 
-              v_and = not_any(g0108UU);
+              v_and = not_any(g0115UU);
               } 
             if (v_and == CFALSE) Result =CFALSE; 
             else Result = CTRUE;} 
@@ -1457,22 +1459,22 @@ ClaireBoolean * _inf_equalt_type(ClaireType *x,ClaireType *y)
      { ClaireBoolean *v_and;
       { v_and = OBJECT(ClaireBoolean,_oid_((ClaireObject *) Core._inf_equalt->fcall(((int) x),((int) CLREAD(Param,y,arg)))));
         if (v_and == CFALSE) Result =CFALSE; 
-        else { { OID  g0110UU;
+        else { { OID  g0117UU;
             { int  n = 1;
-              int  g0109 = CLREAD(Param,y,params)->length;
+              int  g0116 = CLREAD(Param,y,params)->length;
               { OID gc_local;
-                g0110UU= _oid_(CFALSE);
-                while ((n <= g0109))
+                g0117UU= _oid_(CFALSE);
+                while ((n <= g0116))
                 { GC_LOOP;
                   if ((*Core._inf_equalt)(GC_OID(_oid_(_at_type(x,OBJECT(property,(*(CLREAD(Param,y,params)))[n])))),
-                    (*(CLREAD(Param,y,args)))[n]) != Kernel.ctrue)
-                   { g0110UU = Kernel.ctrue;
+                    GC_OID((*(CLREAD(Param,y,args)))[n])) != Kernel.ctrue)
+                   { g0117UU = Kernel.ctrue;
                     break;} 
                   ++n;
                   GC_UNLOOP;} 
                 } 
               } 
-            v_and = not_any(g0110UU);
+            v_and = not_any(g0117UU);
             } 
           if (v_and == CFALSE) Result =CFALSE; 
           else Result = CTRUE;} 
@@ -1517,17 +1519,17 @@ ClaireType * member_type(ClaireType *x)
     else if (INHERIT(x->isa,Core._Interval))
      Result = Kernel.emptySet;
     else if (INHERIT(x->isa,Core._Param))
-     Result = member_type(_at_type(x,Kernel.of));
+     Result = member_type(GC_OBJECT(ClaireType,_at_type(x,Kernel.of)));
     else if (INHERIT(x->isa,Kernel._tuple))
      Result = Uall_list(((list *) x));
     else if (INHERIT(x->isa,Core._subtype))
      Result = CLREAD(subtype,x,t1);
     else if (Kernel._set == x->isa)
-     { list * g0111UU;
+     { list * g0118UU;
       { { bag *v_list; OID v_val;
           OID y,CLcount;
           v_list = ((bag *) x);
-           g0111UU = v_list->clone();
+           g0118UU = v_list->clone();
           for (CLcount= 1; CLcount <= v_list->length; CLcount++)
           { y = (*(v_list))[CLcount];
             if (INHERIT(OWNER(y),Kernel._list))
@@ -1536,10 +1538,10 @@ ClaireType * member_type(ClaireType *x)
              v_val = y;
             else v_val = _oid_(Kernel.emptySet);
               
-            (*((list *) g0111UU))[CLcount] = v_val;} 
+            (*((list *) g0118UU))[CLcount] = v_val;} 
           } 
-        GC_OBJECT(list,g0111UU);} 
-      Result = Uall_list(g0111UU);
+        GC_OBJECT(list,g0118UU);} 
+      Result = Uall_list(g0118UU);
       } 
     else Result = Kernel.emptySet;
       GC_UNBIND; return (Result);} 
@@ -1579,7 +1581,7 @@ ClaireType * _at_type(ClaireType *x,property *p)
 { GC_BIND;
   { ClaireType *Result ;
     if (INHERIT(x->isa,Kernel._class))
-     { ClaireObject * r = _at_property1(p,((ClaireClass *) x));
+     { ClaireObject * r = GC_OBJECT(ClaireObject,_at_property1(p,((ClaireClass *) x)));
       if (r != CFALSE)
        Result = CLREAD(restriction,r,range);
       else Result = Kernel._any;
@@ -1591,21 +1593,21 @@ ClaireType * _at_type(ClaireType *x,property *p)
         _at_type(CLREAD(Param,x,arg),p) );
       } 
     else if (INHERIT(x->isa,Core._Union))
-     Result = U_type(_at_type(GC_OBJECT(ClaireType,CLREAD(Union,x,t1)),p),_at_type(GC_OBJECT(ClaireType,CLREAD(Union,x,t2)),p));
+     Result = U_type(GC_OBJECT(ClaireType,_at_type(GC_OBJECT(ClaireType,CLREAD(Union,x,t1)),p)),GC_OBJECT(ClaireType,_at_type(GC_OBJECT(ClaireType,CLREAD(Union,x,t2)),p)));
     else if (Kernel._set == x->isa)
-     { list * g0112UU;
+     { list * g0119UU;
       { { bag *v_list; OID v_val;
           OID y,CLcount;
           v_list = ((bag *) x);
-           g0112UU = v_list->clone();
+           g0119UU = v_list->clone();
           for (CLcount= 1; CLcount <= v_list->length; CLcount++)
           { y = (*(v_list))[CLcount];
-            v_val = _oid_(set::alloc(1,funcall_property(p,y)));
+            v_val = _oid_(set::alloc(1,GC_OID(funcall_property(p,y))));
             
-            (*((list *) g0112UU))[CLcount] = v_val;} 
+            (*((list *) g0119UU))[CLcount] = v_val;} 
           } 
-        GC_OBJECT(list,g0112UU);} 
-      Result = Uall_list(g0112UU);
+        GC_OBJECT(list,g0119UU);} 
+      Result = Uall_list(g0119UU);
       } 
     else Result = _at_type(class_I_type(x),p);
       GC_UNBIND; return (Result);} 
@@ -1655,9 +1657,9 @@ set * make_set_integer(int x)
   { set *Result ;
     { set * i_out = set::empty(Kernel.emptySet);
       { int  i = 0;
-        int  g0113 = 29;
+        int  g0120 = 29;
         { OID gc_local;
-          while ((i <= g0113))
+          while ((i <= g0120))
           { if (BCONTAIN(x,i))
              i_out->addFast(i);
             ++i;
@@ -1769,10 +1771,10 @@ OID  nth_array(OID *self,int x)
     if ((x > 0) && 
         (x <= self[0]))
      Result = nth_get_array(self,x);
-    else { OID  V_CL0114;close_exception(((general_error *) (*Core._general_error)(_string_("[180] nth[~S] out of scope for ~S"),
+    else { OID  V_CL0121;close_exception(((general_error *) (*Core._general_error)(_string_("[180] nth[~S] out of scope for ~S"),
           _oid_(list::alloc(2,x,_array_(self))))));
         
-        Result=_void_(V_CL0114);} 
+        Result=_void_(V_CL0121);} 
       return (Result);} 
   } 
 
@@ -1820,14 +1822,14 @@ set * make_set_array(OID *self)
 
 /* The c++ function for: make_set_array_type */
 ClaireType * make_set_array_type(ClaireType *self)
-{ if (member_type(_at_type(self,Kernel.of)) == Kernel._any) 
+{ if (member_type(GC_OBJECT(ClaireType,_at_type(self,Kernel.of))) == Kernel._any) 
   { { ClaireType *Result ;
       Result = Kernel._set;
       return (Result);} 
      } 
   else{ GC_BIND;
     { ClaireType *Result ;
-      Result = nth_class2(Kernel._set,list::alloc(Kernel._any,1,_oid_(Kernel.of)),list::alloc(1,_oid_(set::alloc(1,GC_OID(_oid_(member_type(_at_type(self,Kernel.of))))))));
+      Result = nth_class2(Kernel._set,list::alloc(Kernel._any,1,_oid_(Kernel.of)),list::alloc(1,_oid_(set::alloc(1,GC_OID(_oid_(member_type(GC_OBJECT(ClaireType,_at_type(self,Kernel.of)))))))));
       GC_UNBIND; return (Result);} 
     } 
   } 
@@ -1835,14 +1837,14 @@ ClaireType * make_set_array_type(ClaireType *self)
 
 /* The c++ function for: list_I_array_type */
 ClaireType * list_I_array_type(ClaireType *a)
-{ if (member_type(_at_type(a,Kernel.of)) == Kernel._any) 
+{ if (member_type(GC_OBJECT(ClaireType,_at_type(a,Kernel.of))) == Kernel._any) 
   { { ClaireType *Result ;
       Result = Kernel._list;
       return (Result);} 
      } 
   else{ GC_BIND;
     { ClaireType *Result ;
-      Result = nth_class2(Kernel._list,list::alloc(Kernel._any,1,_oid_(Kernel.of)),list::alloc(1,_oid_(set::alloc(1,GC_OID(_oid_(member_type(_at_type(a,Kernel.of))))))));
+      Result = nth_class2(Kernel._list,list::alloc(Kernel._any,1,_oid_(Kernel.of)),list::alloc(1,_oid_(set::alloc(1,GC_OID(_oid_(member_type(GC_OBJECT(ClaireType,_at_type(a,Kernel.of)))))))));
       GC_UNBIND; return (Result);} 
     } 
   } 
@@ -1850,14 +1852,14 @@ ClaireType * list_I_array_type(ClaireType *a)
 
 /* The c++ function for: array_I_list_type */
 ClaireType * array_I_list_type(ClaireType *a)
-{ if (member_type(_at_type(a,Kernel.of)) == Kernel._any) 
+{ if (member_type(GC_OBJECT(ClaireType,_at_type(a,Kernel.of))) == Kernel._any) 
   { { ClaireType *Result ;
       Result = Kernel._array;
       return (Result);} 
      } 
   else{ GC_BIND;
     { ClaireType *Result ;
-      Result = nth_class2(Kernel._array,list::alloc(Kernel._any,1,_oid_(Kernel.of)),list::alloc(1,_oid_(set::alloc(1,GC_OID(_oid_(member_type(_at_type(a,Kernel.of))))))));
+      Result = nth_class2(Kernel._array,list::alloc(Kernel._any,1,_oid_(Kernel.of)),list::alloc(1,_oid_(set::alloc(1,GC_OID(_oid_(member_type(GC_OBJECT(ClaireType,_at_type(a,Kernel.of)))))))));
       GC_UNBIND; return (Result);} 
     } 
   } 
@@ -1866,14 +1868,14 @@ ClaireType * array_I_list_type(ClaireType *a)
 // v3.0.72
 /* The c++ function for: set_I_bag_type */
 ClaireType * set_I_bag_type(ClaireType *l)
-{ if (member_type(_at_type(l,Kernel.of)) == Kernel._any) 
+{ if (member_type(GC_OBJECT(ClaireType,_at_type(l,Kernel.of))) == Kernel._any) 
   { { ClaireType *Result ;
       Result = Kernel._set;
       return (Result);} 
      } 
   else{ GC_BIND;
     { ClaireType *Result ;
-      Result = nth_class2(Kernel._set,list::alloc(Kernel._any,1,_oid_(Kernel.of)),list::alloc(1,_oid_(set::alloc(1,GC_OID(_oid_(member_type(_at_type(l,Kernel.of))))))));
+      Result = nth_class2(Kernel._set,list::alloc(Kernel._any,1,_oid_(Kernel.of)),list::alloc(1,_oid_(set::alloc(1,GC_OID(_oid_(member_type(GC_OBJECT(ClaireType,_at_type(l,Kernel.of)))))))));
       GC_UNBIND; return (Result);} 
     } 
   } 
@@ -1881,14 +1883,14 @@ ClaireType * set_I_bag_type(ClaireType *l)
 
 /* The c++ function for: list_I_set_type */
 ClaireType * list_I_set_type(ClaireType *l)
-{ if (member_type(_at_type(l,Kernel.of)) == Kernel._any) 
+{ if (member_type(GC_OBJECT(ClaireType,_at_type(l,Kernel.of))) == Kernel._any) 
   { { ClaireType *Result ;
       Result = Kernel._list;
       return (Result);} 
      } 
   else{ GC_BIND;
     { ClaireType *Result ;
-      Result = nth_class2(Kernel._list,list::alloc(Kernel._any,1,_oid_(Kernel.of)),list::alloc(1,_oid_(set::alloc(1,GC_OID(_oid_(member_type(_at_type(l,Kernel.of))))))));
+      Result = nth_class2(Kernel._list,list::alloc(Kernel._any,1,_oid_(Kernel.of)),list::alloc(1,_oid_(set::alloc(1,GC_OID(_oid_(member_type(GC_OBJECT(ClaireType,_at_type(l,Kernel.of)))))))));
       GC_UNBIND; return (Result);} 
     } 
   } 

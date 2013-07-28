@@ -450,6 +450,7 @@ nth(self:bag,x:integer) : type[(if (self % tuple & unique?(x)) self[the(x)]   //
                                 else member(self))]
  -> (if (x > 0 & x <= length(self)) self[x]
      else error("[41] nth[~S] out of scope for ~S", x, self))
+    
 nth_get(self:bag,x:integer) : any -> nth_get(self, x)
 
 min(f:method,self:bag) : type[member(self)]     // v3.1.08

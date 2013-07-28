@@ -501,7 +501,7 @@ Compile/bitvectorList :: list("NEW_ALLOC","BAG_UPDATE","SLOT_UPDATE","RETURN_ARG
         if exists(x in self.args | not(c_func(x)))
            printf("OID ~A;~I",v,breakline()),
         printf("~I~I= ~I~I;",
-               (if OPT.protection printf("GC_ANY(")),
+               (if OPT.protection (c.stat :+ 1, printf("GC_ANY("))),   // v3.3.32
                c_princ(s),
                bag_expression(PRODUCER,seed.isa,seed,of(seed),loop), // v3.2
                (if OPT.protection printf(")"))),

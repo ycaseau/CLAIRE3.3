@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\syntax.cl 
-         [version 3.3.3 / safety 5] Sun Nov 23 11:55:46 2003 *****/
+         [version 3.3.34 / safety 5] Sun Mar 07 10:46:35 2004 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -37,14 +37,14 @@ Call * DBregister_Call(Call *c)
 Call * Call_I_property(property *p,list *l)
 { GC_BIND;
   { Call *Result ;
-    { Call * g0016UU;
+    { Call * g0019UU;
       { Call * _CL_obj = ((Call *) GC_OBJECT(Call,new_object_class(Language._Call)));
         (_CL_obj->selector = p);
         (_CL_obj->args = l);
         add_I_property(Kernel.instances,Language._Call,11,_oid_(_CL_obj));
-        g0016UU = _CL_obj;
+        g0019UU = _CL_obj;
         } 
-      Result = DBregister_Call(g0016UU);
+      Result = DBregister_Call(g0019UU);
       } 
     GC_UNBIND; return (Result);} 
   } 
@@ -72,7 +72,7 @@ OID  combine_any(OID x,OID y,OID z)
     { OID  p = operation_I_any(x);
       if ((boolean_I_any(p) == CTRUE) && 
           (precedence_I_any(y) < precedence_I_any(p)))
-       Result = combine_I_any(operand_I_any(x,1),p,GC_OID(combine_any(operand_I_any(x,2),y,z)));
+       Result = combine_I_any(GC_OID(operand_I_any(x,1)),p,GC_OID(combine_any(GC_OID(operand_I_any(x,2)),y,z)));
       else Result = combine_I_any(x,y,z);
         } 
     GC_UNBIND; return (Result);} 
@@ -104,27 +104,29 @@ OID  combine_I_any(OID x,OID y,OID z)
             ((equal((*(OBJECT(Call,z)->args))[1],x) == CTRUE) && 
               ((OBJECT(Call,x)->args->length == 1) ? (multi_ask_any(_oid_(OBJECT(Call,x)->selector)) == CTRUE) : (((OBJECT(Call,x)->selector == Kernel.nth) && 
                   (OBJECT(Call,x)->args->length == 2)) && (multi_ask_any((*(OBJECT(Call,x)->args))[1]) == CTRUE))))))
-         { Call * V_CL0018;{ list * g0019UU;
+         { Call * V_CL0021;{ list * g0022UU;
             { OID v_bag;
-              GC_ANY(g0019UU= list::empty(Kernel.emptySet));
-              if (OBJECT(Call,x)->args->length == 1)
-               v_bag = _oid_(OBJECT(Call,x)->selector);
-              else v_bag = (*(OBJECT(Call,x)->args))[1];
-                ((list *) g0019UU)->addFast(v_bag);
-              if (OBJECT(Call,x)->args->length == 1)
-               v_bag = (*(OBJECT(Call,x)->args))[1];
-              else v_bag = (*(OBJECT(Call,x)->args))[2];
-                ((list *) g0019UU)->addFast(v_bag);
-              ((list *) g0019UU)->addFast((*(OBJECT(bag,(*Core.args)(z))))[2]);} 
-            V_CL0018 = Call_I_property(OBJECT(property,(*Kernel.selector)(z)),g0019UU);
+              GC_ANY(g0022UU= list::empty(Kernel.emptySet));
+              { if (OBJECT(Call,x)->args->length == 1)
+                 v_bag = _oid_(OBJECT(Call,x)->selector);
+                else v_bag = (*(OBJECT(Call,x)->args))[1];
+                  GC_OID(v_bag);} 
+              ((list *) g0022UU)->addFast(v_bag);
+              { if (OBJECT(Call,x)->args->length == 1)
+                 v_bag = (*(OBJECT(Call,x)->args))[1];
+                else v_bag = (*(OBJECT(Call,x)->args))[2];
+                  GC_OID(v_bag);} 
+              ((list *) g0022UU)->addFast(v_bag);
+              ((list *) g0022UU)->addFast(GC_OID((*(OBJECT(bag,(*Core.args)(z))))[2]));} 
+            V_CL0021 = Call_I_property(OBJECT(property,(*Kernel.selector)(z)),g0022UU);
             } 
           
-          Result=_oid_(V_CL0018);} 
+          Result=_oid_(V_CL0021);} 
         else if (OBJECT(Call,x)->selector == Kernel.nth)
-         Result = _oid_(Call_I_property(Kernel.nth_equal,((list *) copy_bag(OBJECT(Call,x)->args))->addFast(z)));
+         Result = _oid_(Call_I_property(Kernel.nth_equal,GC_OBJECT(list,((list *) copy_bag(OBJECT(Call,x)->args))->addFast(z))));
         else if (OBJECT(Call,x)->args->length == 1)
          { property * p = make_a_property_any(_oid_(OBJECT(Call,x)->selector));
-          OID  y = (*(OBJECT(Call,x)->args))[1];
+          OID  y = GC_OID((*(OBJECT(Call,x)->args))[1]);
           if ((p == Core.read) && 
               ((INHERIT(OWNER(y),Language._Call_plus)) && (OBJECT(Call,y)->selector->reified == CTRUE)))
            Result = _oid_(Call_I_property(Core.write,list::alloc(2,y,z)));
@@ -147,37 +149,37 @@ OID  combine_I_any(OID x,OID y,OID z)
         Let_star * _CL_obj = ((Let_star *) GC_OBJECT(Let_star,new_object_class(Language._Let_star)));
         (_CL_obj->var = v);
         (_CL_obj->value = z);
-        { Let * g0020 = _CL_obj; 
-          OID  g0021;
+        { Let * g0023 = _CL_obj; 
+          OID  g0024;
           { Do * _CL_obj = ((Do *) GC_OBJECT(Do,new_object_class(Language._Do)));
-            { Do * g0022 = _CL_obj; 
-              list * g0023;
+            { Do * g0025 = _CL_obj; 
+              list * g0026;
               { list * i_bag = list::empty(Kernel._any);
                 { int  i = 1;
-                  int  g0017 = m;
+                  int  g0020 = m;
                   { OID gc_local;
-                    while ((i <= g0017))
+                    while ((i <= g0020))
                     { GC_LOOP;
-                      { OID  g0024UU;
+                      { OID  g0027UU;
                         { Assign * _CL_obj = ((Assign *) GC_OBJECT(Assign,new_object_class(Language._Assign)));
                           (_CL_obj->var = (*(l))[i]);
                           (_CL_obj->arg = _oid_(Call_I_property(Kernel.nth,GC_OBJECT(list,list::alloc(2,_oid_(v),i)))));
                           add_I_property(Kernel.instances,Language._Assign,11,_oid_(_CL_obj));
-                          g0024UU = _oid_(_CL_obj);
+                          g0027UU = _oid_(_CL_obj);
                           } 
-                        i_bag->addFast(g0024UU);
+                        i_bag->addFast(g0027UU);
                         } 
                       ++i;
                       GC_UNLOOP;} 
                     } 
                   } 
-                g0023 = GC_OBJECT(list,i_bag);
+                g0026 = GC_OBJECT(list,i_bag);
                 } 
-              (g0022->args = g0023);} 
+              (g0025->args = g0026);} 
             add_I_property(Kernel.instances,Language._Do,11,_oid_(_CL_obj));
-            g0021 = _oid_(_CL_obj);
+            g0024 = _oid_(_CL_obj);
             } 
-          (g0020->arg = g0021);} 
+          (g0023->arg = g0024);} 
         add_I_property(Kernel.instances,Language._Let_star,11,_oid_(_CL_obj));
         Result = _oid_(_CL_obj);
         } 
@@ -212,7 +214,7 @@ OID  combine_I_any(OID x,OID y,OID z)
         } 
     else if (y == _oid_(Kernel._Z))
      Result = _oid_(Call_I_property(Kernel._Z,GC_OBJECT(list,list::alloc(2,x,z))));
-    else { Call * V_CL0025;{ Call_star * g0026UU;
+    else { Call * V_CL0028;{ Call_star * g0029UU;
           { Call_star * _CL_obj = ((Call_star *) GC_OBJECT(Call_star,new_object_class(Language._Call_star)));
             update_property(Kernel.selector,
               _CL_obj,
@@ -221,12 +223,12 @@ OID  combine_I_any(OID x,OID y,OID z)
               y);
             (_CL_obj->args = list::alloc(2,x,z));
             add_I_property(Kernel.instances,Language._Call_star,11,_oid_(_CL_obj));
-            g0026UU = _CL_obj;
+            g0029UU = _CL_obj;
             } 
-          V_CL0025 = DBregister_Call(g0026UU);
+          V_CL0028 = DBregister_Call(g0029UU);
           } 
         
-        Result=_oid_(V_CL0025);} 
+        Result=_oid_(V_CL0028);} 
       GC_UNBIND; return (Result);} 
   } 
 
@@ -296,7 +298,7 @@ OID  operand_I_any(OID x,int n)
      { if (OBJECT(Call,x)->selector == Core.write)
        { if (n == 2)
          Result = (*(OBJECT(Call,x)->args))[3];
-        else Result = _oid_(Call_I_property(OBJECT(property,(*(OBJECT(Call,x)->args))[1]),list::alloc(1,(*(OBJECT(Call,x)->args))[2])));
+        else Result = _oid_(Call_I_property(OBJECT(property,(*(OBJECT(Call,x)->args))[1]),list::alloc(1,GC_OID((*(OBJECT(Call,x)->args))[2]))));
           } 
       else if (OBJECT(Call,x)->selector == Kernel.nth_equal)
        { if (n == 2)
@@ -342,9 +344,9 @@ OID  nextstruct_meta_reader(meta_reader *r,keyword *_Zfirst,keyword *e)
     else if (_Zfirst == Reader._cl_case)
      Result = readcase_meta_reader(r,e);
     else if (_Zfirst == Reader._cl_for)
-     { Variable * _Zvar = GC_OBJECT(Variable,extract_variable_any(nexts_I_meta_reader1(r,Reader.in)));
+     { Variable * _Zvar = GC_OBJECT(Variable,extract_variable_any(GC_OID(nexts_I_meta_reader1(r,Reader.in))));
       OID  _Zset = GC_OID(nexte_meta_reader(r));
-      list * _Zbind = bind_I_meta_reader(r,_Zvar);
+      list * _Zbind = GC_OBJECT(list,bind_I_meta_reader(r,_Zvar));
       For * x;
       { if (firstc_meta_reader(r) == 44)
          next_meta_reader(r);
@@ -376,7 +378,7 @@ OID  nextstruct_meta_reader(meta_reader *r,keyword *_Zfirst,keyword *e)
       Result = _oid_(_CL_obj);
       } 
     else if (_Zfirst == Reader._cl_try)
-     { OID  _Za = nexts_I_meta_reader1(r,Reader.CATCH);
+     { OID  _Za = GC_OID(nexts_I_meta_reader1(r,Reader.CATCH));
       OID  _Zt = GC_OID(nexte_meta_reader(r));
       ClaireHandle * _CL_obj = ((ClaireHandle *) GC_OBJECT(ClaireHandle,new_object_class(Language._Handle)));
       (_CL_obj->test = _Zt);
@@ -399,17 +401,17 @@ OID  readlet_meta_reader(meta_reader *r,keyword *e)
     { OID  _Zdef = GC_OID(nexts_I_meta_reader3(r,Reader.in,44));
       if (INHERIT(OWNER(_Zdef),Language._Assign))
        { Variable * v = GC_OBJECT(Variable,extract_variable_any(GC_OID(OBJECT(Assign,_Zdef)->var)));
-        list * _Zbind = bind_I_meta_reader(r,v);
+        list * _Zbind = GC_OBJECT(list,bind_I_meta_reader(r,v));
         Let * x;
         { { Let * _CL_obj = ((Let *) GC_OBJECT(Let,new_object_class(Language._Let)));
             (_CL_obj->var = v);
             (_CL_obj->value = OBJECT(Assign,_Zdef)->arg);
-            { Let * g0027 = _CL_obj; 
-              OID  g0028;
+            { Let * g0030 = _CL_obj; 
+              OID  g0031;
               if (firstc_meta_reader(r) == 44)
-               g0028 = readlet_meta_reader(cnext_meta_reader(r),e);
-              else g0028 = nexts_meta_reader(r,e);
-                (g0027->arg = g0028);} 
+               g0031 = readlet_meta_reader(cnext_meta_reader(r),e);
+              else g0031 = nexts_meta_reader(r,e);
+                (g0030->arg = g0031);} 
             add_I_property(Kernel.instances,Language._Let,11,_oid_(_CL_obj));
             x = _CL_obj;
             } 
@@ -439,11 +441,11 @@ OID  readlet_meta_reader(meta_reader *r,keyword *e)
             } 
           GC_OBJECT(Variable,v2);} 
         list * _Za = GC_OBJECT(list,OBJECT(Call,_Zdef)->args);
-        OID  _Ze = nexts_meta_reader(r,e);
+        OID  _Ze = GC_OID(nexts_meta_reader(r,e));
         Let_plus * _CL_obj = ((Let_plus *) GC_OBJECT(Let_plus,new_object_class(Language._Let_plus)));
         (_CL_obj->var = v1);
-        { Let * g0029 = _CL_obj; 
-          OID  g0030;
+        { Let * g0032 = _CL_obj; 
+          OID  g0033;
           { Call_plus * _CL_obj = ((Call_plus *) GC_OBJECT(Call_plus,new_object_class(Language._Call_plus)));
             update_property(Kernel.selector,
               _CL_obj,
@@ -452,40 +454,40 @@ OID  readlet_meta_reader(meta_reader *r,keyword *e)
               (*(_Za))[1]);
             (_CL_obj->args = list::alloc(1,(*(_Za))[2]));
             add_I_property(Kernel.instances,Language._Call_plus,11,_oid_(_CL_obj));
-            g0030 = _oid_(_CL_obj);
+            g0033 = _oid_(_CL_obj);
             } 
-          (g0029->value = g0030);} 
-        { Let * g0031 = _CL_obj; 
-          OID  g0032;
+          (g0032->value = g0033);} 
+        { Let * g0034 = _CL_obj; 
+          OID  g0035;
           { Do * _CL_obj = ((Do *) GC_OBJECT(Do,new_object_class(Language._Do)));
-            { Do * g0033 = _CL_obj; 
-              list * g0034;
+            { Do * g0036 = _CL_obj; 
+              list * g0037;
               { OID v_bag;
-                GC_ANY(g0034= list::empty(Kernel._any));
-                ((list *) g0034)->addFast(_Zdef);
+                GC_ANY(g0037= list::empty(Kernel._any));
+                ((list *) g0037)->addFast(_Zdef);
                 { { Let * _CL_obj = ((Let *) GC_OBJECT(Let,new_object_class(Language._Let)));
                     (_CL_obj->var = v2);
                     (_CL_obj->value = _Ze);
-                    { Let * g0035 = _CL_obj; 
-                      OID  g0036;
+                    { Let * g0038 = _CL_obj; 
+                      OID  g0039;
                       { Do * _CL_obj = ((Do *) GC_OBJECT(Do,new_object_class(Language._Do)));
                         (_CL_obj->args = list::alloc(Kernel._any,2,GC_OID(_oid_(Call_I_property(Core.write,list::alloc(3,(*(_Za))[1],
                           (*(_Za))[2],
                           _oid_(v1))))),_oid_(v2)));
                         add_I_property(Kernel.instances,Language._Do,11,_oid_(_CL_obj));
-                        g0036 = _oid_(_CL_obj);
+                        g0039 = _oid_(_CL_obj);
                         } 
-                      (g0035->arg = g0036);} 
+                      (g0038->arg = g0039);} 
                     add_I_property(Kernel.instances,Language._Let,11,_oid_(_CL_obj));
                     v_bag = _oid_(_CL_obj);
                     } 
                   GC_OID(v_bag);} 
-                ((list *) g0034)->addFast(v_bag);} 
-              (g0033->args = g0034);} 
+                ((list *) g0037)->addFast(v_bag);} 
+              (g0036->args = g0037);} 
             add_I_property(Kernel.instances,Language._Do,11,_oid_(_CL_obj));
-            g0032 = _oid_(_CL_obj);
+            g0035 = _oid_(_CL_obj);
             } 
-          (g0031->arg = g0032);} 
+          (g0034->arg = g0035);} 
         add_I_property(Kernel.instances,Language._Let_plus,11,_oid_(_CL_obj));
         Result = _oid_(_CL_obj);
         } 
@@ -504,7 +506,7 @@ OID  readlet_star_meta_reader(meta_reader *r,list *l,int n,keyword *e)
     if (n > l->length)
      Result = nexts_meta_reader(r,e);
     else { Variable * v = GC_OBJECT(Variable,extract_variable_any(GC_OID((*Language.var)((*(l))[n]))));
-        list * _Zbind = bind_I_meta_reader(r,v);
+        list * _Zbind = GC_OBJECT(list,bind_I_meta_reader(r,v));
         Let * x;
         { { Let * _CL_obj = ((Let *) GC_OBJECT(Let,new_object_class(Language._Let)));
             (_CL_obj->var = v);
@@ -530,19 +532,19 @@ OID  readwhen_meta_reader(meta_reader *r,keyword *e)
     { OID  _Zdef = GC_OID(nexts_I_meta_reader3(r,Reader.in,44));
       if (INHERIT(OWNER(_Zdef),Language._Assign))
        { Variable * v = GC_OBJECT(Variable,extract_variable_any(GC_OID(OBJECT(Assign,_Zdef)->var)));
-        list * _Zbind = bind_I_meta_reader(r,v);
-        OID  _Za = nexts_meta_reader(r,Reader._cl_else);
+        list * _Zbind = GC_OBJECT(list,bind_I_meta_reader(r,v));
+        OID  _Za = GC_OID(nexts_meta_reader(r,Reader._cl_else));
         When * x;
         { { When * _CL_obj = ((When *) GC_OBJECT(When,new_object_class(Language._When)));
             (_CL_obj->var = v);
             (_CL_obj->value = OBJECT(Assign,_Zdef)->arg);
             (_CL_obj->arg = _Za);
-            { When * g0037 = _CL_obj; 
-              OID  g0038;
+            { When * g0040 = _CL_obj; 
+              OID  g0041;
               if (boolean_I_any(stop_ask_integer(firstc_meta_reader(r))) == CTRUE)
-               g0038 = CNULL;
-              else g0038 = nexts_meta_reader(r,e);
-                (g0037->other = g0038);} 
+               g0041 = CNULL;
+              else g0041 = nexts_meta_reader(r,e);
+                (g0040->other = g0041);} 
             add_I_property(Kernel.instances,Language._When,11,_oid_(_CL_obj));
             x = _CL_obj;
             } 
@@ -563,23 +565,23 @@ OID  readif_meta_reader(meta_reader *r,int e)
 { GC_BIND;
   { OID Result = 0;
     { OID  _Za1 = GC_OID(nexte_meta_reader(r));
-      OID  _Za2 = nexts_meta_reader(r,Reader._cl_else);
+      OID  _Za2 = GC_OID(nexts_meta_reader(r,Reader._cl_else));
       If * _CL_obj = ((If *) GC_OBJECT(If,new_object_class(Language._If)));
       (_CL_obj->test = _Za1);
       (_CL_obj->arg = _Za2);
-      { If * g0039 = _CL_obj; 
-        OID  g0040;
+      { If * g0042 = _CL_obj; 
+        OID  g0043;
         if ((firstc_meta_reader(r) == 44) || 
             (firstc_meta_reader(r) == e))
-         g0040 = Kernel.cfalse;
+         g0043 = Kernel.cfalse;
         else { OID  x = GC_OID(nexte_meta_reader(r));
             if (x == _oid_(Reader._cl_if))
-             g0040 = readif_meta_reader(r,e);
+             g0043 = readif_meta_reader(r,e);
             else if (keyword_ask_any(x) == CTRUE)
-             g0040 = nextstruct_meta_reader(r,OBJECT(keyword,x),Reader.none);
-            else g0040 = loopexp_meta_reader(r,x,Reader.none,CFALSE);
+             g0043 = nextstruct_meta_reader(r,OBJECT(keyword,x),Reader.none);
+            else g0043 = loopexp_meta_reader(r,x,Reader.none,CFALSE);
               } 
-          (g0039->other = g0040);} 
+          (g0042->other = g0043);} 
       add_I_property(Kernel.instances,Language._If,11,_oid_(_CL_obj));
       Result = _oid_(_CL_obj);
       } 
@@ -610,7 +612,7 @@ OID  readcase_meta_reader(meta_reader *r,keyword *e)
           { GC_LOOP;
             next_meta_reader(r);
             GC__OID(_Zt = _oid_(extract_type_any(GC_OID(nexte_meta_reader(r)))), 6);
-            (_Zx->args = GC_OBJECT(list,_Zx->args)->addFast(_Zt)->addFast(nexts_meta_reader(r,Reader.none)));
+            (_Zx->args = GC_OBJECT(list,GC_OBJECT(list,_Zx->args)->addFast(_Zt))->addFast(GC_OID(nexts_meta_reader(r,Reader.none))));
             if ((boolean_I_any(stop_ask_integer(firstc_meta_reader(r))) != CTRUE) && 
                 (boolean_I_any(stop_ask_integer(skipc_meta_reader(r))) != CTRUE))
              Serror_string("[167] missing ) or , after ~S",list::alloc(1,_oid_(_Zx)));
@@ -642,23 +644,23 @@ OID  readset_meta_reader(meta_reader *r,OID _Za1)
          _Za1= GC_OID(nextstruct_meta_reader(r,OBJECT(keyword,_Za1),Reader.none));
         { OID  _Za2 = GC_OID(nexte_meta_reader(r));
           if (equal(_Za2,r->comma) == CTRUE)
-           { bag * V_CL0041;{ set * g0042UU;
+           { bag * V_CL0044;{ set * g0045UU;
               { set * u_bag = set::empty(Kernel.emptySet);
                 { OID gc_local;
                   ITERATE(u);
                   bag *u_support;
-                  u_support = cons_any(_Za1,GC_OBJECT(list,OBJECT(list,nextseq_meta_reader(cnext_meta_reader(r),125))));
+                  u_support = GC_OBJECT(list,cons_any(_Za1,GC_OBJECT(list,OBJECT(list,nextseq_meta_reader(cnext_meta_reader(r),125)))));
                   for (START(u_support); NEXT(u);)
                   { GC_LOOP;
                     u_bag->addFast(GC_OID(dereference_any(u)));
                     GC_UNLOOP;} 
                   } 
-                g0042UU = GC_OBJECT(set,u_bag);
+                g0045UU = GC_OBJECT(set,u_bag);
                 } 
-              V_CL0041 = cast_I_bag(g0042UU,Kernel.emptySet);
+              V_CL0044 = cast_I_bag(g0045UU,Kernel.emptySet);
               } 
             
-            Result=_oid_(V_CL0041);} 
+            Result=_oid_(V_CL0044);} 
           else if (equal(_Za2,r->curly) == CTRUE)
            { next_meta_reader(r);
             Result = _oid_(cast_I_bag(set::alloc(1,GC_OID(dereference_any(_Za1))),Kernel.emptySet));
@@ -668,32 +670,32 @@ OID  readset_meta_reader(meta_reader *r,OID _Za1)
             Select * _CL_obj = ((Select *) GC_OBJECT(Select,new_object_class(Language._Select)));
             (_CL_obj->var = v);
             (_CL_obj->set_arg = nexte_meta_reader(r));
-            { Iteration * g0043 = _CL_obj; 
-              OID  g0044;
-              { list * _Zbind = bind_I_meta_reader(r,v);
+            { Iteration * g0046 = _CL_obj; 
+              OID  g0047;
+              { list * _Zbind = GC_OBJECT(list,bind_I_meta_reader(r,v));
                 OID  x;
                 { if (equal(GC_OID(nexte_meta_reader(r)),GC_OID(Reader.OR->value)) != CTRUE)
                    Serror_string("[168] missing | in selection",Kernel.nil);
                   else x = nexts_I_meta_reader2(r,125);
                     GC_OID(x);} 
                 unbind_I_meta_reader(r,_Zbind);
-                g0044 = x;
+                g0047 = x;
                 } 
-              (g0043->arg = g0044);} 
+              (g0046->arg = g0047);} 
             add_I_property(Kernel.instances,Language._Select,11,_oid_(_CL_obj));
             Result = _oid_(_CL_obj);
             } 
           else if (equal(_Za2,Reader.OR->value) == CTRUE)
-           { Variable * v = GC_OBJECT(Variable,extract_variable_any(nexts_I_meta_reader1(r,Reader.in)));
-            { OID  g0045UU;
+           { Variable * v = GC_OBJECT(Variable,extract_variable_any(GC_OID(nexts_I_meta_reader1(r,Reader.in))));
+            { OID  g0048UU;
               { Image * _CL_obj = ((Image *) GC_OBJECT(Image,new_object_class(Language._Image)));
                 (_CL_obj->var = v);
                 (_CL_obj->set_arg = nexts_I_meta_reader2(r,125));
                 (_CL_obj->arg = substitution_any(_Za1,v,_oid_(v)));
                 add_I_property(Kernel.instances,Language._Image,11,_oid_(_CL_obj));
-                g0045UU = _oid_(_CL_obj);
+                g0048UU = _oid_(_CL_obj);
                 } 
-              Result = lexical_build_any(g0045UU,GC_OBJECT(list,list::alloc(1,_oid_(v))),0);
+              Result = lexical_build_any(g0048UU,GC_OBJECT(list,list::alloc(1,_oid_(v))),0);
               } 
             } 
           else if (operation_ask_any(_Za2) == CTRUE)
@@ -709,15 +711,15 @@ OID  readset_meta_reader(meta_reader *r,OID _Za1)
 OID  dereference_any(OID x)
 { { OID Result = 0;
     if (INHERIT(OWNER(x),Kernel._unbound_symbol))
-     { OID  V_CL0046;close_exception(((general_error *) (*Core._general_error)(_string_("[170] cannot use ~S in a set constant"),
+     { OID  V_CL0049;close_exception(((general_error *) (*Core._general_error)(_string_("[170] cannot use ~S in a set constant"),
         _oid_(list::alloc(1,x)))));
       
-      Result=_void_(V_CL0046);} 
+      Result=_void_(V_CL0049);} 
     else if (INHERIT(OWNER(x),Language._Variable))
-     { OID  V_CL0047;close_exception(((general_error *) (*Core._general_error)(_string_("[170] cannot use a variable (~S) in a set constant"),
+     { OID  V_CL0050;close_exception(((general_error *) (*Core._general_error)(_string_("[170] cannot use a variable (~S) in a set constant"),
         _oid_(list::alloc(1,x)))));
       
-      Result=_void_(V_CL0047);} 
+      Result=_void_(V_CL0050);} 
     else Result = OPT_EVAL(x);
       return (Result);} 
   } 
@@ -733,7 +735,7 @@ OID  nextseq_meta_reader(meta_reader *r,int e)
      { next_meta_reader(r);
       Result = _oid_(list::empty());
       } 
-    else { OID  x = nexts_meta_reader(r,Reader.none);
+    else { OID  x = GC_OID(nexts_meta_reader(r,Reader.none));
         if ((firstc_meta_reader(r) == 10) && 
             (r->toplevel == CTRUE))
          skipc_meta_reader(r);
@@ -767,15 +769,15 @@ OID  readblock_meta_reader(meta_reader *r,OID x,int e)
     else if (boolean_I_any(stop_ask_integer(firstc_meta_reader(r))) == CTRUE)
      Serror_string("[172] the sequence ...~S must end with ~A",list::alloc(2,x,_oid_(char_I_integer(e))));
     else if (x == _oid_(Reader._cl_if))
-     Result = readblock_meta_reader(r,readif_meta_reader(r,e),e);
+     Result = readblock_meta_reader(r,GC_OID(readif_meta_reader(r,e)),e);
     else if (x == _oid_(Reader._cl_Zif))
      { If * _Zi = GC_OBJECT(If,OBJECT(If,readif_meta_reader(r,e)));
-      { OID  g0048UU;
+      { OID  g0051UU;
         { if (boolean_I_any(eval_any(GC_OID(_Zi->test))) == CTRUE)
-           g0048UU = _Zi->arg;
-          else g0048UU = _Zi->other;
-            GC_OID(g0048UU);} 
-        Result = readblock_meta_reader(r,g0048UU,e);
+           g0051UU = _Zi->arg;
+          else g0051UU = _Zi->other;
+            GC_OID(g0051UU);} 
+        Result = readblock_meta_reader(r,g0051UU,e);
         } 
       } 
     else if (x == _oid_(Reader._cl_else))
@@ -817,9 +819,9 @@ ClaireType * extract_of_type_Call(Call *x)
       if (l->length > 2)
        { OID  y = (*(l))[3];
         if (INHERIT(OWNER(y),Language._List))
-         { OID  z = (*(OBJECT(Construct,y)->args))[1];
+         { OID  z = GC_OID((*(OBJECT(Construct,y)->args))[1]);
           if (INHERIT(OWNER(z),Language._Set))
-           Result = extract_type_any((*(OBJECT(Construct,z)->args))[1]);
+           Result = extract_type_any(GC_OID((*(OBJECT(Construct,z)->args))[1]));
           else Result = Kernel._any;
             } 
         else Result = Kernel._any;
@@ -836,7 +838,7 @@ ClaireType * extract_of_type_Call(Call *x)
 OID  readcall_meta_reader(meta_reader *r,OID x,OID t)
 { GC_BIND;
   { OID Result = 0;
-    { OID  l = nextseq_meta_reader(cnext_meta_reader(r),41);
+    { OID  l = GC_OID(nextseq_meta_reader(cnext_meta_reader(r),41));
       if (x == _oid_(Reader.PRINTF))
        { Printf * _CL_obj = ((Printf *) GC_OBJECT(Printf,new_object_class(Language._Printf)));
         store_object(_CL_obj,
@@ -891,13 +893,13 @@ OID  readcall_meta_reader(meta_reader *r,OID x,OID t)
         } 
       else if (x == _oid_(Reader.quote))
        { Quote * _CL_obj = ((Quote *) GC_OBJECT(Quote,new_object_class(Language._Quote)));
-        { Quote * g0050 = _CL_obj; 
-          OID  g0051;
+        { Quote * g0053 = _CL_obj; 
+          OID  g0054;
           if (boolean_I_any(l) == CTRUE)
-           g0051 = (*Kernel.nth)(l,
+           g0054 = (*Kernel.nth)(l,
             1);
-          else g0051 = Kernel.cfalse;
-            (g0050->arg = g0051);} 
+          else g0054 = Kernel.cfalse;
+            (g0053->arg = g0054);} 
         add_I_property(Kernel.instances,Language._Quote,11,_oid_(_CL_obj));
         Result = _oid_(_CL_obj);
         } 
@@ -973,79 +975,81 @@ OID  readcall_meta_reader(meta_reader *r,OID x,OID t)
       else if ((x == _oid_(Reader.RETURN)) || 
           (x == _oid_(Reader.BREAK)))
        { Return * _CL_obj = ((Return *) GC_OBJECT(Return,new_object_class(Language._Return)));
-        { Return * g0052 = _CL_obj; 
-          OID  g0053;
+        { Return * g0055 = _CL_obj; 
+          OID  g0056;
           if (boolean_I_any(l) == CTRUE)
-           g0053 = (*Kernel.nth)(l,
+           g0056 = (*Kernel.nth)(l,
             1);
-          else g0053 = Kernel.ctrue;
-            (g0052->arg = g0053);} 
+          else g0056 = Kernel.ctrue;
+            (g0055->arg = g0056);} 
         add_I_property(Kernel.instances,Language._Return,11,_oid_(_CL_obj));
         Result = _oid_(_CL_obj);
         } 
       else if (INHERIT(OWNER(x),Kernel._class))
-       { { ClaireBoolean * g0054I;
-          { OID  g0055UU;
-            { ClaireBoolean * V_CL0056;{ OID  g0057UU;
+       { { ClaireBoolean * g0057I;
+          { OID  g0058UU;
+            { ClaireBoolean * V_CL0059;{ OID  g0060UU;
                 { OID gc_local;
                   ITERATE(y);
-                  g0057UU= _oid_(CFALSE);
+                  g0060UU= _oid_(CFALSE);
                   bag *y_support;
                   y_support = GC_OBJECT(bag,enumerate_any(l));
                   for (START(y_support); NEXT(y);)
-                  { ClaireBoolean * g0058I;
-                    { OID  g0059UU;
-                      if (INHERIT(OWNER(y),Language._Call))
-                       { if (OBJECT(Call,y)->selector == Kernel._equal)
-                         { ((*(OBJECT(Call,y)->args))[1]=_oid_(make_a_property_any((*(OBJECT(Call,y)->args))[1])));
-                          g0059UU = Kernel.ctrue;
-                          } 
-                        else g0059UU = Kernel.cfalse;
-                          } 
-                      else g0059UU = Kernel.cfalse;
-                        g0058I = not_any(g0059UU);
-                      } 
-                    
-                    if (g0058I == CTRUE) { g0057UU = Kernel.ctrue;
-                        break;} 
-                      } 
+                  { GC_LOOP;
+                    { ClaireBoolean * g0061I;
+                      { OID  g0062UU;
+                        if (INHERIT(OWNER(y),Language._Call))
+                         { if (OBJECT(Call,y)->selector == Kernel._equal)
+                           { ((*(OBJECT(Call,y)->args))[1]=_oid_(make_a_property_any(GC_OID((*(OBJECT(Call,y)->args))[1]))));
+                            g0062UU = Kernel.ctrue;
+                            } 
+                          else g0062UU = Kernel.cfalse;
+                            } 
+                        else g0062UU = Kernel.cfalse;
+                          g0061I = not_any(g0062UU);
+                        } 
+                      
+                      if (g0061I == CTRUE) { g0060UU = Kernel.ctrue;
+                          break;} 
+                        } 
+                    GC_UNLOOP;} 
                   } 
-                V_CL0056 = not_any(g0057UU);
+                V_CL0059 = not_any(g0060UU);
                 } 
               
-              g0055UU=_oid_(V_CL0056);} 
-            g0054I = not_any(g0055UU);
+              g0058UU=_oid_(V_CL0059);} 
+            g0057I = not_any(g0058UU);
             } 
           
-          if (g0054I == CTRUE) { list * l2 = OBJECT(ClaireClass,x)->params;
+          if (g0057I == CTRUE) { list * l2 = OBJECT(ClaireClass,x)->params;
               int  n = ((INHERIT(l2->isa,Kernel._list)) ?
                 l2->length :
                 0 );
               if ((*Kernel.length)(l) == n)
-               { list * V_CL0060;{ list * i_bag = list::empty(Kernel.emptySet);
+               { list * V_CL0063;{ list * i_bag = list::empty(Kernel.emptySet);
                   { int  i = 1;
-                    int  g0049 = n;
+                    int  g0052 = n;
                     { OID gc_local;
-                      while ((i <= g0049))
+                      while ((i <= g0052))
                       { GC_LOOP;
-                        { OID  g0061UU;
+                        { OID  g0064UU;
                           { Call * _CL_obj = ((Call *) GC_OBJECT(Call,new_object_class(Language._Call)));
                             (_CL_obj->selector = Kernel._equal);
                             (_CL_obj->args = list::alloc(2,(*(l2))[i],GC_OID((*Kernel.nth)(l,
                               i))));
                             add_I_property(Kernel.instances,Language._Call,11,_oid_(_CL_obj));
-                            g0061UU = _oid_(_CL_obj);
+                            g0064UU = _oid_(_CL_obj);
                             } 
-                          i_bag->addFast(g0061UU);
+                          i_bag->addFast(g0064UU);
                           } 
                         ++i;
                         GC_UNLOOP;} 
                       } 
                     } 
-                  V_CL0060 = GC_OBJECT(list,i_bag);
+                  V_CL0063 = GC_OBJECT(list,i_bag);
                   } 
                 
-                l=_oid_(V_CL0060);} 
+                l=_oid_(V_CL0063);} 
               else Serror_string("[174] Wrong instantiation list ~S(~S...",list::alloc(2,x,GC_OID(_oid_(list::alloc(1,l)))));
                 } 
             } 
@@ -1064,22 +1068,22 @@ OID  readcall_meta_reader(meta_reader *r,OID x,OID t)
           Result = _oid_(_CL_obj);
           } 
         } 
-      else { ClaireBoolean * g0062I;
+      else { ClaireBoolean * g0065I;
         { ClaireBoolean *v_or;
           { v_or = inherit_ask_class(OWNER(x),Language._Variable);
-            if (v_or == CTRUE) g0062I =CTRUE; 
-            else { { OID  g0063UU;
+            if (v_or == CTRUE) g0065I =CTRUE; 
+            else { { OID  g0066UU;
                 if (INHERIT(OWNER(x),Core._global_variable))
-                 g0063UU = _oid_(OBJECT(global_variable,x)->range);
-                else g0063UU = Kernel.cfalse;
-                  v_or = boolean_I_any(g0063UU);
+                 g0066UU = _oid_(OBJECT(global_variable,x)->range);
+                else g0066UU = Kernel.cfalse;
+                  v_or = boolean_I_any(g0066UU);
                 } 
-              if (v_or == CTRUE) g0062I =CTRUE; 
-              else g0062I = CFALSE;} 
+              if (v_or == CTRUE) g0065I =CTRUE; 
+              else g0065I = CFALSE;} 
             } 
           } 
         
-        if (g0062I == CTRUE) Result = _oid_(Call_I_property(Core.call,cons_any(x,GC_OBJECT(list,((boolean_I_any(l) == CTRUE) ?
+        if (g0065I == CTRUE) Result = _oid_(Call_I_property(Core.call,cons_any(x,GC_OBJECT(list,((boolean_I_any(l) == CTRUE) ?
             OBJECT(list,l) :
             list::alloc(1,_oid_(ClEnv)) )))));
           else { property * p = make_a_property_any(x);
@@ -1141,19 +1145,19 @@ OID  nextdefinition_meta_reader(meta_reader *r,OID x,OID y,ClaireBoolean *old_as
     else if (y == _oid_(Reader.L_L_))
      { if (INHERIT(OWNER(x),Language._Call))
        { OID  ru = GC_OID(nexte_meta_reader(r));
-        OID  z = nexts_meta_reader(r,Reader._equal_sup);
+        OID  z = GC_OID(nexts_meta_reader(r,Reader._equal_sup));
         Defrule * _CL_obj = ((Defrule *) GC_OBJECT(Defrule,new_object_class(Language._Defrule)));
         (_CL_obj->ident = OBJECT(Call,x)->selector->name);
         (_CL_obj->args = OBJECT(Call,x)->args);
         (_CL_obj->arg = z);
-        { Defrule * g0064 = _CL_obj; 
-          OID  g0065;
+        { Defrule * g0067 = _CL_obj; 
+          OID  g0068;
           if (firstc_meta_reader(r) == 41)
            { next_meta_reader(r);
-            g0065 = Core.nil->value;
+            g0068 = Core.nil->value;
             } 
-          else g0065 = readblock_meta_reader(r,GC_OID(nexte_meta_reader(r)),41);
-            (g0064->body = g0065);} 
+          else g0068 = readblock_meta_reader(r,GC_OID(nexte_meta_reader(r)),41);
+            (g0067->body = g0068);} 
         add_I_property(Kernel.instances,Language._Defrule,11,_oid_(_CL_obj));
         Result = _oid_(_CL_obj);
         } 
@@ -1210,12 +1214,12 @@ OID  nextmethod_meta_reader(meta_reader *r,OID x,OID y,ClaireBoolean *table_ask,
             Kernel._object,
             x);
           (_CL_obj->set_arg = y);
-          { Defmethod * g0066 = _CL_obj; 
-            OID  g0067;
+          { Defmethod * g0069 = _CL_obj; 
+            OID  g0070;
             if (z == _oid_(Reader._cl_let))
-             g0067 = readlet_meta_reader(r,Reader.None);
-            else g0067 = z;
-              (g0066->body = g0067);} 
+             g0070 = readlet_meta_reader(r,Reader.None);
+            else g0070 = z;
+              (g0069->body = g0070);} 
           (_CL_obj->inline_ask = _oid_(inl_ask));
           add_I_property(Kernel.instances,Language._Defmethod,11,_oid_(_CL_obj));
           rs = _CL_obj;
@@ -1239,10 +1243,10 @@ OID  nextinst_meta_reader(meta_reader *r,OID x)
      { Defobj * _CL_obj = ((Defobj *) GC_OBJECT(Defobj,new_object_class(Language._Defobj)));
       (_CL_obj->ident = OBJECT(Variable,x)->pname);
       (_CL_obj->arg = Core._global_variable);
-      { Definition * g0068 = _CL_obj; 
-        list * g0069;
+      { Definition * g0071 = _CL_obj; 
+        list * g0072;
         { OID v_bag;
-          GC_ANY(g0069= list::empty(Kernel.emptySet));
+          GC_ANY(g0072= list::empty(Kernel.emptySet));
           { { Call * _CL_obj = ((Call *) GC_OBJECT(Call,new_object_class(Language._Call)));
               (_CL_obj->selector = Kernel._equal);
               (_CL_obj->args = list::alloc(2,_oid_(Kernel.range),GC_OID(_oid_(extract_type_any(GC_OID(_oid_(OBJECT(Variable,x)->range)))))));
@@ -1250,7 +1254,7 @@ OID  nextinst_meta_reader(meta_reader *r,OID x)
               v_bag = _oid_(_CL_obj);
               } 
             GC_OID(v_bag);} 
-          ((list *) g0069)->addFast(v_bag);
+          ((list *) g0072)->addFast(v_bag);
           { { Call * _CL_obj = ((Call *) GC_OBJECT(Call,new_object_class(Language._Call)));
               (_CL_obj->selector = Kernel._equal);
               (_CL_obj->args = list::alloc(2,_oid_(Kernel.value),GC_OID(nexte_meta_reader(r))));
@@ -1258,26 +1262,26 @@ OID  nextinst_meta_reader(meta_reader *r,OID x)
               v_bag = _oid_(_CL_obj);
               } 
             GC_OID(v_bag);} 
-          ((list *) g0069)->addFast(v_bag);} 
-        (g0068->args = g0069);} 
+          ((list *) g0072)->addFast(v_bag);} 
+        (g0071->args = g0072);} 
       add_I_property(Kernel.instances,Language._Defobj,11,_oid_(_CL_obj));
       Result = _oid_(_CL_obj);
       } 
     else if (INHERIT(OWNER(x),Language._Call))
      { OID  ru = GC_OID(nexte_meta_reader(r));
-      OID  z = nexts_meta_reader(r,Reader._equal_sup);
+      OID  z = GC_OID(nexts_meta_reader(r,Reader._equal_sup));
       Defrule * _CL_obj = ((Defrule *) GC_OBJECT(Defrule,new_object_class(Language._Defrule)));
       (_CL_obj->ident = OBJECT(Call,x)->selector->name);
       (_CL_obj->args = OBJECT(Call,x)->args);
       (_CL_obj->arg = z);
-      { Defrule * g0070 = _CL_obj; 
-        OID  g0071;
+      { Defrule * g0073 = _CL_obj; 
+        OID  g0074;
         if (firstc_meta_reader(r) == 41)
          { next_meta_reader(r);
-          g0071 = Core.nil->value;
+          g0074 = Core.nil->value;
           } 
-        else g0071 = readblock_meta_reader(r,GC_OID(nexte_meta_reader(r)),41);
-          (g0070->body = g0071);} 
+        else g0074 = readblock_meta_reader(r,GC_OID(nexte_meta_reader(r)),41);
+          (g0073->body = g0074);} 
       add_I_property(Kernel.instances,Language._Defrule,11,_oid_(_CL_obj));
       Result = _oid_(_CL_obj);
       } 
@@ -1303,10 +1307,10 @@ OID  nextinst_meta_reader(meta_reader *r,OID x)
         else { Defobj * _CL_obj = ((Defobj *) GC_OBJECT(Defobj,new_object_class(Language._Defobj)));
             (_CL_obj->ident = extract_symbol_any(x));
             (_CL_obj->arg = Core._global_variable);
-            { Definition * g0072 = _CL_obj; 
-              list * g0073;
+            { Definition * g0075 = _CL_obj; 
+              list * g0076;
               { OID v_bag;
-                GC_ANY(g0073= list::empty(Kernel.emptySet));
+                GC_ANY(g0076= list::empty(Kernel.emptySet));
                 { { Call * _CL_obj = ((Call *) GC_OBJECT(Call,new_object_class(Language._Call)));
                     (_CL_obj->selector = Kernel._equal);
                     (_CL_obj->args = list::alloc(2,_oid_(Kernel.range),_oid_(Kernel.emptySet)));
@@ -1314,7 +1318,7 @@ OID  nextinst_meta_reader(meta_reader *r,OID x)
                     v_bag = _oid_(_CL_obj);
                     } 
                   GC_OID(v_bag);} 
-                ((list *) g0073)->addFast(v_bag);
+                ((list *) g0076)->addFast(v_bag);
                 { { Call * _CL_obj = ((Call *) GC_OBJECT(Call,new_object_class(Language._Call)));
                     (_CL_obj->selector = Kernel._equal);
                     (_CL_obj->args = list::alloc(2,_oid_(Kernel.value),y));
@@ -1322,8 +1326,8 @@ OID  nextinst_meta_reader(meta_reader *r,OID x)
                     v_bag = _oid_(_CL_obj);
                     } 
                   GC_OID(v_bag);} 
-                ((list *) g0073)->addFast(v_bag);} 
-              (g0072->args = g0073);} 
+                ((list *) g0076)->addFast(v_bag);} 
+              (g0075->args = g0076);} 
             add_I_property(Kernel.instances,Language._Defobj,11,_oid_(_CL_obj));
             Result = _oid_(_CL_obj);
             } 
@@ -1353,23 +1357,23 @@ Defclass * nextDefclass_meta_reader(meta_reader *r,OID x,ClaireBoolean *old_ask)
         add_I_property(Kernel.instances,Language._Defclass,11,_oid_(_CL_obj));
         y = _CL_obj;
         } 
-      else { OID  l = nextseq_meta_reader(cnext_meta_reader(r),41);
+      else { OID  l = GC_OID(nextseq_meta_reader(cnext_meta_reader(r),41));
           { OID gc_local;
             ITERATE(y1);
             bag *y1_support;
             y1_support = GC_OBJECT(bag,enumerate_any(l));
             for (START(y1_support); NEXT(y1);)
-            { ClaireBoolean * g0074I;
-              { OID  g0075UU;
+            { ClaireBoolean * g0077I;
+              { OID  g0078UU;
                 if (INHERIT(OWNER(y1),Language._Call))
-                 g0075UU = _oid_(((OBJECT(Call,y1)->selector == Kernel._equal) ? ((INHERIT(OWNER((*(OBJECT(Call,y1)->args))[1]),Language._Vardef)) ? CTRUE: CFALSE): CFALSE));
+                 g0078UU = _oid_(((OBJECT(Call,y1)->selector == Kernel._equal) ? ((INHERIT(OWNER((*(OBJECT(Call,y1)->args))[1]),Language._Vardef)) ? CTRUE: CFALSE): CFALSE));
                 else if (INHERIT(OWNER(y1),Language._Vardef))
-                 g0075UU = Kernel.ctrue;
-                else g0075UU = Kernel.cfalse;
-                  g0074I = not_any(g0075UU);
+                 g0078UU = Kernel.ctrue;
+                else g0078UU = Kernel.cfalse;
+                  g0077I = not_any(g0078UU);
                 } 
               
-              if (g0074I == CTRUE) Serror_string("[175] Wrong form ~S in ~S(~S)",list::alloc(3,y1,
+              if (g0077I == CTRUE) Serror_string("[175] Wrong form ~S in ~S(~S)",list::alloc(3,y1,
                   c,
                   l));
                 } 

@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\inspect.cl 
-         [version 3.3.3 / safety 5] Sun Nov 23 11:55:47 2003 *****/
+         [version 3.3.34 / safety 5] Sun Mar 07 10:46:35 2004 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -40,9 +40,9 @@ OID  inspect_any(OID self)
       int  ix = 0;
       if (INHERIT(OWNER(self),Kernel._bag))
        { int  i = 1;
-        int  g0082 = OBJECT(bag,self)->length;
+        int  g0085 = OBJECT(bag,self)->length;
         { OID gc_local;
-          while ((i <= g0082))
+          while ((i <= g0085))
           { princ_integer(i);
             princ_string(": ");
             print_any((*(OBJECT(bag,self)))[i]);
@@ -71,22 +71,22 @@ OID  inspect_any(OID self)
               if (INHERIT(OWNER(val),Kernel._bag))
                { if (OBJECT(bag,val)->length < 10)
                  pretty_print_any(val);
-                else { { OID  g0084UU;
-                      { list * V_CL0085;{ list * i_bag = list::empty(Kernel.emptySet);
+                else { { OID  g0087UU;
+                      { list * V_CL0088;{ list * i_bag = list::empty(Kernel.emptySet);
                           { int  i = 1;
-                            int  g0083 = 9;
+                            int  g0086 = 9;
                             { OID gc_local;
-                              while ((i <= g0083))
+                              while ((i <= g0086))
                               { i_bag->addFast((*(OBJECT(bag,val)))[i]);
                                 ++i;
                                 } 
                               } 
                             } 
-                          V_CL0085 = GC_OBJECT(list,i_bag);
+                          V_CL0088 = GC_OBJECT(list,i_bag);
                           } 
                         
-                        g0084UU=_oid_(V_CL0085);} 
-                      pretty_print_any(g0084UU);
+                        g0087UU=_oid_(V_CL0088);} 
+                      pretty_print_any(g0087UU);
                       } 
                     pretty_print_any(_string_("..."));
                     } 
@@ -119,10 +119,10 @@ OID  inspect_loop_any(OID _Zread,list *old)
       if (inherit_ask_class(OWNER(n),Kernel._integer) != CTRUE)
        close_exception(((general_error *) (*Core._general_error)(_string_("[128] ~S should be an integer"),
         _oid_(list::alloc(1,n)))));
-      { OID  val = get_from_integer_any(self,n);
+      { OID  val = GC_OID(get_from_integer_any(self,n));
         (CLREAD(global_variable,new_class2(Core._global_variable,s),value) = val);
         inspect_any(val);
-        old= cons_any(val,old);
+        old= GC_OBJECT(list,cons_any(val,old));
         } 
       } 
     else if (_Zread == _oid_(Reader.up))
@@ -132,12 +132,12 @@ OID  inspect_loop_any(OID _Zread,list *old)
         } 
       } 
     else if (INHERIT(OWNER(_Zread),Kernel._integer))
-     { OID  val = get_from_integer_any(self,_Zread);
-      old= cons_any(val,old);
+     { OID  val = GC_OID(get_from_integer_any(self,_Zread));
+      old= GC_OBJECT(list,cons_any(val,old));
       inspect_any(val);
       } 
     else if (INHERIT(OWNER(_Zread),Kernel._thing))
-     { old= cons_any(_Zread,old);
+     { old= GC_OBJECT(list,cons_any(_Zread,old));
       inspect_any(_Zread);
       } 
     else princ_string("=> given to inspector is wrong.\n");
@@ -280,21 +280,21 @@ void  spy_listargs2_Reader(listargs *l)
         m,
         CFALSE);
       { OID gc_local;
-        ITERATE(g0086);
-        bag *g0086_support;
-        g0086_support = Kernel._property->descendents;
-        for (START(g0086_support); NEXT(g0086);)
-        { ClaireBoolean * g0087;
+        ITERATE(g0089);
+        bag *g0089_support;
+        g0089_support = Kernel._property->descendents;
+        for (START(g0089_support); NEXT(g0089);)
+        { ClaireBoolean * g0090;
           { OID V_C;{ OID gc_local;
               ITERATE(f);
               V_C= _oid_(CFALSE);
-              for (START(OBJECT(ClaireClass,g0086)->instances); NEXT(f);)
+              for (START(OBJECT(ClaireClass,g0089)->instances); NEXT(f);)
               if (l->memq(f) == CTRUE)
                (OBJECT(ClaireRelation,f)->if_write = Core.nil->value);
               } 
             
-            g0087=OBJECT(ClaireBoolean,V_C);} 
-          if (g0087 == CTRUE)
+            g0090=OBJECT(ClaireBoolean,V_C);} 
+          if (g0090 == CTRUE)
            { ;break;} 
           } 
         } 
@@ -327,7 +327,7 @@ OID  self_trace_Trace(Trace *self)
 void  trace_rule_relation(ClaireRelation *R,char *s,OID x,OID y,OID u,OID v)
 { GC_BIND;
   if (5 <= (Kernel.if_write->trace_I+ClEnv->verbose))
-   { OID  p = get_property(Kernel.ctrace,ClEnv);
+   { OID  p = GC_OID(get_property(Kernel.ctrace,ClEnv));
     if (p != CNULL)
      p= GC_OID(ClAlloc->import(Kernel._port,(int *) use_as_output_port(EXPORT((ClairePort *),p))));
     princ_string("--- the rule ");
@@ -449,9 +449,9 @@ void  breakpoint_void()
       princ_string("(");
       print_any(GC_OID(ClEnv->stack[start]));
       { int  i = (start+1);
-        int  g0088 = (start+num_args);
+        int  g0092 = (start+num_args);
         { OID gc_local;
-          while ((i <= g0088))
+          while ((i <= g0092))
           { GC_LOOP;
             princ_string(",");
             print_any(GC_OID(ClEnv->stack[i]));
@@ -554,9 +554,9 @@ void  print_debug_info_integer(int index,int stack_level,int cur_index)
     princ_integer((cur_index+stack_level));
     princ_string("]>");
     { int  x = 1;
-      int  g0089 = stack_level;
+      int  g0093 = stack_level;
       { OID gc_local;
-        while ((x <= g0089))
+        while ((x <= g0093))
         { princ_string(">");
           ++x;
           } 
@@ -567,9 +567,9 @@ void  print_debug_info_integer(int index,int stack_level,int cur_index)
     princ_string("(");
     print_any(GC_OID(ClEnv->stack[start]));
     { int  i = (start+1);
-      int  g0090 = (start+num_args);
+      int  g0094 = (start+num_args);
       { OID gc_local;
-        while ((i <= g0090))
+        while ((i <= g0094))
         { GC_LOOP;
           princ_string(",");
           print_any(GC_OID(ClEnv->stack[i]));
@@ -606,9 +606,9 @@ OID  Show_integer(int n)
             print_any(num_args);
             princ_string(" \n");
             { int  j = 0;
-              int  g0091 = num_args;
+              int  g0095 = num_args;
               { OID gc_local;
-                while ((j <= g0091))
+                while ((j <= g0095))
                 { GC_LOOP;
                   princ_string("  [");
                   princ_integer((j+i));
@@ -700,7 +700,7 @@ void  block_integer(int x)
 list * closure_build_lambda(lambda *self)
 { GC_BIND;
   { list *Result ;
-    { list * lvar = make_list_integer(self->dimension,_oid_(Kernel.emptySet));
+    { list * lvar = GC_OBJECT(list,make_list_integer(self->dimension,_oid_(Kernel.emptySet)));
       { OID gc_local;
         ITERATE(x);
         for (START(self->vars); NEXT(x);)
@@ -899,48 +899,48 @@ int  PRcounter_property(property *p)
 void  PRshow_void()
 { { list * l = list::empty(Kernel._property);
     { OID gc_local;
-      ITERATE(g0092);
-      bag *g0092_support;
-      g0092_support = Kernel._property->descendents;
-      for (START(g0092_support); NEXT(g0092);)
-      { ClaireBoolean * g0093;
+      ITERATE(g0096);
+      bag *g0096_support;
+      g0096_support = Kernel._property->descendents;
+      for (START(g0096_support); NEXT(g0096);)
+      { ClaireBoolean * g0097;
         { OID V_C;{ OID gc_local;
             ITERATE(p);
             V_C= _oid_(CFALSE);
-            for (START(OBJECT(ClaireClass,g0092)->instances); NEXT(p);)
-            { ClaireBoolean * g0095I;
-              { OID  g0096UU;
+            for (START(OBJECT(ClaireClass,g0096)->instances); NEXT(p);)
+            { ClaireBoolean * g0099I;
+              { OID  g0100UU;
                 { int  i = 1;
-                  int  g0094 = min_integer(10,l->length);
+                  int  g0098 = min_integer(10,l->length);
                   { OID gc_local;
-                    g0096UU= _oid_(CFALSE);
-                    while ((i <= g0094))
-                    { { ClaireBoolean * g0097I;
+                    g0100UU= _oid_(CFALSE);
+                    while ((i <= g0098))
+                    { { ClaireBoolean * g0101I;
                         if ((PRtime_property(OBJECT(property,p)) > PRtime_property(OBJECT(property,(*(l))[i]))) || 
                             ((PRtime_property(OBJECT(property,p)) == PRtime_property(OBJECT(property,(*(l))[i]))) && 
                                 (PRcounter_property(OBJECT(property,p)) > PRcounter_property(OBJECT(property,(*(l))[i])))))
                          { l= add_at_list(l,i,p);
-                          g0097I = CTRUE;
+                          g0101I = CTRUE;
                           } 
-                        else g0097I = CFALSE;
+                        else g0101I = CFALSE;
                           
-                        if (g0097I == CTRUE) { g0096UU = Kernel.ctrue;
+                        if (g0101I == CTRUE) { g0100UU = Kernel.ctrue;
                             break;} 
                           } 
                       ++i;
                       } 
                     } 
                   } 
-                g0095I = boolean_I_any(g0096UU);
+                g0099I = boolean_I_any(g0100UU);
                 } 
               
-              if (g0095I == CTRUE) ;else if (l->length < 10)
+              if (g0099I == CTRUE) ;else if (l->length < 10)
                l= l->addFast(p);
               } 
             } 
           
-          g0093=OBJECT(ClaireBoolean,V_C);} 
-        if (g0093 == CTRUE)
+          g0097=OBJECT(ClaireBoolean,V_C);} 
+        if (g0097 == CTRUE)
          { ;break;} 
         } 
       } 
@@ -980,20 +980,20 @@ set * dependents_method(method *self)
         bag *p_support;
         p_support = GC_OBJECT(bag,enumerate_any(GC_OID((*Reader.dependents)(self->formula->body))));
         for (START(p_support); NEXT(p);)
-        { ClaireBoolean * g0098I;
-          { OID  g0099UU;
+        { ClaireBoolean * g0102I;
+          { OID  g0103UU;
             { OID gc_local;
               ITERATE(r);
-              g0099UU= _oid_(CFALSE);
+              g0103UU= _oid_(CFALSE);
               for (START(OBJECT(property,p)->restrictions); NEXT(r);)
               if (Kernel._method == OBJECT(ClaireObject,r)->isa)
-               { g0099UU = Kernel.ctrue;
+               { g0103UU = Kernel.ctrue;
                 break;} 
               } 
-            g0098I = boolean_I_any(g0099UU);
+            g0102I = boolean_I_any(g0103UU);
             } 
           
-          if (g0098I == CTRUE) p_out->addFast(p);
+          if (g0102I == CTRUE) p_out->addFast(p);
             } 
         } 
       Result = GC_OBJECT(set,p_out);

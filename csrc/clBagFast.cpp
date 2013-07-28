@@ -112,7 +112,7 @@ bag *copy_bag(bag *l)
  obj->length = l->length;
  if (ClAlloc->statusGC != 2)  GC_PUSH(obj);  // v3.2.30
  OID *x = ClAlloc->makeContent(l->length);
- // for (i = 1; i <= l->length ; i++) x[i] = (*l)[i];
+ //for (i = 1; i <= l->length ; i++) x[i] = (*l)[i];
  if (l->length) memcpy(x+1,l->content+1,sizeof(OID) * l->length);  //<sb> v3.3.33
  obj->content = x;
  return obj;}}
@@ -272,9 +272,10 @@ list *list::domain(int n, ...)
 list *list::addFast(OID x)
 {int i, m = length;
  if (m + 1 == (*this)[0])    // the memory zone is full
-    {OID *y = ClAlloc->makeContent(m + 1);
+    {OID *x = ClAlloc->makeContent(m + 1), *y = content;
+        //for (i = 1; i <= m; i++) x[i] = y[i];
         if (length) memcpy(y+1, content+1, sizeof(OID) * length); //<sb> v3.3.33
-        content = y;}
+        content = x;}
  length = m + 1;
  (*this)[m + 1] = x;        // add the element
  return this;}
@@ -319,7 +320,7 @@ list *cons_any(OID val, list *l)
    int i;
    OID *x = ClAlloc->makeContent(l->length + 1);
      x[1] = val;
-     // for (i = 1; i <= l->length; i++) x[i + 1] = (*l)[i];
+     //for (i = 1; i <= l->length; i++) x[i + 1] = (*l)[i];
      if(l->length) memcpy(x+2,l->content+1,sizeof(OID) * l->length);  //<sb> v3.3.33
      obj->length = l->length + 1;
      obj->content = x;
@@ -358,7 +359,7 @@ list *add_star_list(list *l1, list *l2)
        if (l1->of->contains(j) == CFALSE) Cerror(17,j,_oid_(l1));  // v3.2
  if (i + l2->length > l1->content[0])
     {OID *x = ClAlloc->makeContent(l1->length + l2->length);
-       // for ( i =1 ; i <= l1->length ; i++) x[i] = (*l1)[i];
+       //for ( i =1 ; i <= l1->length ; i++) x[i] = (*l1)[i];
        if (l1->length) memcpy(x+1,l1->content + 1, sizeof(OID) * l1->length);  //<sb> v3.3.33
        l1->content = x;}
  l1->length += l2->length;
@@ -391,11 +392,11 @@ list *add_at_list(list *l, int n, OID val)
  if (n <= 0 || n > m + 1) Cerror(5,n,_oid_(l));                                 // v3.2.24 !
  if (m + 1 == (*l)[0])
     {OID *x = ClAlloc->makeContent(m + 1);
-     // for (i = 1; i <= m; i++) x[i] = (*l)[i];
+     //for (i = 1; i <= m; i++) x[i] = (*l)[i];
      if (m) memcpy(x+1,l->content+1,sizeof(OID) * m);  //<sb> v3.3.33
      l->content = x;}
  l->length = m + 1;
- // for ( j = m; j >= n ; j-- ) (*l)[j + 1] = (*l)[j];
+ //for ( j = m; j >= n ; j-- ) (*l)[j + 1] = (*l)[j];
  if ((m + 1 - n) > 0) memmove(l->content + n + 1, l->content + n, sizeof(OID) * (m + 1 - n));  //<sb> v3.3.33
  (*l)[n] = val;
  return l;}
@@ -405,8 +406,8 @@ list *add_at_list(list *l, int n, OID val)
 list *delete_at_list (list *l, int n)
 {int j, m = l->length;
   if ((n < 1) || (n > m)) Cerror(5,n,_oid_(l));    // v3.2.44 : same error as 2.5
-  // for (j= n; j < m; j++) (*l)[j] = (*l)[j+1];
-  if (m - n) memmove(l->content+n, l->content + n + 1, sizeof(OID) * (m - n));  //<sb> v3.3.33
+  //for (j= n; j < m; j++) (*l)[j] = (*l)[j+1];
+  if(m - n) memmove(l->content+n, l->content + n + 1, sizeof(OID) * (m - n));  //<sb> v3.3.33
   l->length = (m - 1);
   return l;}
 
@@ -417,7 +418,7 @@ list *skip_list(list *l, int n)
     if (m <= n) l->length = 0;
     else {// for (i = n + 1; i <= m; i++) (*l)[i-n] = (*l)[i];
     	  int len = m - n;
-          if (len) memmove(l->content + 1, l->content + 1 + n, sizeof(OID) * len);  //<sb> v3.3.33
+          if(len) memmove(l->content + 1, l->content + 1 + n, sizeof(OID) * len);  //<sb> v3.3.33
           l->length = m - n;}
    return l; }
 

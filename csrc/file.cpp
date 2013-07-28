@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\file.cl 
-         [version 3.3.3 / safety 5] Sun Nov 23 11:55:46 2003 *****/
+         [version 3.3.34 / safety 5] Sun Mar 07 10:46:35 2004 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -30,10 +30,10 @@
 OID  self_eval_delimiter(delimiter *self)
 { next_meta_reader(Reader.reader);
   { OID Result = 0;
-    { OID  V_CL0076;close_exception(((general_error *) (*Core._general_error)(_string_("[117] loose delimiter ~S in program [line ~A ?]"),
+    { OID  V_CL0079;close_exception(((general_error *) (*Core._general_error)(_string_("[117] loose delimiter ~S in program [line ~A ?]"),
         _oid_(list::alloc(2,_oid_(self),Reader.reader->nb_line)))));
       
-      Result=_void_(V_CL0076);} 
+      Result=_void_(V_CL0079);} 
     return (Result);} 
   } 
 
@@ -228,7 +228,7 @@ OID  unbind_I_meta_reader(meta_reader *self,list *_Zfirst)
 char * _7_string(char *s,char *s2)
 { GC_BIND;
   { char *Result ;
-    Result = append_string(append_string(s,string_v(Reader._starfs_star->value)),s2);
+    Result = append_string(GC_STRING(append_string(s,GC_STRING(string_v(Reader._starfs_star->value)))),s2);
     GC_UNBIND; return (Result);} 
   } 
 
@@ -262,7 +262,7 @@ OID  load_file_string(char *self,ClaireBoolean *b)
   (Reader.reader->nb_line = 1);
   (Reader.reader->external = self);
   tformat_string("---- [load CLAIRE file: ~A]\n",2,list::alloc(1,_string_(self)));
-  { char * s2 = append_string(self,".cl");
+  { char * s2 = GC_STRING(append_string(self,".cl"));
     ClairePort * p1;
     { ClaireHandler c_handle = ClaireHandler();
       if ERROR_IN 
@@ -304,7 +304,7 @@ OID  load_file_string(char *self,ClaireBoolean *b)
            { if (Language.LastComment->value != CNULL)
              (Language.LastComment->value= (*Kernel._7_plus)(GC_OID(Language.LastComment->value),
               GC_OID(_string_(append_string("\n-- ",string_v(_staritem_star))))));
-            else (Language.LastComment->value= _string_(append_string(append_string(append_string(append_string(append_string("[",GC_STRING(Reader.reader->external)),"("),GC_STRING(string_I_integer (Reader.reader->nb_line))),")]\n-- "),string_v(_staritem_star))));
+            else (Language.LastComment->value= _string_(append_string(GC_STRING(append_string(GC_STRING(append_string(GC_STRING(append_string(GC_STRING(append_string("[",GC_STRING(Reader.reader->external))),"(")),GC_STRING(string_I_integer (Reader.reader->nb_line)))),")]\n-- ")),string_v(_staritem_star))));
               } 
           } 
         else { GC__OID(_staritem_star = OPT_EVAL(_staritem_star), 1);
@@ -355,14 +355,14 @@ void  load_file_module(module *self,ClaireBoolean *b)
   else if ((self->status == 0) && 
       (((self->source == (NULL)) ? CTRUE : CFALSE) != CTRUE))
    { begin_module(self);
-    { char * s = append_string(GC_STRING(self->source),string_v(Reader._starfs_star->value));
+    { char * s = GC_STRING(append_string(GC_STRING(self->source),GC_STRING(string_v(Reader._starfs_star->value))));
       { OID gc_local;
         ITERATE(x);
         bag *x_support;
         x_support = GC_OBJECT(list,self->made_of);
         for (START(x_support); NEXT(x);)
         { GC_LOOP;
-          load_file_string(append_string(append_string(s,string_v(x)),".cl"),b);
+          load_file_string(GC_STRING(append_string(GC_STRING(append_string(s,string_v(x))),".cl")),b);
           GC_UNLOOP;} 
         } 
       } 
@@ -424,7 +424,7 @@ list * add_modules_module(module *self,set *l,list *result)
     { list *Result ;
       if (contain_ask_set(l,_oid_(self)) == CTRUE)
        Result = result->addFast(_oid_(self));
-      else { l= l->addFast(_oid_(self));
+      else { l= GC_OBJECT(set,l->addFast(_oid_(self)));
           { OID gc_local;
             ITERATE(x);
             for (START(self->uses); NEXT(x);)
@@ -479,7 +479,7 @@ OID  eload_string(char *self)
   (Reader.reader->nb_line = 1);
   (Reader.reader->external = self);
   tformat_string("---- [eload CLAIRE file: ~A]\n",2,list::alloc(1,_string_(self)));
-  { char * s2 = append_string(self,".cl");
+  { char * s2 = GC_STRING(append_string(self,".cl"));
     ClairePort * p0 = (Reader.reader->fromp);
     ClairePort * p1;
     { ClaireHandler c_handle = ClaireHandler();
@@ -727,9 +727,9 @@ int  max_integer(int x,int y)
   } 
 
 
-/* The c++ function for: min(g0077:any,g0078:any) [RETURN_ARG] */
-OID  min_float_(OID g0077,OID g0078)
-{ return _float_(min_float(float_v(g0077),float_v(g0078)));} 
+/* The c++ function for: min(g0080:any,g0081:any) [RETURN_ARG] */
+OID  min_float_(OID g0080,OID g0081)
+{ return _float_(min_float(float_v(g0080),float_v(g0081)));} 
 
 
 /* The c++ function for: min(x:float,y:float) [RETURN_ARG] */
@@ -742,9 +742,9 @@ double  min_float(double x,double y)
   } 
 
 
-/* The c++ function for: max(g0079:any,g0080:any) [RETURN_ARG] */
-OID  max_float_(OID g0079,OID g0080)
-{ return _float_(max_float(float_v(g0079),float_v(g0080)));} 
+/* The c++ function for: max(g0082:any,g0083:any) [RETURN_ARG] */
+OID  max_float_(OID g0082,OID g0083)
+{ return _float_(max_float(float_v(g0082),float_v(g0083)));} 
 
 
 /* The c++ function for: max(x:float,y:float) [RETURN_ARG] */
@@ -785,7 +785,7 @@ list * hashgrow_list(list *l,property *hi)
 { GC_BIND;
   { list *Result ;
     { list * l1 = l;
-      list * l2 = make_list_integer((((*(l1))[0])*2),CNULL);
+      list * l2 = GC_OBJECT(list,make_list_integer((((*(l1))[0])*2),CNULL));
       { ITERATE(x);
         for (START(l1); NEXT(x);)
         if (x != CNULL)
@@ -810,9 +810,9 @@ ClaireBoolean * unknown_ask_table(table *a,OID x)
 { return (equal(get_table(a,x),CNULL));} 
 
 
-/* The c++ function for: float!(g0081:string) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
-OID  float_I_string_(char *g0081)
-{ return _float_(float_I_string(g0081));} 
+/* The c++ function for: float!(g0084:string) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
+OID  float_I_string_(char *g0084)
+{ return _float_(float_I_string(g0084));} 
 
 
 /* The c++ function for: float!(self:string) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */

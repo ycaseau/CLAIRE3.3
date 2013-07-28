@@ -633,6 +633,9 @@ class_princ(c:c_producer,self:class) : void
           Compile/identifiable?(a2.arg) |
           a1.set_arg = string | a1.set_arg = float))   // or float => will generate nice form
        equal_exp(c,a1.arg, pos?, a2.arg, true)
+     else if (a1 % to_protect & a1.arg % to_CL & not(c_gc?(a1.arg.arg)) & 
+              a2 % to_protect & a2.arg % to_CL & not(c_gc?(a2.arg.arg))) 
+          equal_exp(c,a1.arg,pos?,a2.arg,id?)   // v3.3.32: gc-protect because of to_cl -> remove them
      else if (c_sort(a1) = string & c_sort(a2) = string &
               not(case a2 (to_C (a2.arg = unknown))))
         printf("(equal_string(~I,~I) ~I CTRUE)",
@@ -649,7 +652,8 @@ class_princ(c:c_producer,self:class) : void
             (warn(), trace(2,"~S = ~S will fail ! [263]",a1,a2)),
          printf("(~I ~I ~I)", bexpression(a1, nil), sign_equal(pos?),
                 bexpression(a2, nil)))
-     else printf("(equal(~I,~I) ~I CTRUE)",
+     
+    else printf("(equal(~I,~I) ~I CTRUE)",
                  expression(a1, nil),
                  expression(a2, nil), sign_equal(pos?)) ]
 
@@ -693,7 +697,8 @@ cast!(c:c_producer,self:C_cast,loop:any) : void
 // we use a place reserved in the stack (note the optimization if OPT.loop_index = 0)
 // v3.2.32: trap the integer case ...
 [gc_protection_exp(c:c_producer,v:Variable,exp?:boolean,u:any,loop:any) : void
-  -> if (osort(v.range) = float | osort(v.range) = integer)     // in v3.0 double are NOT protected !
+  -> c.stat :+ 1,          // v3.3.32
+     if (osort(v.range) = float | osort(v.range) = integer)     // in v3.0 double are NOT protected !
         printf("(~I=~I)",ident(c,v),             // v3.0.72
                (if exp? expression(u,loop) else c_princ(u as string)))
      else printf("GC__~A(~I~I, ~A)",

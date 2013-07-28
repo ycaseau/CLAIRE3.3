@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file c:\claire\v3.3\src\compile\gexp.cl 
-         [version 3.3.3 / safety 5] Sun Nov 23 11:55:52 2003 *****/
+         [version 3.3.34 / safety 5] Sun Mar 07 10:46:40 2004 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -12,16 +12,16 @@ ClaireBoolean * c_func_any(OID v1140)
 { GC_RESERVE(1);  // HOHO v3.0.55 optim !
   { ClaireBoolean *Result ;
     if (INHERIT(OWNER(v1140),Kernel._bag))
-     { OID  v15331;
+     { OID  v2790;
       { OID gc_local;
         ITERATE(v7248);
-        v15331= _oid_(CFALSE);
+        v2790= _oid_(CFALSE);
         for (START(OBJECT(bag,v1140)); NEXT(v7248);)
         if (c_func_any(v7248) != CTRUE)
-         { v15331 = Kernel.ctrue;
+         { v2790 = Kernel.ctrue;
           break;} 
         else ;} 
-      Result = not_any(v15331);
+      Result = not_any(v2790);
       } 
     else if (INHERIT(OWNER(v1140),Language._Construct))
      { if (((INHERIT(OBJECT(ClaireObject,v1140)->isa,Language._Set)) || 
@@ -30,9 +30,9 @@ ClaireBoolean * c_func_any(OID v1140)
        { ClaireBoolean *v_and;
         { v_and = ((OBJECT(Construct,v1140)->args->length < 15) ? CTRUE : CFALSE);
           if (v_and == CFALSE) Result =CFALSE; 
-          else { { OID  v16291;
-              { ClaireBoolean * v8223;{ OID  v1831;
-                  { set * v8225;{ set * v4832 = set::empty(Kernel.emptySet);
+          else { { OID  v3751;
+              { ClaireBoolean * v8227;{ OID  v9470;
+                  { set * v8250;{ set * v4832 = set::empty(Kernel.emptySet);
                       { OID gc_local;
                         ITERATE(v7248);
                         bag *v7248_support;
@@ -41,15 +41,15 @@ ClaireBoolean * c_func_any(OID v1140)
                         if (c_func_any(v7248) != CTRUE)
                          v4832->addFast(v7248);
                         } 
-                      v8225 = GC_OBJECT(set,v4832);
+                      v8250 = GC_OBJECT(set,v4832);
                       } 
                     
-                    v1831=_oid_(v8225);} 
-                  v8223 = boolean_I_any(v1831);
+                    v9470=_oid_(v8250);} 
+                  v8227 = boolean_I_any(v9470);
                   } 
                 
-                v16291=_oid_(v8223);} 
-              v_and = ((v16291 != Kernel.ctrue) ? CTRUE : CFALSE);
+                v3751=_oid_(v8227);} 
+              v_and = ((v3751 != Kernel.ctrue) ? CTRUE : CFALSE);
               } 
             if (v_and == CFALSE) Result =CFALSE; 
             else Result = CTRUE;} 
@@ -155,8 +155,8 @@ void  expression_string(char *v1140,OID v15308)
     _string_(v1140));
   } 
 
-void  expression_float_(OID v6599,OID v6600)
-{ expression_float(float_v(v6599),v6600);} 
+void  expression_float_(OID v6624,OID v6625)
+{ expression_float(float_v(v6624),v6625);} 
 
 void  expression_float(double v1140,OID v15308)
 { princ_float(v1140);
@@ -184,15 +184,15 @@ void  expression_global_variable(global_variable *v1140,OID v15308)
 
 void  expression_Set(Set *v1140,OID v15308)
 { GC_BIND;
-  { OID  v9470;
+  { OID  v13314;
     { if (((v1140->of == (NULL)) ? CTRUE : CFALSE) != CTRUE)
-       v9470 = _oid_(v1140->of);
-      else v9470 = _oid_(Kernel._void);
-        GC_OID(v9470);} 
+       v13314 = _oid_(v1140->of);
+      else v13314 = _oid_(Kernel._void);
+        GC_OID(v13314);} 
     (*Generate.bag_expression)(Generate.PRODUCER->value,
       _oid_(Kernel._set),
       GC_OID(_oid_(v1140->args)),
-      v9470,
+      v13314,
       v15308);
     } 
   GC_UNBIND;} 
@@ -227,15 +227,15 @@ void  expression_tuple(tuple *v1140,OID v15308)
 
 void  expression_List(List *v1140,OID v15308)
 { GC_BIND;
-  { OID  v10431;
+  { OID  v14275;
     { if (((v1140->of == (NULL)) ? CTRUE : CFALSE) != CTRUE)
-       v10431 = _oid_(v1140->of);
-      else v10431 = _oid_(Kernel._void);
-        GC_OID(v10431);} 
+       v14275 = _oid_(v1140->of);
+      else v14275 = _oid_(Kernel._void);
+        GC_OID(v14275);} 
     (*Generate.bag_expression)(Generate.PRODUCER->value,
       _oid_(Kernel._list),
       GC_OID(_oid_(v1140->args)),
-      v10431,
+      v14275,
       v15308);
     } 
   GC_UNBIND;} 
@@ -341,15 +341,15 @@ void  expression_Assign(Assign *v1140,OID v15308)
     else if ((boolean_I_any(v15308) == CTRUE) && 
         ((Optimize.OPT->loop_gc == CTRUE) && 
           (inner2outer_ask_any(v7248) == CTRUE)))
-     { OID  v11392;
+     { OID  v774;
       { if (INHERIT(OWNER(v7248),Optimize._to_protect))
-         v11392 = OBJECT(Compile_to_protect,v7248)->arg;
-        else v11392 = v7248;
-          GC_OID(v11392);} 
+         v774 = OBJECT(Compile_to_protect,v7248)->arg;
+        else v774 = v7248;
+          GC_OID(v774);} 
       (*Generate.gc_protection_exp)(Generate.PRODUCER->value,
         v7247,
         Kernel.ctrue,
-        v11392,
+        v774,
         v15308);
       } 
     else (*Generate.exp_Assign)(Generate.PRODUCER->value,
@@ -582,9 +582,9 @@ void  bool_exp_And_Generate(And *v1140,ClaireBoolean *v3475,OID v15308)
           } 
       } 
     { int  v7248 = 2;
-      int  v6625 = v7237;
+      int  v6655 = v7237;
       { OID gc_local;
-        while ((v7248 <= v6625))
+        while ((v7248 <= v6655))
         { princ_string(")");
           ++v7248;
           } 
@@ -622,9 +622,9 @@ void  bool_exp_Or_Generate(Or *v1140,ClaireBoolean *v3475,OID v15308)
           } 
       } 
     { int  v7248 = 2;
-      int  v6626 = v7237;
+      int  v6658 = v7237;
       { OID gc_local;
-        while ((v7248 <= v6626))
+        while ((v7248 <= v6658))
         { princ_string(")");
           ++v7248;
           } 

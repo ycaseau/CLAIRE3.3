@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\read.cl 
-         [version 3.3.3 / safety 5] Sun Nov 23 11:55:46 2003 *****/
+         [version 3.3.34 / safety 5] Sun Mar 07 10:46:35 2004 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -104,10 +104,10 @@ OID  nextunit_meta_reader(meta_reader *r)
            { Defobj * _CL_obj = ((Defobj *) GC_OBJECT(Defobj,new_object_class(Language._Defobj)));
             (_CL_obj->ident = OBJECT(Variable,(*Language.var)(x))->pname);
             (_CL_obj->arg = Core._global_variable);
-            { Definition * g0000 = _CL_obj; 
-              list * g0001;
+            { Definition * g0001 = _CL_obj; 
+              list * g0002;
               { OID v_bag;
-                GC_ANY(g0001= list::empty(Kernel.emptySet));
+                GC_ANY(g0002= list::empty(Kernel.emptySet));
                 { { Call * _CL_obj = ((Call *) GC_OBJECT(Call,new_object_class(Language._Call)));
                     (_CL_obj->selector = Kernel._equal);
                     (_CL_obj->args = list::alloc(2,_oid_(Kernel.range),GC_OID(_oid_(extract_type_any(GC_OID((*Kernel.range)(GC_OID((*Language.var)(x)))))))));
@@ -115,7 +115,7 @@ OID  nextunit_meta_reader(meta_reader *r)
                     v_bag = _oid_(_CL_obj);
                     } 
                   GC_OID(v_bag);} 
-                ((list *) g0001)->addFast(v_bag);
+                ((list *) g0002)->addFast(v_bag);
                 { { Call * _CL_obj = ((Call *) GC_OBJECT(Call,new_object_class(Language._Call)));
                     (_CL_obj->selector = Kernel._equal);
                     (_CL_obj->args = list::alloc(2,_oid_(Kernel.value),GC_OID((*Kernel.arg)(x))));
@@ -123,39 +123,39 @@ OID  nextunit_meta_reader(meta_reader *r)
                     v_bag = _oid_(_CL_obj);
                     } 
                   GC_OID(v_bag);} 
-                ((list *) g0001)->addFast(v_bag);} 
-              (g0000->args = g0001);} 
+                ((list *) g0002)->addFast(v_bag);} 
+              (g0001->args = g0002);} 
             add_I_property(Kernel.instances,Language._Defobj,11,_oid_(_CL_obj));
             Result = _oid_(_CL_obj);
             } 
           else if (Kernel._string == OWNER(x))
            Result = x;
-          else { ClaireBoolean * g0002I;
+          else { ClaireBoolean * g0003I;
             if (INHERIT(OWNER(x),Language._Call))
              { ClaireBoolean *v_and;
               { v_and = contain_ask_set(r->s_properties,_oid_(OBJECT(Call,x)->selector));
-                if (v_and == CFALSE) g0002I =CFALSE; 
-                else { { OID  g0003UU;
+                if (v_and == CFALSE) g0003I =CFALSE; 
+                else { { OID  g0004UU;
                     { OID gc_local;
                       ITERATE(y);
-                      g0003UU= _oid_(CFALSE);
+                      g0004UU= _oid_(CFALSE);
                       bag *y_support;
                       y_support = GC_OBJECT(list,OBJECT(Call,x)->args);
                       for (START(y_support); NEXT(y);)
                       if (not_any(_oid_(inherit_ask_class(OWNER(y),Language._Vardef))) != CTRUE)
-                       { g0003UU = Kernel.ctrue;
+                       { g0004UU = Kernel.ctrue;
                         break;} 
                       } 
-                    v_and = not_any(g0003UU);
+                    v_and = not_any(g0004UU);
                     } 
-                  if (v_and == CFALSE) g0002I =CFALSE; 
-                  else g0002I = CTRUE;} 
+                  if (v_and == CFALSE) g0003I =CFALSE; 
+                  else g0003I = CTRUE;} 
                 } 
               } 
-            else g0002I = CFALSE;
+            else g0003I = CFALSE;
               
-            if (g0002I == CTRUE) { Call * z = OBJECT(Call,x);
-                OID  a = (*(z->args))[1];
+            if (g0003I == CTRUE) { Call * z = OBJECT(Call,x);
+                OID  a = GC_OID((*(z->args))[1]);
                 if ((z->selector == Kernel.begin) && 
                     (INHERIT(OWNER(a),Kernel._unbound_symbol)))
                  ((*(z->args))[1]=_string_(string_I_symbol(extract_symbol_any(a))));
@@ -234,7 +234,7 @@ OID  loopexp_meta_reader(meta_reader *r,OID x,keyword *e,ClaireBoolean *loop)
         else if (y == _oid_(Reader.L_))
          Result = nextinst_meta_reader(r,x);
         else if (operation_ask_any(y) == CTRUE)
-         Result = combine_any(x,_oid_(Reader.L__equal),GC_OID(combine_any(x,y,GC_OID(loopexp_meta_reader(r,GC_OID(nexte_meta_reader(r)),e,CFALSE)))));
+         Result = extended_operator_property(OBJECT(property,y),x,GC_OID(loopexp_meta_reader(r,GC_OID(nexte_meta_reader(r)),e,CFALSE)));
         else if (INHERIT(OWNER(x),Language._Call))
          { OID  w = GC_OID(nexte_meta_reader(r));
           if (w == _oid_(Reader._equal_sup))
@@ -283,6 +283,53 @@ OID  loopexp_meta_reader(meta_reader *r,OID x,keyword *e,ClaireBoolean *loop)
   } 
 
 
+// this is the special form for x :op y - new in v3.3.32
+/* The c++ function for: extended_operator(p:property,x:any,y:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
+OID  extended_operator_property(property *p,OID x,OID y)
+{ GC_BIND;
+  { OID Result = 0;
+    if (INHERIT(OWNER(x),Language._Call))
+     { OID  r;
+      { if (OBJECT(Call,x)->selector == Kernel.nth)
+         r = (*(OBJECT(Call,x)->args))[2];
+        else r = (*(OBJECT(Call,x)->args))[1];
+          GC_OID(r);} 
+      Variable * v;
+      { { Variable * _CL_obj = ((Variable *) GC_OBJECT(Variable,new_object_class(Language._Variable)));
+          (_CL_obj->pname = gensym_void());
+          add_I_property(Kernel.instances,Language._Variable,11,_oid_(_CL_obj));
+          v = _CL_obj;
+          } 
+        GC_OBJECT(Variable,v);} 
+      Call * x2;
+      if (OBJECT(Call,x)->selector == Kernel.nth)
+       { Call * _CL_obj = ((Call *) GC_OBJECT(Call,new_object_class(Language._Call)));
+        (_CL_obj->selector = Kernel.nth);
+        (_CL_obj->args = list::alloc(2,GC_OID((*(OBJECT(Call,x)->args))[1]),_oid_(v)));
+        add_I_property(Kernel.instances,Language._Call,11,_oid_(_CL_obj));
+        x2 = _CL_obj;
+        } 
+      else { Call * _CL_obj = ((Call *) GC_OBJECT(Call,new_object_class(Language._Call)));
+          (_CL_obj->selector = OBJECT(Call,x)->selector);
+          (_CL_obj->args = list::alloc(1,_oid_(v)));
+          add_I_property(Kernel.instances,Language._Call,11,_oid_(_CL_obj));
+          x2 = _CL_obj;
+          } 
+        if (INHERIT(OWNER(r),Language._Call))
+       { Let * _CL_obj = ((Let *) GC_OBJECT(Let,new_object_class(Language._Let)));
+        (_CL_obj->var = v);
+        (_CL_obj->value = r);
+        (_CL_obj->arg = combine_any(_oid_(x2),_oid_(Reader.L__equal),GC_OID(combine_any(_oid_(x2),_oid_(p),y))));
+        add_I_property(Kernel.instances,Language._Let,11,_oid_(_CL_obj));
+        Result = _oid_(_CL_obj);
+        } 
+      else Result = combine_any(x,_oid_(Reader.L__equal),GC_OID(combine_any(x,_oid_(p),y)));
+        } 
+    else Result = combine_any(x,_oid_(Reader.L__equal),GC_OID(combine_any(x,_oid_(p),y)));
+      GC_UNBIND; return (Result);} 
+  } 
+
+
 // reading the next compact expression - comments are ignored but they can
 // be attached to the last read expression
 //
@@ -290,7 +337,7 @@ OID  loopexp_meta_reader(meta_reader *r,OID x,keyword *e,ClaireBoolean *loop)
 OID  nexte_meta_reader(meta_reader *r)
 { GC_BIND;
   { OID Result = 0;
-    { OID  x = nextexp_meta_reader(r,CFALSE);
+    { OID  x = GC_OID(nextexp_meta_reader(r,CFALSE));
       if (INHERIT(OWNER(x),Language._Instruction))
        (r->last_form = x);
       Result = x;
@@ -377,9 +424,9 @@ OID  nextexp_meta_reader(meta_reader *r,ClaireBoolean *str)
                     if ((INHERIT(OWNER(x),Kernel._class)) && 
                         (firstc_meta_reader(r) == 62))
                      { cnext_meta_reader(r);
-                      { { ClaireObject * V_CL0004;{ list * g0005UU;
+                      { { ClaireObject * V_CL0006;{ list * g0007UU;
                             { OID v_bag;
-                              GC_ANY(g0005UU= list::empty(Kernel.emptySet));
+                              GC_ANY(g0007UU= list::empty(Kernel.emptySet));
                               { { Call * _CL_obj = ((Call *) GC_OBJECT(Call,new_object_class(Language._Call)));
                                   (_CL_obj->selector = Kernel._equal);
                                   (_CL_obj->args = list::alloc(2,_oid_(Kernel.of),y));
@@ -387,23 +434,23 @@ OID  nextexp_meta_reader(meta_reader *r,ClaireBoolean *str)
                                   v_bag = _oid_(_CL_obj);
                                   } 
                                 GC_OID(v_bag);} 
-                              ((list *) g0005UU)->addFast(v_bag);} 
-                            V_CL0004 = extract_class_call_class(OBJECT(ClaireClass,x),g0005UU);
+                              ((list *) g0007UU)->addFast(v_bag);} 
+                            V_CL0006 = extract_class_call_class(OBJECT(ClaireClass,x),g0007UU);
                             } 
                           
-                          x=_oid_(V_CL0004);} 
+                          x=_oid_(V_CL0006);} 
                          GC__OID(x, 6);} 
                       GC__OID(x = nexti_meta_reader(r,x), 6);
                       } 
                     else Serror_string("[154] ~S<~S not allowed",list::alloc(2,x,y));
                       } 
                   else if (firstc_meta_reader(r) == 91)
-                   { OID  l = nextseq_meta_reader(cnext_meta_reader(r),93);
+                   { OID  l = GC_OID(nextseq_meta_reader(cnext_meta_reader(r),93));
                     { if ((INHERIT(OWNER(x),Kernel._class)) && 
                           ((x != _oid_(Kernel._type)) && 
                             (boolean_I_any(l) == CTRUE)))
                        x = _oid_(extract_class_call_class(OBJECT(ClaireClass,x),OBJECT(list,l)));
-                      else x = _oid_(Call_I_property(Kernel.nth,cons_any(x,OBJECT(list,l))));
+                      else x = _oid_(Call_I_property(Kernel.nth,GC_OBJECT(list,cons_any(x,OBJECT(list,l)))));
                          GC__OID(x, 6);} 
                     } 
                   else { OID  y = read_ident_port(cnext_meta_reader(r)->fromp);
@@ -458,22 +505,22 @@ OID  nexti_meta_reader(meta_reader *r,OID val)
           { Exists * _CL_obj = ((Exists *) GC_OBJECT(Exists,new_object_class(Language._Exists)));
           (_CL_obj->var = v);
           (_CL_obj->set_arg = _Za3);
-          { Iteration * g0006 = _CL_obj; 
-            OID  g0007;
-            { list * _Zbind = bind_I_meta_reader(r,v);
-              OID  x = nexts_I_meta_reader2(r,41);
-              unbind_I_meta_reader(r,_Zbind);
-              g0007 = x;
-              } 
-            (g0006->arg = g0007);} 
-          { Exists * g0008 = _CL_obj; 
+          { Iteration * g0008 = _CL_obj; 
             OID  g0009;
+            { list * _Zbind = GC_OBJECT(list,bind_I_meta_reader(r,v));
+              OID  x = GC_OID(nexts_I_meta_reader2(r,41));
+              unbind_I_meta_reader(r,_Zbind);
+              g0009 = x;
+              } 
+            (g0008->arg = g0009);} 
+          { Exists * g0010 = _CL_obj; 
+            OID  g0011;
             if (val == _oid_(Reader.forall))
-             g0009 = Kernel.ctrue;
+             g0011 = Kernel.ctrue;
             else if (val == _oid_(Reader.exists))
-             g0009 = Kernel.cfalse;
-            else g0009 = CNULL;
-              (g0008->other = g0009);} 
+             g0011 = Kernel.cfalse;
+            else g0011 = CNULL;
+              (g0010->other = g0011);} 
           add_I_property(Kernel.instances,Language._Exists,11,_oid_(_CL_obj));
           Result = _oid_(_CL_obj);
           } 
@@ -486,7 +533,7 @@ OID  nexti_meta_reader(meta_reader *r,OID val)
         } 
     else if ((val == _oid_(Kernel._list)) && 
         (firstc_meta_reader(r) == 123))
-     { OID  s = readset_meta_reader(r,GC_OID(nexte_meta_reader(cnext_meta_reader(r))));
+     { OID  s = GC_OID(readset_meta_reader(r,GC_OID(nexte_meta_reader(cnext_meta_reader(r)))));
       if (INHERIT(OWNER(s),Language._Image))
        { (OBJECT(ClaireObject,s)->isa = Language._Collect);
         Result = s;
@@ -500,7 +547,7 @@ OID  nexti_meta_reader(meta_reader *r,OID val)
     else if (((INHERIT(OWNER(val),Language._Call)) && ((OBJECT(Call,val)->selector == Kernel.nth) && 
           ((*(OBJECT(Call,val)->args))[1] == _oid_(Kernel._list)))) && 
         (firstc_meta_reader(r) == 123))
-     { OID  s = readset_meta_reader(r,GC_OID(nexte_meta_reader(cnext_meta_reader(r))));
+     { OID  s = GC_OID(readset_meta_reader(r,GC_OID(nexte_meta_reader(cnext_meta_reader(r)))));
       ClaireType * x = GC_OBJECT(ClaireType,extract_of_type_Call(OBJECT(Call,val)));
       if (INHERIT(OWNER(s),Language._Image))
        { (OBJECT(ClaireObject,s)->isa = Language._Collect);
@@ -517,7 +564,7 @@ OID  nexti_meta_reader(meta_reader *r,OID val)
     else if (((INHERIT(OWNER(val),Language._Call)) && ((OBJECT(Call,val)->selector == Kernel.nth) && 
           ((*(OBJECT(Call,val)->args))[1] == _oid_(Kernel._set)))) && 
         (firstc_meta_reader(r) == 123))
-     { OID  s = readset_meta_reader(r,GC_OID(nexte_meta_reader(cnext_meta_reader(r))));
+     { OID  s = GC_OID(readset_meta_reader(r,GC_OID(nexte_meta_reader(cnext_meta_reader(r)))));
       ClaireType * x = GC_OBJECT(ClaireType,extract_of_type_Call(OBJECT(Call,val)));
       if (INHERIT(OWNER(s),Language._Image))
        { (OBJECT(Image,s)->of = x);
@@ -594,7 +641,7 @@ OID  nextvariable_meta_reader(meta_reader *r,OID val)
 OID  nexts_I_meta_reader1(meta_reader *r,keyword *e)
 { GC_BIND;
   { OID Result = 0;
-    { OID  x = nexts_meta_reader(r,e);
+    { OID  x = GC_OID(nexts_meta_reader(r,e));
       if (boolean_I_any(stop_ask_integer(firstc_meta_reader(r))) != CTRUE)
        Result = x;
       else Serror_string("[161] Missing keyword ~S after ~S",list::alloc(2,_oid_(e),x));
@@ -623,7 +670,7 @@ OID  nexte_I_meta_reader(meta_reader *r,keyword *e)
 OID  nexts_I_meta_reader2(meta_reader *r,int e)
 { GC_BIND;
   { OID Result = 0;
-    { OID  x = nexts_meta_reader(r,Reader.none);
+    { OID  x = GC_OID(nexts_meta_reader(r,Reader.none));
       if (firstc_meta_reader(r) == e)
        { cnext_meta_reader(r);
         Result = x;
@@ -640,7 +687,7 @@ OID  nexts_I_meta_reader2(meta_reader *r,int e)
 OID  nexts_I_meta_reader3(meta_reader *r,keyword *e,int n)
 { GC_BIND;
   { OID Result = 0;
-    { OID  x = nexts_meta_reader(r,e);
+    { OID  x = GC_OID(nexts_meta_reader(r,e));
       if ((firstc_meta_reader(r) == n) || 
           (boolean_I_any(stop_ask_integer(firstc_meta_reader(r))) != CTRUE))
        Result = x;
@@ -660,19 +707,19 @@ ClaireBoolean * extended_comment_ask_meta_reader(meta_reader *r,char *s)
           ((s[1 - 1] != '[') || 
             (n == 0)))
        Result = CFALSE;
-      else { OID  g0011UU;
+      else { OID  g0013UU;
           { int  i = 2;
-            int  g0010 = n;
-            { g0011UU= _oid_(CFALSE);
-              while ((i <= g0010))
+            int  g0012 = n;
+            { g0013UU= _oid_(CFALSE);
+              while ((i <= g0012))
               { if (_I_equal_any(_oid_(_char_(s[n - 1])),_oid_(_char_('['))) != CTRUE)
-                 { g0011UU = Kernel.ctrue;
+                 { g0013UU = Kernel.ctrue;
                   break;} 
                 ++i;
                 } 
               } 
             } 
-          Result = not_any(g0011UU);
+          Result = not_any(g0013UU);
           } 
         } 
     return (Result);} 
@@ -705,9 +752,9 @@ OID  extended_comment_I_meta_reader(meta_reader *r,char *s)
           (s[i - 1] == '\?'))
        { princ_string("assert(");
         { int  j = (i+2);
-          int  g0012 = m;
+          int  g0015 = m;
           { OID gc_local;
-            while ((j <= g0012))
+            while ((j <= g0015))
             { princ_char(_char_(s[j - 1]));
               ++j;
               } 
@@ -717,9 +764,9 @@ OID  extended_comment_I_meta_reader(meta_reader *r,char *s)
         } 
       else { princ_string("trace(");
           { int  j = 2;
-            int  g0013 = (i-1);
+            int  g0016 = (i-1);
             { OID gc_local;
-              while ((j <= g0013))
+              while ((j <= g0016))
               { princ_char(_char_(s[j - 1]));
                 ++j;
                 } 
@@ -727,9 +774,9 @@ OID  extended_comment_I_meta_reader(meta_reader *r,char *s)
             } 
           princ_string(",\"");
           { int  j = (i+2);
-            int  g0014 = (k-1);
+            int  g0017 = (k-1);
             { OID gc_local;
-              while ((j <= g0014))
+              while ((j <= g0017))
               { princ_char(_char_(s[j - 1]));
                 ++j;
                 } 
@@ -739,9 +786,9 @@ OID  extended_comment_I_meta_reader(meta_reader *r,char *s)
           if ((k+3) <= m)
            { princ_string(",");
             { int  j = (k+3);
-              int  g0015 = m;
+              int  g0018 = m;
               { OID gc_local;
-                while ((j <= g0015))
+                while ((j <= g0018))
                 { princ_char(_char_(s[j - 1]));
                   ++j;
                   } 

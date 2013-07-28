@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file ccmain.cl 
-         [version 3.3.3 / safety 5] Sun Nov 23 11:55:56 2003 *****/
+         [version 3.3.34 / safety 5] Sun Mar 07 10:46:42 2004 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -90,7 +90,7 @@ void  printHelp_void()
 //Claire's main
 /* The c++ function for: main(lp:list[string]) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
 void  main_list(list *lp)
-{ GC_BIND;
+{ GC_RESERVE(13);  // v3.0.55 optim !
   { ClaireBoolean * rCode = CTRUE;
     char * _Zcm = "";
     char * _Zcf = "";
@@ -209,7 +209,7 @@ void  main_list(list *lp)
                   } 
               else if (equal((*(l))[1],_string_("-o")) == CTRUE)
                { if (2 <= l->length)
-                 { _Zout= string_v((*(l))[2]);
+                 { GC__STRING(_Zout = string_v((*(l))[2]), 6);
                   l= skip_list(l,2);
                   } 
                 else close_exception(((general_error *) (*Core._general_error)(_string_("option: -o <name>"),
@@ -249,7 +249,7 @@ void  main_list(list *lp)
                   } 
               else if (equal((*(l))[1],_string_("-cl")) == CTRUE)
                { if (2 <= l->length)
-                 { _Zcm= string_v((*(l))[2]);
+                 { GC__STRING(_Zcm = string_v((*(l))[2]), 3);
                   l= skip_list(l,2);
                   } 
                 else close_exception(((general_error *) (*Core._general_error)(_string_("option: -cm <module>"),
@@ -258,7 +258,7 @@ void  main_list(list *lp)
               else if (equal((*(l))[1],_string_("-cc")) == CTRUE)
                { if (2 <= l->length)
                  { clevel= 0;
-                  _Zcm= string_v((*(l))[2]);
+                  GC__STRING(_Zcm = string_v((*(l))[2]), 3);
                   l= skip_list(l,2);
                   } 
                 else close_exception(((general_error *) (*Core._general_error)(_string_("option: -cc <module>"),
@@ -267,7 +267,7 @@ void  main_list(list *lp)
               else if (equal((*(l))[1],_string_("-cm")) == CTRUE)
                { if (2 <= l->length)
                  { clevel= 2;
-                  _Zcm= string_v((*(l))[2]);
+                  GC__STRING(_Zcm = string_v((*(l))[2]), 3);
                   l= skip_list(l,2);
                   } 
                 else close_exception(((general_error *) (*Core._general_error)(_string_("option: -cl <module>"),
@@ -275,20 +275,20 @@ void  main_list(list *lp)
                   } 
               else if (equal((*(l))[1],_string_("-cj")) == CTRUE)
                { if (2 <= l->length)
-                 { _Zcj= string_v((*(l))[2]);
+                 { GC__STRING(_Zcj = string_v((*(l))[2]), 7);
                   l= skip_list(l,2);
                   } 
                 } 
               else if (equal((*(l))[1],_string_("-cjx")) == CTRUE)
                { if (2 <= l->length)
-                 { _Zcj= string_v((*(l))[2]);
+                 { GC__STRING(_Zcj = string_v((*(l))[2]), 7);
                   clevel= 0;
                   l= skip_list(l,2);
                   } 
                 } 
               else if (equal((*(l))[1],_string_("-cx")) == CTRUE)
                { if (2 <= l->length)
-                 { _Zcf= string_v((*(l))[2]);
+                 { GC__STRING(_Zcf = string_v((*(l))[2]), 4);
                   l= skip_list(l,2);
                   clevel= 2;
                   } 
@@ -334,7 +334,7 @@ void  main_list(list *lp)
           if (equal_string(_Zcm,"") != CTRUE)
            { module * m = string2module_string(_Zcm);
             (Optimize.compiler->active_ask = CTRUE);
-            if (equal(GC_OID(_oid_(m->uses)),GC_OID(_oid_(list::alloc(1,(*(OBJECT(bag,Optimize.claire_modules->value)))[2])))) == CTRUE)
+            if (equal(GC_OID(_oid_(m->uses)),GC_OID(_oid_(list::alloc(1,GC_OID((*(OBJECT(bag,Optimize.claire_modules->value)))[2]))))) == CTRUE)
              { (Optimize.claire_modules->value= _oid_(shrink_list(OBJECT(bag,Optimize.claire_modules->value),2)));
               tformat_string("=== Light Module ~S:~S -> use ~S=== ",0,GC_OBJECT(list,list::alloc(3,_oid_(m),
                 GC_OID(_oid_(m->uses)),
@@ -397,14 +397,14 @@ void  main_list(list *lp)
 void  function_compile_string(char *self,char *fullname)
 { GC_RESERVE(7);  // v3.0.55 optim !
   (Optimize.OPT->need_modules = set::empty());
-  { char * _Zinterface = append_string(_7_string(GC_STRING(Optimize.compiler->headers_dir),self),".h");
+  { char * _Zinterface = GC_STRING(append_string(GC_STRING(_7_string(GC_STRING(Optimize.compiler->headers_dir),self)),".h"));
     (Optimize.OPT->legal_modules = set_I_class(Kernel._module));
     (Optimize.OPT->properties = set::empty(Kernel._property));
     (Optimize.OPT->objects = ((list *) set::empty(Kernel._object)));
     (Optimize.OPT->functions = list::empty());
     (Optimize.OPT->cinterface = fopen_string(_Zinterface,"w"));
     (Optimize.OPT->cfile = _string_(self));
-    generate_file_string2(fullname,_7_string(GC_STRING(Optimize.compiler->source),self));
+    generate_file_string2(fullname,GC_STRING(_7_string(GC_STRING(Optimize.compiler->source),self)));
     use_as_output_port(Optimize.OPT->cinterface);
     breakline_void();
     { OID gc_local;
@@ -460,7 +460,7 @@ void  lib_I_any(OID m,list *l)
     char * s_sep = GC_STRING((((equal_string(_Zenv,"unix") == CTRUE) || 
         ((equal_string(_Zenv,"win32v") == CTRUE) || 
           (equal_string(_Zenv,"ntv") == CTRUE))) ?
-      append_string(" $Z",string_v(Reader._starfs_star->value)) :
+      append_string(" $Z",GC_STRING(string_v(Reader._starfs_star->value))) :
       "," ));
     if (equal_string(_Zenv,"ntw") == CTRUE)
      princ_string("LIBP $Z L ");
@@ -519,7 +519,7 @@ void  files_I_any(OID m,ClaireBoolean *link_ask,char *_Zout)
 { GC_BIND;
   { char * _Zbef = GC_STRING(((link_ask == CTRUE) ?
       "" :
-      append_string("$T",string_v(Reader._starfs_star->value)) ));
+      append_string("$T",GC_STRING(string_v(Reader._starfs_star->value))) ));
     char * _Zend = ((equal_string(Optimize.compiler->env,"unix") == CTRUE) ?
       "o" :
       "obj" );
@@ -527,13 +527,13 @@ void  files_I_any(OID m,ClaireBoolean *link_ask,char *_Zout)
       "," :
       " " );
     princ_string(_Zbef);
-    { OID  g0000UU;
+    { OID  g0009UU;
       { if ((link_ask == CTRUE) || 
             (Kernel._string == OWNER(m)))
-         g0000UU = _string_(append_string(_Zout,"-s"));
-        else g0000UU = (*Kernel.name)(m);
-          GC_OID(g0000UU);} 
-      (*Kernel.princ)(g0000UU);
+         g0009UU = _string_(append_string(_Zout,"-s"));
+        else g0009UU = (*Kernel.name)(m);
+          GC_OID(g0009UU);} 
+      (*Kernel.princ)(g0009UU);
       } 
     princ_string(".");
     princ_string(_Zend);

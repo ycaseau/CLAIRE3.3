@@ -315,7 +315,7 @@ symbol *append_symbol(symbol *s1, OID s2)
         else if (OWNER(s2) == Kernel._string) ss1 = string_v(s2);
         else ss1 = "";
         for (i = 0; ss1[i] != '\0'; i++) ClEnv->pushChar(ss1[i]);}
-  return symbol::make(ClEnv->bufferCopy(),s1->module_I,s1->definition); }
+  return symbol::make(GC_STRING(ClEnv->bufferCopy()),s1->module_I,s1->definition); }  // v3.3.34 - thanks to Sylvain
 
 // print a symbol with its application name
 void princ_symbol(symbol *s)

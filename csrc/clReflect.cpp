@@ -294,6 +294,7 @@ extern void print_any(OID x);
 // also be provided directly by the interpreter, thus the safety check on parity]
 slot *ClaireClass::addSlot(property *p,ClaireType *t,OID def,int ix)
 {slot *s = (slot *) instantiate(9);
+ ClAlloc->currentNew = s;                // v3.3.34 - protection proposed by Sylvain
  ClaireClass *c1 = class_I_type(t);
  ClaireClass *s1 = sort_I_class(c1);     // sort: range for the slot
  int i = slots->length;                  // v3.2: number of existing slots
