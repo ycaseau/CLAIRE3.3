@@ -148,7 +148,7 @@ claire/c_test(x:any) : void
  ->  //[0] ==== Generate ~A files for module ~S [verbose = ~A, Opt? = ~S] // PRODUCER.comment, self, verbose(),compiler.optimize?,
      OPT.instructions := list<any>(),
      OPT.properties := set<property>(),
-     OPT.objects := set<object>(),
+     OPT.objects := list<object>(),
      OPT.functions := list<any>(),
      OPT.need_to_close := set<any>(),
      start_module_interface(PRODUCER,self),
@@ -271,7 +271,7 @@ classFile[c:class] : port := unknown        //  classe ==> port
                  else if (x % reserved_keyword)
                    (princ("_cl_"), c_princ(string!(x.name)))
                  else ident(x.name))))),
-     for x in {p in OPT.properties | not(p % OPT.objects) }
+     for x in {p in OPT.properties | not(p % OPT.objects) }  
        (when p2 := some(p2 in (OPT.properties but x) |            // v0.01
                         string!(p2.name) = string!(x.name)) in
          error("[217] ~S and ~S cannot be defined in the same module",p2,x),
@@ -467,7 +467,7 @@ parents(self:list) : list
 // finds out if no allocation occurs (useful for an if branch)
 // only useful when OPT.allocation is raised !
 [c_safe(x:any) : boolean
-   -> OPT.allocation & Optimize/c_status(x,nil)[NEW_ALLOC]]
+   -> not(OPT.allocation & Optimize/c_status(x,nil)[NEW_ALLOC]) ]          // v3.3.3 !!!
 
 // this is a cute trick   
 claire/WrongMethod:any :: 1

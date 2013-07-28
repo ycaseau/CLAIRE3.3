@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file ccmain.cl 
-         [version 3.3.28 / safety 5] Sat Sep 06 14:16:21 2003 *****/
+         [version 3.3.3 / safety 5] Sun Nov 23 11:55:56 2003 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -30,7 +30,7 @@
 // *       Part 1: definition of the system variables                *
 // *******************************************************************
 // dumb utility
-/* The c++ function for: external!(m:module) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
+/* The c++ function for: external!(m:module) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
 char * external_I_module(module *m)
 { { char *Result ;
     Result = ((((m->external == (NULL)) ? CTRUE : CFALSE) != CTRUE) ?
@@ -334,11 +334,11 @@ void  main_list(list *lp)
           if (equal_string(_Zcm,"") != CTRUE)
            { module * m = string2module_string(_Zcm);
             (Optimize.compiler->active_ask = CTRUE);
-            if (equal(_oid_(m->uses),_oid_(list::alloc(1,(*(OBJECT(bag,Optimize.claire_modules->value)))[2]))) == CTRUE)
+            if (equal(GC_OID(_oid_(m->uses)),GC_OID(_oid_(list::alloc(1,(*(OBJECT(bag,Optimize.claire_modules->value)))[2])))) == CTRUE)
              { (Optimize.claire_modules->value= _oid_(shrink_list(OBJECT(bag,Optimize.claire_modules->value),2)));
-              tformat_string("=== Light Module ~S:~S -> use ~S=== ",0,list::alloc(3,_oid_(m),
+              tformat_string("=== Light Module ~S:~S -> use ~S=== ",0,GC_OBJECT(list,list::alloc(3,_oid_(m),
                 GC_OID(_oid_(m->uses)),
-                GC_OID(Optimize.claire_modules->value)));
+                GC_OID(Optimize.claire_modules->value))));
               } 
             (Optimize.claire_modules->value= _oid_(GC_OBJECT(list,OBJECT(list,Optimize.claire_modules->value))->addFast(_oid_(m))));
             (*Reader.load)(value_string("Compile"));
@@ -397,14 +397,14 @@ void  main_list(list *lp)
 void  function_compile_string(char *self,char *fullname)
 { GC_RESERVE(7);  // v3.0.55 optim !
   (Optimize.OPT->need_modules = set::empty());
-  { char * _Zinterface = GC_STRING(append_string(GC_STRING(_7_string(GC_STRING(Optimize.compiler->headers_dir),self)),".h"));
+  { char * _Zinterface = append_string(_7_string(GC_STRING(Optimize.compiler->headers_dir),self),".h");
     (Optimize.OPT->legal_modules = set_I_class(Kernel._module));
     (Optimize.OPT->properties = set::empty(Kernel._property));
     (Optimize.OPT->objects = ((list *) set::empty(Kernel._object)));
     (Optimize.OPT->functions = list::empty());
     (Optimize.OPT->cinterface = fopen_string(_Zinterface,"w"));
     (Optimize.OPT->cfile = _string_(self));
-    generate_file_string2(fullname,GC_STRING(_7_string(GC_STRING(Optimize.compiler->source),self)));
+    generate_file_string2(fullname,_7_string(GC_STRING(Optimize.compiler->source),self));
     use_as_output_port(Optimize.OPT->cinterface);
     breakline_void();
     { OID gc_local;

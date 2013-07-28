@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file c:\claire\v3.3\src\compile\gsystem.cl 
-         [version 3.3.28 / safety 5] Sat Sep 06 14:16:19 2003 *****/
+         [version 3.3.3 / safety 5] Sun Nov 23 11:55:52 2003 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -147,8 +147,8 @@ void  compile_module(module *v1140)
         GC_OID(Optimize.compiler->version),
         ClEnv->verbose,
         _oid_(Optimize.compiler->optimize_ask)));
-      write_property(Generate.outmodule,Optimize.OPT,GC_OID(ClAlloc->import(Kernel._port,(int *) fopen_string(append_string(GC_STRING(append_string(GC_STRING(append_string(GC_STRING(Optimize.compiler->source),string_v(Reader._starfs_star->value))),string_v((*Generate.c_string)(Generate.PRODUCER->value,
-        _oid_(v1140->name))))),GC_STRING(OBJECT(Generate_producer,Generate.PRODUCER->value)->extension)),"w"))));
+      write_property(Generate.outmodule,Optimize.OPT,GC_OID(ClAlloc->import(Kernel._port,(int *) fopen_string(append_string(append_string(append_string(GC_STRING(Optimize.compiler->source),string_v(Reader._starfs_star->value)),string_v((*Generate.c_string)(Generate.PRODUCER->value,
+        _oid_(v1140->name)))),GC_STRING(OBJECT(Generate_producer,Generate.PRODUCER->value)->extension)),"w"))));
       generate_files_module(v1140);
       begin_module(v1140);
       generate_classes_module(v1140);
@@ -159,7 +159,7 @@ void  compile_module(module *v1140)
         generate_f2f_module(v1140);
         generate_interface_module(v1140,GC_OBJECT(set,Optimize.OPT->legal_modules));
         } 
-      v11373= GC_OBJECT(set,difference_set(GC_OBJECT(set,set_I_set(Optimize.OPT->need_modules)),GC_OBJECT(set,Optimize.OPT->legal_modules)));
+      v11373= difference_set(GC_OBJECT(set,set_I_set(Optimize.OPT->need_modules)),GC_OBJECT(set,Optimize.OPT->legal_modules));
     if (v11373->length != 0)
      tformat_string("---- WARNING: ~S should be declared for ~S\n",2,list::alloc(2,_oid_(v11373),_oid_(v1140)));
     } 
@@ -173,7 +173,7 @@ void  generate_files_module(module *v1140)
     _oid_(Optimize.compiler->optimize_ask)));
   (Optimize.OPT->instructions = list::empty(Kernel._any));
   (Optimize.OPT->properties = set::empty(Kernel._property));
-  (Optimize.OPT->objects = ((list *) set::empty(Kernel._object)));
+  (Optimize.OPT->objects = list::empty(Kernel._object));
   (Optimize.OPT->functions = list::empty(Kernel._any));
   (Optimize.OPT->need_to_close = set::empty(Kernel._any));
   (*Generate.start_module_interface)(Generate.PRODUCER->value,
@@ -191,7 +191,7 @@ void  generate_files_module(module *v1140)
         if (equal(v7248,_string_(string_I_symbol(v1140->name))) == CTRUE)
          (*Optimize.Cerror)(_string_("[211]  ~S cannot be used both as a file and module name"),
           v7248);
-        generate_file_string2(GC_STRING(append_string(GC_STRING(append_string(GC_STRING(v1140->source),string_v(Reader._starfs_star->value))),string_v(v7248))),GC_STRING(append_string(GC_STRING(append_string(GC_STRING(Optimize.compiler->source),string_v(Reader._starfs_star->value))),string_v(v7248))));
+        generate_file_string2(append_string(append_string(GC_STRING(v1140->source),string_v(Reader._starfs_star->value)),string_v(v7248)),append_string(append_string(GC_STRING(Optimize.compiler->source),string_v(Reader._starfs_star->value)),string_v(v7248)));
         if (CFALSE == CTRUE)
          claire_gc();
         } 
@@ -202,7 +202,7 @@ void  generate_files_module(module *v1140)
 
 void  generate_f2f_module(module *v7237)
 { GC_BIND;
-  { ClairePort * v7240 = fopen_string(append_string(GC_STRING(append_string(GC_STRING(append_string(GC_STRING(Optimize.compiler->source),string_v(Reader._starfs_star->value))),string_I_symbol(v7237->name))),GC_STRING(OBJECT(Generate_producer,Generate.PRODUCER->value)->extension)),"w");
+  { ClairePort * v7240 = fopen_string(append_string(append_string(append_string(GC_STRING(Optimize.compiler->source),string_v(Reader._starfs_star->value)),string_I_symbol(v7237->name)),GC_STRING(OBJECT(Generate_producer,Generate.PRODUCER->value)->extension)),"w");
     tformat_string("==== generate file for module ~S ==== \n",0,list::alloc(1,_oid_(v7237)));
     (Optimize.OPT->outfile = v7240);
     generate_file_string1(string_I_symbol(v7237->name),v7237);
@@ -243,11 +243,11 @@ void  generate_classes_module(module *v1140)
     for (START(v7227_support); NEXT(v7227);)
     { GC_LOOP;
       if (INHERIT(OWNER(v7227),Kernel._class))
-       { put_table(Generate.classFile,v7227,ClAlloc->import(Kernel._port,(int *) fopen_string(append_string(GC_STRING(append_string(GC_STRING(append_string(GC_STRING(Optimize.compiler->source),string_v(Reader._starfs_star->value))),string_v((*Generate.c_string)(Generate.PRODUCER->value,
-          GC_OID((*Kernel.name)(v7227)))))),GC_STRING(OBJECT(Generate_producer,Generate.PRODUCER->value)->extension)),"w")));
+       { put_table(Generate.classFile,v7227,ClAlloc->import(Kernel._port,(int *) fopen_string(append_string(append_string(append_string(GC_STRING(Optimize.compiler->source),string_v(Reader._starfs_star->value)),string_v((*Generate.c_string)(Generate.PRODUCER->value,
+          GC_OID((*Kernel.name)(v7227))))),GC_STRING(OBJECT(Generate_producer,Generate.PRODUCER->value)->extension)),"w")));
         use_as_output_port(EXPORT((ClairePort *),nth_table1(Generate.classFile,v7227)));
-        tformat_string("++++ Creating the file ~A.java\n",2,list::alloc(1,GC_OID((*Generate.c_string)(Generate.PRODUCER->value,
-          GC_OID((*Kernel.name)(v7227))))));
+        tformat_string("++++ Creating the file ~A.java\n",2,GC_OBJECT(list,list::alloc(1,GC_OID((*Generate.c_string)(Generate.PRODUCER->value,
+          GC_OID((*Kernel.name)(v7227)))))));
         (Optimize.OPT->level = 0);
         princ_string("// class file for ");
         print_any(v7227);
@@ -297,8 +297,8 @@ void  generate_classes_module(module *v1140)
 
 void  generate_c2f_module(module *v1140)
 { GC_BIND;
-  { ClairePort * v5173 = fopen_string(append_string(GC_STRING(append_string(GC_STRING(append_string(GC_STRING(Optimize.compiler->source),string_v(Reader._starfs_star->value))),string_v((*Generate.c_string)(Generate.PRODUCER->value,
-      _oid_(v1140->name))))),GC_STRING(OBJECT(Generate_producer,Generate.PRODUCER->value)->extension)),"w");
+  { ClairePort * v5173 = fopen_string(append_string(append_string(append_string(GC_STRING(Optimize.compiler->source),string_v(Reader._starfs_star->value)),string_v((*Generate.c_string)(Generate.PRODUCER->value,
+      _oid_(v1140->name)))),GC_STRING(OBJECT(Generate_producer,Generate.PRODUCER->value)->extension)),"w");
     (Optimize.OPT->outfile = v5173);
     use_as_output_port(v5173);
     (*Generate.generate_start_file)(Generate.PRODUCER->value,
@@ -307,8 +307,8 @@ void  generate_c2f_module(module *v1140)
     claire_gc();
     generate_functions_module(v1140);
     claire_gc();
-    v5173= fopen_string(append_string(GC_STRING(append_string(GC_STRING(append_string(GC_STRING(Optimize.compiler->source),string_v(Reader._starfs_star->value))),string_v((*Generate.c_string)(Generate.PRODUCER->value,
-      _oid_(v1140->name))))),GC_STRING(OBJECT(Generate_producer,Generate.PRODUCER->value)->extension)),"a");
+    v5173= fopen_string(append_string(append_string(append_string(GC_STRING(Optimize.compiler->source),string_v(Reader._starfs_star->value)),string_v((*Generate.c_string)(Generate.PRODUCER->value,
+      _oid_(v1140->name)))),GC_STRING(OBJECT(Generate_producer,Generate.PRODUCER->value)->extension)),"a");
     use_as_output_port(v5173);
     (Optimize.OPT->outfile = v5173);
     (Optimize.OPT->level = 2);
@@ -510,16 +510,19 @@ void  generate_functions_module(module *v1140)
   GC_UNBIND;} 
 
 list * parents_module(module *v1140,list *v7236)
-{ GC_BIND;
-  { list *Result ;
-    if (v7236->memq(_oid_(v1140)) == CTRUE)
-     Result = v7236;
-    else { if (((v1140->part_of == (NULL)) ? CTRUE : CFALSE) != CTRUE)
-         v7236= GC_OBJECT(list,parents_module(v1140->part_of,v7236));
-        v7236= GC_OBJECT(list,v7236->addFast(_oid_(v1140)));
-        Result = v7236;
-        } 
+{ if (v7236->memq(_oid_(v1140)) == CTRUE) 
+  { { list *Result ;
+      Result = v7236;
+      return (Result);} 
+     } 
+  else{ GC_BIND;
+    if (((v1140->part_of == (NULL)) ? CTRUE : CFALSE) != CTRUE)
+     v7236= parents_module(v1140->part_of,v7236);
+    v7236= v7236->addFast(_oid_(v1140));
+    { list *Result ;
+      Result = v7236;
       GC_UNBIND; return (Result);} 
+    } 
   } 
 
 list * parents_list(list *v1140)
@@ -669,41 +672,39 @@ OID  print_c_function_lambda2(lambda *v1140,char *v12719,OID v7237)
   } 
 
 void  print_body_If(If *v3871,char *v4031,ClaireClass *v7243,If *v6350,ClaireBoolean *v14719)
-{ if ((c_func_any(GC_OID(v3871->test)) == CTRUE) && 
+{ GC_BIND;
+  if ((c_func_any(GC_OID(v3871->test)) == CTRUE) && 
       ((Optimize.OPT->protection == CTRUE) && 
         ((c_safe_any(GC_OID(v6350->arg)) == CTRUE) && 
-          (Optimize.compiler->debug_ask->memq(_oid_(ClEnv->module_I)) != CTRUE)))) 
-  { { char * v10292 = ((v7243 != Kernel._void) ?
-        "return " :
-        "" );
-      princ_string("if ");
-      (*Optimize.bool_exp)(GC_OID(v3871->test),
-        Kernel.ctrue,
-        Core.nil->value);
-      princ_string(" ");
-      breakline_void();
-      new_block_void();
-      outer_statement_any(GC_OID(v3871->arg),v10292,v7243,v14719);
-      princ_string(" ");
-      close_block_void();
-      princ_string("else");
-      new_block_void();
-      (*Generate.print_body)(GC_OID(v3871->other),
-        _string_(v4031),
-        _oid_(v7243),
-        GC_OID(v6350->other),
-        _oid_(v14719));
-      close_block_void();
-      } 
-     } 
-  else{ GC_BIND;
-    print_body_any(_oid_(v3871),
+          (Optimize.compiler->debug_ask->memq(_oid_(ClEnv->module_I)) != CTRUE))))
+   { char * v10292 = ((v7243 != Kernel._void) ?
+      "return " :
+      "" );
+    princ_string("if ");
+    (*Optimize.bool_exp)(GC_OID(v3871->test),
+      Kernel.ctrue,
+      Core.nil->value);
+    princ_string(" ");
+    breakline_void();
+    new_block_void();
+    outer_statement_any(GC_OID(v3871->arg),v10292,v7243,v14719);
+    princ_string(" ");
+    close_block_void();
+    princ_string("else");
+    new_block_void();
+    (*Generate.print_body)(GC_OID(v3871->other),
+      _string_(v4031),
+      _oid_(v7243),
+      GC_OID(v6350->other),
+      _oid_(v14719));
+    close_block_void();
+    } 
+  else print_body_any(_oid_(v3871),
       v4031,
       v7243,
       _oid_(v6350),
       v14719);
     GC_UNBIND;} 
-  } 
 
 void  print_body_any(OID v3871,char *v4031,ClaireClass *v7243,OID v6350,ClaireBoolean *v14719)
 { (*Generate.gc_introduction)(Generate.PRODUCER->value,
@@ -769,7 +770,7 @@ void  outer_statement_any(OID v3871,char *v4031,ClaireClass *v7243,ClaireBoolean
     } 
 
 ClaireBoolean * c_safe_any(OID v7248)
-{ return (((Optimize.OPT->allocation == CTRUE) ? ((BCONTAIN(c_status_any(v7248,Kernel.nil),1)) ? CTRUE: CFALSE): CFALSE));} 
+{ return (not_any(_oid_(((Optimize.OPT->allocation == CTRUE) ? ((BCONTAIN(c_status_any(v7248,Kernel.nil),1)) ? CTRUE: CFALSE): CFALSE))));} 
 
 ClaireClass * check_sort_method(method *v1140)
 { GC_BIND;
@@ -791,9 +792,9 @@ ClaireClass * check_sort_method(method *v1140)
         if ((Optimize.compiler->safety < 2) || 
             ((Optimize.compiler->safety < 4) && 
                 (boolean_I_any(sort_equal_class(osort_any(_oid_(v11592)),v7243)) != CTRUE)))
-         (OBJECT(Generate_producer,Generate.PRODUCER->value)->body = c_strict_code_any(GC_OID(c_check_any(GC_OID((*Optimize.c_code)(v7226,
+         (OBJECT(Generate_producer,Generate.PRODUCER->value)->body = c_strict_code_any(c_check_any(GC_OID((*Optimize.c_code)(v7226,
           _oid_(Kernel._any))),GC_OID((*Optimize.c_code)(_oid_(v11590),
-          _oid_(Kernel._type))))),v7243));
+          _oid_(Kernel._type)))),v7243));
         if (boolean_I_any(sort_equal_class(osort_any(_oid_(v11592)),v7243)) != CTRUE)
          { if ((v7243 != Kernel._void) && 
               ((_oid_((INHERIT(v11592->isa,Kernel._class) ? (ClaireObject *) sort_I_class((ClaireClass *) OBJECT(ClaireClass,_oid_(v11592))) :  (ClaireObject *)  sort_I_type((ClaireType *) OBJECT(ClaireType,_oid_(v11592))))) == _oid_(Kernel._void)) || 
@@ -912,7 +913,7 @@ void  set_outfile_lambda(lambda *v1140)
             _oid_(OBJECT(ClaireClass,v3109)->name)));
           } 
       if (equal_string(v11153,string_I_symbol(ClEnv->module_I->name)) != CTRUE)
-       v7240= fopen_string(append_string(GC_STRING(append_string(GC_STRING(append_string(GC_STRING(Optimize.compiler->source),string_v(Reader._starfs_star->value))),v11153)),GC_STRING(OBJECT(Generate_producer,Generate.PRODUCER->value)->extension)),"a");
+       v7240= fopen_string(append_string(append_string(append_string(GC_STRING(Optimize.compiler->source),string_v(Reader._starfs_star->value)),v11153),GC_STRING(OBJECT(Generate_producer,Generate.PRODUCER->value)->extension)),"a");
       (Optimize.OPT->outfile = v7240);
       } 
     ;} 

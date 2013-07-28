@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file c:\claire\v3.3\src\compile\gstat.cl 
-         [version 3.3.28 / safety 5] Sat Sep 06 14:16:19 2003 *****/
+         [version 3.3.3 / safety 5] Sun Nov 23 11:55:52 2003 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -186,34 +186,33 @@ void  self_statement_Construct(Construct *v1140,OID v7243,OID v15308)
   } 
 
 void  self_statement_If(If *v1140,OID v7243,OID v15308)
-{ if (c_func_any(GC_OID(v1140->test)) == CTRUE) 
-  { { princ_string("if ");
-      (*Optimize.bool_exp)(GC_OID(v1140->test),
-        Kernel.ctrue,
-        v15308);
+{ GC_BIND;
+  if (c_func_any(GC_OID(v1140->test)) == CTRUE)
+   { princ_string("if ");
+    (*Optimize.bool_exp)(GC_OID(v1140->test),
+      Kernel.ctrue,
+      v15308);
+    princ_string("");
+    breakline_void();
+    princ_string(" ");
+    if (INHERIT(OWNER(v1140->arg),Language._If))
+     new_block_void();
+    statement_any(GC_OID(v1140->arg),v7243,v15308);
+    if (INHERIT(OWNER(v1140->arg),Language._If))
+     close_block_void();
+    if ((Kernel._string == OWNER(v7243)) || 
+        (boolean_I_any(v1140->other) == CTRUE))
+     { OID  v11797 = GC_OID(v1140->other);
+      if (inherit_ask_class(OWNER(v11797),Language._If) != CTRUE)
+       (Optimize.OPT->level = (Optimize.OPT->level+1));
+      princ_string("else ");
+      statement_any(v11797,v7243,v15308);
       princ_string("");
-      breakline_void();
-      princ_string(" ");
-      if (INHERIT(OWNER(v1140->arg),Language._If))
-       new_block_void();
-      statement_any(GC_OID(v1140->arg),v7243,v15308);
-      if (INHERIT(OWNER(v1140->arg),Language._If))
-       close_block_void();
-      if ((Kernel._string == OWNER(v7243)) || 
-          (boolean_I_any(v1140->other) == CTRUE))
-       { OID  v11797 = GC_OID(v1140->other);
-        if (inherit_ask_class(OWNER(v11797),Language._If) != CTRUE)
-         (Optimize.OPT->level = (Optimize.OPT->level+1));
-        princ_string("else ");
-        statement_any(v11797,v7243,v15308);
-        princ_string("");
-        if (inherit_ask_class(OWNER(v11797),Language._If) != CTRUE)
-         (Optimize.OPT->level = (Optimize.OPT->level-1));
-        } 
+      if (inherit_ask_class(OWNER(v11797),Language._If) != CTRUE)
+       (Optimize.OPT->level = (Optimize.OPT->level-1));
       } 
-     } 
-  else{ GC_BIND;
-    { OID  v7247 = GC_OID((*Generate.c_string)(Generate.PRODUCER->value,
+    } 
+  else { OID  v7247 = GC_OID((*Generate.c_string)(Generate.PRODUCER->value,
         _oid_(append_symbol(gensym_void(),_string_("I")))));
       new_block_void();
       interface_I_class(Kernel._boolean);
@@ -243,14 +242,12 @@ void  self_statement_If(If *v1140,OID v7243,OID v15308)
       close_block_void();
       } 
     GC_UNBIND;} 
-  } 
 
 void  self_statement_Do(Do *v1140,OID v7243,OID v15308)
-{ if (v1140->args->length == 1) 
-  { statement_any((*(v1140->args))[1],v7243,v15308);
-     } 
-  else{ GC_BIND;
-    { list * v7236 = GC_OBJECT(list,v1140->args);
+{ GC_BIND;
+  if (v1140->args->length == 1)
+   statement_any((*(v1140->args))[1],v7243,v15308);
+  else { list * v7236 = GC_OBJECT(list,v1140->args);
       int  v7237 = v7236->length;
       ClaireBoolean * v7226 = Optimize.OPT->alloc_stack;
       int  v7239 = 0;
@@ -260,7 +257,6 @@ void  self_statement_Do(Do *v1140,OID v7243,OID v15308)
       close_block_void();
       } 
     GC_UNBIND;} 
-  } 
 
 void  inner_statement_any(OID v1140,OID v7243,OID v15308)
 { GC_BIND;
@@ -407,7 +403,8 @@ void  self_statement_Assign(Assign *v1140,OID v7243,OID v15308)
     OID  v7248 = GC_OID(v1140->arg);
     ClaireBoolean * v9238 = ((boolean_I_any(v15308) == CTRUE) ? ((Optimize.OPT->loop_gc == CTRUE) ? ((inner2outer_ask_any(v7248) == CTRUE) ? CTRUE: CFALSE): CFALSE): CFALSE);
     OID  v7249;
-    { if (v9238 == CTRUE)
+    { if ((v9238 == CTRUE) && 
+          (INHERIT(OWNER(v7248),Optimize._to_protect)))
        v7249 = (*Kernel.arg)(v7248);
       else v7249 = v7248;
         GC_OID(v7249);} 
@@ -457,26 +454,24 @@ void  self_statement_Gassign(Gassign *v1140,OID v7243,OID v15308)
   } 
 
 void  self_statement_to_protect(Compile_to_protect *v1140,OID v7243,OID v15308)
-{ if ((Optimize.OPT->protection == CTRUE) && 
-      (Kernel._string == OWNER(v7243))) 
-  { { ClaireClass * v7227 = OBJECT(ClaireClass,(*Optimize.c_sort)(GC_OID(v1140->arg)));
-      new_block_void();
-      statement_any(GC_OID(v1140->arg),v7243,v15308);
-      princ_string(gc_protect_class(v7227));
-      princ_string("(");
-      if (INHERIT(v7227,Kernel._object))
-       { ident_class(psort_any(GC_OID((*Optimize.c_type)(GC_OID(v1140->arg)))));
-        princ_string(",");
-        } 
-      (*Kernel.c_princ)(v7243);
-      princ_string(");");
-      close_block_void();
-      } 
-     } 
-  else{ GC_BIND;
+{ GC_BIND;
+  if ((Optimize.OPT->protection == CTRUE) && 
+      (Kernel._string == OWNER(v7243)))
+   { ClaireClass * v7227 = OBJECT(ClaireClass,(*Optimize.c_sort)(GC_OID(v1140->arg)));
+    new_block_void();
     statement_any(GC_OID(v1140->arg),v7243,v15308);
+    princ_string(gc_protect_class(v7227));
+    princ_string("(");
+    if (INHERIT(v7227,Kernel._object))
+     { ident_class(psort_any(GC_OID((*Optimize.c_type)(GC_OID(v1140->arg)))));
+      princ_string(",");
+      } 
+    (*Kernel.c_princ)(v7243);
+    princ_string(");");
+    close_block_void();
+    } 
+  else statement_any(GC_OID(v1140->arg),v7243,v15308);
     GC_UNBIND;} 
-  } 
 
 void  self_statement_For(For *v1140,OID v7243,OID v15308)
 { (*Generate.stat_for)(Generate.PRODUCER->value,
@@ -493,26 +488,22 @@ void  self_statement_Iteration(Iteration *v1140,OID v7243,OID v15308)
   } 
 
 void  self_statement_Return(Return *v1140,OID v7243,OID v15308)
-{ if (v15308 == CNULL) 
-  { { new_block_void();
-      statement_any(GC_OID(v1140->arg),_oid_(Kernel.emptySet),_oid_(Kernel.emptySet));
-      princ_string("break;");
-      close_block_void();
-      } 
-     } 
-  else{ if (Kernel._string == OWNER(v15308)) 
-    { { new_block_void();
-        statement_any(GC_OID(v1140->arg),v15308,_oid_(Kernel.emptySet));
-        princ_string("break;");
-        close_block_void();
-        } 
-       } 
-    else{ GC_BIND;
-      close_exception(((general_error *) (*Core._general_error)(_string_("[204] break not inside a For or While:~S"),
-        _oid_(list::alloc(1,_oid_(v1140))))));
-      GC_UNBIND;} 
+{ GC_BIND;
+  if (v15308 == CNULL)
+   { new_block_void();
+    statement_any(GC_OID(v1140->arg),_oid_(Kernel.emptySet),_oid_(Kernel.emptySet));
+    princ_string("break;");
+    close_block_void();
     } 
-  } 
+  else if (Kernel._string == OWNER(v15308))
+   { new_block_void();
+    statement_any(GC_OID(v1140->arg),v15308,_oid_(Kernel.emptySet));
+    princ_string("break;");
+    close_block_void();
+    } 
+  else close_exception(((general_error *) (*Core._general_error)(_string_("[204] break not inside a For or While:~S"),
+      _oid_(list::alloc(1,_oid_(v1140))))));
+    GC_UNBIND;} 
 
 void  self_statement_Call(Call *v1140,OID v7243,OID v15308)
 { GC_BIND;
@@ -648,7 +639,7 @@ void  self_statement_Handle(ClaireHandle *v1140,OID v7243,OID v15308)
 void  self_statement_to_CL(Compile_to_CL *v1140,OID v7243,OID v15308)
 { GC_BIND;
   if (Kernel._string == OWNER(v7243))
-   { Variable * v4936 = GC_OBJECT(Variable,build_Variable_string(string_I_symbol(gensym_string("V_CL")),_oid_(v1140->set_arg)));
+   { Variable * v4936 = build_Variable_string(string_I_symbol(gensym_string("V_CL")),_oid_(v1140->set_arg));
     ClaireClass * v11592 = ((v1140->set_arg == Kernel._void) ?
       Kernel._any :
       v1140->set_arg );
@@ -675,7 +666,7 @@ void  self_statement_to_CL(Compile_to_CL *v1140,OID v7243,OID v15308)
 void  self_statement_to_C(Compile_to_C *v1140,OID v7243,OID v15308)
 { GC_BIND;
   if (Kernel._string == OWNER(v7243))
-   { Variable * v4936 = GC_OBJECT(Variable,build_Variable_string("V_C",_oid_(Kernel._any)));
+   { Variable * v4936 = build_Variable_string("V_C",_oid_(Kernel._any));
     new_block_void();
     (*Generate.any_interface)(Generate.PRODUCER->value);
     princ_string(" ");
@@ -725,7 +716,7 @@ void  self_statement_C_cast(Compile_C_cast *v1140,OID v7243,OID v15308)
 void  self_statement_Call_slot(Call_slot *v1140,OID v7243,OID v15308)
 { GC_BIND;
   { char * v6108 = string_I_symbol(gensym_void());
-    Variable * v4936 = GC_OBJECT(Variable,build_Variable_string(v6108,GC_OID((*Optimize.c_type)(GC_OID(v1140->arg)))));
+    Variable * v4936 = build_Variable_string(v6108,GC_OID((*Optimize.c_type)(GC_OID(v1140->arg))));
     new_block_void();
     interface_I_class(sort_Variable(v4936));
     princ_string(" ");
@@ -755,7 +746,7 @@ void  self_statement_Call_slot(Call_slot *v1140,OID v7243,OID v15308)
 void  self_statement_Call_table(Call_table *v1140,OID v7243,OID v15308)
 { GC_BIND;
   { char * v6108 = string_I_symbol(gensym_void());
-    Variable * v4936 = GC_OBJECT(Variable,build_Variable_string(v6108,GC_OID((*Optimize.c_type)(GC_OID(v1140->arg)))));
+    Variable * v4936 = build_Variable_string(v6108,GC_OID((*Optimize.c_type)(GC_OID(v1140->arg))));
     new_block_void();
     interface_I_class(sort_Variable(v4936));
     princ_string(" ");
@@ -784,8 +775,8 @@ void  self_statement_Call_table(Call_table *v1140,OID v7243,OID v15308)
 
 void  self_statement_Call_array(Call_array *v1140,OID v7243,OID v15308)
 { GC_BIND;
-  { Variable * v5609 = GC_OBJECT(Variable,build_Variable_string("va_arg1",_oid_(Kernel._array)));
-    Variable * v5610 = GC_OBJECT(Variable,build_Variable_string("va_arg2",_oid_(Kernel._integer)));
+  { Variable * v5609 = build_Variable_string("va_arg1",_oid_(Kernel._array));
+    Variable * v5610 = build_Variable_string("va_arg2",_oid_(Kernel._integer));
     new_block_void();
     interface_I_class(Kernel._array);
     princ_string(" ");

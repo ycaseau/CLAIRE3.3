@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\inspect.cl 
-         [version 3.3.28 / safety 5] Sat Sep 06 14:16:14 2003 *****/
+         [version 3.3.3 / safety 5] Sun Nov 23 11:55:47 2003 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -119,10 +119,10 @@ OID  inspect_loop_any(OID _Zread,list *old)
       if (inherit_ask_class(OWNER(n),Kernel._integer) != CTRUE)
        close_exception(((general_error *) (*Core._general_error)(_string_("[128] ~S should be an integer"),
         _oid_(list::alloc(1,n)))));
-      { OID  val = GC_OID(get_from_integer_any(self,n));
+      { OID  val = get_from_integer_any(self,n);
         (CLREAD(global_variable,new_class2(Core._global_variable,s),value) = val);
         inspect_any(val);
-        old= GC_OBJECT(list,cons_any(val,old));
+        old= cons_any(val,old);
         } 
       } 
     else if (_Zread == _oid_(Reader.up))
@@ -132,12 +132,12 @@ OID  inspect_loop_any(OID _Zread,list *old)
         } 
       } 
     else if (INHERIT(OWNER(_Zread),Kernel._integer))
-     { OID  val = GC_OID(get_from_integer_any(self,_Zread));
-      old= GC_OBJECT(list,cons_any(val,old));
+     { OID  val = get_from_integer_any(self,_Zread);
+      old= cons_any(val,old);
       inspect_any(val);
       } 
     else if (INHERIT(OWNER(_Zread),Kernel._thing))
-     { old= GC_OBJECT(list,cons_any(_Zread,old));
+     { old= cons_any(_Zread,old);
       inspect_any(_Zread);
       } 
     else princ_string("=> given to inspector is wrong.\n");
@@ -325,34 +325,32 @@ OID  self_trace_Trace(Trace *self)
 //
 /* The c++ function for: trace_rule(R:relation,s:string,x:any,y:any,u:any,v:any) [NEW_ALLOC+SLOT_UPDATE] */
 void  trace_rule_relation(ClaireRelation *R,char *s,OID x,OID y,OID u,OID v)
-{ if (5 <= (Kernel.if_write->trace_I+ClEnv->verbose)) 
-  { { OID  p = GC_OID(get_property(Kernel.ctrace,ClEnv));
-      if (p != CNULL)
-       p= GC_OID(ClAlloc->import(Kernel._port,(int *) use_as_output_port(EXPORT((ClairePort *),p))));
-      princ_string("--- the rule ");
-      princ_string(s);
-      princ_string(" is triggered for (");
-      print_any(u);
-      princ_string(",");
-      print_any(v);
-      princ_string(") by an update ");
-      print_any(_oid_(R));
-      princ_string("(");
-      print_any(x);
-      princ_string(") ");
-      princ_string(((multi_ask_any(_oid_(R)) == CTRUE) ?
-        ":add" :
-        ":=" ));
-      princ_string(" ");
-      print_any(y);
-      princ_string(" \n");
-      if (p != CNULL)
-       use_as_output_port(EXPORT((ClairePort *),p));
-      } 
-     } 
-  else{ GC_BIND;
-    ;GC_UNBIND;} 
-  } 
+{ GC_BIND;
+  if (5 <= (Kernel.if_write->trace_I+ClEnv->verbose))
+   { OID  p = get_property(Kernel.ctrace,ClEnv);
+    if (p != CNULL)
+     p= GC_OID(ClAlloc->import(Kernel._port,(int *) use_as_output_port(EXPORT((ClairePort *),p))));
+    princ_string("--- the rule ");
+    princ_string(s);
+    princ_string(" is triggered for (");
+    print_any(u);
+    princ_string(",");
+    print_any(v);
+    princ_string(") by an update ");
+    print_any(_oid_(R));
+    princ_string("(");
+    print_any(x);
+    princ_string(") ");
+    princ_string(((multi_ask_any(_oid_(R)) == CTRUE) ?
+      ":add" :
+      ":=" ));
+    princ_string(" ");
+    print_any(y);
+    princ_string(" \n");
+    if (p != CNULL)
+     use_as_output_port(EXPORT((ClairePort *),p));
+    } 
+  GC_UNBIND;} 
 
 
 // stores a set of stopping values
@@ -386,7 +384,7 @@ void  debug_void()
 // this method is called when an error has occured. The value of index
 // is recalled with last_index, so that the actual content of the stack is
 // preserved.
-/* The c++ function for: call_debug(_CL_obj:void) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
+/* The c++ function for: call_debug(_CL_obj:void) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
 OID  call_debug_void()
 { GC_BIND;
   { OID Result = 0;
@@ -504,28 +502,26 @@ void  dn_integer(int x)
 
 /* The c++ function for: up(x:integer) [NEW_ALLOC] */
 void  up_integer(int x)
-{ if (x > 0) 
-  { { list * indices = Kernel.nil;
-      int  ind = Reader._starmaxd_star->value;
-      { OID gc_local;
-        while ((ind != Reader._starcurd_star->value))
-        { GC_LOOP;
-          GC__ANY(indices = cons_any(ind,indices), 2);
-          ind= ClEnv->stack[ind];
-          GC_UNLOOP;} 
+{ GC_RESERVE(1);  // HOHO v3.0.55 optim !
+  if (x > 0)
+   { list * indices = Kernel.nil;
+    int  ind = Reader._starmaxd_star->value;
+    { OID gc_local;
+      while ((ind != Reader._starcurd_star->value))
+      { GC_LOOP;
+        GC__ANY(indices = cons_any(ind,indices), 1);
+        ind= ClEnv->stack[ind];
+        GC_UNLOOP;} 
+      } 
+    if (x > indices->length)
+     { (Reader._starcurd_star->value= Reader._starmaxd_star->value);
+      (Reader._starindex_star->value= 1);
+      } 
+    else { (Reader._starcurd_star->value= (*(indices))[x]);
+        (Reader._starindex_star->value= ((Reader._starindex_star->value)-x));
         } 
-      if (x > indices->length)
-       { (Reader._starcurd_star->value= Reader._starmaxd_star->value);
-        (Reader._starindex_star->value= 1);
-        } 
-      else { (Reader._starcurd_star->value= (*(indices))[x]);
-          (Reader._starindex_star->value= ((Reader._starindex_star->value)-x));
-          } 
-        } 
-     } 
-  else{ GC_BIND;
-    ;GC_UNBIND;} 
-  } 
+      } 
+  GC_UNBIND;} 
 
 
 // top is the top position in this stack (the last entered message)
@@ -704,7 +700,7 @@ void  block_integer(int x)
 list * closure_build_lambda(lambda *self)
 { GC_BIND;
   { list *Result ;
-    { list * lvar = GC_OBJECT(list,make_list_integer(self->dimension,_oid_(Kernel.emptySet)));
+    { list * lvar = make_list_integer(self->dimension,_oid_(Kernel.emptySet));
       { OID gc_local;
         ITERATE(x);
         for (START(self->vars); NEXT(x);)
@@ -874,7 +870,7 @@ void  PRshow_property(property *p)
 
 
 // elapsed time
-/* The c++ function for: PRtime(p:property) [0] */
+/* The c++ function for: PRtime(p:property) [RETURN_ARG] */
 int  PRtime_property(property *p)
 { { int Result = 0;
     { ClaireObject * x = p->reified;
@@ -886,7 +882,7 @@ int  PRtime_property(property *p)
   } 
 
 
-/* The c++ function for: PRcounter(p:property) [0] */
+/* The c++ function for: PRcounter(p:property) [RETURN_ARG] */
 int  PRcounter_property(property *p)
 { { int Result = 0;
     { ClaireObject * x = p->reified;
@@ -1026,7 +1022,7 @@ OID  dependents_any(OID self)
       Result = _oid_(s);
       } 
     else if (INHERIT(OWNER(self),Kernel._bag))
-     { set * s = set::empty(Kernel._property);
+     { set * s = GC_OBJECT(set,set::empty(Kernel._property));
       { OID gc_local;
         ITERATE(x);
         for (START(OBJECT(bag,self)); NEXT(x);)

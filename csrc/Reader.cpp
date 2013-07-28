@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file Reader.cl 
-         [version 3.3.28 / safety 5] Sat Sep 06 14:16:14 2003 *****/
+         [version 3.3.3 / safety 5] Sun Nov 23 11:55:47 2003 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -323,7 +323,7 @@ void ReaderClass::metaLoad() {
   	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(nexte_meta_reader,"nexte_meta_reader"));
   
   Reader.nextexp->addMethod(list::domain(2,Reader._meta_reader,Kernel._boolean),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(nextexp_meta_reader,"nextexp_meta_reader"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(nextexp_meta_reader,"nextexp_meta_reader"));
   
   Reader.nexti->addMethod(list::domain(2,Reader._meta_reader,Kernel._any),Kernel._any,
   	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(nexti_meta_reader,"nexti_meta_reader"));
@@ -382,7 +382,7 @@ void ReaderClass::metaLoad() {
   	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(operand_I_any,"operand!_any"));
   
   Reader.precedence_I->addMethod(list::domain(1,Kernel._any),Kernel._integer,
-  	0,_function_(precedence_I_any,"precedence!_any"));
+  	RETURN_ARG,_function_(precedence_I_any,"precedence!_any"));
   
   Reader.nextstruct->addMethod(list::domain(3,Reader._meta_reader,Kernel._keyword,Kernel._keyword),Kernel._any,
   	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(nextstruct_meta_reader,"nextstruct_meta_reader"));
@@ -722,7 +722,7 @@ void ReaderClass::metaLoad() {
   	SLOT_UPDATE,_function_(debug_void,"debug_void"));
   
   Reader.call_debug->addMethod(list::domain(1,Kernel._void),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(call_debug_void,"call_debug_void"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(call_debug_void,"call_debug_void"));
   
   Reader.breakpoint->addMethod(list::domain(1,Kernel._void),Kernel._void,
   	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(breakpoint_void,"breakpoint_void"));
@@ -787,10 +787,10 @@ void ReaderClass::metaLoad() {
   	NEW_ALLOC,_function_(PRshow_property,"PRshow_property"));
   
   Reader.PRtime->addMethod(list::domain(1,Kernel._property),Kernel._integer,
-  	0,_function_(PRtime_property,"PRtime_property"));
+  	RETURN_ARG,_function_(PRtime_property,"PRtime_property"));
   
   Reader.PRcounter->addMethod(list::domain(1,Kernel._property),Kernel._integer,
-  	0,_function_(PRcounter_property,"PRcounter_property"));
+  	RETURN_ARG,_function_(PRcounter_property,"PRcounter_property"));
   
   Reader.PRshow->addMethod(list::domain(1,Kernel._void),Kernel._void,
   	NEW_ALLOC+BAG_UPDATE,_function_(PRshow_void,"PRshow_void"));

@@ -347,8 +347,9 @@ erase(a:table)  : void
 
 // new in v3.2.50 a constructor for building a table dynamically
 claire/make_table(%domain:type, %range:type, %default:any) : table
-  -> let t := (mClaire/new!(table) as table) in
-       (t.range := %range,
+  -> let t := (mClaire/new!(table) as table) in   
+       (t.range := %range, 
+        table.instances :add t,                          // v3.3.3
         t.domain := %domain,
         t.default := %default,
         t.params := any,

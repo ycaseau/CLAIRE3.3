@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\file.cl 
-         [version 3.3.28 / safety 5] Sat Sep 06 14:16:14 2003 *****/
+         [version 3.3.3 / safety 5] Sun Nov 23 11:55:46 2003 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -171,16 +171,13 @@ void  Serror_string(char *s,list *la)
 //
 /* The c++ function for: extract_variable(self:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
 Variable * extract_variable_any(OID self)
-{ if ((INHERIT(OWNER(self),Language._Variable)) && (equal(get_symbol(OBJECT(Variable,self)->pname),self) != CTRUE)) 
-  { { Variable *Result ;
-      { (OBJECT(Variable,self)->range = extract_type_any(GC_OID((*Kernel.range)(self))));
-        Result = OBJECT(Variable,self);
-        } 
-      return (Result);} 
-     } 
-  else{ GC_BIND;
-    { Variable *Result ;
-      { Variable * v;
+{ GC_BIND;
+  { Variable *Result ;
+    if ((INHERIT(OWNER(self),Language._Variable)) && (equal(get_symbol(OBJECT(Variable,self)->pname),self) != CTRUE))
+     { (OBJECT(Variable,self)->range = extract_type_any(GC_OID((*Kernel.range)(self))));
+      Result = OBJECT(Variable,self);
+      } 
+    else { Variable * v;
         { { Variable * _CL_obj = ((Variable *) GC_OBJECT(Variable,new_object_class(Language._Variable)));
             (_CL_obj->pname = extract_symbol_any(self));
             add_I_property(Kernel.instances,Language._Variable,11,_oid_(_CL_obj));
@@ -191,7 +188,6 @@ Variable * extract_variable_any(OID self)
         Result = v;
         } 
       GC_UNBIND; return (Result);} 
-    } 
   } 
 
 
@@ -232,7 +228,7 @@ OID  unbind_I_meta_reader(meta_reader *self,list *_Zfirst)
 char * _7_string(char *s,char *s2)
 { GC_BIND;
   { char *Result ;
-    Result = append_string(GC_STRING(append_string(s,string_v(Reader._starfs_star->value))),s2);
+    Result = append_string(append_string(s,string_v(Reader._starfs_star->value)),s2);
     GC_UNBIND; return (Result);} 
   } 
 
@@ -266,7 +262,7 @@ OID  load_file_string(char *self,ClaireBoolean *b)
   (Reader.reader->nb_line = 1);
   (Reader.reader->external = self);
   tformat_string("---- [load CLAIRE file: ~A]\n",2,list::alloc(1,_string_(self)));
-  { char * s2 = GC_STRING(append_string(self,".cl"));
+  { char * s2 = append_string(self,".cl");
     ClairePort * p1;
     { ClaireHandler c_handle = ClaireHandler();
       if ERROR_IN 
@@ -308,7 +304,7 @@ OID  load_file_string(char *self,ClaireBoolean *b)
            { if (Language.LastComment->value != CNULL)
              (Language.LastComment->value= (*Kernel._7_plus)(GC_OID(Language.LastComment->value),
               GC_OID(_string_(append_string("\n-- ",string_v(_staritem_star))))));
-            else (Language.LastComment->value= _string_(append_string(GC_STRING(append_string(GC_STRING(append_string(GC_STRING(append_string(GC_STRING(append_string("[",GC_STRING(Reader.reader->external))),"(")),GC_STRING(string_I_integer (Reader.reader->nb_line)))),")]\n-- ")),string_v(_staritem_star))));
+            else (Language.LastComment->value= _string_(append_string(append_string(append_string(append_string(append_string("[",GC_STRING(Reader.reader->external)),"("),GC_STRING(string_I_integer (Reader.reader->nb_line))),")]\n-- "),string_v(_staritem_star))));
               } 
           } 
         else { GC__OID(_staritem_star = OPT_EVAL(_staritem_star), 1);
@@ -359,14 +355,14 @@ void  load_file_module(module *self,ClaireBoolean *b)
   else if ((self->status == 0) && 
       (((self->source == (NULL)) ? CTRUE : CFALSE) != CTRUE))
    { begin_module(self);
-    { char * s = GC_STRING(append_string(GC_STRING(self->source),string_v(Reader._starfs_star->value)));
+    { char * s = append_string(GC_STRING(self->source),string_v(Reader._starfs_star->value));
       { OID gc_local;
         ITERATE(x);
         bag *x_support;
         x_support = GC_OBJECT(list,self->made_of);
         for (START(x_support); NEXT(x);)
         { GC_LOOP;
-          load_file_string(GC_STRING(append_string(GC_STRING(append_string(s,string_v(x))),".cl")),b);
+          load_file_string(append_string(append_string(s,string_v(x)),".cl"),b);
           GC_UNLOOP;} 
         } 
       } 
@@ -419,33 +415,37 @@ OID  sload_module(module *self)
 //
 /* The c++ function for: add_modules(self:module,l:set,result:list) [NEW_ALLOC+BAG_UPDATE+RETURN_ARG] */
 list * add_modules_module(module *self,set *l,list *result)
-{ GC_RESERVE(1);  // HOHO v3.0.55 optim !
-  { list *Result ;
-    if (result->memq(_oid_(self)) == CTRUE)
-     Result = result;
-    else if (contain_ask_set(l,_oid_(self)) == CTRUE)
-     Result = result->addFast(_oid_(self));
-    else { l= GC_OBJECT(set,l->addFast(_oid_(self)));
-        { OID gc_local;
-          ITERATE(x);
-          for (START(self->uses); NEXT(x);)
-          { GC_LOOP;
-            if (INHERIT(OWNER(x),Kernel._module))
-             GC__ANY(result = add_modules_module(OBJECT(module,x),l,result), 1);
-            GC_UNLOOP;} 
+{ if (result->memq(_oid_(self)) == CTRUE) 
+  { { list *Result ;
+      Result = result;
+      return (Result);} 
+     } 
+  else{ GC_RESERVE(1);  // HOHO v3.0.55 optim !
+    { list *Result ;
+      if (contain_ask_set(l,_oid_(self)) == CTRUE)
+       Result = result->addFast(_oid_(self));
+      else { l= l->addFast(_oid_(self));
+          { OID gc_local;
+            ITERATE(x);
+            for (START(self->uses); NEXT(x);)
+            { GC_LOOP;
+              if (INHERIT(OWNER(x),Kernel._module))
+               GC__ANY(result = add_modules_module(OBJECT(module,x),l,result), 1);
+              GC_UNLOOP;} 
+            } 
+          if (result->memq(_oid_(self)) != CTRUE)
+           result= result->addFast(_oid_(self));
+          { OID gc_local;
+            ITERATE(x);
+            for (START(self->parts); NEXT(x);)
+            { GC_LOOP;
+              GC__ANY(result = add_modules_module(OBJECT(module,x),l,result), 1);
+              GC_UNLOOP;} 
+            } 
+          Result = result;
           } 
-        if (result->memq(_oid_(self)) != CTRUE)
-         result= result->addFast(_oid_(self));
-        { OID gc_local;
-          ITERATE(x);
-          for (START(self->parts); NEXT(x);)
-          { GC_LOOP;
-            GC__ANY(result = add_modules_module(OBJECT(module,x),l,result), 1);
-            GC_UNLOOP;} 
-          } 
-        Result = result;
-        } 
-      GC_UNBIND; return (Result);} 
+        GC_UNBIND; return (Result);} 
+    } 
   } 
 
 
@@ -479,7 +479,7 @@ OID  eload_string(char *self)
   (Reader.reader->nb_line = 1);
   (Reader.reader->external = self);
   tformat_string("---- [eload CLAIRE file: ~A]\n",2,list::alloc(1,_string_(self)));
-  { char * s2 = GC_STRING(append_string(self,".cl"));
+  { char * s2 = append_string(self,".cl");
     ClairePort * p0 = (Reader.reader->fromp);
     ClairePort * p1;
     { ClaireHandler c_handle = ClaireHandler();
@@ -536,14 +536,11 @@ OID  eload_string(char *self)
 // the last character read (and not used) is in last(reader)
 /* The c++ function for: readblock(p:port) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
 OID  readblock_port(ClairePort *p)
-{ if (equal(ClAlloc->import(Kernel._port,(int *) Reader.reader->fromp),ClAlloc->import(Kernel._port,(int *) p)) == CTRUE) 
-  { { OID Result = 0;
-      Result = nextunit_meta_reader(Reader.reader);
-      return (Result);} 
-     } 
-  else{ GC_BIND;
-    { OID Result = 0;
-      { ClairePort * p2 = (Reader.reader->fromp);
+{ GC_BIND;
+  { OID Result = 0;
+    if (equal(ClAlloc->import(Kernel._port,(int *) Reader.reader->fromp),ClAlloc->import(Kernel._port,(int *) p)) == CTRUE)
+     Result = nextunit_meta_reader(Reader.reader);
+    else { ClairePort * p2 = (Reader.reader->fromp);
         (Reader.reader->fromp = p);
         { OID  val = GC_OID(nextunit_meta_reader(Reader.reader));
           (Reader.reader->fromp = p2);
@@ -556,7 +553,6 @@ OID  readblock_port(ClairePort *p)
           } 
         } 
       GC_UNBIND; return (Result);} 
-    } 
   } 
 
 
@@ -789,7 +785,7 @@ list * hashgrow_list(list *l,property *hi)
 { GC_BIND;
   { list *Result ;
     { list * l1 = l;
-      list * l2 = GC_OBJECT(list,make_list_integer((((*(l1))[0])*2),CNULL));
+      list * l2 = make_list_integer((((*(l1))[0])*2),CNULL);
       { ITERATE(x);
         for (START(l1); NEXT(x);)
         if (x != CNULL)

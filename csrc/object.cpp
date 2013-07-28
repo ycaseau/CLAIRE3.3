@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\object.cl 
-         [version 3.3.28 / safety 5] Sat Sep 06 14:16:07 2003 *****/
+         [version 3.3.3 / safety 5] Sun Nov 23 11:55:40 2003 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -369,7 +369,7 @@ ClaireBoolean * identical_ask_any(OID x,OID y)
 OID  put_property2(property *self,ClaireObject *x,OID y)
 { GC_BIND;
   { OID Result = 0;
-    { ClaireObject * s = GC_OBJECT(ClaireObject,_at_property1(self,OWNER(_oid_(x))));
+    { ClaireObject * s = _at_property1(self,OWNER(_oid_(x)));
       if (Kernel._slot == s->isa)
        Result = store_object(x,
         CLREAD(slot,s,index),
@@ -389,7 +389,7 @@ OID  put_property2(property *self,ClaireObject *x,OID y)
 /* The c++ function for: add_value(self:property,x:object,y:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
 void  add_value_property3(property *self,ClaireObject *x,OID y)
 { GC_BIND;
-  { ClaireObject * s = GC_OBJECT(ClaireObject,_at_property1(self,OWNER(_oid_(x))));
+  { ClaireObject * s = _at_property1(self,OWNER(_oid_(x)));
     if (boolean_I_any(_oid_(s)) != CTRUE)
      close_exception(((selector_error *) (*Core._selector_error)(_oid_(self),
       _oid_(list::alloc(1,_oid_(x))))));
@@ -439,16 +439,12 @@ OID  nth_table1(table *a,OID x)
 
 /* The c++ function for: nth_table1_type */
 ClaireType * nth_table1_type(ClaireType *a,ClaireType *x)
-{ if (unique_ask_type(a) == CTRUE) 
-  { { ClaireType *Result ;
-      Result = OBJECT(ClaireType,(*Kernel.range)(GC_OID(the_type(a))));
-      return (Result);} 
-     } 
-  else{ GC_BIND;
-    { ClaireType *Result ;
-      Result = Kernel._any;
+{ GC_BIND;
+  { ClaireType *Result ;
+    if (unique_ask_type(a) == CTRUE)
+     Result = OBJECT(ClaireType,(*Kernel.range)(GC_OID(the_type(a))));
+    else Result = Kernel._any;
       GC_UNBIND; return (Result);} 
-    } 
   } 
 
 
@@ -468,16 +464,12 @@ OID  get_table(table *a,OID x)
 
 /* The c++ function for: get_table_type */
 ClaireType * get_table_type(ClaireType *a,ClaireType *x)
-{ if (unique_ask_type(a) == CTRUE) 
-  { { ClaireType *Result ;
-      Result = U_type(GC_OBJECT(ClaireType,OBJECT(ClaireType,(*Kernel.range)(GC_OID(the_type(a))))),set::alloc(Kernel.emptySet,1,CNULL));
-      return (Result);} 
-     } 
-  else{ GC_BIND;
-    { ClaireType *Result ;
-      Result = Kernel._any;
+{ GC_BIND;
+  { ClaireType *Result ;
+    if (unique_ask_type(a) == CTRUE)
+     Result = U_type(GC_OBJECT(ClaireType,OBJECT(ClaireType,(*Kernel.range)(GC_OID(the_type(a))))),set::alloc(Kernel.emptySet,1,CNULL));
+    else Result = Kernel._any;
       GC_UNBIND; return (Result);} 
-    } 
   } 
 
 
@@ -499,55 +491,51 @@ void  nth_equal_table1(table *a,OID x,OID y)
 // equivalent of update = put + put_inverse
 /* The c++ function for: nth_put(a:table,x:any,y:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
 void  nth_put_table(table *a,OID x,OID y)
-{ if ((((a->if_write == CNULL) ? CTRUE : CFALSE) != CTRUE) && 
-      (multi_ask_any(_oid_(a)) != CTRUE)) 
-  { fastcall_relation2(a,x,y);
-     } 
-  else{ if (multi_ask_any(_oid_(a)) == CTRUE) 
-    { { OID  r = GC_OID(get_property(Kernel.inverse,a));
-        OID  old = get_table(a,x);
-        if (old != CNULL)
-         { OID  g0048UU;
-          if (OBJECT(set,y)->length == 0)
-           g0048UU = y;
-          else if (a->multivalued_ask == Kernel._list)
-           g0048UU = CNULL;
-          else g0048UU = _oid_(Kernel.emptySet);
-            ((*(((list *) a->graph)))[get_index_table1(a,x)]=g0048UU);
-          } 
-        if (r != CNULL)
-         { OID gc_local;
-          ITERATE(z);
-          bag *z_support;
-          z_support = GC_OBJECT(bag,enumerate_any(old));
-          for (START(z_support); NEXT(z);)
-          update_dash_relation(OBJECT(ClaireRelation,r),z,x);
-          } 
-        { OID gc_local;
-          ITERATE(z);
-          for (START(OBJECT(set,y)); NEXT(z);)
-          add_I_table(a,x,z);
-          } 
-        } 
-       } 
-    else{ GC_BIND;
-      { OID  r = GC_OID(get_property(Kernel.inverse,a));
-        OID  z = get_table(a,x);
-        if (equal(z,y) != CTRUE)
-         { if (r != CNULL)
-           { OID  z = get_table(a,x);
-            if ((z != CNULL) && 
-                ((r != _oid_(a)) || 
-                    (equal(x,z) != CTRUE)))
-             update_dash_relation(OBJECT(ClaireRelation,r),z,x);
-            } 
-          put_table(a,x,y);
-          update_plus_relation(a,x,y);
-          } 
-        } 
-      GC_UNBIND;} 
+{ GC_BIND;
+  if ((((a->if_write == CNULL) ? CTRUE : CFALSE) != CTRUE) && 
+      (multi_ask_any(_oid_(a)) != CTRUE))
+   fastcall_relation2(a,x,y);
+  else if (multi_ask_any(_oid_(a)) == CTRUE)
+   { OID  r = get_property(Kernel.inverse,a);
+    OID  old = get_table(a,x);
+    if (old != CNULL)
+     { OID  g0048UU;
+      if (OBJECT(set,y)->length == 0)
+       g0048UU = y;
+      else if (a->multivalued_ask == Kernel._list)
+       g0048UU = CNULL;
+      else g0048UU = _oid_(Kernel.emptySet);
+        ((*(((list *) a->graph)))[get_index_table1(a,x)]=g0048UU);
+      } 
+    if (r != CNULL)
+     { OID gc_local;
+      ITERATE(z);
+      bag *z_support;
+      z_support = GC_OBJECT(bag,enumerate_any(old));
+      for (START(z_support); NEXT(z);)
+      update_dash_relation(OBJECT(ClaireRelation,r),z,x);
+      } 
+    { OID gc_local;
+      ITERATE(z);
+      for (START(OBJECT(set,y)); NEXT(z);)
+      add_I_table(a,x,z);
+      } 
     } 
-  } 
+  else { OID  r = get_property(Kernel.inverse,a);
+      OID  z = get_table(a,x);
+      if (equal(z,y) != CTRUE)
+       { if (r != CNULL)
+         { OID  z = get_table(a,x);
+          if ((z != CNULL) && 
+              ((r != _oid_(a)) || 
+                  (equal(x,z) != CTRUE)))
+           update_dash_relation(OBJECT(ClaireRelation,r),z,x);
+          } 
+        put_table(a,x,y);
+        update_plus_relation(a,x,y);
+        } 
+      } 
+    GC_UNBIND;} 
 
 
 // put does NOT update the inverse
@@ -599,28 +587,25 @@ void  add_I_table(table *a,OID x,OID y)
 // this methods adds a value to a multi-slot (used by the compiler)
 /* The c++ function for: add_value(self:table,n:integer,l:bag,y:any) [NEW_ALLOC+BAG_UPDATE] */
 ClaireBoolean * add_value_array(table *self,int n,bag *l,OID y)
-{ if (self->multivalued_ask == CTRUE) 
-  { { ClaireBoolean *Result ;
-      if (belong_to(y,_oid_(l)) != CTRUE)
-       { set * l1 = GC_OBJECT(set,((set *) ((self->store_ask == CTRUE) ?
+{ GC_BIND;
+  { ClaireBoolean *Result ;
+    if (self->multivalued_ask == CTRUE)
+     { if (belong_to(y,_oid_(l)) != CTRUE)
+       { set * l1 = ((set *) ((self->store_ask == CTRUE) ?
           copy_bag(l) :
-          l ))->addFast(y));
+          l ))->addFast(y);
         store_list(((list *) self->graph),n,_oid_(l1),self->store_ask);
         Result = CTRUE;
         } 
       else Result = CFALSE;
-        return (Result);} 
-     } 
-  else{ GC_BIND;
-    { ClaireBoolean *Result ;
-      { list * l1 = GC_OBJECT(list,((self->store_ask == CTRUE) ?
+        } 
+    else { list * l1 = GC_OBJECT(list,((self->store_ask == CTRUE) ?
           store_add(((list *) l),y) :
           ((list *) l)->addFast(y) ));
         store_list(((list *) self->graph),n,_oid_(l1),self->store_ask);
         Result = CTRUE;
         } 
       GC_UNBIND; return (Result);} 
-    } 
   } 
 
 
@@ -689,16 +674,12 @@ OID  nth_table2(table *a,OID x,OID y)
 
 /* The c++ function for: nth_table2_type */
 ClaireType * nth_table2_type(ClaireType *a,ClaireType *x,ClaireType *y)
-{ if (unique_ask_type(a) == CTRUE) 
-  { { ClaireType *Result ;
-      Result = OBJECT(ClaireType,(*Kernel.range)(GC_OID(the_type(a))));
-      return (Result);} 
-     } 
-  else{ GC_BIND;
-    { ClaireType *Result ;
-      Result = Kernel._any;
+{ GC_BIND;
+  { ClaireType *Result ;
+    if (unique_ask_type(a) == CTRUE)
+     Result = OBJECT(ClaireType,(*Kernel.range)(GC_OID(the_type(a))));
+    else Result = Kernel._any;
       GC_UNBIND; return (Result);} 
-    } 
   } 
 
 
@@ -725,7 +706,7 @@ void  nth_equal_table2(table *a,OID x,OID y,OID z)
 
 
 // v3.2.16 tuple(a,b) is not list(a,b) !
-/* The c++ function for: get_index(a:table,x:any) [0] */
+/* The c++ function for: get_index(a:table,x:any) [RETURN_ARG] */
 int  get_index_table1(table *a,OID x)
 { { int Result = 0;
     { OID  p = a->params;
@@ -784,11 +765,12 @@ void  erase_table(table *a)
 
 
 // new in v3.2.50 a constructor for building a table dynamically
-/* The c++ function for: make_table(%domain:type,%range:type,%default:any) [NEW_ALLOC+SLOT_UPDATE] */
+/* The c++ function for: make_table(%domain:type,%range:type,%default:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
 table * make_table_type(ClaireType *_Zdomain,ClaireType *_Zrange,OID _Zdefault)
 { { table *Result ;
     { table * t = ((table *) new_object_class(Kernel._table));
       (t->range = _Zrange);
+      add_I_property(Kernel.instances,Kernel._table,11,_oid_(t));
       (t->domain = _Zdomain);
       (t->DEFAULT = _Zdefault);
       (t->params = _oid_(Kernel._any));
@@ -895,7 +877,7 @@ bag * invert_relation(ClaireRelation *r,OID x)
 { GC_BIND;
   { bag *Result ;
     { ClaireObject *V_CC ;
-      { OID  r2 = GC_OID(get_property(Kernel.inverse,r));
+      { OID  r2 = get_property(Kernel.inverse,r);
         if (INHERIT(OWNER(r2),Kernel._table))
          { OID  v = nth_table1(OBJECT(table,r2),x);
           if (OBJECT(ClaireRelation,r2)->multivalued_ask != CFALSE)
@@ -903,7 +885,7 @@ bag * invert_relation(ClaireRelation *r,OID x)
           else V_CC = set::alloc(1,v);
             } 
         else if (INHERIT(OWNER(r2),Kernel._property))
-         { OID  v = GC_OID(get_property(OBJECT(property,r2),OBJECT(ClaireObject,x)));
+         { OID  v = get_property(OBJECT(property,r2),OBJECT(ClaireObject,x));
           if (OBJECT(ClaireRelation,r2)->multivalued_ask != CFALSE)
            V_CC = OBJECT(bag,v);
           else V_CC = set::alloc(1,v);
@@ -1250,7 +1232,7 @@ global_variable * close_global_variable(global_variable *self)
 
 // we create a spcial contraidiction that we shall reuse
 // how to use it
-/* The c++ function for: contradiction!(_CL_obj:void) [0] */
+/* The c++ function for: contradiction!(_CL_obj:void) [RETURN_ARG] */
 void  contradiction_I_void()
 { close_exception(OBJECT(ClaireException,Core.contradiction_occurs->value));
   } 

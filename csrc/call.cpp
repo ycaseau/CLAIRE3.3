@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\call.cl 
-         [version 3.3.28 / safety 5] Sat Sep 06 14:16:11 2003 *****/
+         [version 3.3.3 / safety 5] Sun Nov 23 11:55:44 2003 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -219,7 +219,7 @@ OID  self_eval_Call_plus(Call_plus *self)
   { OID Result = 0;
     { property * p = self->selector;
       OID  x = GC_OID(OPT_EVAL((*(self->args))[1]));
-      ClaireObject * s = GC_OBJECT(ClaireObject,_at_property1(p,OWNER(x)));
+      ClaireObject * s = _at_property1(p,OWNER(x));
       if (equal(_oid_(OWNER(_oid_(s))),_oid_(Kernel._slot)) != CTRUE)
        { OID  V_CL0011;close_exception(((selector_error *) (*Core._selector_error)(_oid_(p),
           _oid_(list::alloc(1,x)))));
@@ -337,19 +337,15 @@ void  self_print_Assign_Language(Assign *self)
 
 /* The c++ function for: self_eval(self:Assign) [NEW_ALLOC+RETURN_ARG] */
 OID  self_eval_Assign(Assign *self)
-{ if (INHERIT(OWNER(self->var),Language._Variable)) 
-  { { OID Result = 0;
-      Result = write_value_Variable(GC_OBJECT(Variable,OBJECT(Variable,self->var)),GC_OID(OPT_EVAL(self->arg)));
-      return (Result);} 
-     } 
-  else{ GC_BIND;
-    { OID Result = 0;
-      { OID  V_CL0015;close_exception(((general_error *) (*Core._general_error)(_string_("[101] ~S is not a variable"),
+{ GC_BIND;
+  { OID Result = 0;
+    if (INHERIT(OWNER(self->var),Language._Variable))
+     Result = write_value_Variable(GC_OBJECT(Variable,OBJECT(Variable,self->var)),GC_OID(OPT_EVAL(self->arg)));
+    else { OID  V_CL0015;close_exception(((general_error *) (*Core._general_error)(_string_("[101] ~S is not a variable"),
           _oid_(list::alloc(1,self->var)))));
         
         Result=_void_(V_CL0015);} 
       GC_UNBIND; return (Result);} 
-    } 
   } 
 
 
@@ -405,7 +401,7 @@ OID  self_eval_Gassign(Gassign *self)
 //--------------- BOOLEAN OPERATIONS ---------------------------------
 // "and" is strictly boolean and is based on short-circuit evaluation.
 //
-/* The c++ function for: self_print(self:And) [NEW_ALLOC+SLOT_UPDATE] */
+/* The c++ function for: self_print(self:And) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
 void  self_print_And_Language(And *self)
 { GC_BIND;
   princ_string("(");
@@ -437,7 +433,7 @@ OID  self_eval_And(And *self)
 
 // or expression
 //
-/* The c++ function for: self_print(self:Or) [NEW_ALLOC+SLOT_UPDATE] */
+/* The c++ function for: self_print(self:Or) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
 void  self_print_Or_Language(Or *self)
 { GC_BIND;
   princ_string("(");
@@ -480,7 +476,7 @@ void  self_print_Quote_Language(Quote *self)
   GC_UNBIND;} 
 
 
-/* The c++ function for: self_eval(self:Quote) [0] */
+/* The c++ function for: self_eval(self:Quote) [RETURN_ARG] */
 OID  self_eval_Quote(Quote *self)
 { return (self->arg);} 
 
@@ -612,16 +608,12 @@ void  self_print_Call_table_Language(Call_table *self)
 
 /* The c++ function for: self_eval(self:Call_table) [NEW_ALLOC+RETURN_ARG] */
 OID  self_eval_Call_table(Call_table *self)
-{ if (self->test == CTRUE) 
-  { { OID Result = 0;
-      Result = nth_table1(self->selector,OPT_EVAL(self->arg));
-      return (Result);} 
-     } 
-  else{ GC_BIND;
-    { OID Result = 0;
-      Result = get_table(self->selector,OPT_EVAL(self->arg));
+{ GC_BIND;
+  { OID Result = 0;
+    if (self->test == CTRUE)
+     Result = nth_table1(self->selector,OPT_EVAL(self->arg));
+    else Result = get_table(self->selector,OPT_EVAL(self->arg));
       GC_UNBIND; return (Result);} 
-    } 
   } 
 
 
@@ -661,7 +653,7 @@ OID  self_eval_Update(Update *self)
 // However we require that the receiver be in the specified abstract_class.
 // The form of the super is: SELECTOR@ABSTRACT_CLASS(RECEIVER , ...)
 //
-/* The c++ function for: self_print(self:Super) [NEW_ALLOC+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: self_print(self:Super) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
 void  self_print_Super_Language(Super *self)
 { GC_BIND;
   { int  _Zl = Core.pretty->index;

@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\function.cl 
-         [version 3.3.28 / safety 5] Sat Sep 06 14:16:07 2003 *****/
+         [version 3.3.3 / safety 5] Sun Nov 23 11:55:40 2003 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -1077,18 +1077,14 @@ OID  nth_bag(bag *self,int x)
 
 /* The c++ function for: nth_bag_type */
 ClaireType * nth_bag_type(ClaireType *self,ClaireType *x)
-{ if ((INHERIT(self->isa,Kernel._tuple)) && 
-      (unique_ask_type(x) == CTRUE)) 
-  { { ClaireType *Result ;
-      Result = OBJECT(ClaireType,(*Kernel.nth)(_oid_(self),
-        GC_OID(the_type(x))));
-      return (Result);} 
-     } 
-  else{ GC_BIND;
-    { ClaireType *Result ;
-      Result = member_type(self);
-      GC_UNBIND; return (Result);} 
-    } 
+{ GC_BIND;
+  { ClaireType *Result ;
+    Result = (((INHERIT(self->isa,Kernel._tuple)) && 
+        (unique_ask_type(x) == CTRUE)) ?
+      OBJECT(ClaireType,(*Kernel.nth)(_oid_(self),
+        GC_OID(the_type(x)))) :
+      member_type(self) );
+    GC_UNBIND; return (Result);} 
   } 
 
 
@@ -1164,7 +1160,7 @@ list * _7_plus_bag(bag *x,bag *y)
             l= (list *) V_CC;} 
         GC_OBJECT(list,l);} 
       if (INHERIT(y->isa,Kernel._list))
-       l= GC_OBJECT(list,append_list(l,((list *) y)));
+       l= append_list(l,((list *) y));
       else { OID gc_local;
           ITERATE(z);
           for (START(y); NEXT(z);)
@@ -1245,7 +1241,7 @@ OID  car_list(list *self)
 list * hashlist_integer(int n)
 { GC_BIND;
   { list *Result ;
-    { list * l = GC_OBJECT(list,make_list_integer(n,CNULL));
+    { list * l = make_list_integer(n,CNULL);
       int  u = (((*(l))[0])-3);
       { int  i = (n+1);
         int  g0086 = u;
@@ -1326,27 +1322,23 @@ void  quicksort_list(list *self,method *f,int n,int m)
 // destructive method that build the powerset
 /* The c++ function for: build_powerset(self:list) [NEW_ALLOC+BAG_UPDATE] */
 set * build_powerset_list(list *self)
-{ if (self->length != 0) 
-  { { set *Result ;
-      { OID  x = (*(self))[1];
-        set * l1 = GC_OBJECT(set,build_powerset_list(skip_list(self,1)));
-        set * l2 = l1;
-        { OID gc_local;
-          ITERATE(y);
-          for (START(l1); NEXT(y);)
-          { GC_LOOP;
-            GC__ANY(l2 = l2->addFast(GC_OID(_oid_(append_set(set::alloc(1,x),OBJECT(set,y))))), 4);
-            GC_UNLOOP;} 
-          } 
-        Result = l2;
+{ GC_RESERVE(1);  // HOHO v3.0.55 optim !
+  { set *Result ;
+    if (self->length != 0)
+     { OID  x = (*(self))[1];
+      set * l1 = GC_OBJECT(set,build_powerset_list(skip_list(self,1)));
+      set * l2 = l1;
+      { OID gc_local;
+        ITERATE(y);
+        for (START(l1); NEXT(y);)
+        { GC_LOOP;
+          GC__ANY(l2 = l2->addFast(GC_OID(_oid_(append_set(set::alloc(1,x),OBJECT(set,y))))), 1);
+          GC_UNLOOP;} 
         } 
-      return (Result);} 
-     } 
-  else{ GC_BIND;
-    { set *Result ;
-      Result = set::alloc(Kernel.emptySet,1,_oid_(Kernel.emptySet));
+      Result = l2;
+      } 
+    else Result = set::alloc(Kernel.emptySet,1,_oid_(Kernel.emptySet));
       GC_UNBIND; return (Result);} 
-    } 
   } 
 
 
@@ -1356,7 +1348,7 @@ set * build_powerset_list(list *self)
 list * make_copy_list_integer(int n,OID d)
 { GC_BIND;
   { list *Result ;
-    { list * l = GC_OBJECT(list,make_list_integer(n,d));
+    { list * l = make_list_integer(n,d);
       if (INHERIT(OWNER(d),Kernel._bag))
        { int  i = 1;
         int  g0088 = n;

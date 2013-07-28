@@ -172,7 +172,13 @@ module *module::make(char *s, module *sup)
   m->part_of = sup;
   m->status = 0;
   m->parts = list::empty(Kernel._module);
+  // initialize the module - v3.3.3
+  m->comment = NULL;
+  m->made_of = NULL;
+  m->evaluate = NULL;
+  m->external = NULL;
   return m;}
+
 
 // hash function.
 unsigned module::hash(register char *s)

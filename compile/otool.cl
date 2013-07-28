@@ -40,7 +40,10 @@ c_type(self:Compile/to_CL) : type
 
 Compile/c_gc?(self:Compile/to_CL) : boolean
  -> (not(gcsafe?(self.set_arg)) &
-      (Compile/c_gc?(self.arg) | self.set_arg Core/<=t import))       // v3.00.10
+      (self.set_arg = float |                  // v3.3.3 ! float must be protected when converted to OID
+       self.set_arg Core/<=t import) |         // v3.00.10: similar rule = protect import if converted to OID
+       Compile/c_gc?(self.arg))                // default: only protect if content if GC-fragile 
+     
 
 // to_C(x) produces an external thing from a CLAIRE oid of sort s.
 self_print(self:Compile/to_C) : void -> printf("C{~S}:~S", self.arg,self.set_arg)
@@ -493,7 +496,7 @@ self_code(self:Pattern) : any
 [c_gc!(self:any) : any
  -> if (not(OPT.online?) & c_gc?(self))
         (// [4] ---- note: use GC protection on ~S // self,
-         write(protection, OPT, true),
+         OPT.protection := true,
          to_protect(arg = self))
      else self ]
 
@@ -510,11 +513,16 @@ self_code(self:Pattern) : any
      else self ]
 
 // tells if a Call_slot or a nth needs a protect
+// which means: we read a value that can be modified later
 [Compile/need_protect(x:any) : boolean
  -> case x
       (Call_slot OPT.use_update,
-       Call_method2 (OPT.use_nth= | x.arg.selector != nth | domain!(x.arg) = class),
-       any true) ]
+       Call_method2 (if (x.arg.selector = nth)
+                        (OPT.use_nth= |                         // if use_nth ... we must protect
+                         domain!(x.arg) = class |               // type expression
+                         c_type(x.args[1]) <= tuple)            // tuple may be stack-allocated
+                     else false),                               // this method only concerns nth(x,y) calls
+        any true) ]
 
 // ******************************************************************
 // *    Part 5: Miscellaneous                                       *
@@ -569,7 +577,7 @@ gc_register(self:Variable,arg:any) : any
 // v3.3.26: if the value is passed through a method that return its arg which is itself protected
 Compile/inner2outer?(x:any) : boolean
   -> (case x
-      (to_protect true,
+      (to_protect true,                              // this is strange
        Variable not(Optimize/gcsafe?(x.range)),
        Call_method (x.arg.status[RETURN_ARG] & inner2outer?(x.args[1])),  // v3.3.26
        to_CL inner2outer?(x.arg),

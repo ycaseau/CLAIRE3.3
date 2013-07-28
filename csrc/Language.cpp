@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file Language.cl 
-         [version 3.3.28 / safety 5] Sat Sep 06 14:16:11 2003 *****/
+         [version 3.3.3 / safety 5] Sun Nov 23 11:55:44 2003 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -133,7 +133,7 @@ void LanguageClass::metaLoad() {
   (Language._Control_structure = ClaireClass::make("Control_structure",Language._Complex_instruction,claire.it));
   
   Core.self_eval->addMethod(list::domain(1,Core._global_variable),Kernel._any,
-  	0,_function_(self_eval_global_variable,"self_eval_global_variable"));
+  	RETURN_ARG,_function_(self_eval_global_variable,"self_eval_global_variable"));
   
   Language.write_value->addMethod(list::domain(2,Core._global_variable,Kernel._any),Kernel._any,
   	NEW_ALLOC+SLOT_UPDATE+RETURN_ARG,_function_(write_value_global_variable,"write_value_global_variable"));
@@ -338,7 +338,7 @@ void LanguageClass::metaLoad() {
   	NEW_ALLOC,_function_(self_print_Quote_Language,"self_print_Quote_Language"));
   
   Core.self_eval->addMethod(list::domain(1,Language._Quote),Kernel._any,
-  	0,_function_(self_eval_Quote,"self_eval_Quote"));
+  	RETURN_ARG,_function_(self_eval_Quote,"self_eval_Quote"));
   
   (Language._Optimized_instruction = ClaireClass::make("Optimized_instruction",Language._Complex_instruction,claire.it));
   
@@ -543,7 +543,7 @@ void LanguageClass::metaLoad() {
   	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(self_print_For_Language,"self_print_For_Language"));
   
   Core.self_eval->addMethod(list::domain(1,Language._For),Kernel._any,
-  	NEW_ALLOC+SLOT_UPDATE,_function_(self_eval_For,"self_eval_For"));
+  	NEW_ALLOC+SLOT_UPDATE+RETURN_ARG,_function_(self_eval_For,"self_eval_For"));
   
   { (Language._Collect = ClaireClass::make("Collect",Language._Iteration,claire.it));
     CL_ADD_SLOT(Language._Collect,Collect,Kernel.of,of,Kernel._type,CNULL);
@@ -616,7 +616,7 @@ void LanguageClass::metaLoad() {
   	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(self_print_While_Language,"self_print_While_Language"));
   
   Core.self_eval->addMethod(list::domain(1,Language._While),Kernel._any,
-  	NEW_ALLOC,_function_(self_eval_While,"self_eval_While"));
+  	NEW_ALLOC+RETURN_ARG,_function_(self_eval_While,"self_eval_While"));
   
   { (Language._Handle = ClaireClass::make("Handle",Language._Control_structure,claire.it));
     CL_ADD_SLOT(Language._Handle,ClaireHandle,Language.test,test,Kernel._any,CNULL);
@@ -628,7 +628,7 @@ void LanguageClass::metaLoad() {
   	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(self_print_Handle_Language,"self_print_Handle_Language"));
   
   Core.self_eval->addMethod(list::domain(1,Language._Handle),Kernel._any,
-  	NEW_ALLOC,_function_(self_eval_Handle,"self_eval_Handle"));
+  	NEW_ALLOC+RETURN_ARG,_function_(self_eval_Handle,"self_eval_Handle"));
   
   { (Language._Construct = ClaireClass::make("Construct",Language._Complex_instruction,claire.it));
     CL_ADD_SLOT(Language._Construct,Construct,Core.args,args,Kernel._list,CNULL);
@@ -679,7 +679,7 @@ void LanguageClass::metaLoad() {
   	NEW_ALLOC,_function_(self_eval_Macro2,"self_eval_Macro2"));
   
   Core.self_eval->addMethod(list::domain(1,Language._Error),Kernel._void,
-  	NEW_ALLOC+SLOT_UPDATE,_function_(self_eval_Error,"self_eval_Error"));
+  	NEW_ALLOC+SLOT_UPDATE+RETURN_ARG,_function_(self_eval_Error,"self_eval_Error"));
   
   Core.self_eval->addMethod(list::domain(1,Language._Printf),Kernel._any,
   	NEW_ALLOC+SLOT_UPDATE,_function_(self_eval_Printf,"self_eval_Printf"));
@@ -962,7 +962,7 @@ void LanguageClass::metaLoad() {
   	NEW_ALLOC,_function_(putCall_relation2,"putCall_relation2"));
   
   Language.safeRange->addMethod(list::domain(1,Kernel._relation),Kernel._type,
-  	0,_function_(safeRange_relation,"safeRange_relation"));
+  	RETURN_ARG,_function_(safeRange_relation,"safeRange_relation"));
   
   Language.eval_if_write->addMethod(list::domain(1,Kernel._relation),Kernel._void,
   	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(eval_if_write_relation,"eval_if_write_relation"));

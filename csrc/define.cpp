@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\define.cl 
-         [version 3.3.28 / safety 5] Sat Sep 06 14:16:11 2003 *****/
+         [version 3.3.3 / safety 5] Sun Nov 23 11:55:44 2003 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -23,7 +23,7 @@
 // *********************************************************************
 // this is the basic class instantiation
 //
-/* The c++ function for: self_print(self:Definition) [NEW_ALLOC+SLOT_UPDATE] */
+/* The c++ function for: self_print(self:Definition) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
 OID  self_print_Definition_Language(Definition *self)
 { GC_BIND;
   print_any(_oid_(self->arg));
@@ -37,45 +37,44 @@ OID  self_print_Definition_Language(Definition *self)
 
 // ------------- named object definition ------------------------------
 //
-/* The c++ function for: self_print(self:Defobj) [NEW_ALLOC+SLOT_UPDATE] */
+/* The c++ function for: self_print(self:Defobj) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
 void  self_print_Defobj_Language(Defobj *self)
-{ if (self->arg == Core._global_variable) 
-  { { OID  r = _oid_(Kernel._any);
-      OID  v = CNULL;
-      { OID gc_local;
-        ITERATE(x);
-        bag *x_support;
-        x_support = GC_OBJECT(list,self->args);
-        for (START(x_support); NEXT(x);)
-        if ((*(OBJECT(Call,x)->args))[1] == _oid_(Kernel.value))
-         v= (*(OBJECT(Call,x)->args))[2];
-        else if ((*(OBJECT(Call,x)->args))[1] == _oid_(Kernel.range))
-         r= (*(OBJECT(Call,x)->args))[2];
-        } 
-      if (boolean_I_any(r) == CTRUE)
-       { princ_symbol(self->ident);
-        princ_string(":");
-        print_any(r);
-        princ_string(" := ");
+{ GC_BIND;
+  if (self->arg == Core._global_variable)
+   { OID  r = _oid_(Kernel._any);
+    OID  v = CNULL;
+    { OID gc_local;
+      ITERATE(x);
+      bag *x_support;
+      x_support = GC_OBJECT(list,self->args);
+      for (START(x_support); NEXT(x);)
+      if ((*(OBJECT(Call,x)->args))[1] == _oid_(Kernel.value))
+       v= (*(OBJECT(Call,x)->args))[2];
+      else if ((*(OBJECT(Call,x)->args))[1] == _oid_(Kernel.range))
+       r= (*(OBJECT(Call,x)->args))[2];
+      } 
+    if (boolean_I_any(r) == CTRUE)
+     { princ_symbol(self->ident);
+      princ_string(":");
+      print_any(r);
+      princ_string(" := ");
+      printexp_any(v,CFALSE);
+      princ_string("");
+      } 
+    else { princ_symbol(self->ident);
+        princ_string(" :: ");
         printexp_any(v,CFALSE);
         princ_string("");
         } 
-      else { princ_symbol(self->ident);
-          princ_string(" :: ");
-          printexp_any(v,CFALSE);
-          princ_string("");
-          } 
-        } 
-     } 
-  else{ GC_BIND;
-    princ_symbol(self->ident);
-    princ_string(" :: ");
-    print_any(_oid_(self->arg));
-    princ_string("(");
-    printbox_bag2(GC_OBJECT(list,self->args));
-    princ_string(")");
+      } 
+  else { princ_symbol(self->ident);
+      princ_string(" :: ");
+      print_any(_oid_(self->arg));
+      princ_string("(");
+      printbox_bag2(GC_OBJECT(list,self->args));
+      princ_string(")");
+      } 
     GC_UNBIND;} 
-  } 
 
 
 // ------------- class definition ------------------------------------
@@ -228,7 +227,7 @@ OID  complete_object(ClaireObject *self,list *_Zl)
     { GC_LOOP;
       { property * p = make_a_property_any((*(OBJECT(Call,x)->args))[1]);
         OID  y = GC_OID(OPT_EVAL((*(OBJECT(Call,x)->args))[2]));
-        ClaireObject * s = GC_OBJECT(ClaireObject,_at_property1(p,self->isa));
+        ClaireObject * s = _at_property1(p,self->isa);
         if (Kernel._slot == s->isa)
          { if (belong_to(y,_oid_(CLREAD(restriction,s,range))) != CTRUE)
            range_is_wrong_slot(((slot *) s),y);
@@ -281,96 +280,104 @@ OID  self_eval_Defobj(Defobj *self)
 // creation of a new named object
 /* The c++ function for: self_eval(self:Defclass) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
 OID  self_eval_Defclass(Defclass *self)
-{ GC_RESERVE(8);  // v3.0.55 optim !
-  { OID Result = 0;
-    if ((INHERIT(owner_any(get_symbol(self->ident)),Kernel._class)) && 
-        ((OBJECT(ClaireClass,get_symbol(self->ident))->open != -2) || 
-            (self->arg != OBJECT(ClaireClass,get_symbol(self->ident))->superclass)))
-     { OID  V_CL0039;close_exception(((general_error *) (*Core._general_error)(_string_("[107] class re-definition is not valid: ~S"),
-        _oid_(list::alloc(1,_oid_(self))))));
-      
-      Result=_void_(V_CL0039);} 
-    else if ((self->arg->open == 1) || 
-        (self->arg->open == -1))
-     { OID  V_CL0040;close_exception(((general_error *) (*Core._general_error)(_string_("[109] the parent class ~S of ~S is closed"),
-        _oid_(list::alloc(2,_oid_(self->arg),_oid_(self))))));
-      
-      Result=_void_(V_CL0040);} 
-    else { ClaireClass * _Zo = class_I_symbol(self->ident,self->arg);
-        { OID gc_local;
-          ITERATE(x);
-          bag *x_support;
-          x_support = GC_OBJECT(list,self->args);
-          for (START(x_support); NEXT(x);)
-          { GC_LOOP;
-            { OID  v = CNULL;
-              if (INHERIT(OWNER(x),Language._Call))
-               { GC__OID(v = OPT_EVAL((*(OBJECT(Call,x)->args))[2]), 4);
-                x= (*(OBJECT(Call,x)->args))[1];
-                } 
-              { ClaireType * rt = GC_OBJECT(ClaireType,extract_type_any(GC_OID((*Kernel.range)(x))));
-                property * p = make_a_property_any(_oid_(OBJECT(Variable,x)->pname));
-                slot * ps = OBJECT(slot,last_list(_Zo->slots));
-                int  ix = ps->index;
-                if ((v != CNULL) && 
-                    (belong_to(v,_oid_(rt)) != CTRUE))
-                 close_exception(((general_error *) (*Core._general_error)(_string_("[108] default(~S) = ~S does not belong to ~S"),
-                  _oid_(list::alloc(3,x,
-                    v,
-                    _oid_(rt))))));
-                { ClaireBoolean * g0041I;
-                  { ClaireBoolean *v_and;
-                    { v_and = ((p->open <= 0) ? CTRUE : CFALSE);
-                      if (v_and == CFALSE) g0041I =CFALSE; 
-                      else { { OID  g0042UU;
-                          { OID gc_local;
-                            ITERATE(sx);
-                            g0042UU= _oid_(CFALSE);
-                            for (START(self->arg->slots); NEXT(sx);)
-                            if (OBJECT(restriction,sx)->selector == p)
-                             { g0042UU = Kernel.ctrue;
-                              break;} 
-                            } 
-                          v_and = boolean_I_any(g0042UU);
-                          } 
+{ if ((INHERIT(owner_any(get_symbol(self->ident)),Kernel._class)) && 
+      ((OBJECT(ClaireClass,get_symbol(self->ident))->open != -2) || 
+          (self->arg != OBJECT(ClaireClass,get_symbol(self->ident))->superclass))) 
+  { { OID Result = 0;
+      { OID  V_CL0039;close_exception(((general_error *) (*Core._general_error)(_string_("[107] class re-definition is not valid: ~S"),
+          _oid_(list::alloc(1,_oid_(self))))));
+        
+        Result=_void_(V_CL0039);} 
+      return (Result);} 
+     } 
+  else{ if ((self->arg->open == 1) || 
+        (self->arg->open == -1)) 
+    { { OID Result = 0;
+        { OID  V_CL0040;close_exception(((general_error *) (*Core._general_error)(_string_("[109] the parent class ~S of ~S is closed"),
+            _oid_(list::alloc(2,_oid_(self->arg),_oid_(self))))));
+          
+          Result=_void_(V_CL0040);} 
+        return (Result);} 
+       } 
+    else{ GC_RESERVE(8);  // v3.0.55 optim !
+      { OID Result = 0;
+        { ClaireClass * _Zo = class_I_symbol(self->ident,self->arg);
+          { OID gc_local;
+            ITERATE(x);
+            bag *x_support;
+            x_support = GC_OBJECT(list,self->args);
+            for (START(x_support); NEXT(x);)
+            { GC_LOOP;
+              { OID  v = CNULL;
+                if (INHERIT(OWNER(x),Language._Call))
+                 { GC__OID(v = OPT_EVAL((*(OBJECT(Call,x)->args))[2]), 4);
+                  x= (*(OBJECT(Call,x)->args))[1];
+                  } 
+                { ClaireType * rt = GC_OBJECT(ClaireType,extract_type_any(GC_OID((*Kernel.range)(x))));
+                  property * p = make_a_property_any(_oid_(OBJECT(Variable,x)->pname));
+                  slot * ps = OBJECT(slot,last_list(_Zo->slots));
+                  int  ix = ps->index;
+                  if ((v != CNULL) && 
+                      (belong_to(v,_oid_(rt)) != CTRUE))
+                   close_exception(((general_error *) (*Core._general_error)(_string_("[108] default(~S) = ~S does not belong to ~S"),
+                    _oid_(list::alloc(3,x,
+                      v,
+                      _oid_(rt))))));
+                  { ClaireBoolean * g0041I;
+                    { ClaireBoolean *v_and;
+                      { v_and = ((p->open <= 0) ? CTRUE : CFALSE);
                         if (v_and == CFALSE) g0041I =CFALSE; 
-                        else g0041I = CTRUE;} 
+                        else { { OID  g0042UU;
+                            { OID gc_local;
+                              ITERATE(sx);
+                              g0042UU= _oid_(CFALSE);
+                              for (START(self->arg->slots); NEXT(sx);)
+                              if (OBJECT(restriction,sx)->selector == p)
+                               { g0042UU = Kernel.ctrue;
+                                break;} 
+                              } 
+                            v_and = boolean_I_any(g0042UU);
+                            } 
+                          if (v_and == CFALSE) g0041I =CFALSE; 
+                          else g0041I = CTRUE;} 
+                        } 
                       } 
-                    } 
-                  
-                  if (g0041I == CTRUE) close_exception(((general_error *) (*Core._general_error)(_string_("[181] cannot overide a slot for a closed property ~S"),
-                      _oid_(list::alloc(1,_oid_(p))))));
-                    } 
-                if (ps->range == Kernel._float)
-                 ++ix;
-                add_slot_class(_Zo,
-                  p,
-                  rt,
-                  v,
-                  (ix+1));
+                    
+                    if (g0041I == CTRUE) close_exception(((general_error *) (*Core._general_error)(_string_("[181] cannot overide a slot for a closed property ~S"),
+                        _oid_(list::alloc(1,_oid_(p))))));
+                      } 
+                  if (ps->range == Kernel._float)
+                   ++ix;
+                  add_slot_class(_Zo,
+                    p,
+                    rt,
+                    v,
+                    (ix+1));
+                  } 
                 } 
-              } 
-            GC_UNLOOP;} 
+              GC_UNLOOP;} 
+            } 
+          close_class(_Zo);
+          if (self->forward_ask == CTRUE)
+           (_Zo->open = -2);
+          else if (_Zo->open == -2)
+           (_Zo->open = 2);
+          if (_inf_equal_type(_Zo,Kernel._cl_import) == CTRUE)
+           (_Zo->open = -1);
+          (_Zo->params = self->params);
+          { OID gc_local;
+            ITERATE(p);
+            bag *p_support;
+            p_support = GC_OBJECT(list,self->params);
+            for (START(p_support); NEXT(p);)
+            (OBJECT(property,p)->open = 0);
+            } 
+          attach_comment_any(_oid_(_Zo));
+          Result = _oid_(_Zo);
           } 
-        close_class(_Zo);
-        if (self->forward_ask == CTRUE)
-         (_Zo->open = -2);
-        else if (_Zo->open == -2)
-         (_Zo->open = 2);
-        if (_inf_equal_type(_Zo,Kernel._cl_import) == CTRUE)
-         (_Zo->open = -1);
-        (_Zo->params = self->params);
-        { OID gc_local;
-          ITERATE(p);
-          bag *p_support;
-          p_support = GC_OBJECT(list,self->params);
-          for (START(p_support); NEXT(p);)
-          (OBJECT(property,p)->open = 0);
-          } 
-        attach_comment_any(_oid_(_Zo));
-        Result = _oid_(_Zo);
-        } 
-      GC_UNBIND; return (Result);} 
+        GC_UNBIND; return (Result);} 
+      } 
+    } 
   } 
 
 
@@ -428,9 +435,9 @@ OID  self_eval_Defmethod(Defmethod *self)
           GC_OID(rtest);} 
         if (rtest != CNULL)
          { restriction * r = OBJECT(restriction,rtest);
-          tformat_string("--- WARNING ! [186] conflict between ~S and ~S is dangerous since ~S is closed\n",1,list::alloc(3,_oid_(m),
+          tformat_string("--- WARNING ! [186] conflict between ~S and ~S is dangerous since ~S is closed\n",1,GC_OBJECT(list,list::alloc(3,_oid_(m),
             _oid_(r),
-            _oid_(p)));
+            _oid_(p))));
           } 
         else ;} 
       (Language.LDEF->value= _oid_(list::empty(Kernel._any)));
@@ -458,13 +465,11 @@ OID  self_eval_Defmethod(Defmethod *self)
 // attach a cute comment if needed ... to a defclass or a defmethod
 /* The c++ function for: attach_comment(x:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
 void  attach_comment_any(OID x)
-{ if (((OBJECT(ClaireBoolean,Language.NeedComment->value)) == CTRUE) && 
-      (Language.LastComment->value != CNULL)) 
-  { write_property(Kernel.comment,OBJECT(ClaireObject,x),GC_OID(Language.LastComment->value));
-     } 
-  else{ GC_BIND;
-    ;GC_UNBIND;} 
-  } 
+{ GC_BIND;
+  if (((OBJECT(ClaireBoolean,Language.NeedComment->value)) == CTRUE) && 
+      (Language.LastComment->value != CNULL))
+   write_property(Kernel.comment,OBJECT(ClaireObject,x),GC_OID(Language.LastComment->value));
+  GC_UNBIND;} 
 
 
 // returns the list of types AND modifies LDEF
@@ -485,7 +490,7 @@ list * extract_signature_list(list *l)
               _oid_(list::alloc(1,v)))));
             
             v_val=_void_(V_CL0043);} 
-          else { OID  p = GC_OID(extract_pattern_any(GC_OID(_oid_(OBJECT(Variable,v)->range)),list::alloc(1,n)));
+          else { OID  p = extract_pattern_any(GC_OID(_oid_(OBJECT(Variable,v)->range)),list::alloc(1,n));
               ++n;
               if (p == CNULL)
                close_exception(((general_error *) (*Core._general_error)(_string_("[111] wrong typed argument ~S (~S)"),
@@ -560,19 +565,19 @@ OID  extract_pattern_any(OID x,list *path)
     else if (INHERIT(OWNER(x),Language._Call))
      { property * p = OBJECT(Call,x)->selector;
       if (p == Core.U)
-       { OID  x1 = GC_OID(extract_pattern_any((*(OBJECT(Call,x)->args))[1],Kernel.nil));
-        OID  x2 = GC_OID(extract_pattern_any((*(OBJECT(Call,x)->args))[2],Kernel.nil));
+       { OID  x1 = extract_pattern_any((*(OBJECT(Call,x)->args))[1],Kernel.nil);
+        OID  x2 = extract_pattern_any((*(OBJECT(Call,x)->args))[2],Kernel.nil);
         if ((x1 == CNULL) || 
             (x2 == CNULL))
          Result = CNULL;
         else Result = _oid_(U_type(OBJECT(ClaireType,x1),OBJECT(ClaireType,x2)));
           } 
       else if (p == Kernel._exp)
-       Result = (*Kernel._exp)(GC_OID(extract_pattern_any((*(OBJECT(Call,x)->args))[1],Kernel.nil)),
-        GC_OID(extract_pattern_any((*(OBJECT(Call,x)->args))[2],Kernel.nil)));
+       Result = (*Kernel._exp)(extract_pattern_any((*(OBJECT(Call,x)->args))[1],Kernel.nil),
+        extract_pattern_any((*(OBJECT(Call,x)->args))[2],Kernel.nil));
       else if (p == Kernel._dot_dot)
-       { OID  v1 = GC_OID(extract_item_any((*(OBJECT(Call,x)->args))[1],Core.nil->value));
-        OID  v2 = GC_OID(extract_item_any((*(OBJECT(Call,x)->args))[2],Core.nil->value));
+       { OID  v1 = extract_item_any((*(OBJECT(Call,x)->args))[1],Core.nil->value);
+        OID  v2 = extract_item_any((*(OBJECT(Call,x)->args))[2],Core.nil->value);
         if ((INHERIT(OWNER(v1),Kernel._integer)) && 
             (INHERIT(OWNER(v2),Kernel._integer)))
          Result = _oid_(_dot_dot_integer(v1,v2));
@@ -581,7 +586,7 @@ OID  extract_pattern_any(OID x,list *path)
       else if (p == Kernel.nth)
        Result = extract_pattern_nth_list(GC_OBJECT(list,OBJECT(Call,x)->args),path);
       else if (p == Kernel._star)
-       { OID  z = GC_OID(extract_pattern_any((*(OBJECT(Call,x)->args))[1],path));
+       { OID  z = extract_pattern_any((*(OBJECT(Call,x)->args))[1],path);
         if (z != CNULL)
          Result = _oid_(U_type(OBJECT(ClaireType,z),set::alloc(Kernel.emptySet,1,CNULL)));
         else Result = CNULL;
@@ -646,7 +651,7 @@ ClaireType * extract_type_any(OID x)
   { ClaireType *Result ;
     { ClaireObject *V_CC ;
       { (Language.LDEF->value= _oid_(list::empty(Kernel._any)));
-        { OID  r = GC_OID(extract_pattern_any(x,Kernel.nil));
+        { OID  r = extract_pattern_any(x,Kernel.nil);
           if (r == CNULL)
            close_exception(((general_error *) (*Core._general_error)(_string_("[112] wrong type expression ~S"),
             _oid_(list::alloc(1,x)))));
@@ -662,18 +667,22 @@ ClaireType * extract_type_any(OID x)
 //
 /* The c++ function for: extract_item(x:any,y:any) [NEW_ALLOC+RETURN_ARG] */
 OID  extract_item_any(OID x,OID y)
-{ GC_BIND;
-  { OID Result = 0;
-    if (((((INHERIT(OWNER(x),Kernel._integer)) || 
-              (Kernel._float == OWNER(x))) || 
-            (INHERIT(OWNER(x),Kernel._symbol))) || 
-          (Kernel._string == OWNER(x))) || 
-        (INHERIT(OWNER(x),Kernel._type)))
-     Result = x;
-    else if (INHERIT(OWNER(x),Core._global_variable))
-     Result = extract_item_any(GC_OID((*Kernel.value)(x)),y);
-    else Result = CNULL;
-      GC_UNBIND; return (Result);} 
+{ if (((((INHERIT(OWNER(x),Kernel._integer)) || 
+            (Kernel._float == OWNER(x))) || 
+          (INHERIT(OWNER(x),Kernel._symbol))) || 
+        (Kernel._string == OWNER(x))) || 
+      (INHERIT(OWNER(x),Kernel._type))) 
+  { { OID Result = 0;
+      Result = x;
+      return (Result);} 
+     } 
+  else{ GC_BIND;
+    { OID Result = 0;
+      if (INHERIT(OWNER(x),Core._global_variable))
+       Result = extract_item_any(GC_OID((*Kernel.value)(x)),y);
+      else Result = CNULL;
+        GC_UNBIND; return (Result);} 
+    } 
   } 
 
 
@@ -686,7 +695,7 @@ OID  extract_pattern_nth_list(list *l,list *path)
     { int  m = l->length;
       OID  x = (*(l))[1];
       if (m == 1)
-       { OID  y = GC_OID(extract_pattern_any((*(l))[1],Kernel.nil));
+       { OID  y = extract_pattern_any((*(l))[1],Kernel.nil);
         if (y == CNULL)
          Result = CNULL;
         else { Param * _CL_obj = ((Param *) GC_OBJECT(Param,new_object_class(Core._Param)));
@@ -701,7 +710,7 @@ OID  extract_pattern_nth_list(list *l,list *path)
               ((x == _oid_(Kernel._set)) || 
                 (x == _oid_(Kernel._list)))) || 
             (inherit_ask_class(OWNER(x),Kernel._class) != CTRUE))
-         { OID  y = GC_OID(extract_pattern_any((*(l))[2],Kernel.nil));
+         { OID  y = extract_pattern_any((*(l))[2],Kernel.nil);
           { ClaireHandler c_handle = ClaireHandler();
             if ERROR_IN 
             { if (y != CNULL)
@@ -727,8 +736,8 @@ OID  extract_pattern_nth_list(list *l,list *path)
                 { OID  y = (*(OBJECT(bag,l2)))[n];
                   { OID  g0047UU;
                     { if (INHERIT(OWNER(y),Language._Set))
-                       { OID  v = GC_OID(extract_pattern_any((*(OBJECT(Construct,y)->args))[1],((list *) copy_bag(path))->addFast(GC_OID((*Kernel.nth)(l1,
-                          n)))));
+                       { OID  v = extract_pattern_any((*(OBJECT(Construct,y)->args))[1],((list *) copy_bag(path))->addFast(GC_OID((*Kernel.nth)(l1,
+                          n))));
                         if (v == _oid_(Kernel._void))
                          g0047UU = _oid_(Kernel._any);
                         else if (INHERIT(OWNER(v),Core._Reference))
@@ -798,7 +807,7 @@ ClaireObject * extract_class_call_class(ClaireClass *self,list *l)
             else { v_and = ((l->length == 1) ? CTRUE : CFALSE);
               if (v_and == CFALSE) g0051I =CFALSE; 
               else { { OID  y = (*(l))[1];
-                  OID  z = GC_OID(extract_pattern_any(y,Kernel.nil));
+                  OID  z = extract_pattern_any(y,Kernel.nil);
                   if (INHERIT(OWNER(y),Core._global_variable))
                    y= GC_OID((*Kernel.value)((*(l))[1]));
                   v_and = ((INHERIT(OWNER(z),Kernel._type)) ? CTRUE : ((self == Core._subtype) ? CTRUE : (((INHERIT(OWNER(y),Language._Call)) ? ((OBJECT(Call,y)->selector != Kernel._equal) || 
@@ -821,27 +830,28 @@ ClaireObject * extract_class_call_class(ClaireClass *self,list *l)
               ((INHERIT(OWNER((*(l))[1]),Language._Do)) || 
                   (INHERIT(OWNER((*(l))[1]),Language._Variable))))
            { list * lv;
-            if (INHERIT(OWNER((*(l))[1]),Language._Do))
-             { list * v_out = list::empty(Kernel.emptySet);
-              { OID gc_local;
-                ITERATE(v);
-                bag *v_support;
-                v_support = GC_OBJECT(list,OBJECT(bag,(*Core.args)((*(l))[1])));
-                for (START(v_support); NEXT(v);)
-                if (INHERIT(OWNER(v),Language._Variable))
-                 v_out->addFast(v);
+            { if (INHERIT(OWNER((*(l))[1]),Language._Do))
+               { list * v_out = list::empty(Kernel.emptySet);
+                { OID gc_local;
+                  ITERATE(v);
+                  bag *v_support;
+                  v_support = GC_OBJECT(list,OBJECT(bag,(*Core.args)((*(l))[1])));
+                  for (START(v_support); NEXT(v);)
+                  if (INHERIT(OWNER(v),Language._Variable))
+                   v_out->addFast(v);
+                  } 
+                lv = GC_OBJECT(list,v_out);
                 } 
-              lv = GC_OBJECT(list,v_out);
-              } 
-            else lv = list::alloc(1,(*(l))[1]);
-              extract_signature_list(lv);
+              else lv = list::alloc(1,(*(l))[1]);
+                GC_OBJECT(list,lv);} 
+            extract_signature_list(lv);
             V_CC = lambda_I_list(lv,(*(l))[2]);
             } 
           else close_exception(((general_error *) (*Core._general_error)(_string_("[113] Wrong lambda definition lambda[~S]"),
               _oid_(list::alloc(1,_oid_(l))))));
             } 
-        else { list * l1 = list::empty(Kernel._any);
-            list * l2 = list::empty(Kernel._any);
+        else { list * l1 = GC_OBJECT(list,list::empty(Kernel._any));
+            list * l2 = GC_OBJECT(list,list::empty(Kernel._any));
             int  m = l->length;
             { int  n = 1;
               int  g0050 = m;
@@ -882,16 +892,17 @@ ClaireObject * extract_class_call_class(ClaireClass *self,list *l)
               { Call * g0052 = _CL_obj; 
                 list * g0053;
                 { list * g0054UU;
-                  { OID v_bag;
-                    GC_ANY(g0054UU= list::empty(Kernel.emptySet));
-                    ((list *) g0054UU)->addFast(_oid_(l1));
-                    { { List * _CL_obj = ((List *) GC_OBJECT(List,new_object_class(Language._List)));
-                        (_CL_obj->args = l2);
-                        add_I_property(Kernel.instances,Language._List,11,_oid_(_CL_obj));
-                        v_bag = _oid_(_CL_obj);
-                        } 
-                      GC_OID(v_bag);} 
-                    ((list *) g0054UU)->addFast(v_bag);} 
+                  { { OID v_bag;
+                      GC_ANY(g0054UU= list::empty(Kernel.emptySet));
+                      ((list *) g0054UU)->addFast(_oid_(l1));
+                      { { List * _CL_obj = ((List *) GC_OBJECT(List,new_object_class(Language._List)));
+                          (_CL_obj->args = l2);
+                          add_I_property(Kernel.instances,Language._List,11,_oid_(_CL_obj));
+                          v_bag = _oid_(_CL_obj);
+                          } 
+                        GC_OID(v_bag);} 
+                      ((list *) g0054UU)->addFast(v_bag);} 
+                    GC_OBJECT(list,g0054UU);} 
                   g0053 = cons_any(_oid_(self),g0054UU);
                   } 
                 (g0052->args = g0053);} 
@@ -958,7 +969,7 @@ list * extract_range_any(OID x,list *lvar,list *ldef)
               } 
             GC_UNLOOP;} 
           } 
-        { list * lv2 = list::empty(Kernel._any);
+        { list * lv2 = GC_OBJECT(list,list::empty(Kernel._any));
           { OID gc_local;
             ITERATE(v);
             for (START(lvar); NEXT(v);)
@@ -976,7 +987,7 @@ list * extract_range_any(OID x,list *lvar,list *ldef)
                 } 
               GC_UNLOOP;} 
             } 
-          { lambda * lb = GC_OBJECT(lambda,lambda_I_list(lv2,(*(OBJECT(bag,(*Core.args)(x))))[2]));
+          { lambda * lb = lambda_I_list(lv2,(*(OBJECT(bag,(*Core.args)(x))))[2]);
             OID  ur = CNULL;
             { ClaireHandler c_handle = ClaireHandler();
               if ERROR_IN 
@@ -1208,7 +1219,7 @@ OID  self_eval_Defarray(Defarray *self)
         ar,
         5,
         Kernel._object,
-        GC_OID(extract_pattern_any(GC_OID(self->set_arg),Kernel.nil)));
+        extract_pattern_any(GC_OID(self->set_arg),Kernel.nil));
       if (ar->range == (NULL))
        close_exception(((range_error *) (*Core._range_error)(_oid_(Kernel._table),
         GC_OID(self->set_arg),
@@ -1241,13 +1252,13 @@ OID  self_eval_Defarray(Defarray *self)
           y_support = GC_OBJECT(bag,enumerate_any(_oid_(ar->domain)));
           for (START(y_support); NEXT(y);)
           { GC_LOOP;
-            nth_equal_table1(ar,y,GC_OID(funcall_lambda1(OBJECT(lambda,e),y)));
+            nth_equal_table1(ar,y,funcall_lambda1(OBJECT(lambda,e),y));
             GC_UNLOOP;} 
           } 
         else (ar->DEFAULT = d);
           } 
       else { ClaireType * s2 = GC_OBJECT(ClaireType,extract_type_any(GC_OID(_oid_(OBJECT(Variable,(*(a))[3])->range))));
-          (ar->domain = tuple_I_list(list::alloc(2,_oid_(s),_oid_(s2))));
+          (ar->domain = tuple_I_list(GC_OBJECT(list,list::alloc(2,_oid_(s),_oid_(s2)))));
           (OBJECT(Variable,(*(a))[3])->range = s2);
           if ((INHERIT(s->isa,Core._Interval)) && 
               (INHERIT(s2->isa,Core._Interval)))
@@ -1327,20 +1338,17 @@ OID  funcall_demon2(Language_demon *self,OID x,OID y,OID z)
 // function
 /* The c++ function for: self_eval(self:Defrule) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
 OID  self_eval_Defrule(Defrule *self)
-{ if ((*(self->args))[1] != _oid_(ClEnv)) 
-  { { OID Result = 0;
-      Result = (*Language.eval_rule)(_oid_(self));
-      return (Result);} 
-     } 
-  else{ GC_BIND;
-    { OID Result = 0;
-      { OID  _Zcondition = GC_OID(self->arg);
+{ GC_BIND;
+  { OID Result = 0;
+    if ((*(self->args))[1] != _oid_(ClEnv))
+     Result = (*Language.eval_rule)(_oid_(self));
+    else { OID  _Zcondition = GC_OID(self->arg);
         OID  ru = get_symbol(self->ident);
         (OBJECT(ClaireObject,ru)->isa = Language._rule_object);
         add_I_property(Kernel.instances,Language._rule_object,11,ru);
         { tuple * g0070 = make_filter_any(_Zcondition);
           OID  R = (*(g0070))[1];
-          OID  lvar = (*(g0070))[2];
+          OID  lvar = GC_OID((*(g0070))[2]);
           Language_demon * d = make_demon_relation(OBJECT(ClaireRelation,R),
             OBJECT(symbol,(*Kernel.name)(ru)),
             OBJECT(list,lvar),
@@ -1359,7 +1367,6 @@ OID  self_eval_Defrule(Defrule *self)
           } 
         } 
       GC_UNBIND; return (Result);} 
-    } 
   } 
 
 
@@ -1613,47 +1620,40 @@ Language_demon * make_demon_relation(ClaireRelation *R,symbol *n,list *lvar,OID 
 // cute litle guy
 /* The c++ function for: readCall(R:relation,x:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
 Call * readCall_relation(ClaireRelation *R,OID x)
-{ if (INHERIT(R->isa,Kernel._table)) 
-  { { Call *Result ;
-      { Call * _CL_obj = ((Call *) GC_OBJECT(Call,new_object_class(Language._Call)));
-        (_CL_obj->selector = Kernel.get);
-        (_CL_obj->args = list::alloc(2,_oid_(R),x));
-        add_I_property(Kernel.instances,Language._Call,11,_oid_(_CL_obj));
-        Result = _CL_obj;
-        } 
-      return (Result);} 
-     } 
-  else{ GC_BIND;
-    { Call *Result ;
-      { Call_plus * _CL_obj = ((Call_plus *) GC_OBJECT(Call_plus,new_object_class(Language._Call_plus)));
+{ GC_BIND;
+  { Call *Result ;
+    if (INHERIT(R->isa,Kernel._table))
+     { Call * _CL_obj = ((Call *) GC_OBJECT(Call,new_object_class(Language._Call)));
+      (_CL_obj->selector = Kernel.get);
+      (_CL_obj->args = list::alloc(2,_oid_(R),x));
+      add_I_property(Kernel.instances,Language._Call,11,_oid_(_CL_obj));
+      Result = _CL_obj;
+      } 
+    else { Call_plus * _CL_obj = ((Call_plus *) GC_OBJECT(Call_plus,new_object_class(Language._Call_plus)));
         (_CL_obj->selector = ((property *) R));
         (_CL_obj->args = list::alloc(1,x));
         add_I_property(Kernel.instances,Language._Call_plus,11,_oid_(_CL_obj));
         Result = _CL_obj;
         } 
       GC_UNBIND; return (Result);} 
-    } 
   } 
 
 
 // a small brother
 /* The c++ function for: putCall(R:relation,x:any,y:any) [NEW_ALLOC] */
 Call * putCall_relation2(ClaireRelation *R,OID x,OID y)
-{ if (multi_ask_any(_oid_(R)) == CTRUE) 
-  { { Call *Result ;
-      { Call * _CL_obj = ((Call *) GC_OBJECT(Call,new_object_class(Language._Call)));
-        (_CL_obj->selector = Core.add_value);
-        (_CL_obj->args = list::alloc(3,_oid_(R),
-          x,
-          y));
-        add_I_property(Kernel.instances,Language._Call,11,_oid_(_CL_obj));
-        Result = _CL_obj;
-        } 
-      return (Result);} 
-     } 
-  else{ GC_BIND;
-    { Call *Result ;
-      { Call * _CL_obj = ((Call *) GC_OBJECT(Call,new_object_class(Language._Call)));
+{ GC_BIND;
+  { Call *Result ;
+    if (multi_ask_any(_oid_(R)) == CTRUE)
+     { Call * _CL_obj = ((Call *) GC_OBJECT(Call,new_object_class(Language._Call)));
+      (_CL_obj->selector = Core.add_value);
+      (_CL_obj->args = list::alloc(3,_oid_(R),
+        x,
+        y));
+      add_I_property(Kernel.instances,Language._Call,11,_oid_(_CL_obj));
+      Result = _CL_obj;
+      } 
+    else { Call * _CL_obj = ((Call *) GC_OBJECT(Call,new_object_class(Language._Call)));
         (_CL_obj->selector = Kernel.put);
         (_CL_obj->args = list::alloc(3,_oid_(R),
           x,
@@ -1662,12 +1662,11 @@ Call * putCall_relation2(ClaireRelation *R,OID x,OID y)
         Result = _CL_obj;
         } 
       GC_UNBIND; return (Result);} 
-    } 
   } 
 
 
 // v3.3 : find the range when we read the current value     
-/* The c++ function for: safeRange(x:relation) [0] */
+/* The c++ function for: safeRange(x:relation) [RETURN_ARG] */
 ClaireType * safeRange_relation(ClaireRelation *x)
 { { ClaireType *Result ;
     if (INHERIT(x->isa,Kernel._property))
@@ -1856,7 +1855,7 @@ void  eval_if_write_relation(ClaireRelation *R)
               add_I_property(Kernel.instances,Language._Let,11,_oid_(_CL_obj));
               g0093UU = _oid_(_CL_obj);
               } 
-            V_CL0092 = lambda_I_list(list::alloc(2,(*(lvar))[1],(*(lvar))[2]),g0093UU);
+            V_CL0092 = lambda_I_list(GC_OBJECT(list,list::alloc(2,(*(lvar))[1],(*(lvar))[2])),g0093UU);
           } 
         
         g0091=_oid_(V_CL0092);} 

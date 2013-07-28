@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\control.cl 
-         [version 3.3.28 / safety 5] Sat Sep 06 14:16:11 2003 *****/
+         [version 3.3.3 / safety 5] Sun Nov 23 11:55:44 2003 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -22,7 +22,7 @@
 // *     Part 1: If, Do, Let                                           *
 // *********************************************************************
 //--------------- the IF --------------------------------------------
-/* The c++ function for: self_print(self:If) [NEW_ALLOC+SLOT_UPDATE] */
+/* The c++ function for: self_print(self:If) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
 void  self_print_If_Language(If *self)
 { princ_string("(");
   (Core.pretty->index = (Core.pretty->index+1));
@@ -181,7 +181,7 @@ OID  self_eval_Do(Do *self)
 
 
 // ----------------- lexical variable definition -----------------------
-/* The c++ function for: self_print(self:Let) [NEW_ALLOC+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: self_print(self:Let) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
 void  self_print_Let_Language(Let *self)
 { GC_BIND;
   { int  _Zl = Core.pretty->index;
@@ -323,7 +323,7 @@ void  self_print_Let_plus_Language(Let_plus *self)
   GC_UNBIND;} 
 
 
-/* The c++ function for: self_print(self:Let*) [NEW_ALLOC+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: self_print(self:Let*) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
 void  self_print_Let_star_Language(Let_star *self)
 { GC_RESERVE(4);  // v3.0.55 optim !
   { int  _Zl = Core.pretty->index;
@@ -400,7 +400,7 @@ void  self_print_For_Language(For *self)
   GC_UNBIND;} 
 
 
-/* The c++ function for: self_eval(self:For) [NEW_ALLOC+SLOT_UPDATE] */
+/* The c++ function for: self_eval(self:For) [NEW_ALLOC+SLOT_UPDATE+RETURN_ARG] */
 OID  self_eval_For(For *self)
 { GC_BIND;
   { OID Result = 0;
@@ -1005,7 +1005,7 @@ void  self_print_While_Language(While *self)
   GC_UNBIND;} 
 
 
-/* The c++ function for: self_eval(self:While) [NEW_ALLOC] */
+/* The c++ function for: self_eval(self:While) [NEW_ALLOC+RETURN_ARG] */
 OID  self_eval_While(While *self)
 { GC_BIND;
   { OID Result = 0;
@@ -1055,7 +1055,7 @@ void  self_print_Handle_Language(ClaireHandle *self)
   GC_UNBIND;} 
 
 
-/* The c++ function for: self_eval(self:Handle) [NEW_ALLOC] */
+/* The c++ function for: self_eval(self:Handle) [NEW_ALLOC+RETURN_ARG] */
 OID  self_eval_Handle(ClaireHandle *self)
 { GC_BIND;
   { OID Result = 0;
@@ -1082,7 +1082,7 @@ OID  self_eval_Handle(ClaireHandle *self)
 // *     Part 4: the constructs                                         *
 // *********************************************************************
 // v3.2.16   constructor for arrays
-/* The c++ function for: self_print(self:Construct) [NEW_ALLOC+SLOT_UPDATE+RETURN_ARG] */
+/* The c++ function for: self_print(self:Construct) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
 void  self_print_Construct_Language(Construct *self)
 { GC_BIND;
   { int  _Zl = Core.pretty->index;
@@ -1108,7 +1108,7 @@ void  self_print_Construct_Language(Construct *self)
       } 
     if ((INHERIT(self->isa,Language._List)) || 
         (INHERIT(self->isa,Language._Set)))
-     { OID  _Zt = GC_OID(get_property(Kernel.of,self));
+     { OID  _Zt = get_property(Kernel.of,self);
       if (_Zt != CNULL)
        { if (equal(_Zt,_oid_(Kernel.emptySet)) != CTRUE)
          { princ_string("<");
@@ -1294,7 +1294,7 @@ OID  self_eval_Macro2(Macro *self)
 
 
 // error produces an exception of type general_error
-/* The c++ function for: self_eval(self:Error) [NEW_ALLOC+SLOT_UPDATE] */
+/* The c++ function for: self_eval(self:Error) [NEW_ALLOC+SLOT_UPDATE+RETURN_ARG] */
 void  self_eval_Error(Error *self)
 { GC_BIND;
   if ((boolean_I_any(_oid_(self->args)) != CTRUE) || 
@@ -1398,7 +1398,7 @@ OID  self_eval_Trace(Trace *self)
       else a2 = Kernel.cfalse;
         if ((Kernel._string == OWNER(a2)) && 
           ((INHERIT(OWNER(i),Kernel._integer)) && (i <= ClEnv->verbose)))
-       { OID  p = GC_OID(get_property(Kernel.ctrace,ClEnv));
+       { OID  p = get_property(Kernel.ctrace,ClEnv);
         if (p != CNULL)
          p= GC_OID(ClAlloc->import(Kernel._port,(int *) use_as_output_port(EXPORT((ClairePort *),p))));
         format_string(string_v(a2),skip_list(l,2));

@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file Optimize.cl 
-         [version 3.3.28 / safety 5] Sat Sep 06 14:16:17 2003 *****/
+         [version 3.3.3 / safety 5] Sun Nov 23 11:55:50 2003 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -263,31 +263,31 @@ void OptimizeClass::metaLoad() {
   
   { global_variable * v2072 = (Optimize.claire_modules = (global_variable *) Core._global_variable->instantiate("claire_modules",claire.it));
     (v2072->range = Kernel._list);
-    { global_variable * v11433 = v2072; 
-      OID  v11434;
-      { list * v13062;{ bag *v_list; OID v_val;
+    { global_variable * v11434 = v2072; 
+      OID  v11435;
+      { list * v13063;{ bag *v_list; OID v_val;
           OID v5264,CLcount;
           v_list = list::alloc(4,_string_("Kernel"),
             _string_("Core"),
             _string_("Language"),
             _string_("Reader"));
-           v13062 = v_list->clone();
+           v13063 = v_list->clone();
           for (CLcount= 1; CLcount <= v_list->length; CLcount++)
           { v5264 = (*(v_list))[CLcount];
             v_val = value_string(string_v(v5264));
             
-            (*((list *) v13062))[CLcount] = v_val;} 
+            (*((list *) v13063))[CLcount] = v_val;} 
           } 
         
-        v11434=_oid_(v13062);} 
-      (v11433->value = v11434);} 
+        v11435=_oid_(v13063);} 
+      (v11434->value = v11435);} 
     close_global_variable(v2072);
     } 
   
   { (Optimize.compiler = (Optimize_meta_compiler *) Optimize._meta_compiler->instantiate("compiler",claire.it));
     (Optimize.compiler->external = "MS VC++");
     (Optimize.compiler->env = "ntv");
-    (Optimize.compiler->version = _float_(3.28));
+    (Optimize.compiler->version = _float_(3.3));
     (Optimize.compiler->source = "");
     (Optimize.compiler->headers_dir = "");
     (Optimize.compiler->libraries = list::alloc(Kernel._string,1,_string_("Kernel")));
@@ -479,7 +479,7 @@ void OptimizeClass::metaLoad() {
   	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(c_strict_check_any_Optimize,"c_strict_check_any_Optimize"));
   
   Optimize.c_code->addMethod(list::domain(2,Kernel._any,Kernel._class),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(c_code_any1_Optimize,"c_code_any1_Optimize"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(c_code_any1_Optimize,"c_code_any1_Optimize"));
   
   Optimize.c_code->addMethod(list::domain(1,Kernel._any),Kernel._any,
   	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(c_code_any2_Optimize,"c_code_any2_Optimize"));
@@ -503,7 +503,7 @@ void OptimizeClass::metaLoad() {
   	0,_function_(c_or_list,"c_or_list"))->inlineDef("lambda[(l:list),let d := 0 in (for x in l d := c_or(d, x), d)]");
   
   Optimize.status_I->addMethod(list::domain(1,Kernel._restriction),Kernel._integer,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(status_I_restriction,"status!_restriction"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(status_I_restriction,"status!_restriction"));
   
   Optimize.c_return->addMethod(list::domain(2,Kernel._integer,Kernel._integer),Kernel._integer,
   	0,_function_(c_return_integer,"c_return_integer"));
@@ -517,7 +517,7 @@ void OptimizeClass::metaLoad() {
     (CLREAD(method,_at_property1(Core.eval_message,Kernel._property),status) = (*Language.bit_vector)(1,
       3,
       6));
-    (CLREAD(method,_at_property1(Kernel.nth,Kernel._bag),status) = 0);
+    (CLREAD(method,_at_property1(Kernel.nth,Kernel._bag),status) = 16);
     (CLREAD(method,_at_property1(Core.eval,Kernel._any),status) = 2);
     (CLREAD(method,_at_property1(Core.self_eval,Language._Call),status) = 64);
     (CLREAD(method,_at_property1(Core.self_eval,Language._If),status) = 64);
@@ -600,7 +600,7 @@ void OptimizeClass::metaLoad() {
   	NEW_ALLOC,_function_(c_gc_ask_C_cast,"c_gc?_C_cast"));
   
   Optimize.c_type->addMethod(list::domain(1,Optimize._C_cast),Kernel._type,
-  	0,_function_(c_type_C_cast_Optimize,"c_type_C_cast_Optimize"));
+  	RETURN_ARG,_function_(c_type_C_cast_Optimize,"c_type_C_cast_Optimize"));
   
   Optimize.c_code->addMethod(list::domain(2,Optimize._C_cast,Kernel._class),Kernel._any,
   	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(c_code_C_cast_Optimize,"c_code_C_cast_Optimize"));
@@ -773,13 +773,13 @@ void OptimizeClass::metaLoad() {
   	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(c_gc_I_any2,"c_gc!_any2"));
   
   Optimize.need_protect->addMethod(list::domain(1,Kernel._any),Kernel._boolean,
-  	NEW_ALLOC,_function_(need_protect_any,"need_protect_any"));
+  	NEW_ALLOC+RETURN_ARG,_function_(need_protect_any,"need_protect_any"));
   
   Optimize.Variable_I->addMethod(list::domain(3,Kernel._symbol,Kernel._integer,Kernel._type),Language._Variable,
   	NEW_ALLOC,_function_(Variable_I_symbol,"Variable!_symbol"));
   
   Optimize.get_indexed->addMethod(list::domain(1,Kernel._class),Kernel._list,
-  	0,_function_(get_indexed_class_Optimize,"get_indexed_class_Optimize"));
+  	RETURN_ARG,_function_(get_indexed_class_Optimize,"get_indexed_class_Optimize"));
   
   Optimize.designated_ask->addMethod(list::domain(1,Kernel._any),Kernel._boolean,
   	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(designated_ask_any,"designated?_any"));
@@ -857,13 +857,13 @@ void OptimizeClass::metaLoad() {
   	NEW_ALLOC,_function_(c_gc_ask_Call_slot,"c_gc?_Call_slot"));
   
   Optimize.c_type->addMethod(list::domain(1,Language._Call_slot),Kernel._type,
-  	0,_function_(c_type_Call_slot_Optimize,"c_type_Call_slot_Optimize"));
+  	RETURN_ARG,_function_(c_type_Call_slot_Optimize,"c_type_Call_slot_Optimize"));
   
   Optimize.c_type->addMethod(list::domain(1,Language._Call_table),Kernel._type,
-  	0,_function_(c_type_Call_table_Optimize,"c_type_Call_table_Optimize"));
+  	RETURN_ARG,_function_(c_type_Call_table_Optimize,"c_type_Call_table_Optimize"));
   
   Optimize.c_type->addMethod(list::domain(1,Language._Call_array),Kernel._type,
-  	0,_function_(c_type_Call_array_Optimize,"c_type_Call_array_Optimize"));
+  	RETURN_ARG,_function_(c_type_Call_array_Optimize,"c_type_Call_array_Optimize"));
   
   Optimize.c_code_write->addMethod(list::domain(1,Language._Call),Kernel._any,
   	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(c_code_write_Call,"c_code_write_Call"));
@@ -1007,13 +1007,13 @@ void OptimizeClass::metaLoad() {
   	NEW_ALLOC,_function_(c_gc_ask_Handle,"c_gc?_Handle"));
   
   Optimize.c_type->addMethod(list::domain(1,Language._Cast),Kernel._type,
-  	0,_function_(c_type_Cast_Optimize,"c_type_Cast_Optimize"));
+  	RETURN_ARG,_function_(c_type_Cast_Optimize,"c_type_Cast_Optimize"));
   
   Optimize.c_code->addMethod(list::domain(1,Language._Cast),Kernel._any,
   	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(c_code_Cast_Optimize,"c_code_Cast_Optimize"));
   
   Optimize.c_type->addMethod(list::domain(1,Language._Super),Kernel._type,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(c_type_Super_Optimize,"c_type_Super_Optimize"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(c_type_Super_Optimize,"c_type_Super_Optimize"));
   
   Optimize.c_code->addMethod(list::domain(1,Language._Super),Kernel._any,
   	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(c_code_Super_Optimize,"c_code_Super_Optimize"));
@@ -1069,7 +1069,7 @@ void OptimizeClass::metaLoad() {
   	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(c_code_Error_Optimize,"c_code_Error_Optimize"));
   
   Optimize.extendedTest_ask->addMethod(list::domain(1,Language._If),Kernel._type,
-  	NEW_ALLOC,_function_(extendedTest_ask_If,"extendedTest?_If"));
+  	NEW_ALLOC+RETURN_ARG,_function_(extendedTest_ask_If,"extendedTest?_If"));
   
   Optimize.c_type->addMethod(list::domain(1,Language._If),Kernel._type,
   	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(c_type_If_Optimize,"c_type_If_Optimize"));
@@ -1222,7 +1222,7 @@ void OptimizeClass::metaLoad() {
   	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(c_code_Tuple_Optimize,"c_code_Tuple_Optimize"));
   
   Optimize.c_type->addMethod(list::domain(1,Language._Definition),Kernel._type,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(c_type_Definition_Optimize,"c_type_Definition_Optimize"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(c_type_Definition_Optimize,"c_type_Definition_Optimize"));
   
   { global_variable * v2072 = (Optimize._starname_star = (global_variable *) Core._global_variable->instantiate("*name*",Compile.it));
     (v2072->range = Kernel._symbol);

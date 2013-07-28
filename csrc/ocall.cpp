@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file c:\claire\v3.3\src\compile\ocall.cl 
-         [version 3.3.28 / safety 5] Sat Sep 06 14:16:16 2003 *****/
+         [version 3.3.3 / safety 5] Sun Nov 23 11:55:49 2003 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -74,111 +74,108 @@ OID  restriction_I_class(ClaireClass *v5243,list *v15470,list *v5252)
   } 
 
 ClaireType * use_range_method(method *v9268,list *v13263)
-{ if ((v9268->inline_ask == CTRUE) && 
-      (v9268->typing == CNULL)) 
-  { { ClaireType *Result ;
-      { list * v15474 = GC_OBJECT(list,v9268->formula->vars);
-        ClaireType * v13271 = Kernel._any;
-        list * v1603;
-        { { bag *v_list; OID v_val;
-            OID v5263,CLcount;
-            v_list = v15474;
-             v1603 = v_list->clone();
-            for (CLcount= 1; CLcount <= v_list->length; CLcount++)
-            { v5263 = (*(v_list))[CLcount];
-              v_val = (*Kernel.range)(v5263);
-              
-              (*((list *) v1603))[CLcount] = v_val;} 
-            } 
-          GC_OBJECT(list,v1603);} 
-        { OID gc_local;
-          ITERATE(v5263);
-          for (START(v15474); NEXT(v5263);)
-          put_property2(Kernel.range,OBJECT(ClaireObject,v5263),(*(v13263))[(((*Kernel.index)(v5263))+1)]);
+{ GC_BIND;
+  { ClaireType *Result ;
+    if ((v9268->inline_ask == CTRUE) && 
+        (v9268->typing == CNULL))
+     { list * v15474 = GC_OBJECT(list,v9268->formula->vars);
+      ClaireType * v13271 = Kernel._any;
+      list * v1603;
+      { { bag *v_list; OID v_val;
+          OID v5263,CLcount;
+          v_list = v15474;
+           v1603 = v_list->clone();
+          for (CLcount= 1; CLcount <= v_list->length; CLcount++)
+          { v5263 = (*(v_list))[CLcount];
+            v_val = (*Kernel.range)(v5263);
+            
+            (*((list *) v1603))[CLcount] = v_val;} 
           } 
-        v13271= GC_OBJECT(ClaireType,OBJECT(ClaireType,(*Optimize.c_type)(GC_OID(v9268->formula->body))));
-        { OID gc_local;
-          ITERATE(v5263);
-          for (START(v15474); NEXT(v5263);)
-          put_property2(Kernel.range,OBJECT(ClaireObject,v5263),(*(v1603))[(((*Kernel.index)(v5263))+1)]);
-          } 
-        if (INHERIT(v9268->range->isa,Kernel._type))
-         v13271= GC_OBJECT(ClaireType,OBJECT(ClaireType,(*Kernel._exp)(_oid_(v13271),
-          _oid_(v9268->range))));
-        if (boolean_I_any(_oid_(v13271)) != CTRUE)
-         (*Optimize.Cerror)(_string_("[207] inline ~S: range ~S is incompatible with ~S (inferred)"),
-          _oid_(v9268),
-          _oid_(v9268->range),
-          GC_OID((*Optimize.c_type)(GC_OID(v9268->formula->body))));
-        Result = v13271;
+        GC_OBJECT(list,v1603);} 
+      { OID gc_local;
+        ITERATE(v5263);
+        for (START(v15474); NEXT(v5263);)
+        put_property2(Kernel.range,OBJECT(ClaireObject,v5263),(*(v13263))[(((*Kernel.index)(v5263))+1)]);
         } 
-      return (Result);} 
-     } 
-  else{ GC_BIND;
-    ;{ ClaireType *Result ;
-      { OID  v5246 = GC_OID(v9268->typing);
-        list * v1603;
-        { { bag *v_list; OID v_val;
-            OID v5261,CLcount;
-            v_list = v13263;
-             v1603 = v_list->clone(Kernel._type);
-            for (CLcount= 1; CLcount <= v_list->length; CLcount++)
-            { v5261 = (*(v_list))[CLcount];
-              v_val = _oid_(ptype_type(OBJECT(ClaireType,v5261)));
-              
-              (*((list *) v1603))[CLcount] = v_val;} 
-            } 
-          GC_OBJECT(list,v1603);} 
-        ClaireType * v1850 = v9268->range;
-        ClaireType * v1851;
-        { { ClaireObject *V_CC ;
-            { ClaireHandler c_handle = ClaireHandler();
-              if ERROR_IN 
-              { if (INHERIT(OWNER(v5246),Core._lambda))
-                 V_CC = OBJECT(ClaireType,apply_lambda(OBJECT(lambda,v5246),v1603));
-                else if (INHERIT(OWNER(v5246),Kernel._property))
-                 V_CC = OBJECT(ClaireType,apply_property(OBJECT(property,v5246),v1603));
-                else if (INHERIT(OWNER(v5246),Kernel._function))
-                 { OID v15730;{ list * v6937;
-                    { list * v3279 = list::empty(Kernel.emptySet);
-                      { int  v5254 = 1;
-                        int  v6840 = (v13263->length+1);
-                        { OID gc_local;
-                          while ((v5254 <= v6840))
-                          { v3279->addFast(_oid_(Kernel._object));
-                            ++v5254;
+      v13271= GC_OBJECT(ClaireType,OBJECT(ClaireType,(*Optimize.c_type)(GC_OID(v9268->formula->body))));
+      { OID gc_local;
+        ITERATE(v5263);
+        for (START(v15474); NEXT(v5263);)
+        put_property2(Kernel.range,OBJECT(ClaireObject,v5263),(*(v1603))[(((*Kernel.index)(v5263))+1)]);
+        } 
+      if (INHERIT(v9268->range->isa,Kernel._type))
+       v13271= GC_OBJECT(ClaireType,OBJECT(ClaireType,(*Kernel._exp)(_oid_(v13271),
+        _oid_(v9268->range))));
+      if (boolean_I_any(_oid_(v13271)) != CTRUE)
+       (*Optimize.Cerror)(_string_("[207] inline ~S: range ~S is incompatible with ~S (inferred)"),
+        _oid_(v9268),
+        _oid_(v9268->range),
+        GC_OID((*Optimize.c_type)(GC_OID(v9268->formula->body))));
+      Result = v13271;
+      } 
+    else { { OID  v5246 = GC_OID(v9268->typing);
+          list * v1603;
+          { { bag *v_list; OID v_val;
+              OID v5261,CLcount;
+              v_list = v13263;
+               v1603 = v_list->clone(Kernel._type);
+              for (CLcount= 1; CLcount <= v_list->length; CLcount++)
+              { v5261 = (*(v_list))[CLcount];
+                v_val = _oid_(ptype_type(OBJECT(ClaireType,v5261)));
+                
+                (*((list *) v1603))[CLcount] = v_val;} 
+              } 
+            GC_OBJECT(list,v1603);} 
+          ClaireType * v1850 = v9268->range;
+          ClaireType * v1851;
+          { { ClaireObject *V_CC ;
+              { ClaireHandler c_handle = ClaireHandler();
+                if ERROR_IN 
+                { if (INHERIT(OWNER(v5246),Core._lambda))
+                   V_CC = OBJECT(ClaireType,apply_lambda(OBJECT(lambda,v5246),v1603));
+                  else if (INHERIT(OWNER(v5246),Kernel._property))
+                   V_CC = OBJECT(ClaireType,apply_property(OBJECT(property,v5246),v1603));
+                  else if (INHERIT(OWNER(v5246),Kernel._function))
+                   { OID v15730;{ list * v6937;
+                      { list * v3279 = list::empty(Kernel.emptySet);
+                        { int  v5254 = 1;
+                          int  v6840 = (v13263->length+1);
+                          { OID gc_local;
+                            while ((v5254 <= v6840))
+                            { v3279->addFast(_oid_(Kernel._object));
+                              ++v5254;
+                              } 
                             } 
                           } 
+                        v6937 = GC_OBJECT(list,v3279);
                         } 
-                      v6937 = GC_OBJECT(list,v3279);
+                      v15730 = apply_function(OBJECT(ClaireFunction,v5246),v6937,v1603);
                       } 
-                    v15730 = apply_function(OBJECT(ClaireFunction,v5246),v6937,v1603);
+                    
+                    V_CC=OBJECT(ClaireType,v15730);} 
+                  else V_CC = v1850;
+                    ClEnv->cHandle--;} 
+                else if (belong_to(_oid_(ClEnv->exception_I),_oid_(Kernel._any)) == CTRUE)
+                { c_handle.catchIt();{ tformat_string("~S's 2nd-order type failed on ~S \n",0,GC_OBJECT(list,list::alloc(2,_oid_(v9268),_oid_(v13263))));
+                    V_CC = v1850;
                     } 
-                  
-                  V_CC=OBJECT(ClaireType,v15730);} 
-                else V_CC = v1850;
-                  ClEnv->cHandle--;} 
-              else if (belong_to(_oid_(ClEnv->exception_I),_oid_(Kernel._any)) == CTRUE)
-              { c_handle.catchIt();{ tformat_string("~S's 2nd-order type failed on ~S \n",0,list::alloc(2,_oid_(v9268),_oid_(v13263)));
-                  V_CC = v1850;
                   } 
-                } 
-              else PREVIOUS_HANDLER;} 
-            v1851= (ClaireType *) V_CC;} 
-          GC_OBJECT(ClaireType,v1851);} 
-        if ((boolean_I_any(sort_equal_class(osort_any(_oid_(v1850)),osort_any(_oid_(v1851)))) == CTRUE) || 
-            (v9268->selector == Core.externC))
-         Result = v1851;
-        else if (boolean_I_any(sort_equal_class(Kernel._any,osort_any(_oid_(v1850)))) == CTRUE)
-         { Union * v2072 = ((Union *) GC_OBJECT(Union,new_object_class(Core._Union)));
-          (v2072->t1 = Kernel._any);
-          (v2072->t2 = v1851);
-          Result = v2072;
-          } 
-        else Result = v1850;
-          } 
+                else PREVIOUS_HANDLER;} 
+              v1851= (ClaireType *) V_CC;} 
+            GC_OBJECT(ClaireType,v1851);} 
+          if ((boolean_I_any(sort_equal_class(osort_any(_oid_(v1850)),osort_any(_oid_(v1851)))) == CTRUE) || 
+              (v9268->selector == Core.externC))
+           Result = v1851;
+          else if (boolean_I_any(sort_equal_class(Kernel._any,osort_any(_oid_(v1850)))) == CTRUE)
+           { Union * v2072 = ((Union *) GC_OBJECT(Union,new_object_class(Core._Union)));
+            (v2072->t1 = Kernel._any);
+            (v2072->t2 = v1851);
+            Result = v2072;
+            } 
+          else Result = v1850;
+            } 
+        } 
       GC_UNBIND; return (Result);} 
-    } 
   } 
 
 ClaireType * c_type_Call_Optimize(Call *v9268)
@@ -237,7 +234,7 @@ ClaireType * c_type_Call_Optimize(Call *v9268)
               (INHERIT(OWNER((*(v5252))[1]),Kernel._relation)))
            { ClaireRelation * v5258 = OBJECT(ClaireRelation,(*(v5252))[1]);
             if (INHERIT(v5258->isa,Kernel._property))
-             { ClaireObject * v15843 = GC_OBJECT(ClaireObject,_at_property1(((property *) v5258),class_I_type(OBJECT(ClaireType,(*(v15607))[2]))));
+             { ClaireObject * v15843 = _at_property1(((property *) v5258),class_I_type(OBJECT(ClaireType,(*(v15607))[2])));
               if (Kernel._slot == v15843->isa)
                { if ((_inf_equal_type(CLREAD(restriction,v15843,range),Kernel._bag) == CTRUE) && 
                     (Optimize.compiler->safety < 3))
@@ -295,7 +292,7 @@ OID  c_code_call_Call(Call *v9268,ClaireClass *v15693)
        ((*(v5252))[1]=(*Kernel.value)((*(v5252))[1]));
       { OID  v5253 = GC_OID(inline_optimize_ask_Call(v9268));
         ClaireBoolean * v5242 = inherit_ask_class(OWNER((*(v5252))[1]),Kernel._property);
-        OID  v5244 = GC_OID(daccess_any(_oid_(v9268),_sup_integer(Optimize.compiler->safety,5)));
+        OID  v5244 = daccess_any(_oid_(v9268),_sup_integer(Optimize.compiler->safety,5));
         if ((v5242 == CTRUE) && 
             (((v5259 == Kernel.put) || 
                 (v5259 == Core.write)) && 
@@ -315,7 +312,7 @@ OID  c_code_call_Call(Call *v9268,ClaireClass *v15693)
         else if ((v5242 == CTRUE) && 
             ((v5259 == Core.erase) && 
               (INHERIT(OWNER((*(v5252))[2]),Language._Variable))))
-         Result = (*Optimize.c_code)(GC_OID(Produce_erase_property2(OBJECT(property,(*(v5252))[1]),OBJECT(Variable,(*(v5252))[2]))),
+         Result = (*Optimize.c_code)(Produce_erase_property2(OBJECT(property,(*(v5252))[1]),OBJECT(Variable,(*(v5252))[2])),
           _oid_(v15693));
         else if (v5259 == Optimize.safe)
          { int  v5265 = Optimize.compiler->safety;
@@ -658,7 +655,7 @@ OID  c_code_write_Call(Call *v9268)
                         (get_property(Kernel.if_write,OBJECT(ClaireObject,v5256)) == CNULL)))))
          { OID  v13275 = GC_OID((*Optimize.c_code)(v5264,
             _oid_(psort_any(_oid_(domain_I_restriction(OBJECT(restriction,v5259)))))));
-          OID  v13277 = GC_OID(c_strict_code_any(v5265,psort_any(GC_OID((*Kernel.range)(v5259)))));
+          OID  v13277 = c_strict_code_any(v5265,psort_any(GC_OID((*Kernel.range)(v5259))));
           Update * v2072 = ((Update *) GC_OBJECT(Update,new_object_class(Language._Update)));
           (v2072->selector = v5256);
           (v2072->value = v13277);
@@ -819,7 +816,7 @@ OID  c_code_add_Call(Call *v9268)
     { property * v5256 = OBJECT(property,(*(v9268->args))[1]);
       OID  v5264 = (*(v9268->args))[2];
       OID  v5265 = (*(v9268->args))[3];
-      ClaireObject * v5259 = GC_OBJECT(ClaireObject,_at_property1(v5256,class_I_type(GC_OBJECT(ClaireType,ptype_type(OBJECT(ClaireType,(*Optimize.c_type)(v5264)))))));
+      ClaireObject * v5259 = _at_property1(v5256,class_I_type(GC_OBJECT(ClaireType,ptype_type(OBJECT(ClaireType,(*Optimize.c_type)(v5264))))));
       (Optimize.OPT->use_update = CTRUE);
       if ((Kernel._slot == v5259->isa) && ((_inf_equal_type(GC_OBJECT(ClaireType,OBJECT(ClaireType,(*Optimize.c_type)(v5265))),GC_OBJECT(ClaireType,member_type(CLREAD(restriction,v5259,range)))) == CTRUE) || 
           (4 <= Optimize.compiler->safety)))
@@ -935,7 +932,7 @@ OID  c_code_delete_Call(Call *v9268)
     { OID  v5256 = (*(v9268->args))[1];
       OID  v5264 = (*(v9268->args))[2];
       OID  v5265 = (*(v9268->args))[3];
-      ClaireObject * v5259 = GC_OBJECT(ClaireObject,_at_property1(OBJECT(property,v5256),class_I_type(GC_OBJECT(ClaireType,OBJECT(ClaireType,(*Optimize.c_type)(v5264))))));
+      ClaireObject * v5259 = _at_property1(OBJECT(property,v5256),class_I_type(GC_OBJECT(ClaireType,OBJECT(ClaireType,(*Optimize.c_type)(v5264)))));
       (Optimize.OPT->use_update = CTRUE);
       if ((OBJECT(ClaireRelation,v5256)->inverse == (NULL)) && 
           ((designated_ask_any(v5264) == CTRUE) && 
@@ -1069,11 +1066,11 @@ OID  c_code_belong_Call(Call *v9268)
         Result = _oid_(v2072);
         } 
       else if (_inf_equal_type(OBJECT(ClaireType,(*(v15607))[1]),Kernel._list) == CTRUE)
-       Result = c_code_method_method1(GC_OBJECT(method,((method *) _at_property2(Kernel.contain_ask,list::alloc(2,_oid_(Kernel._list),_oid_(Kernel._any))))),list::alloc(2,v5265,v5264),v15607);
+       Result = c_code_method_method1(GC_OBJECT(method,((method *) _at_property2(Kernel.contain_ask,GC_OBJECT(list,list::alloc(2,_oid_(Kernel._list),_oid_(Kernel._any)))))),GC_OBJECT(list,list::alloc(2,v5265,v5264)),v15607);
       else if (_inf_equal_type(OBJECT(ClaireType,(*(v15607))[1]),Kernel._set) == CTRUE)
-       Result = c_code_method_method1(GC_OBJECT(method,((method *) _at_property2(Kernel.contain_ask,list::alloc(2,_oid_(Kernel._set),_oid_(Kernel._any))))),list::alloc(2,v5265,v5264),v15607);
+       Result = c_code_method_method1(GC_OBJECT(method,((method *) _at_property2(Kernel.contain_ask,GC_OBJECT(list,list::alloc(2,_oid_(Kernel._set),_oid_(Kernel._any)))))),GC_OBJECT(list,list::alloc(2,v5265,v5264)),v15607);
       else if (v5265 == _oid_(Kernel._object))
-       Result = c_code_method_method1(GC_OBJECT(method,((method *) _at_property2(Kernel._Z,list::alloc(2,_oid_(Kernel._any),_oid_(Kernel._class))))),list::alloc(2,v5264,v5265),list::alloc(2,_oid_(Kernel._any),_oid_(Kernel._class)));
+       Result = c_code_method_method1(GC_OBJECT(method,((method *) _at_property2(Kernel._Z,GC_OBJECT(list,list::alloc(2,_oid_(Kernel._any),_oid_(Kernel._class)))))),GC_OBJECT(list,list::alloc(2,v5264,v5265)),GC_OBJECT(list,list::alloc(2,_oid_(Kernel._any),_oid_(Kernel._class))));
       else Result = (*Optimize.member_code)(v5265,
           v5264);
         } 
@@ -1344,81 +1341,78 @@ OID  c_code_method_method1(method *v9268,list *v5252,list *v15607)
 { return (c_code_method_method2(v9268,v5252,v15607,c_srange_method(v9268)));} 
 
 OID  c_code_method_method2(method *v9268,list *v5252,list *v15607,ClaireClass *v15693)
-{ if ((v9268->module_I != claire.it) || 
-      ((Optimize.compiler->safety > 4) || 
-        (((v9268->functional == (NULL)) ? CTRUE : CFALSE) != CTRUE))) 
-  { { OID Result = 0;
-      { list * v15456 = v9268->domain;
-        int  v5254 = v15456->length;
-        if (v5254 != v5252->length)
-         { list * v13377;
-          { list * v5962 = list::empty(Kernel.emptySet);
-            { int  v5249 = 1;
-              int  v7646 = (v5254-1);
+{ GC_BIND;
+  { OID Result = 0;
+    if ((v9268->module_I != claire.it) || 
+        ((Optimize.compiler->safety > 4) || 
+          (((v9268->functional == (NULL)) ? CTRUE : CFALSE) != CTRUE)))
+     { list * v15456 = v9268->domain;
+      int  v5254 = v15456->length;
+      if (v5254 != v5252->length)
+       { list * v13377;
+        { list * v5962 = list::empty(Kernel.emptySet);
+          { int  v5249 = 1;
+            int  v7646 = (v5254-1);
+            { OID gc_local;
+              while ((v5249 <= v7646))
+              { v5962->addFast((*(v5252))[v5249]);
+                ++v5249;
+                } 
+              } 
+            } 
+          v13377 = GC_OBJECT(list,v5962);
+          } 
+        OID  v14338;
+        { list * v9278;{ list * v5962 = list::empty(Kernel.emptySet);
+            { int  v5249 = v5254;
+              int  v7647 = v5252->length;
               { OID gc_local;
-                while ((v5249 <= v7646))
+                while ((v5249 <= v7647))
                 { v5962->addFast((*(v5252))[v5249]);
                   ++v5249;
                   } 
                 } 
               } 
-            v13377 = GC_OBJECT(list,v5962);
+            v9278 = GC_OBJECT(list,v5962);
             } 
-          OID  v14338;
-          { list * v9278;{ list * v5962 = list::empty(Kernel.emptySet);
-              { int  v5249 = v5254;
-                int  v7647 = v5252->length;
-                { OID gc_local;
-                  while ((v5249 <= v7647))
-                  { v5962->addFast((*(v5252))[v5249]);
-                    ++v5249;
+          
+          v14338=_oid_(v9278);} 
+        v5252 = v13377->addFast(v14338);
+        } 
+      if ((v9268->inline_ask == CTRUE) && 
+          (c_inline_ask_method(v9268,v5252) == CTRUE))
+       Result = c_inline_method1(v9268,v5252,v15693);
+      else { ClaireBoolean * v5242 = Optimize.OPT->allocation;
+          OID  v5264 = Core.nil->value;
+          (Optimize.OPT->allocation = CFALSE);
+          { { list * v16260;
+              { list * v5962 = list::empty(Kernel.emptySet);
+                { int  v5249 = 1;
+                  int  v7648 = v5254;
+                  { OID gc_local;
+                    while ((v5249 <= v7648))
+                    { GC_LOOP;
+                      v5962->addFast(c_strict_code_any((*(v5252))[v5249],psort_any((*(v15456))[v5249])));
+                      ++v5249;
+                      GC_UNLOOP;} 
                     } 
                   } 
+                v16260 = GC_OBJECT(list,v5962);
                 } 
-              v9278 = GC_OBJECT(list,v5962);
+              v5264 = Call_method_I_method(v9268,v16260);
               } 
-            
-            v14338=_oid_(v9278);} 
-          v5252 = v13377->addFast(v14338);
+            GC_OID(v5264);} 
+          if (Optimize.OPT->allocation != CTRUE)
+           (Optimize.OPT->allocation = v5242);
+          Result = v5264;
           } 
-        if ((v9268->inline_ask == CTRUE) && 
-            (c_inline_ask_method(v9268,v5252) == CTRUE))
-         Result = c_inline_method1(v9268,v5252,v15693);
-        else { ClaireBoolean * v5242 = Optimize.OPT->allocation;
-            OID  v5264 = Core.nil->value;
-            (Optimize.OPT->allocation = CFALSE);
-            { { list * v16260;
-                { list * v5962 = list::empty(Kernel.emptySet);
-                  { int  v5249 = 1;
-                    int  v7648 = v5254;
-                    { OID gc_local;
-                      while ((v5249 <= v7648))
-                      { GC_LOOP;
-                        v5962->addFast(GC_OID(c_strict_code_any((*(v5252))[v5249],psort_any((*(v15456))[v5249]))));
-                        ++v5249;
-                        GC_UNLOOP;} 
-                      } 
-                    } 
-                  v16260 = GC_OBJECT(list,v5962);
-                  } 
-                v5264 = Call_method_I_method(v9268,v16260);
-                } 
-              GC_OID(v5264);} 
-            if (Optimize.OPT->allocation != CTRUE)
-             (Optimize.OPT->allocation = v5242);
-            Result = v5264;
-            } 
-          } 
-      return (Result);} 
-     } 
-  else{ GC_BIND;
-    if (Optimize.compiler->optimize_ask == CTRUE)
-     { notice_void();
-      ;} 
-    { OID Result = 0;
-      Result = _oid_(open_message_property(v9268->selector,v5252));
+        } 
+    else { if (Optimize.compiler->optimize_ask == CTRUE)
+         { notice_void();
+          ;} 
+        Result = _oid_(open_message_property(v9268->selector,v5252));
+        } 
       GC_UNBIND; return (Result);} 
-    } 
   } 
 
 OID  Call_method_I_method(method *v9268,list *v7082)
@@ -1578,7 +1572,7 @@ ClaireBoolean * c_gc_ask_Call_method(Call_method *v9268)
 ClaireFunction * functional_I_method_Optimize(method *v9268)
 { GC_BIND;
   { ClaireFunction *Result ;
-    { OID  v5246 = GC_OID(get_property(Kernel.functional,v9268));
+    { OID  v5246 = get_property(Kernel.functional,v9268);
       property * v5256 = v9268->selector;
       Result = ((INHERIT(OWNER(v5246),Kernel._function)) ?
         OBJECT(ClaireFunction,v5246) :

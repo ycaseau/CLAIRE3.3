@@ -735,7 +735,7 @@ cast!(c:c_producer,self:C_cast,loop:any) : void
         l_necessary:list := parents(l) in
        (OPT.cinterface := p,
         OPT.properties := set<property>(),
-        OPT.objects := set<any>(),
+        OPT.objects := list<any>(),
         OPT.functions := list<any>(),
         OPT.need_to_close := set<any>(),
         OPT.legal_modules := set!(l_necessary),

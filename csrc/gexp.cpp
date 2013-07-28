@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file c:\claire\v3.3\src\compile\gexp.cl 
-         [version 3.3.28 / safety 5] Sat Sep 06 14:16:19 2003 *****/
+         [version 3.3.3 / safety 5] Sun Nov 23 11:55:52 2003 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -524,36 +524,35 @@ void  bool_exp_to_CL_Generate(Compile_to_CL *v1140,ClaireBoolean *v3475,OID v153
   GC_UNBIND;} 
 
 void  bool_exp_If_Generate(If *v1140,ClaireBoolean *v3475,OID v15308)
-{ if (boolean_I_any(v1140->other) == CTRUE) 
-  { { princ_string("(");
+{ GC_BIND;
+  if (boolean_I_any(v1140->other) == CTRUE)
+   { princ_string("(");
+    (*Optimize.bool_exp)(v1140->test,
+      Kernel.ctrue,
+      v15308);
+    princ_string(" ? ");
+    (*Optimize.bool_exp)(v1140->arg,
+      _oid_(v3475),
+      v15308);
+    princ_string(" : ");
+    (*Optimize.bool_exp)(v1140->other,
+      _oid_(v3475),
+      v15308);
+    princ_string(")");
+    } 
+  else { princ_string("(");
       (*Optimize.bool_exp)(v1140->test,
-        Kernel.ctrue,
-        v15308);
-      princ_string(" ? ");
-      (*Optimize.bool_exp)(v1140->arg,
         _oid_(v3475),
         v15308);
-      princ_string(" : ");
-      (*Optimize.bool_exp)(v1140->other,
+      princ_string(" ");
+      sign_or_boolean(not_any(_oid_(v3475)));
+      princ_string(" ");
+      (*Optimize.bool_exp)(v1140->arg,
         _oid_(v3475),
         v15308);
       princ_string(")");
       } 
-     } 
-  else{ GC_BIND;
-    princ_string("(");
-    (*Optimize.bool_exp)(v1140->test,
-      _oid_(v3475),
-      v15308);
-    princ_string(" ");
-    sign_or_boolean(not_any(_oid_(v3475)));
-    princ_string(" ");
-    (*Optimize.bool_exp)(v1140->arg,
-      _oid_(v3475),
-      v15308);
-    princ_string(")");
     GC_UNBIND;} 
-  } 
 
 void  bool_exp_And_Generate(And *v1140,ClaireBoolean *v3475,OID v15308)
 { GC_BIND;

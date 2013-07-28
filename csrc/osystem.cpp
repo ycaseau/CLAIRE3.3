@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file c:\claire\v3.3\src\compile\osystem.cl 
-         [version 3.3.28 / safety 5] Sat Sep 06 14:16:16 2003 *****/
+         [version 3.3.3 / safety 5] Sun Nov 23 11:55:49 2003 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -21,7 +21,7 @@ ClaireType * c_type_any_Optimize(OID v9268)
   { ClaireType *Result ;
     { ClaireObject *V_CC ;
       if (INHERIT(OWNER(v9268),Language._Variable))
-       { OID  v5258 = GC_OID(get_property(Kernel.range,OBJECT(ClaireObject,v9268)));
+       { OID  v5258 = get_property(Kernel.range,OBJECT(ClaireObject,v9268));
         if (v5258 == CNULL)
          V_CC = Kernel._any;
         else V_CC = (((INHERIT(OWNER(v5258),Core._Union)) && (equal(_oid_(OBJECT(Union,v5258)->t1),_oid_(Kernel.emptySet)) == CTRUE)) ?
@@ -77,28 +77,24 @@ OID  c_strict_code_any(OID v5264,ClaireClass *v5259)
   } 
 
 OID  c_strict_check_any_Optimize(OID v5264,ClaireClass *v5259)
-{ if ((Optimize.OPT->online_ask != CTRUE) && 
-      ((INHERIT(v5259,Kernel._object)) && 
-        (inherit_ask_class(stupid_t_any1(v5264),v5259) != CTRUE))) 
-  { { OID Result = 0;
-      { if ((*Optimize.c_type)(v5264) == _oid_(Kernel._any))
-         (*Optimize.Cerror)(_string_("Need explict cast: ~S is not a ~S"),
-          v5264,
-          _oid_(v5259));
-        { Compile_C_cast * v2072 = ((Compile_C_cast *) GC_OBJECT(Compile_C_cast,new_object_class(Optimize._C_cast)));
-          (v2072->arg = v5264);
-          (v2072->set_arg = v5259);
-          add_I_property(Kernel.instances,Optimize._C_cast,11,_oid_(v2072));
-          Result = _oid_(v2072);
-          } 
+{ GC_BIND;
+  { OID Result = 0;
+    if ((Optimize.OPT->online_ask != CTRUE) && 
+        ((INHERIT(v5259,Kernel._object)) && 
+          (inherit_ask_class(stupid_t_any1(v5264),v5259) != CTRUE)))
+     { if ((*Optimize.c_type)(v5264) == _oid_(Kernel._any))
+       (*Optimize.Cerror)(_string_("Need explict cast: ~S is not a ~S"),
+        v5264,
+        _oid_(v5259));
+      { Compile_C_cast * v2072 = ((Compile_C_cast *) GC_OBJECT(Compile_C_cast,new_object_class(Optimize._C_cast)));
+        (v2072->arg = v5264);
+        (v2072->set_arg = v5259);
+        add_I_property(Kernel.instances,Optimize._C_cast,11,_oid_(v2072));
+        Result = _oid_(v2072);
         } 
-      return (Result);} 
-     } 
-  else{ GC_BIND;
-    { OID Result = 0;
-      Result = v5264;
+      } 
+    else Result = v5264;
       GC_UNBIND; return (Result);} 
-    } 
   } 
 
 OID  c_code_any1_Optimize(OID v5264,ClaireClass *v5259)
@@ -224,7 +220,8 @@ ClaireBoolean * c_gc_ask_any(OID v9268)
       ((INHERIT(OWNER(v9268),Core._global_variable)) ?
         not_any(_oid_((INHERIT(OBJECT(global_variable,v9268)->range->isa,Kernel._class) ? (ClaireObject *) gcsafe_ask_class((ClaireClass *) OBJECT(ClaireClass,_oid_(OBJECT(global_variable,v9268)->range))) :  (ClaireObject *)  gcsafe_ask_type((ClaireType *) OBJECT(ClaireType,_oid_(OBJECT(global_variable,v9268)->range)))))) :
         ((INHERIT(OWNER(v9268),Language._Construct)) ?
-          CFALSE :
+          ((Optimize.OPT->loop_gc == CTRUE) ? (((INHERIT(OBJECT(ClaireObject,v9268)->isa,Language._List)) || 
+              (INHERIT(OBJECT(ClaireObject,v9268)->isa,Language._Set))) ? CTRUE: CFALSE): CFALSE) :
           ((INHERIT(OWNER(v9268),Language._Instruction)) ?
             CFALSE :
             CFALSE ) ) ) );
@@ -583,6 +580,8 @@ int  c_status_property(property *v9268)
            v5258= c_or_integer(v5258,2);
           if (Kernel._method == OBJECT(ClaireObject,v5264)->isa)
            v5258= c_or_integer(v5258,status_I_restriction(OBJECT(restriction,v5264)));
+          else if (Kernel._slot == OBJECT(ClaireObject,v5264)->isa)
+           v5258= c_or_integer(v5258,exp2_integer(4));
           } 
         } 
       Result = v5258;
@@ -626,25 +625,29 @@ void  s_test_method2(method *v5253)
   GC_UNBIND;} 
 
 ClaireBoolean * legal_ask_module(module *v9268,OID v5264)
-{ GC_BIND;
-  { ClaireBoolean *Result ;
-    if ((v5264 == _oid_(Optimize.object_I)) || 
-        (v5264 == _oid_(Optimize.anyObject_I)))
-     Result = CTRUE;
-    else if (Optimize.OPT->legal_modules->length != 0)
-     { if ((contain_ask_set(Optimize.OPT->legal_modules,_oid_(v9268)) != CTRUE) && 
-          ((Kernel._method == OWNER(v5264)) && ((OBJECT(method,v5264)->inline_ask == CFALSE) || 
-              (Optimize.compiler->inline_ask != CTRUE))))
-       { tformat_string("legal_modules = ~S\n",0,list::alloc(1,GC_OID(_oid_(Optimize.OPT->legal_modules))));
-        tformat_string("---- ERROR: ~S implies using ~S !\n\n",0,list::alloc(2,v5264,_oid_(v9268)));
-        Result = CFALSE;
-        } 
-      else Result = CTRUE;
-        } 
-    else { GC_OBJECT(set,Optimize.OPT->need_modules)->addFast(_oid_(v9268));
-        Result = CTRUE;
-        } 
-      GC_UNBIND; return (Result);} 
+{ if ((v5264 == _oid_(Optimize.object_I)) || 
+      (v5264 == _oid_(Optimize.anyObject_I))) 
+  { { ClaireBoolean *Result ;
+      Result = CTRUE;
+      return (Result);} 
+     } 
+  else{ GC_BIND;
+    { ClaireBoolean *Result ;
+      if (Optimize.OPT->legal_modules->length != 0)
+       { if ((contain_ask_set(Optimize.OPT->legal_modules,_oid_(v9268)) != CTRUE) && 
+            ((Kernel._method == OWNER(v5264)) && ((OBJECT(method,v5264)->inline_ask == CFALSE) || 
+                (Optimize.compiler->inline_ask != CTRUE))))
+         { tformat_string("legal_modules = ~S\n",0,list::alloc(1,GC_OID(_oid_(Optimize.OPT->legal_modules))));
+          tformat_string("---- ERROR: ~S implies using ~S !\n\n",0,list::alloc(2,v5264,_oid_(v9268)));
+          Result = CFALSE;
+          } 
+        else Result = CTRUE;
+          } 
+      else { GC_OBJECT(set,Optimize.OPT->need_modules)->addFast(_oid_(v9268));
+          Result = CTRUE;
+          } 
+        GC_UNBIND; return (Result);} 
+    } 
   } 
 
 OID  legal_ask_environment(ClaireEnvironment *v9268,OID v5264)

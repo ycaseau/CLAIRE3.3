@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file Generate.cl 
-         [version 3.3.28 / safety 5] Sat Sep 06 14:16:19 2003 *****/
+         [version 3.3.3 / safety 5] Sun Nov 23 11:55:54 2003 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -277,19 +277,19 @@ void GenerateClass::metaLoad() {
     } 
   
   Language.ident->addMethod(list::domain(1,Kernel._symbol),Kernel._void,
-  	NEW_ALLOC,_function_(ident_symbol,"ident_symbol"));
+  	NEW_ALLOC+RETURN_ARG,_function_(ident_symbol,"ident_symbol"));
   
   Language.ident->addMethod(list::domain(1,Kernel._thing),Kernel._void,
-  	NEW_ALLOC,_function_(ident_thing,"ident_thing"));
+  	NEW_ALLOC+RETURN_ARG,_function_(ident_thing,"ident_thing"));
   
   Language.ident->addMethod(list::domain(1,Kernel._class),Kernel._void,
-  	NEW_ALLOC,_function_(ident_class,"ident_class"));
+  	NEW_ALLOC+RETURN_ARG,_function_(ident_class,"ident_class"));
   
   Generate.interface_I->addMethod(list::domain(1,Kernel._class),Kernel._void,
   	NEW_ALLOC,_function_(interface_I_class,"interface!_class"));
   
   Generate.class_princ->addMethod(list::domain(1,Kernel._class),Kernel._void,
-  	NEW_ALLOC,_function_(class_princ_class,"class_princ_class"));
+  	NEW_ALLOC+RETURN_ARG,_function_(class_princ_class,"class_princ_class"));
   
   Generate.indent_c->addMethod(list::domain(1,Kernel._void),Kernel._any,
   	0,_function_(indent_c_void,"indent_c_void"));
@@ -413,7 +413,7 @@ void GenerateClass::metaLoad() {
   	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(check_sort_method,"check_sort_method"));
   
   Generate.typed_args_list->addMethod(list::domain(1,Kernel._list),Kernel._any,
-  	NEW_ALLOC,_function_(typed_args_list_list,"typed_args_list_list"));
+  	NEW_ALLOC+RETURN_ARG,_function_(typed_args_list_list,"typed_args_list_list"));
   
   Generate.need_debug_ask->addMethod(list::domain(1,Kernel._any),Kernel._boolean,
   	NEW_ALLOC,_function_(need_debug_ask_any,"need_debug?_any"));
@@ -456,7 +456,7 @@ void GenerateClass::metaLoad() {
   	NEW_ALLOC,_function_(expression_environment,"expression_environment"));
   
   Generate.expression->addMethod(list::domain(2,Language._Variable,Kernel._any),Kernel._void,
-  	NEW_ALLOC,_function_(expression_Variable,"expression_Variable"));
+  	NEW_ALLOC+RETURN_ARG,_function_(expression_Variable,"expression_Variable"));
   
   Generate.expression->addMethod(list::domain(2,Core._global_variable,Kernel._any),Kernel._void,
   	NEW_ALLOC,_function_(expression_global_variable,"expression_global_variable"));
@@ -829,7 +829,7 @@ void GenerateClass::metaLoad() {
   	0,_function_(ident_c_producer,"ident_c_producer"));
   
   Generate.class_princ->addMethod(list::domain(2,Generate._c_producer,Kernel._class),Kernel._void,
-  	0,_function_(class_princ_c_producer,"class_princ_c_producer"));
+  	RETURN_ARG,_function_(class_princ_c_producer,"class_princ_c_producer"));
   
   Generate.produce->addMethod(list::domain(2,Generate._c_producer,Kernel._any),Kernel._void,
   	NEW_ALLOC+SLOT_UPDATE,_function_(produce_c_producer2,"produce_c_producer2"));
@@ -844,7 +844,7 @@ void GenerateClass::metaLoad() {
   	NEW_ALLOC,_function_(namespace_I_c_producer,"namespace!_c_producer"));
   
   Kernel.module_I->addMethod(list::domain(2,Generate._c_producer,Kernel._module),Kernel._void,
-  	0,_function_(module_I_c_producer,"module!_c_producer"));
+  	RETURN_ARG,_function_(module_I_c_producer,"module!_c_producer"));
   
   Generate.declare->addMethod(list::domain(2,Generate._c_producer,Kernel._property),Kernel._void,
   	NEW_ALLOC+SLOT_UPDATE,_function_(declare_c_producer,"declare_c_producer"));

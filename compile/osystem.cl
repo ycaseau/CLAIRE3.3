@@ -57,7 +57,7 @@ claire/home() : string -> getenv("CLAIRE3_HOME")     // TO CHANGE -> simply read
 // they are all private.
 meta_OPT <: thing(
 	Compile/instructions:list,        // list of compiled instructions
-        Compile/objects:list,              // new named objects that are defined
+        Compile/objects:list,          // new named objects that are defined - v3.3.3: the order is important
         Compile/properties:set<property>, // new properties (implicit)
         Compile/functions:list,           // new functions
         Compile/need_to_close:set,        // properties that need to be closed
@@ -278,13 +278,14 @@ claire/safe(x:any) : type[x] -> x
             self)) ]
 
 // basic gc protection
+// v3.3.3 : do not protect float, which requires that they are stored properly
 [Compile/c_gc?(self:any) : boolean
  -> case self
       (Variable false,
        global_variable not(gcsafe?(self.range)),
-       Construct false,  // was case self (List true, Set true, any false),
-                         // however, List constructors are SAFE_RESULT by construction
-       Instruction false,
+       Construct (OPT.loop_gc & (self % List | self % Set)), // v3.3.3  List constructors are SAFE_RESULT by construction
+                                                             // but this protection is not enough in a loop
+       Instruction false,            // defined recursively
        any false) ]                  // TODO : protect functions !!!!
 
 // gives the sort of a compiled expression (does not apply to instructions that
@@ -353,7 +354,7 @@ claire/safe(x:any) : type[x] -> x
 // NEW_ALLOC :       a new allocation may be done by running the method
 // LIST_UPDATE :     a list is updated whose content is not gcsafe
 // SLOT_UPDATE :     an slot is updated whose content is not gcsafe
-// RETURN_ARG :      the result is (may be) one of the input argument
+// RETURN_ARG :      the result is (may be) one of the input argument (or a slot from ...) // v3.3.3
 // SAFE_RESULT :     the result from the method (not gcsafe) does not need protection
 // SAFE_GC :         the arguments do not need protection (even if an alloc occurs) -the method
 //                   takes care of its arguments (pushed on a stack for instance)
@@ -373,7 +374,7 @@ claire/safe(x:any) : type[x] -> x
              Definition bit_vector(NEW_ALLOC),
              Call let r1 := c_status(self.selector),
                       r2 := c_or(list{c_status(x,l) | x in self.args}) in
-                    c_return(r1,r2),
+                    c_return(r1,r2),                                 
              If let r1 := c_status(get(arg, self), l),
                     r2 := c_status(get(other, self), l) in
                c_return(c_or(r1,r2),c_status(self.test, l)),
@@ -447,7 +448,8 @@ claire/safe(x:any) : type[x] -> x
       (for x in self.restrictions
          (if not(srange(x) % {integer,any,object})
              r := c_or(r,bit_vector(NEW_ALLOC)),
-          case x (method r := c_or(r,status!(x)))),
+          case x (method r := c_or(r,status!(x)),
+                  slot r := c_or(r,^2(RETURN_ARG)))),  // v3.3.3 : return x.r is same as return x as far as GC protection is concerned
        r) ]
 
 // here we fix some status by hand
@@ -455,7 +457,7 @@ claire/safe(x:any) : type[x] -> x
  write(Core/status, Core/pop_debug @ property, 0),
  write(Core/status, Core/matching? @ list, bit_vector(SAFE_GC)),
  write(Core/status, Core/eval_message @ property, bit_vector(NEW_ALLOC,SLOT_UPDATE,SAFE_GC)),
- write(Core/status, nth @ bag, 0),
+ write(Core/status, nth @ bag, bit_vector(RETURN_ARG)),   // v3.3.3 returning a part of a list is like a slot of an object !
  write(Core/status, eval @ any, bit_vector(NEW_ALLOC)),
  write(Core/status, self_eval @ Call, bit_vector(SAFE_GC)),
  write(Core/status, self_eval @ If, bit_vector(SAFE_GC)),

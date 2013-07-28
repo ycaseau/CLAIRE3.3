@@ -212,7 +212,7 @@ unfold_use(ldef:list,x:any,s:any,loop:any) : void
 [self_statement(self:Assign,s:any,loop:any) : void
  -> let v := self.var, x := self.arg,
         %s:boolean := (loop &  OPT.loop_gc & inner2outer?(x)),
-        y := (if %s x.arg else x) in
+        y := (if (%s & x % to_protect) x.arg else x) in    // avoid double protection
       (if (s % string)
           printf("~I~I ~I;~I", new_block(), statement(y, s, loop),
                   (if %s gc_protection_exp(PRODUCER,v,false,s,loop)

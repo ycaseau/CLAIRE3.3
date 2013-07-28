@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\pretty.cl 
-         [version 3.3.28 / safety 5] Sat Sep 06 14:16:11 2003 *****/
+         [version 3.3.3 / safety 5] Sun Nov 23 11:55:44 2003 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -74,17 +74,15 @@ void  self_print_Variable_Language(Variable *self)
 
 /* The c++ function for: ppvariable(self:Variable) [NEW_ALLOC+SLOT_UPDATE] */
 void  ppvariable_Variable(Variable *self)
-{ if (((self->range == (NULL)) ? CTRUE : CFALSE) != CTRUE) 
-  { { princ_symbol(self->pname);
-      princ_string(":");
-      printexp_any(GC_OID(_oid_(self->range)),CFALSE);
-      princ_string("");
-      } 
-     } 
-  else{ GC_BIND;
-    princ_symbol(self->pname);
+{ GC_BIND;
+  if (((self->range == (NULL)) ? CTRUE : CFALSE) != CTRUE)
+   { princ_symbol(self->pname);
+    princ_string(":");
+    printexp_any(GC_OID(_oid_(self->range)),CFALSE);
+    princ_string("");
+    } 
+  else princ_symbol(self->pname);
     GC_UNBIND;} 
-  } 
 
 
 /* The c++ function for: ppvariable(self:list) [NEW_ALLOC+SLOT_UPDATE] */
@@ -145,7 +143,7 @@ OID  self_eval_Vardef(Vardef *self)
 // global_variables are defined in exception ? ---------------------------
 // a global variable is a named object with a special evaluation
 //
-/* The c++ function for: self_eval(self:global_variable) [0] */
+/* The c++ function for: self_eval(self:global_variable) [RETURN_ARG] */
 OID  self_eval_global_variable(global_variable *self)
 { return (self->value);} 
 
@@ -256,62 +254,59 @@ lambda * lambda_I_list(list *lvar,OID self)
 //
 /* The c++ function for: iClaire/lexical_build(self:any,lvar:list,n:integer) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
 OID  lexical_build_any(OID self,list *lvar,int n)
-{ if ((INHERIT(OWNER(self),Kernel._thing)) || 
-      (INHERIT(OWNER(self),Kernel._unbound_symbol))) 
-  { { OID Result = 0;
-      Result = lexical_change_any(self,lvar);
-      return (Result);} 
-     } 
-  else{ GC_BIND;
-    if (INHERIT(OWNER(self),Language._Variable))
-     { if (OBJECT(Variable,self)->index == (CNULL))
-       close_exception(((general_error *) (*Core._general_error)(_string_("[145] the symbol ~A is unbound"),
-        _oid_(list::alloc(1,_oid_(OBJECT(Variable,self)->pname))))));
-      ;} 
-    else if (INHERIT(OWNER(self),Language._Call))
-     { OID  s = lexical_change_any(_oid_(OBJECT(Call,self)->selector),lvar);
-      lexical_build_any(GC_OID(_oid_(OBJECT(Call,self)->args)),lvar,n);
-      if (_oid_(OBJECT(Call,self)->selector) != s)
-       { (OBJECT(Call,self)->selector = Core.call);
-        (OBJECT(Call,self)->args = cons_any(s,GC_OBJECT(list,OBJECT(Call,self)->args)));
-        } 
-      } 
-    else if (INHERIT(OWNER(self),Language._Instruction))
-     { ClaireClass * _Ztype = OBJECT(ClaireObject,self)->isa;
-      if (contain_ask_set(Language._Instruction_with_var->descendents,_oid_(_Ztype)) == CTRUE)
-       { put_property2(Kernel.index,GC_OBJECT(ClaireObject,OBJECT(ClaireObject,(*Language.var)(self))),n);
-        ++n;
-        if (n > Language._starvariable_index_star->value)
-         (Language._starvariable_index_star->value= n);
-        } 
-      { ITERATE(s);
-        for (START(_Ztype->slots); NEXT(s);)
-        { OID  x = get_slot(OBJECT(slot,s),OBJECT(ClaireObject,self));
-          if (((INHERIT(OWNER(x),Kernel._thing)) || 
-                (INHERIT(OWNER(x),Kernel._unbound_symbol))) && 
-              (OBJECT(restriction,s)->range == Kernel._any))
-           put_slot(OBJECT(slot,s),OBJECT(ClaireObject,self),lexical_change_any(x,lvar));
-          else lexical_build_any(x,lvar,n);
+{ GC_BIND;
+  { OID Result = 0;
+    if ((INHERIT(OWNER(self),Kernel._thing)) || 
+        (INHERIT(OWNER(self),Kernel._unbound_symbol)))
+     Result = lexical_change_any(self,lvar);
+    else { if (INHERIT(OWNER(self),Language._Variable))
+         { if (OBJECT(Variable,self)->index == (CNULL))
+           close_exception(((general_error *) (*Core._general_error)(_string_("[145] the symbol ~A is unbound"),
+            _oid_(list::alloc(1,_oid_(OBJECT(Variable,self)->pname))))));
+          ;} 
+        else if (INHERIT(OWNER(self),Language._Call))
+         { OID  s = lexical_change_any(_oid_(OBJECT(Call,self)->selector),lvar);
+          lexical_build_any(GC_OID(_oid_(OBJECT(Call,self)->args)),lvar,n);
+          if (_oid_(OBJECT(Call,self)->selector) != s)
+           { (OBJECT(Call,self)->selector = Core.call);
+            (OBJECT(Call,self)->args = cons_any(s,GC_OBJECT(list,OBJECT(Call,self)->args)));
             } 
-        } 
-      } 
-    else if (INHERIT(OWNER(self),Kernel._bag))
-     { int  _Zn = OBJECT(bag,self)->length;
-      { while ((_Zn > 0))
-        { { OID  x = (*(OBJECT(bag,self)))[_Zn];
-            if ((INHERIT(OWNER(x),Kernel._thing)) || 
-                (INHERIT(OWNER(x),Kernel._unbound_symbol)))
-             ((*(OBJECT(list,self)))[_Zn]=lexical_change_any(x,lvar));
-            else lexical_build_any(x,lvar,n);
-              } 
-          _Zn= (_Zn-1);
           } 
+        else if (INHERIT(OWNER(self),Language._Instruction))
+         { ClaireClass * _Ztype = OBJECT(ClaireObject,self)->isa;
+          if (contain_ask_set(Language._Instruction_with_var->descendents,_oid_(_Ztype)) == CTRUE)
+           { put_property2(Kernel.index,GC_OBJECT(ClaireObject,OBJECT(ClaireObject,(*Language.var)(self))),n);
+            ++n;
+            if (n > Language._starvariable_index_star->value)
+             (Language._starvariable_index_star->value= n);
+            } 
+          { ITERATE(s);
+            for (START(_Ztype->slots); NEXT(s);)
+            { OID  x = get_slot(OBJECT(slot,s),OBJECT(ClaireObject,self));
+              if (((INHERIT(OWNER(x),Kernel._thing)) || 
+                    (INHERIT(OWNER(x),Kernel._unbound_symbol))) && 
+                  (OBJECT(restriction,s)->range == Kernel._any))
+               put_slot(OBJECT(slot,s),OBJECT(ClaireObject,self),lexical_change_any(x,lvar));
+              else lexical_build_any(x,lvar,n);
+                } 
+            } 
+          } 
+        else if (INHERIT(OWNER(self),Kernel._bag))
+         { int  _Zn = OBJECT(bag,self)->length;
+          { while ((_Zn > 0))
+            { { OID  x = (*(OBJECT(bag,self)))[_Zn];
+                if ((INHERIT(OWNER(x),Kernel._thing)) || 
+                    (INHERIT(OWNER(x),Kernel._unbound_symbol)))
+                 ((*(OBJECT(list,self)))[_Zn]=lexical_change_any(x,lvar));
+                else lexical_build_any(x,lvar,n);
+                  } 
+              _Zn= (_Zn-1);
+              } 
+            } 
+          } 
+        else ;Result = self;
         } 
-      } 
-    else ;{ OID Result = 0;
-      Result = self;
       GC_UNBIND; return (Result);} 
-    } 
   } 
 
 
@@ -653,7 +648,7 @@ void  pretty_print_any(OID self)
   } 
 
 
-/* The c++ function for: self_print(self:list) [NEW_ALLOC+SLOT_UPDATE] */
+/* The c++ function for: self_print(self:list) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
 void  self_print_list_Language(list *self)
 { if (equal(_oid_(of_bag(self)),_oid_(Kernel.emptySet)) != CTRUE)
    { princ_string("list<");
@@ -667,7 +662,7 @@ void  self_print_list_Language(list *self)
   } 
 
 
-/* The c++ function for: self_print(self:set) [NEW_ALLOC+SLOT_UPDATE] */
+/* The c++ function for: self_print(self:set) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
 void  self_print_set_Language(set *self)
 { if (equal(_oid_(of_bag(self)),_oid_(Kernel.emptySet)) == CTRUE)
    { princ_string("{");
@@ -685,7 +680,7 @@ void  self_print_set_Language(set *self)
 
 
 // to remove !
-/* The c++ function for: self_print(self:tuple) [NEW_ALLOC+SLOT_UPDATE] */
+/* The c++ function for: self_print(self:tuple) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
 void  self_print_tuple_Language(tuple *self)
 { princ_string("tuple(");
   printbox_bag2(self);

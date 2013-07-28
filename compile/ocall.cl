@@ -564,7 +564,7 @@ c_gc?(self:Call_method) : boolean
           not(m.range <= bag & OPT.loop_gc)) &           // v3.2.32 : in a loop SAFE-RESULT may be wrong
         (status!(m)[NEW_ALLOC] |
          (m.status[RETURN_ARG] & exists( x in self.args | c_gc?(x))))))
-
+    
 // gets the associated function if it exists and create one otherwise
 Compile/functional! :: property(open = 3)
 [functional!(self:method) : function

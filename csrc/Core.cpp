@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file Core.cl 
-         [version 3.3.28 / safety 5] Sat Sep 06 14:16:08 2003 *****/
+         [version 3.3.3 / safety 5] Sun Nov 23 11:55:40 2003 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -323,7 +323,7 @@ void CoreClass::metaLoad() {
   	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(delete_property,"delete_property"));
   
   Core.erase->addMethod(list::domain(2,Kernel._property,Kernel._object),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(erase_property,"erase_property"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(erase_property,"erase_property"));
   
   Core.set_range->addMethod(list::domain(3,Kernel._property,Kernel._class,Kernel._type),Kernel._void,
   	NEW_ALLOC+SLOT_UPDATE+RETURN_ARG,_function_(set_range_property,"set_range_property"));
@@ -365,7 +365,7 @@ void CoreClass::metaLoad() {
   	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(hashinsert_restriction,"hashinsert_restriction"));
   
   Core.hashinsert->addMethod(list::domain(2,Kernel._class,Kernel._method),Kernel._any,
-  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(hashinsert_class,"hashinsert_class"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(hashinsert_class,"hashinsert_class"));
   
   Core.hashinsert->addMethod(list::domain(2,Kernel._list,Kernel._method),Kernel._any,
   	NEW_ALLOC+BAG_UPDATE+RETURN_ARG,_function_(hashinsert_list,"hashinsert_list"));
@@ -409,9 +409,9 @@ void CoreClass::metaLoad() {
     Kernel._integer),Kernel._object,
   	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(find_which_class,"find_which_class"));
   
-  { (ClEnv->version = 3.28);
+  { (ClEnv->version = 3.3);
     princ_string("-- CLAIRE run-time library v 3.");
-    princ_float(3.28);
+    princ_float(3.3);
     princ_string(" [os: ");
     princ_string("ntv");
     princ_string(", C++:");
@@ -516,7 +516,7 @@ void CoreClass::metaLoad() {
   	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(nth_equal_table2,"nth=_table2"));
   
   Core.get_index->addMethod(list::domain(2,Kernel._table,Kernel._any),Kernel._integer,
-  	0,_function_(get_index_table1,"get_index_table1"));
+  	RETURN_ARG,_function_(get_index_table1,"get_index_table1"));
   
   Core.get_index->addMethod(list::domain(3,Kernel._table,Kernel._integer,Kernel._integer),Kernel._integer,
   	0,_function_(get_index_table2,"get_index_table2"));
@@ -525,7 +525,7 @@ void CoreClass::metaLoad() {
   	NEW_ALLOC+BAG_UPDATE+RETURN_ARG,_function_(erase_table,"erase_table"));
   
   Core.make_table->addMethod(list::domain(3,Kernel._type,Kernel._type,Kernel._any),Kernel._table,
-  	NEW_ALLOC+SLOT_UPDATE,_function_(make_table_type,"make_table_type"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(make_table_type,"make_table_type"));
   
   { (Core.StopProperty = (table *) Kernel._table->instantiate("StopProperty",Core.it));
     (Core.StopProperty->multivalued_ask = Kernel._list);
@@ -665,7 +665,7 @@ void CoreClass::metaLoad() {
     } 
   
   Core.contradiction_I->addMethod(list::domain(1,Kernel._void),Kernel._void,
-  	0,_function_(contradiction_I_void,"contradiction!_void"));
+  	RETURN_ARG,_function_(contradiction_I_void,"contradiction!_void"));
   
   { global_variable * _CL_obj = (Core.nil = (global_variable *) Core._global_variable->instantiate("nil",claire.it));
     (_CL_obj->range = Kernel.emptySet);
@@ -675,7 +675,7 @@ void CoreClass::metaLoad() {
   
   { global_variable * _CL_obj = (Core.claire_date = (global_variable *) Core._global_variable->instantiate("claire_date",claire.it));
     (_CL_obj->range = Kernel._string);
-    (_CL_obj->value = _string_("Sat Sep 06 14:16:07 2003\n"));
+    (_CL_obj->value = _string_("Sun Nov 23 11:55:40 2003\n"));
     close_global_variable(_CL_obj);
     } 
   

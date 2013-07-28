@@ -365,7 +365,15 @@ c_code(self:Let,s:class) : any
         let x := Let(var = self.var,
                      value = c_gc!(c_strict_code(%v, psort(self.var.range)), %type),
                      arg = c_code(self.arg, s)) in
-          (put(isa, x, self.isa), x)))
+          (put(isa, x, self.isa),
+           if (x % Let* & %type % tuple & c_status(self.value,nil)[NEW_ALLOC])            // v3.3.3 protection of tuple vars
+              let i := 1, z := x.arg in
+                 (while (z % Let & i <= length(%type)) 
+                        (if not(gcsafe?(%type[i]) | z.value % to_protect)     // need to protect the var since the tuple is short-lived !
+                           (OPT.protection := true,
+                            z.value := to_protect(arg = z.value)),
+                         i :+ 1, z := z.arg)),
+           x)))
 
 // type inference for When is more subtle
 c_type(self:When) : type

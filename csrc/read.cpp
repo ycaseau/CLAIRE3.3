@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\read.cl 
-         [version 3.3.28 / safety 5] Sat Sep 06 14:16:14 2003 *****/
+         [version 3.3.3 / safety 5] Sun Nov 23 11:55:46 2003 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -211,71 +211,75 @@ OID  nexts_meta_reader(meta_reader *r,keyword *e)
 //
 /* The c++ function for: loopexp(r:meta_reader,x:any,e:keyword,loop:boolean) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
 OID  loopexp_meta_reader(meta_reader *r,OID x,keyword *e,ClaireBoolean *loop)
-{ GC_BIND;
-  { OID Result = 0;
-    if ((r->toplevel == CTRUE) && 
-        ((e == Reader.none) && 
-          (findeol_meta_reader(r) == CTRUE)))
-     Result = x;
-    else if (x == _oid_(Reader._ask))
-     { Call * _CL_obj = ((Call *) GC_OBJECT(Call,new_object_class(Language._Call)));
-      (_CL_obj->selector = Reader.inspect);
-      (_CL_obj->args = list::alloc(1,GC_OID(nexte_meta_reader(r))));
-      add_I_property(Kernel.instances,Language._Call,11,_oid_(_CL_obj));
-      Result = _oid_(_CL_obj);
-      } 
-    else if (skipc_meta_reader(r) == 58)
-     { OID  y = GC_OID(nexte_meta_reader(cnext_meta_reader(r)));
-      if (y == _oid_(Kernel._equal))
-       Result = loopexp_meta_reader(r,GC_OID(combine_any(x,_oid_(Reader.L__equal),GC_OID(nexte_meta_reader(r)))),e,CTRUE);
-      else if (y == _oid_(Reader.L_))
-       Result = nextinst_meta_reader(r,x);
-      else if (operation_ask_any(y) == CTRUE)
-       Result = combine_any(x,_oid_(Reader.L__equal),GC_OID(combine_any(x,y,GC_OID(loopexp_meta_reader(r,GC_OID(nexte_meta_reader(r)),e,CFALSE)))));
-      else if (INHERIT(OWNER(x),Language._Call))
-       { OID  w = GC_OID(nexte_meta_reader(r));
-        if (w == _oid_(Reader._equal_sup))
-         (r->last_arrow = CTRUE);
-        else if (((equal(w,Reader.arrow->value) == CTRUE) ? CTRUE : ((w == _oid_(Reader.L__equal)) ? CTRUE : CFALSE)) != CTRUE)
-         Serror_string("[149] wrong keyword (~S) after ~S",list::alloc(2,w,y));
-        Result = nextmethod_meta_reader(r,
-          x,
-          y,
-          equal(w,_oid_(Reader.L__equal)),
-          CFALSE,
-          equal(w,_oid_(Reader._equal_sup)));
+{ if ((r->toplevel == CTRUE) && 
+      ((e == Reader.none) && 
+        (findeol_meta_reader(r) == CTRUE))) 
+  { { OID Result = 0;
+      Result = x;
+      return (Result);} 
+     } 
+  else{ GC_BIND;
+    { OID Result = 0;
+      if (x == _oid_(Reader._ask))
+       { Call * _CL_obj = ((Call *) GC_OBJECT(Call,new_object_class(Language._Call)));
+        (_CL_obj->selector = Reader.inspect);
+        (_CL_obj->args = list::alloc(1,GC_OID(nexte_meta_reader(r))));
+        add_I_property(Kernel.instances,Language._Call,11,_oid_(_CL_obj));
+        Result = _oid_(_CL_obj);
         } 
-      else Serror_string("[150] Illegal use of :~S after ~S",list::alloc(2,y,x));
-        } 
-    else { OID  y = GC_OID(nexte_meta_reader(r));
-        if ((y == _oid_(e)) || 
-            ((y == _oid_(Reader._equal_sup)) && 
-                (_oid_(e) == Reader.arrow->value)))
-         { if (y != _oid_(e))
-           (r->last_arrow = CTRUE);
-          if (boolean_I_any(stop_ask_integer(firstc_meta_reader(r))) == CTRUE)
-           Serror_string("[151] ~S not allowed after ~S\n",list::alloc(2,_oid_(char_I_integer(firstc_meta_reader(r))),_oid_(e)));
-          else Result = x;
-            } 
-        else if ((equal(y,Reader.triangle->value) == CTRUE) || 
-            ((equal(y,Reader.arrow->value) == CTRUE) || 
-              ((y == _oid_(Reader.L_)) || 
-                ((y == _oid_(Reader.L_L_)) || 
-                  (y == _oid_(Reader._equal_sup))))))
-         Result = nextdefinition_meta_reader(r,x,y,CFALSE);
-        else if ((INHERIT(OWNER(y),Reader._delimiter)) && 
-            (boolean_I_any(stop_ask_integer(firstc_meta_reader(r))) == CTRUE))
-         Result = x;
+      else if (skipc_meta_reader(r) == 58)
+       { OID  y = GC_OID(nexte_meta_reader(cnext_meta_reader(r)));
+        if (y == _oid_(Kernel._equal))
+         Result = loopexp_meta_reader(r,GC_OID(combine_any(x,_oid_(Reader.L__equal),GC_OID(nexte_meta_reader(r)))),e,CTRUE);
+        else if (y == _oid_(Reader.L_))
+         Result = nextinst_meta_reader(r,x);
         else if (operation_ask_any(y) == CTRUE)
-         { if (loop == CTRUE)
-           Result = loopexp_meta_reader(r,GC_OID(combine_any(x,y,GC_OID(nexte_meta_reader(r)))),e,CTRUE);
-          else Result = loopexp_meta_reader(r,GC_OID(combine_I_any(x,y,GC_OID(nexte_meta_reader(r)))),e,CTRUE);
-            } 
-        else Serror_string("[152] Separation missing between ~S \nand ~S [~S?]",list::alloc(3,x,
+         Result = combine_any(x,_oid_(Reader.L__equal),GC_OID(combine_any(x,y,GC_OID(loopexp_meta_reader(r,GC_OID(nexte_meta_reader(r)),e,CFALSE)))));
+        else if (INHERIT(OWNER(x),Language._Call))
+         { OID  w = GC_OID(nexte_meta_reader(r));
+          if (w == _oid_(Reader._equal_sup))
+           (r->last_arrow = CTRUE);
+          else if (((equal(w,Reader.arrow->value) == CTRUE) ? CTRUE : ((w == _oid_(Reader.L__equal)) ? CTRUE : CFALSE)) != CTRUE)
+           Serror_string("[149] wrong keyword (~S) after ~S",list::alloc(2,w,y));
+          Result = nextmethod_meta_reader(r,
+            x,
             y,
-            _oid_(e)));
+            equal(w,_oid_(Reader.L__equal)),
+            CFALSE,
+            equal(w,_oid_(Reader._equal_sup)));
           } 
-      GC_UNBIND; return (Result);} 
+        else Serror_string("[150] Illegal use of :~S after ~S",list::alloc(2,y,x));
+          } 
+      else { OID  y = GC_OID(nexte_meta_reader(r));
+          if ((y == _oid_(e)) || 
+              ((y == _oid_(Reader._equal_sup)) && 
+                  (_oid_(e) == Reader.arrow->value)))
+           { if (y != _oid_(e))
+             (r->last_arrow = CTRUE);
+            if (boolean_I_any(stop_ask_integer(firstc_meta_reader(r))) == CTRUE)
+             Serror_string("[151] ~S not allowed after ~S\n",list::alloc(2,_oid_(char_I_integer(firstc_meta_reader(r))),_oid_(e)));
+            else Result = x;
+              } 
+          else if ((equal(y,Reader.triangle->value) == CTRUE) || 
+              ((equal(y,Reader.arrow->value) == CTRUE) || 
+                ((y == _oid_(Reader.L_)) || 
+                  ((y == _oid_(Reader.L_L_)) || 
+                    (y == _oid_(Reader._equal_sup))))))
+           Result = nextdefinition_meta_reader(r,x,y,CFALSE);
+          else if ((INHERIT(OWNER(y),Reader._delimiter)) && 
+              (boolean_I_any(stop_ask_integer(firstc_meta_reader(r))) == CTRUE))
+           Result = x;
+          else if (operation_ask_any(y) == CTRUE)
+           { if (loop == CTRUE)
+             Result = loopexp_meta_reader(r,GC_OID(combine_any(x,y,GC_OID(nexte_meta_reader(r)))),e,CTRUE);
+            else Result = loopexp_meta_reader(r,GC_OID(combine_I_any(x,y,GC_OID(nexte_meta_reader(r)))),e,CTRUE);
+              } 
+          else Serror_string("[152] Separation missing between ~S \nand ~S [~S?]",list::alloc(3,x,
+              y,
+              _oid_(e)));
+            } 
+        GC_UNBIND; return (Result);} 
+    } 
   } 
 
 
@@ -286,7 +290,7 @@ OID  loopexp_meta_reader(meta_reader *r,OID x,keyword *e,ClaireBoolean *loop)
 OID  nexte_meta_reader(meta_reader *r)
 { GC_BIND;
   { OID Result = 0;
-    { OID  x = GC_OID(nextexp_meta_reader(r,CFALSE));
+    { OID  x = nextexp_meta_reader(r,CFALSE);
       if (INHERIT(OWNER(x),Language._Instruction))
        (r->last_form = x);
       Result = x;
@@ -298,7 +302,7 @@ OID  nexte_meta_reader(meta_reader *r)
 // v3.3
 // reading the next compact expression/ same
 //
-/* The c++ function for: nextexp(r:meta_reader,str:boolean) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
+/* The c++ function for: nextexp(r:meta_reader,str:boolean) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
 OID  nextexp_meta_reader(meta_reader *r,ClaireBoolean *str)
 { GC_RESERVE(10);  // v3.0.55 optim !
   { OID Result = 0;
@@ -394,12 +398,12 @@ OID  nextexp_meta_reader(meta_reader *r,ClaireBoolean *str)
                     else Serror_string("[154] ~S<~S not allowed",list::alloc(2,x,y));
                       } 
                   else if (firstc_meta_reader(r) == 91)
-                   { OID  l = GC_OID(nextseq_meta_reader(cnext_meta_reader(r),93));
+                   { OID  l = nextseq_meta_reader(cnext_meta_reader(r),93);
                     { if ((INHERIT(OWNER(x),Kernel._class)) && 
                           ((x != _oid_(Kernel._type)) && 
                             (boolean_I_any(l) == CTRUE)))
                        x = _oid_(extract_class_call_class(OBJECT(ClaireClass,x),OBJECT(list,l)));
-                      else x = _oid_(Call_I_property(Kernel.nth,GC_OBJECT(list,cons_any(x,OBJECT(list,l)))));
+                      else x = _oid_(Call_I_property(Kernel.nth,cons_any(x,OBJECT(list,l))));
                          GC__OID(x, 6);} 
                     } 
                   else { OID  y = read_ident_port(cnext_meta_reader(r)->fromp);
@@ -434,9 +438,10 @@ OID  nextexp_meta_reader(meta_reader *r,ClaireBoolean *str)
 //
 /* The c++ function for: nexti(r:meta_reader,val:any) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG] */
 OID  nexti_meta_reader(meta_reader *r,OID val)
-{ if (firstc_meta_reader(r) == 40) 
-  { { OID Result = 0;
-      if ((val == _oid_(Reader.forall)) || 
+{ GC_BIND;
+  { OID Result = 0;
+    if (firstc_meta_reader(r) == 40)
+     { if ((val == _oid_(Reader.forall)) || 
           ((val == _oid_(Reader.exists)) || 
             (val == _oid_(Reader.some))))
        { Variable * v = GC_OBJECT(Variable,extract_variable_any(GC_OID(nexte_meta_reader(cnext_meta_reader(r)))));
@@ -455,8 +460,8 @@ OID  nexti_meta_reader(meta_reader *r,OID val)
           (_CL_obj->set_arg = _Za3);
           { Iteration * g0006 = _CL_obj; 
             OID  g0007;
-            { list * _Zbind = GC_OBJECT(list,bind_I_meta_reader(r,v));
-              OID  x = GC_OID(nexts_I_meta_reader2(r,41));
+            { list * _Zbind = bind_I_meta_reader(r,v);
+              OID  x = nexts_I_meta_reader2(r,41);
               unbind_I_meta_reader(r,_Zbind);
               g0007 = x;
               } 
@@ -478,88 +483,64 @@ OID  nexti_meta_reader(meta_reader *r,OID val)
         Result = val;
         } 
       else Result = readcall_meta_reader(r,val,CNULL);
-        return (Result);} 
-     } 
-  else{ if ((val == _oid_(Kernel._list)) && 
-        (firstc_meta_reader(r) == 123)) 
-    { { OID Result = 0;
-        { OID  s = GC_OID(readset_meta_reader(r,GC_OID(nexte_meta_reader(cnext_meta_reader(r)))));
-          if (INHERIT(OWNER(s),Language._Image))
-           { (OBJECT(ClaireObject,s)->isa = Language._Collect);
-            Result = s;
-            } 
-          else if (INHERIT(OWNER(s),Language._Select))
-           { (OBJECT(ClaireObject,s)->isa = Language._Lselect);
-            Result = s;
-            } 
-          else Serror_string("[157] ~S cannot follow list{",list::alloc(1,s));
-            } 
-        return (Result);} 
-       } 
-    else{ if (((INHERIT(OWNER(val),Language._Call)) && ((OBJECT(Call,val)->selector == Kernel.nth) && 
-            ((*(OBJECT(Call,val)->args))[1] == _oid_(Kernel._list)))) && 
-          (firstc_meta_reader(r) == 123)) 
-      { { OID Result = 0;
-          { OID  s = GC_OID(readset_meta_reader(r,GC_OID(nexte_meta_reader(cnext_meta_reader(r)))));
-            ClaireType * x = GC_OBJECT(ClaireType,extract_of_type_Call(OBJECT(Call,val)));
-            if (INHERIT(OWNER(s),Language._Image))
-             { (OBJECT(ClaireObject,s)->isa = Language._Collect);
-              (OBJECT(Image,s)->of = x);
-              Result = s;
-              } 
-            else if (INHERIT(OWNER(s),Language._Select))
-             { (OBJECT(ClaireObject,s)->isa = Language._Lselect);
-              (OBJECT(Select,s)->of = x);
-              Result = s;
-              } 
-            else Serror_string("[157] ~S cannot follow list{",list::alloc(1,s));
-              } 
-          return (Result);} 
-         } 
-      else{ if (((INHERIT(OWNER(val),Language._Call)) && ((OBJECT(Call,val)->selector == Kernel.nth) && 
-              ((*(OBJECT(Call,val)->args))[1] == _oid_(Kernel._set)))) && 
-            (firstc_meta_reader(r) == 123)) 
-        { { OID Result = 0;
-            { OID  s = GC_OID(readset_meta_reader(r,GC_OID(nexte_meta_reader(cnext_meta_reader(r)))));
-              ClaireType * x = GC_OBJECT(ClaireType,extract_of_type_Call(OBJECT(Call,val)));
-              if (INHERIT(OWNER(s),Language._Image))
-               { (OBJECT(Image,s)->of = x);
-                Result = s;
-                } 
-              else if (INHERIT(OWNER(s),Language._Select))
-               { (OBJECT(Select,s)->of = x);
-                Result = s;
-                } 
-              else Serror_string("[157] ~S cannot follow list{",list::alloc(1,s));
-                } 
-            return (Result);} 
-           } 
-        else{ if (firstc_meta_reader(r) == 58) 
-          { { OID Result = 0;
-              Result = nextvariable_meta_reader(r,val);
-              return (Result);} 
-             } 
-          else{ if (firstc_meta_reader(r) == 64) 
-            { { OID Result = 0;
-                { OID  _Za1 = read_ident_port(cnext_meta_reader(r)->fromp);
-                  if (inherit_ask_class(OWNER(_Za1),Kernel._class) != CTRUE)
-                   Serror_string("[158] wrong type in call ~S@~S",list::alloc(2,val,_Za1));
-                  if (firstc_meta_reader(r) == 40)
-                   Result = readcall_meta_reader(r,val,_Za1);
-                  else Serror_string("[159] missing ( after ~S@~S",list::alloc(2,val,_Za1));
-                    } 
-                return (Result);} 
-               } 
-            else{ GC_BIND;
-              { OID Result = 0;
-                Result = val;
-                GC_UNBIND; return (Result);} 
-              } 
-            } 
-          } 
         } 
-      } 
-    } 
+    else if ((val == _oid_(Kernel._list)) && 
+        (firstc_meta_reader(r) == 123))
+     { OID  s = readset_meta_reader(r,GC_OID(nexte_meta_reader(cnext_meta_reader(r))));
+      if (INHERIT(OWNER(s),Language._Image))
+       { (OBJECT(ClaireObject,s)->isa = Language._Collect);
+        Result = s;
+        } 
+      else if (INHERIT(OWNER(s),Language._Select))
+       { (OBJECT(ClaireObject,s)->isa = Language._Lselect);
+        Result = s;
+        } 
+      else Serror_string("[157] ~S cannot follow list{",list::alloc(1,s));
+        } 
+    else if (((INHERIT(OWNER(val),Language._Call)) && ((OBJECT(Call,val)->selector == Kernel.nth) && 
+          ((*(OBJECT(Call,val)->args))[1] == _oid_(Kernel._list)))) && 
+        (firstc_meta_reader(r) == 123))
+     { OID  s = readset_meta_reader(r,GC_OID(nexte_meta_reader(cnext_meta_reader(r))));
+      ClaireType * x = GC_OBJECT(ClaireType,extract_of_type_Call(OBJECT(Call,val)));
+      if (INHERIT(OWNER(s),Language._Image))
+       { (OBJECT(ClaireObject,s)->isa = Language._Collect);
+        (OBJECT(Image,s)->of = x);
+        Result = s;
+        } 
+      else if (INHERIT(OWNER(s),Language._Select))
+       { (OBJECT(ClaireObject,s)->isa = Language._Lselect);
+        (OBJECT(Select,s)->of = x);
+        Result = s;
+        } 
+      else Serror_string("[157] ~S cannot follow list{",list::alloc(1,s));
+        } 
+    else if (((INHERIT(OWNER(val),Language._Call)) && ((OBJECT(Call,val)->selector == Kernel.nth) && 
+          ((*(OBJECT(Call,val)->args))[1] == _oid_(Kernel._set)))) && 
+        (firstc_meta_reader(r) == 123))
+     { OID  s = readset_meta_reader(r,GC_OID(nexte_meta_reader(cnext_meta_reader(r))));
+      ClaireType * x = GC_OBJECT(ClaireType,extract_of_type_Call(OBJECT(Call,val)));
+      if (INHERIT(OWNER(s),Language._Image))
+       { (OBJECT(Image,s)->of = x);
+        Result = s;
+        } 
+      else if (INHERIT(OWNER(s),Language._Select))
+       { (OBJECT(Select,s)->of = x);
+        Result = s;
+        } 
+      else Serror_string("[157] ~S cannot follow list{",list::alloc(1,s));
+        } 
+    else if (firstc_meta_reader(r) == 58)
+     Result = nextvariable_meta_reader(r,val);
+    else if (firstc_meta_reader(r) == 64)
+     { OID  _Za1 = read_ident_port(cnext_meta_reader(r)->fromp);
+      if (inherit_ask_class(OWNER(_Za1),Kernel._class) != CTRUE)
+       Serror_string("[158] wrong type in call ~S@~S",list::alloc(2,val,_Za1));
+      if (firstc_meta_reader(r) == 40)
+       Result = readcall_meta_reader(r,val,_Za1);
+      else Serror_string("[159] missing ( after ~S@~S",list::alloc(2,val,_Za1));
+        } 
+    else Result = val;
+      GC_UNBIND; return (Result);} 
   } 
 
 
@@ -587,16 +568,13 @@ OID  read_escape_meta_reader(meta_reader *r)
 
 /* The c++ function for: nextvariable(r:meta_reader,val:any) [NEW_ALLOC+SLOT_UPDATE] */
 OID  nextvariable_meta_reader(meta_reader *r,OID val)
-{ if (val == _oid_(Kernel._inf)) 
-  { { OID Result = 0;
-      { skipc_meta_reader(r);
-        Result = Reader.triangle->value;
-        } 
-      return (Result);} 
-     } 
-  else{ GC_BIND;
-    { OID Result = 0;
-      { Vardef * _CL_obj = ((Vardef *) GC_OBJECT(Vardef,new_object_class(Language._Vardef)));
+{ GC_BIND;
+  { OID Result = 0;
+    if (val == _oid_(Kernel._inf))
+     { skipc_meta_reader(r);
+      Result = Reader.triangle->value;
+      } 
+    else { Vardef * _CL_obj = ((Vardef *) GC_OBJECT(Vardef,new_object_class(Language._Vardef)));
         (_CL_obj->pname = extract_symbol_any(val));
         update_property(Kernel.range,
           _CL_obj,
@@ -607,7 +585,6 @@ OID  nextvariable_meta_reader(meta_reader *r,OID val)
         Result = _oid_(_CL_obj);
         } 
       GC_UNBIND; return (Result);} 
-    } 
   } 
 
 
@@ -617,7 +594,7 @@ OID  nextvariable_meta_reader(meta_reader *r,OID val)
 OID  nexts_I_meta_reader1(meta_reader *r,keyword *e)
 { GC_BIND;
   { OID Result = 0;
-    { OID  x = GC_OID(nexts_meta_reader(r,e));
+    { OID  x = nexts_meta_reader(r,e);
       if (boolean_I_any(stop_ask_integer(firstc_meta_reader(r))) != CTRUE)
        Result = x;
       else Serror_string("[161] Missing keyword ~S after ~S",list::alloc(2,_oid_(e),x));
@@ -646,7 +623,7 @@ OID  nexte_I_meta_reader(meta_reader *r,keyword *e)
 OID  nexts_I_meta_reader2(meta_reader *r,int e)
 { GC_BIND;
   { OID Result = 0;
-    { OID  x = GC_OID(nexts_meta_reader(r,Reader.none));
+    { OID  x = nexts_meta_reader(r,Reader.none);
       if (firstc_meta_reader(r) == e)
        { cnext_meta_reader(r);
         Result = x;
@@ -663,7 +640,7 @@ OID  nexts_I_meta_reader2(meta_reader *r,int e)
 OID  nexts_I_meta_reader3(meta_reader *r,keyword *e,int n)
 { GC_BIND;
   { OID Result = 0;
-    { OID  x = GC_OID(nexts_meta_reader(r,e));
+    { OID  x = nexts_meta_reader(r,e);
       if ((firstc_meta_reader(r) == n) || 
           (boolean_I_any(stop_ask_integer(firstc_meta_reader(r))) != CTRUE))
        Result = x;

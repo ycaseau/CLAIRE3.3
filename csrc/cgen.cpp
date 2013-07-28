@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file c:\claire\v3.3\src\compile\cgen.cl 
-         [version 3.3.28 / safety 5] Sat Sep 06 14:16:19 2003 *****/
+         [version 3.3.3 / safety 5] Sun Nov 23 11:55:54 2003 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -9,18 +9,15 @@
 #include <Optimize.h>
 #include <Generate.h>
 char * c_string_c_producer1(Generate_c_producer *v7227,Variable *v1140)
-{ if (Optimize.compiler->naming == 2) 
-  { { char *Result ;
-      Result = append_string("v",GC_STRING(string_I_integer (integer_I_symbol(v1140->pname))));
-      return (Result);} 
-     } 
-  else{ GC_BIND;
-    print_in_string_void();
-    ident_c_producer(v7227,v1140->pname);
-    { char *Result ;
-      Result = end_of_print_void();
+{ GC_BIND;
+  { char *Result ;
+    if (Optimize.compiler->naming == 2)
+     Result = append_string("v",GC_STRING(string_I_integer (integer_I_symbol(v1140->pname))));
+    else { print_in_string_void();
+        ident_c_producer(v7227,v1140->pname);
+        Result = end_of_print_void();
+        } 
       GC_UNBIND; return (Result);} 
-    } 
   } 
 
 char * c_string_c_producer2(Generate_c_producer *v7227,symbol *v1140)
@@ -29,18 +26,15 @@ char * c_string_c_producer2(Generate_c_producer *v7227,symbol *v1140)
   return (end_of_print_void());} 
 
 char * string_I_c_producer1(Generate_c_producer *v7227,Variable *v1140)
-{ if (Optimize.compiler->naming == 2) 
-  { { char *Result ;
-      Result = append_string("v",GC_STRING(string_I_integer (integer_I_symbol(v1140->pname))));
-      return (Result);} 
-     } 
-  else{ GC_BIND;
-    print_in_string_void();
-    ident_c_producer(v7227,v1140->pname);
-    { char *Result ;
-      Result = end_of_print_void();
+{ GC_BIND;
+  { char *Result ;
+    if (Optimize.compiler->naming == 2)
+     Result = append_string("v",GC_STRING(string_I_integer (integer_I_symbol(v1140->pname))));
+    else { print_in_string_void();
+        ident_c_producer(v7227,v1140->pname);
+        Result = end_of_print_void();
+        } 
       GC_UNBIND; return (Result);} 
-    } 
   } 
 
 char * string_I_c_producer2(Generate_c_producer *v7227,symbol *v1140)
@@ -49,18 +43,16 @@ char * string_I_c_producer2(Generate_c_producer *v7227,symbol *v1140)
   return (end_of_print_void());} 
 
 void  ident_c_producer3(Generate_c_producer *v7227,Variable *v7247)
-{ if (Optimize.compiler->naming == 2) 
-  { princ_string(append_string("v",GC_STRING(string_I_integer (integer_I_symbol(v7247->pname)))));
-     } 
-  else{ GC_BIND;
-    { symbol * v7243 = v7247->pname;
+{ GC_BIND;
+  if (Optimize.compiler->naming == 2)
+   princ_string(append_string("v",GC_STRING(string_I_integer (integer_I_symbol(v7247->pname)))));
+  else { symbol * v7243 = v7247->pname;
       int  v7239 = index_list(v7227->bad_names,_oid_(v7243));
       if (v7239 == 0)
        c_princ_string(string_I_symbol(v7243));
       else c_princ_symbol(OBJECT(symbol,(*(v7227->good_names))[v7239]));
         } 
     GC_UNBIND;} 
-  } 
 
 void  ident_c_producer(Generate_c_producer *v7227,symbol *v7243)
 { { int  v7239 = index_list(v7227->bad_names,_oid_(v7243));
@@ -146,40 +138,34 @@ void  produce_c_producer2(Generate_c_producer *v7227,OID v7248)
     } 
 
 void  globalVar_c_producer(Generate_c_producer *v7227,global_variable *v7248)
-{ if ((equal(_oid_(v7248->range),_oid_(Kernel.emptySet)) == CTRUE) && 
-      (INHERIT(OWNER(v7248->value),Kernel._integer))) 
-  { (*Kernel.princ)(v7248->value);
-     } 
-  else{ GC_BIND;
-    ident_c_producer(v7227,defined_symbol(v7248->name)->name);
-    princ_string(".");
-    ident_symbol(v7248->name);
-    if (nativeVar_ask_global_variable(v7248) != CTRUE)
-     princ_string("->value");
-    princ_string("");
+{ GC_BIND;
+  if ((equal(_oid_(v7248->range),_oid_(Kernel.emptySet)) == CTRUE) && 
+      (INHERIT(OWNER(v7248->value),Kernel._integer)))
+   (*Kernel.princ)(v7248->value);
+  else { ident_c_producer(v7227,defined_symbol(v7248->name)->name);
+      princ_string(".");
+      ident_symbol(v7248->name);
+      if (nativeVar_ask_global_variable(v7248) != CTRUE)
+       princ_string("->value");
+      princ_string("");
+      } 
     GC_UNBIND;} 
-  } 
 
 void  stat_exp_c_producer(Generate_c_producer *v7227,OID v1140,OID v15308)
-{ if (INHERIT(OWNER(v1140),Optimize._to_C)) 
-  { stat_exp_c_producer(v7227,GC_OID(OBJECT(Compile_to_C,v1140)->arg),v15308);
-     } 
-  else{ if (INHERIT(OWNER(v1140),Optimize._to_CL)) 
-    { stat_exp_c_producer(v7227,GC_OID(OBJECT(Compile_to_CL,v1140)->arg),v15308);
-       } 
-    else{ if (designated_ask_any(v1140) == CTRUE) 
-      { princ_string(";");
-         } 
-      else{ GC_BIND;
-        (*Generate.expression)(v1140,
-          v15308);
-        princ_string(";");
-        breakline_void();
-        princ_string("");
-        GC_UNBIND;} 
+{ GC_BIND;
+  if (INHERIT(OWNER(v1140),Optimize._to_C))
+   stat_exp_c_producer(v7227,GC_OID(OBJECT(Compile_to_C,v1140)->arg),v15308);
+  else if (INHERIT(OWNER(v1140),Optimize._to_CL))
+   stat_exp_c_producer(v7227,GC_OID(OBJECT(Compile_to_CL,v1140)->arg),v15308);
+  else if (designated_ask_any(v1140) == CTRUE)
+   princ_string(";");
+  else { (*Generate.expression)(v1140,
+        v15308);
+      princ_string(";");
+      breakline_void();
+      princ_string("");
       } 
-    } 
-  } 
+    GC_UNBIND;} 
 
 void  namespace_I_c_producer(Generate_c_producer *v7227,module *v7237)
 { princ_string("\n\n// namespace class for ");
@@ -246,7 +232,7 @@ void  declare_c_producer(Generate_c_producer *v7227,property *v7240)
 
 void  start_module_interface_c_producer(Generate_c_producer *v7227,module *v1140)
 { GC_BIND;
-  { char * v15836 = GC_STRING(append_string(GC_STRING(Optimize.compiler->headers_dir),GC_STRING(append_string(GC_STRING(append_string(string_v(Reader._starfs_star->value),string_I_symbol(v1140->name))),".h"))));
+  { char * v15836 = append_string(GC_STRING(Optimize.compiler->headers_dir),append_string(append_string(string_v(Reader._starfs_star->value),string_I_symbol(v1140->name)),".h"));
     (Optimize.OPT->cinterface = fopen_string(v15836,"w"));
     use_as_output_port(Optimize.OPT->cinterface);
     princ_string("// interface defination for module ");
@@ -288,7 +274,7 @@ void  generate_end_file_c_producer(Generate_c_producer *v7234,module *v7237)
     for (START(v7227_support); NEXT(v7227);)
     { GC_LOOP;
       if (INHERIT(OWNER(v7227),Kernel._class))
-       { ClairePort * v7240 = fopen_string(append_string(GC_STRING(append_string(GC_STRING(append_string(GC_STRING(Optimize.compiler->source),string_v(Reader._starfs_star->value))),GC_STRING(c_string_c_producer2(v7234,OBJECT(symbol,(*Kernel.name)(v7227)))))),GC_STRING(v7234->extension)),"a");
+       { ClairePort * v7240 = fopen_string(append_string(append_string(append_string(GC_STRING(Optimize.compiler->source),string_v(Reader._starfs_star->value)),c_string_c_producer2(v7234,OBJECT(symbol,(*Kernel.name)(v7227)))),GC_STRING(v7234->extension)),"a");
         use_as_output_port(v7240);
         close_block_void();
         fclose_port(v7240);
@@ -524,7 +510,7 @@ void  global_var_def_I_c_producer(Generate_c_producer *v7227,module *v1140,Let *
           v2249=_void_(v8345);} 
         GC_OID(v2249);} 
     ClaireBoolean * v7226 = c_func_any(v2249);
-    Variable * v4936 = GC_OBJECT(Variable,build_Variable_string("V_C",_oid_(Kernel._any)));
+    Variable * v4936 = build_Variable_string("V_C",_oid_(Kernel._any));
     if (nativeVar_ask_global_variable(v11997) != CTRUE)
      statement_any(_oid_(v7248),Core.nil->value,Core.nil->value);
     else { if (v7226 != CTRUE)
@@ -554,27 +540,25 @@ void  global_var_def_I_c_producer(Generate_c_producer *v7227,module *v1140,Let *
   GC_UNBIND;} 
 
 void  gc_introduction_c_producer(Generate_c_producer *v7227,OID v9221)
-{ if (Optimize.OPT->protection == CTRUE) 
-  { { OID  v7250 = GC_OID(gc_usage_any(v9221,CFALSE));
-      if ((Optimize.OPT->loop_gc == CTRUE) && 
-          (INHERIT(OWNER(v7250),Kernel._integer)))
-       { if ((OBJECT(ClaireBoolean,(*Kernel._inf)(v7250,
-          100))) == CTRUE)
-         { (Optimize.OPT->loop_index = 0);
-          princ_string("GC_RESERVE(1);  // HOHO v3.0.55 optim !");
+{ GC_BIND;
+  if (Optimize.OPT->protection == CTRUE)
+   { OID  v7250 = gc_usage_any(v9221,CFALSE);
+    if ((Optimize.OPT->loop_gc == CTRUE) && 
+        (INHERIT(OWNER(v7250),Kernel._integer)))
+     { if ((OBJECT(ClaireBoolean,(*Kernel._inf)(v7250,
+        100))) == CTRUE)
+       { (Optimize.OPT->loop_index = 0);
+        princ_string("GC_RESERVE(1);  // HOHO v3.0.55 optim !");
+        } 
+      else { princ_string("GC_RESERVE(");
+          princ_integer((Optimize.OPT->loop_index+1));
+          princ_string(");  // v3.0.55 optim !");
           } 
-        else { princ_string("GC_RESERVE(");
-            princ_integer((Optimize.OPT->loop_index+1));
-            princ_string(");  // v3.0.55 optim !");
-            } 
-          } 
-      else princ_string("GC_BIND;");
-        breakline_void();
-      } 
-     } 
-  else{ GC_BIND;
-    ;GC_UNBIND;} 
-  } 
+        } 
+    else princ_string("GC_BIND;");
+      breakline_void();
+    } 
+  GC_UNBIND;} 
 
 OID  gc_usage_any(OID v1140,ClaireBoolean *v15308)
 { GC_BIND;
@@ -603,11 +587,11 @@ OID  gc_usage_any(OID v1140,ClaireBoolean *v15308)
       else if (INHERIT(OBJECT(ClaireObject,v1140)->isa,Language._Call))
        Result = gc_usage_star_list(GC_OBJECT(list,OBJECT(Call,v1140)->args),v15308);
       else if (INHERIT(OBJECT(ClaireObject,v1140)->isa,Language._If))
-       Result = gc_or_any(gc_usage_any(GC_OID(OBJECT(If,v1140)->test),v15308),gc_or_any(GC_OID(gc_usage_any(GC_OID(OBJECT(If,v1140)->arg),v15308)),GC_OID(gc_usage_any(GC_OID(OBJECT(If,v1140)->other),v15308))));
+       Result = gc_or_any(gc_usage_any(GC_OID(OBJECT(If,v1140)->test),v15308),gc_or_any(gc_usage_any(GC_OID(OBJECT(If,v1140)->arg),v15308),gc_usage_any(GC_OID(OBJECT(If,v1140)->other),v15308)));
       else if (INHERIT(OBJECT(ClaireObject,v1140)->isa,Language._Do))
        Result = gc_usage_star_list(GC_OBJECT(list,OBJECT(Do,v1140)->args),v15308);
       else if (INHERIT(OBJECT(ClaireObject,v1140)->isa,Language._Iteration))
-       Result = gc_or_any(GC_OID(gc_usage_any(GC_OID(OBJECT(Iteration,v1140)->set_arg),v15308)),GC_OID(gc_usage_any(GC_OID(OBJECT(Iteration,v1140)->arg),CTRUE)));
+       Result = gc_or_any(gc_usage_any(GC_OID(OBJECT(Iteration,v1140)->set_arg),v15308),gc_usage_any(GC_OID(OBJECT(Iteration,v1140)->arg),CTRUE));
       else if (INHERIT(OBJECT(ClaireObject,v1140)->isa,Language._Let))
        { OID  v7248 = GC_OID(OBJECT(Let,v1140)->value);
         { OID  v4383;
@@ -615,7 +599,7 @@ OID  gc_usage_any(OID v1140,ClaireBoolean *v15308)
               (INHERIT(OWNER(v7248),Optimize._to_protect)))
            v4383 = OBJECT(Instruction_with_var,v1140)->var->index;
           else v4383 = Kernel.cfalse;
-            Result = gc_or_any(v4383,gc_or_any(GC_OID(gc_usage_any(v7248,v15308)),GC_OID(gc_usage_any(GC_OID(OBJECT(Let,v1140)->arg),v15308))));
+            Result = gc_or_any(v4383,gc_or_any(gc_usage_any(v7248,v15308),gc_usage_any(GC_OID(OBJECT(Let,v1140)->arg),v15308)));
           } 
         } 
       else if (INHERIT(OBJECT(ClaireObject,v1140)->isa,Language._Assign))
@@ -626,7 +610,7 @@ OID  gc_usage_any(OID v1140,ClaireBoolean *v15308)
              v5344 = (*Kernel.index)(GC_OID(OBJECT(Assign,v1140)->var));
             else v5344 = Kernel.cfalse;
               GC_OID(v5344);} 
-          Result = gc_or_any(v5344,GC_OID(gc_usage_any(v7248,v15308)));
+          Result = gc_or_any(v5344,gc_usage_any(v7248,v15308));
           } 
         } 
       else if (INHERIT(OBJECT(ClaireObject,v1140)->isa,Optimize._to_protect))
@@ -644,11 +628,11 @@ OID  gc_usage_any(OID v1140,ClaireBoolean *v15308)
       else if (INHERIT(OBJECT(ClaireObject,v1140)->isa,Language._Case))
        Result = gc_usage_star_list(GC_OBJECT(list,OBJECT(Case,v1140)->args),v15308);
       else if (INHERIT(OBJECT(ClaireObject,v1140)->isa,Language._While))
-       Result = gc_or_any(GC_OID(gc_usage_any(GC_OID(OBJECT(While,v1140)->arg),CTRUE)),GC_OID(gc_usage_any(GC_OID(OBJECT(While,v1140)->test),v15308)));
+       Result = gc_or_any(gc_usage_any(GC_OID(OBJECT(While,v1140)->arg),CTRUE),gc_usage_any(GC_OID(OBJECT(While,v1140)->test),v15308));
       else if (INHERIT(OBJECT(ClaireObject,v1140)->isa,Language._Return))
        Result = gc_usage_any(GC_OID(OBJECT(Return,v1140)->arg),v15308);
       else if (INHERIT(OBJECT(ClaireObject,v1140)->isa,Language._Handle))
-       Result = gc_or_any(gc_or_any(GC_OID(gc_usage_any(GC_OID(OBJECT(ClaireHandle,v1140)->arg),v15308)),GC_OID(gc_usage_any(GC_OID(OBJECT(ClaireHandle,v1140)->other),v15308))),gc_usage_any(GC_OID(OBJECT(ClaireHandle,v1140)->test),v15308));
+       Result = gc_or_any(gc_or_any(gc_usage_any(GC_OID(OBJECT(ClaireHandle,v1140)->arg),v15308),gc_usage_any(GC_OID(OBJECT(ClaireHandle,v1140)->other),v15308)),gc_usage_any(GC_OID(OBJECT(ClaireHandle,v1140)->test),v15308));
       else Result = Kernel.cfalse;
         } 
     else Result = Kernel.cfalse;
@@ -866,9 +850,9 @@ void  generate_float_function_c_producer(Generate_c_producer *v7227,method *v723
           (*((list *) v11442))[CLcount] = v_val;} 
         } 
       GC_OBJECT(list,v11442);} 
-    char * v1168 = GC_STRING(append_string(v12719,"_"));
+    char * v1168 = append_string(v12719,"_");
     ClaireFunction * v9226 = make_function_string(v1168);
-    lambda * v15876 = GC_OBJECT(lambda,lambda_I_list(v11442,Core.nil->value));
+    lambda * v15876 = lambda_I_list(v11442,Core.nil->value);
     ClaireClass * v7243 = ((v7237->range == Kernel._float) ?
       Kernel._any :
       psort_any(_oid_(v7237->range)) );
@@ -941,9 +925,9 @@ void  generate_tuple_function_c_producer(Generate_c_producer *v7227,method *v723
           (*((list *) v11442))[CLcount] = v_val;} 
         } 
       GC_OBJECT(list,v11442);} 
-    char * v1168 = GC_STRING(append_string(v12719,"_"));
+    char * v1168 = append_string(v12719,"_");
     ClaireFunction * v9226 = make_function_string(v1168);
-    lambda * v15876 = GC_OBJECT(lambda,lambda_I_list(v11442,Core.nil->value));
+    lambda * v15876 = lambda_I_list(v11442,Core.nil->value);
     ClaireClass * v7243 = Kernel._tuple;
     generate_regular_function_c_producer(v7227,
       v15876,
@@ -1005,7 +989,7 @@ void  c_interface_class2_Generate(ClaireClass *v1140,char *v7243)
 { GC_BIND;
   { int  v7239 = index_list(OBJECT(Generate_producer,Generate.PRODUCER->value)->interfaces,_oid_(v1140));
     if (v7239 == 0)
-     (OBJECT(Generate_producer,Generate.PRODUCER->value)->interfaces = GC_OBJECT(list,GC_OBJECT(list,OBJECT(Generate_producer,Generate.PRODUCER->value)->interfaces)->addFast(_oid_(v1140)))->addFast(_string_(v7243)));
+     (OBJECT(Generate_producer,Generate.PRODUCER->value)->interfaces = GC_OBJECT(list,OBJECT(Generate_producer,Generate.PRODUCER->value)->interfaces)->addFast(_oid_(v1140))->addFast(_string_(v7243)));
     else ((*(OBJECT(Generate_producer,Generate.PRODUCER->value)->interfaces))[(v7239+1)]=_string_(v7243));
       } 
   GC_UNBIND;} 
@@ -1191,97 +1175,95 @@ void  bitvector_exp_c_producer(Generate_c_producer *v7227,OID v11032,OID v11033,
   } 
 
 void  equal_exp_c_producer(Generate_c_producer *v7227,OID v11032,ClaireBoolean *v3475,OID v11033,OID v7260)
-{ if ((INHERIT(OWNER(v11032),Optimize._to_CL)) && 
+{ GC_BIND;
+  if ((INHERIT(OWNER(v11032),Optimize._to_CL)) && 
       ((INHERIT(OWNER(v11033),Optimize._to_CL)) && 
         ((osort_any(GC_OID((*Language.set_arg)(v11032))) == osort_any(GC_OID((*Language.set_arg)(v11033)))) && 
           ((identifiable_ask_any(GC_OID((*Kernel.arg)(v11032))) == CTRUE) || 
               ((identifiable_ask_any(GC_OID((*Kernel.arg)(v11033))) == CTRUE) || 
                 (((*Language.set_arg)(v11032) == _oid_(Kernel._string)) || 
-                  ((*Language.set_arg)(v11032) == _oid_(Kernel._float)))))))) 
-  { equal_exp_c_producer(v7227,
-      GC_OID((*Kernel.arg)(v11032)),
-      v3475,
-      GC_OID((*Kernel.arg)(v11033)),
-      Kernel.ctrue);
-     } 
-  else{ GC_BIND;
-    { ClaireBoolean * g0050I;
-      { ClaireBoolean *v_and;
-        { v_and = (((*Optimize.c_sort)(v11032) == _oid_(Kernel._string)) ? CTRUE : CFALSE);
+                  ((*Language.set_arg)(v11032) == _oid_(Kernel._float))))))))
+   equal_exp_c_producer(v7227,
+    GC_OID((*Kernel.arg)(v11032)),
+    v3475,
+    GC_OID((*Kernel.arg)(v11033)),
+    Kernel.ctrue);
+  else { ClaireBoolean * g0050I;
+    { ClaireBoolean *v_and;
+      { v_and = (((*Optimize.c_sort)(v11032) == _oid_(Kernel._string)) ? CTRUE : CFALSE);
+        if (v_and == CFALSE) g0050I =CFALSE; 
+        else { v_and = (((*Optimize.c_sort)(v11033) == _oid_(Kernel._string)) ? CTRUE : CFALSE);
           if (v_and == CFALSE) g0050I =CFALSE; 
-          else { v_and = (((*Optimize.c_sort)(v11033) == _oid_(Kernel._string)) ? CTRUE : CFALSE);
+          else { { OID  v14907;
+              if (INHERIT(OWNER(v11033),Optimize._to_C))
+               v14907 = ((OBJECT(Compile_to_C,v11033)->arg == CNULL) ? Kernel.ctrue : Kernel.cfalse);
+              else v14907 = Kernel.cfalse;
+                v_and = not_any(v14907);
+              } 
             if (v_and == CFALSE) g0050I =CFALSE; 
-            else { { OID  v14907;
-                if (INHERIT(OWNER(v11033),Optimize._to_C))
-                 v14907 = ((OBJECT(Compile_to_C,v11033)->arg == CNULL) ? Kernel.ctrue : Kernel.cfalse);
-                else v14907 = Kernel.cfalse;
-                  v_and = not_any(v14907);
-                } 
-              if (v_and == CFALSE) g0050I =CFALSE; 
-              else g0050I = CTRUE;} 
-            } 
+            else g0050I = CTRUE;} 
           } 
         } 
-      
-      if (g0050I == CTRUE) { princ_string("(equal_string(");
-          (*Generate.expression)(v11032,
-            Core.nil->value);
-          princ_string(",");
-          (*Generate.expression)(v11033,
-            Core.nil->value);
-          princ_string(") ");
-          sign_equal_boolean(v3475);
-          princ_string(" CTRUE)");
-          } 
-        else if ((INHERIT(OWNER(v11032),Optimize._to_CL)) && 
-          (((*Language.set_arg)(v11032) != _oid_(Kernel._integer)) && 
-            (v11033 == CNULL)))
-       { princ_string("(");
-        (*Generate.expression)(GC_OID((*Kernel.arg)(v11032)),
+      } 
+    
+    if (g0050I == CTRUE) { princ_string("(equal_string(");
+        (*Generate.expression)(v11032,
           Core.nil->value);
-        princ_string(" ");
+        princ_string(",");
+        (*Generate.expression)(v11033,
+          Core.nil->value);
+        princ_string(") ");
         sign_equal_boolean(v3475);
-        princ_string(" NULL)");
+        princ_string(" CTRUE)");
         } 
-      else if ((char_exp_ask_c_producer2(v7227,v11032) == CTRUE) || 
-          (char_exp_ask_c_producer2(v7227,v11033) == CTRUE))
-       { princ_string("(");
-        char_exp_c_producer2(v7227,v11032,Core.nil->value);
-        princ_string(" ");
+      else if ((INHERIT(OWNER(v11032),Optimize._to_CL)) && 
+        (((*Language.set_arg)(v11032) != _oid_(Kernel._integer)) && 
+          (v11033 == CNULL)))
+     { princ_string("(");
+      (*Generate.expression)(GC_OID((*Kernel.arg)(v11032)),
+        Core.nil->value);
+      princ_string(" ");
+      sign_equal_boolean(v3475);
+      princ_string(" NULL)");
+      } 
+    else if ((char_exp_ask_c_producer2(v7227,v11032) == CTRUE) || 
+        (char_exp_ask_c_producer2(v7227,v11033) == CTRUE))
+     { princ_string("(");
+      char_exp_c_producer2(v7227,v11032,Core.nil->value);
+      princ_string(" ");
+      sign_equal_boolean(v3475);
+      princ_string(" ");
+      char_exp_c_producer2(v7227,v11033,Core.nil->value);
+      princ_string(")");
+      } 
+    else if ((boolean_I_any(v7260) == CTRUE) || 
+        ((identifiable_ask_any(v11032) == CTRUE) || 
+          ((identifiable_ask_any(v11033) == CTRUE) || 
+            ((*Optimize.c_sort)(v11032) == _oid_(Kernel._float)))))
+     { if (equal(_oid_(glb_class(stupid_t_any1(v11032),stupid_t_any1(v11033))),_oid_(Kernel.emptySet)) == CTRUE)
+       { warn_void();
+        tformat_string("~S = ~S will fail ! [263]",2,list::alloc(2,v11032,v11033));
+        } 
+      princ_string("(");
+      bexpression_any(v11032,Core.nil->value);
+      princ_string(" ");
+      sign_equal_boolean(v3475);
+      princ_string(" ");
+      bexpression_any(v11033,Core.nil->value);
+      princ_string(")");
+      } 
+    else { princ_string("(equal(");
+        (*Generate.expression)(v11032,
+          Core.nil->value);
+        princ_string(",");
+        (*Generate.expression)(v11033,
+          Core.nil->value);
+        princ_string(") ");
         sign_equal_boolean(v3475);
-        princ_string(" ");
-        char_exp_c_producer2(v7227,v11033,Core.nil->value);
-        princ_string(")");
+        princ_string(" CTRUE)");
         } 
-      else if ((boolean_I_any(v7260) == CTRUE) || 
-          ((identifiable_ask_any(v11032) == CTRUE) || 
-            ((identifiable_ask_any(v11033) == CTRUE) || 
-              ((*Optimize.c_sort)(v11032) == _oid_(Kernel._float)))))
-       { if (equal(_oid_(glb_class(stupid_t_any1(v11032),stupid_t_any1(v11033))),_oid_(Kernel.emptySet)) == CTRUE)
-         { warn_void();
-          tformat_string("~S = ~S will fail ! [263]",2,list::alloc(2,v11032,v11033));
-          } 
-        princ_string("(");
-        bexpression_any(v11032,Core.nil->value);
-        princ_string(" ");
-        sign_equal_boolean(v3475);
-        princ_string(" ");
-        bexpression_any(v11033,Core.nil->value);
-        princ_string(")");
-        } 
-      else { princ_string("(equal(");
-          (*Generate.expression)(v11032,
-            Core.nil->value);
-          princ_string(",");
-          (*Generate.expression)(v11033,
-            Core.nil->value);
-          princ_string(") ");
-          sign_equal_boolean(v3475);
-          princ_string(" CTRUE)");
-          } 
-        } 
-    GC_UNBIND;} 
-  } 
+      } 
+  GC_UNBIND;} 
 
 ClaireBoolean * char_exp_ask_c_producer2(Generate_c_producer *v7227,OID v7248)
 { { ClaireBoolean *Result ;
@@ -1367,82 +1349,80 @@ void  cast_I_c_producer(Generate_c_producer *v7227,Compile_C_cast *v1140,OID v15
   GC_UNBIND;} 
 
 void  gc_protection_exp_c_producer(Generate_c_producer *v7227,Variable *v7247,ClaireBoolean *v12010,OID v7245,OID v15308)
-{ if ((osort_any(GC_OID(_oid_(v7247->range))) == Kernel._float) || 
-      (osort_any(GC_OID(_oid_(v7247->range))) == Kernel._integer)) 
-  { { princ_string("(");
-      ident_c_producer3(v7227,v7247);
-      princ_string("=");
-      if (v12010 == CTRUE)
-       (*Generate.expression)(v7245,
-        v15308);
-      else c_princ_string(string_v(v7245));
-        princ_string(")");
-      } 
-     } 
-  else{ GC_BIND;
-    princ_string("GC__");
-    princ_string(((osort_any(GC_OID(_oid_(v7247->range))) == Kernel._any) ?
-      "OID" :
-      ((osort_any(GC_OID(_oid_(v7247->range))) == Kernel._string) ?
-        "STRING" :
-        "ANY" ) ));
-    princ_string("(");
+{ GC_BIND;
+  if ((osort_any(GC_OID(_oid_(v7247->range))) == Kernel._float) || 
+      (osort_any(GC_OID(_oid_(v7247->range))) == Kernel._integer))
+   { princ_string("(");
     ident_c_producer3(v7227,v7247);
-    if (v7245 != _oid_(v7247))
-     { princ_string(" = ");
-      if (v12010 == CTRUE)
-       (*Generate.expression)(v7245,
-        v15308);
-      else c_princ_string(string_v(v7245));
-        } 
-    princ_string(", ");
-    princ_integer(((Optimize.OPT->loop_index == 0) ?
-      1 :
-      (v7247->index+1) ));
-    princ_string(")");
-    GC_UNBIND;} 
-  } 
-
-void  bag_expression_c_producer(Generate_c_producer *v11165,ClaireClass *v7227,bag *v7236,ClaireType *v7244,OID v15308)
-{ if (v7236->length == 0) 
-  { { print_any(_oid_(v7227));
-      princ_string("::empty(");
-      if (v7244 != Kernel._void)
-       { (*Generate.expression)(GC_OID((*Optimize.c_code)(_oid_(v7244),
-            _oid_(Kernel._object))),
+    princ_string("=");
+    if (v12010 == CTRUE)
+     (*Generate.expression)(v7245,
+      v15308);
+    else c_princ_string(string_v(v7245));
+      princ_string(")");
+    } 
+  else { princ_string("GC__");
+      princ_string(((osort_any(GC_OID(_oid_(v7247->range))) == Kernel._any) ?
+        "OID" :
+        ((osort_any(GC_OID(_oid_(v7247->range))) == Kernel._string) ?
+          "STRING" :
+          "ANY" ) ));
+      princ_string("(");
+      ident_c_producer3(v7227,v7247);
+      if (v7245 != _oid_(v7247))
+       { princ_string(" = ");
+        if (v12010 == CTRUE)
+         (*Generate.expression)(v7245,
           v15308);
-        } 
+        else c_princ_string(string_v(v7245));
+          } 
+      princ_string(", ");
+      princ_integer(((Optimize.OPT->loop_index == 0) ?
+        1 :
+        (v7247->index+1) ));
       princ_string(")");
       } 
-     } 
-  else{ GC_BIND;
-    print_any(_oid_(v7227));
-    princ_string("::alloc");
-    if ((v7227 == Kernel._tuple) && 
-        (Optimize.OPT->alloc_stack == CTRUE))
-     princ_string("Stack");
-    princ_string("(");
+    GC_UNBIND;} 
+
+void  bag_expression_c_producer(Generate_c_producer *v11165,ClaireClass *v7227,bag *v7236,ClaireType *v7244,OID v15308)
+{ GC_BIND;
+  if (v7236->length == 0)
+   { print_any(_oid_(v7227));
+    princ_string("::empty(");
     if (v7244 != Kernel._void)
      { (*Generate.expression)(GC_OID((*Optimize.c_code)(_oid_(v7244),
           _oid_(Kernel._object))),
         v15308);
-      princ_string(",");
       } 
-    princ_integer(v7236->length);
-    princ_string(",");
-    args_list_bag(v7236,v15308,_sup_integer(v7236->length,2));
     princ_string(")");
+    } 
+  else { print_any(_oid_(v7227));
+      princ_string("::alloc");
+      if ((v7227 == Kernel._tuple) && 
+          (Optimize.OPT->alloc_stack == CTRUE))
+       princ_string("Stack");
+      princ_string("(");
+      if (v7244 != Kernel._void)
+       { (*Generate.expression)(GC_OID((*Optimize.c_code)(_oid_(v7244),
+            _oid_(Kernel._object))),
+          v15308);
+        princ_string(",");
+        } 
+      princ_integer(v7236->length);
+      princ_string(",");
+      args_list_bag(v7236,v15308,_sup_integer(v7236->length,2));
+      princ_string(")");
+      } 
     GC_UNBIND;} 
-  } 
 
 void  generate_s_file_string(char *v1140,list *v7236,OID v7237)
 { GC_BIND;
-  { ClairePort * v7240 = fopen_string(append_string(GC_STRING(append_string(GC_STRING(_7_string(GC_STRING(Optimize.compiler->source),v1140)),"-s")),GC_STRING(OBJECT(Generate_producer,Generate.PRODUCER->value)->extension)),"w");
+  { ClairePort * v7240 = fopen_string(append_string(append_string(_7_string(GC_STRING(Optimize.compiler->source),v1140),"-s"),GC_STRING(OBJECT(Generate_producer,Generate.PRODUCER->value)->extension)),"w");
     list * v4824 = GC_OBJECT(list,add_modules_list(v7236));
     list * v10516 = GC_OBJECT(list,parents_list(v7236));
     (Optimize.OPT->cinterface = v7240);
     (Optimize.OPT->properties = set::empty(Kernel._property));
-    (Optimize.OPT->objects = ((list *) set::empty(Kernel._any)));
+    (Optimize.OPT->objects = list::empty(Kernel._any));
     (Optimize.OPT->functions = list::empty(Kernel._any));
     (Optimize.OPT->need_to_close = set::empty(Kernel._any));
     (Optimize.OPT->legal_modules = set_I_bag(v10516));
@@ -1500,7 +1480,7 @@ void  create_load_modules_string(char *v1140,ClairePort *v7240,list *v10516,OID 
   { OID gc_local;
     ITERATE(v7248);
     bag *v7248_support;
-    v7248_support = GC_OBJECT(set,_backslash_type(v10516,set::alloc(Kernel.emptySet,3,_oid_(claire.it),
+    v7248_support = _backslash_type(v10516,GC_OBJECT(set,set::alloc(Kernel.emptySet,3,_oid_(claire.it),
       _oid_(mClaire.it),
       _oid_(Kernel.it))));
     for (START(v7248_support); NEXT(v7248);)
@@ -1600,7 +1580,7 @@ void  methods_interface_c_producer(Generate_c_producer *v7227,ClaireClass *v7248
     v7240_support = OBJECT(bag,nth_table1(Language.InterfaceList,_oid_(v7248)));
     for (START(v7240_support); NEXT(v7240);)
     { GC_LOOP;
-      { ClaireObject * v7237 = GC_OBJECT(ClaireObject,_at_property1(OBJECT(property,v7240),v7248));
+      { ClaireObject * v7237 = _at_property1(OBJECT(property,v7240),v7248);
         if ((Kernel._method == v7237->isa) && 
             (get_property(Kernel.formula,v7237) != CNULL))
          { ClaireClass * v7243 = class_I_type(GC_OBJECT(ClaireType,OBJECT(ClaireType,(*Kernel.range)(_oid_(v7237)))));
@@ -1626,7 +1606,7 @@ void  methods_bodies_c_producer(Generate_c_producer *v7227,ClaireClass *v7248)
     v7240_support = OBJECT(bag,nth_table1(Language.InterfaceList,_oid_(v7248)));
     for (START(v7240_support); NEXT(v7240);)
     { GC_LOOP;
-      { ClaireObject * v7237 = GC_OBJECT(ClaireObject,_at_property1(OBJECT(property,v7240),v7248));
+      { ClaireObject * v7237 = _at_property1(OBJECT(property,v7240),v7248);
         if ((Kernel._method == v7237->isa) && 
             (get_property(Kernel.formula,v7237) != CNULL))
          { ClaireClass * v7243 = class_I_type(GC_OBJECT(ClaireType,OBJECT(ClaireType,(*Kernel.range)(_oid_(v7237)))));

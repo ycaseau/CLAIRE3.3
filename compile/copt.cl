@@ -442,15 +442,16 @@ Compile/bitvectorList :: list("NEW_ALLOC","BAG_UPDATE","SLOT_UPDATE","RETURN_ARG
 
 
 [exp_to_protect(c:c_producer,self:to_protect,loop:any) : void                  // v3.0.3
- -> if (OPT.protection & need_protect(self.arg) &
-        not(OPT.alloc_stack & c_type(self.arg) <= tuple))                      // v3.2.26
+ -> let st := c_type(self.arg) in
+     (if (OPT.protection & need_protect(self.arg) &
+          not(OPT.alloc_stack & st <= tuple))                                 // v3.2.26 : a temporary tuple should not be protected ...
         let x := self.arg, s := c_sort(x) in
           printf("~A(~I)",gc_protect(s),
                   (if (s inherit? object) printf("~I,~I",
                                                   class_princ(psort(c_type(x) glb s)),   // v3.3.14
                                                   expression(self.arg, loop))
                    else expression(self.arg,loop)))
-    else expression(self.arg, loop) ]
+      else expression(self.arg, loop)) ]
 
 
 [macro(c:c_producer) : void -> nil]
@@ -477,7 +478,7 @@ Compile/bitvectorList :: list("NEW_ALLOC","BAG_UPDATE","SLOT_UPDATE","RETURN_ARG
      princ("if ERROR_IN "),
      breakline(),
      new_block(),
-     statement(self.arg, s, nil),
+     statement(self.arg, s, loop),           // v3.3.3: the loop argument is needed for GC protection
      princ("ClEnv->cHandle--;"),
      close_block(),
      printf("else if (belong_to(_oid_(ClEnv->exception_I),~I) == CTRUE)",
@@ -485,7 +486,7 @@ Compile/bitvectorList :: list("NEW_ALLOC","BAG_UPDATE","SLOT_UPDATE","RETURN_ARG
      breakline(),
      new_block(),
      princ("c_handle.catchIt();"),
-     statement(get(other, self), s, nil),   // <yc> no return in a try !!!
+     statement(get(other, self), s, loop),   // same (was put to nil to forbid the use of a return)
      close_block(),
      printf("else PREVIOUS_HANDLER;"),
      close_block() ]
