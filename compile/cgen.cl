@@ -47,7 +47,7 @@ C++PRODUCER :: c_producer(
     symbol!("abstract"), symbol!("final"), symbol!("system_object"),
     symbol!("NEW_ALLOC"), symbol!("BAG_UPDATE"), symbol!("SLOT_UPDATE"),
     symbol!("RETURN_ARG"), symbol!("SAFE_RESULT"),symbol!("SAFE_GC"),
-    symbol!("collection")),
+    symbol!("collection"),symbol!("error")),                 // v3.3.36
  good_names = list(
     symbol!("DO"),symbol!("IF"),symbol!("ClaireAnd"),symbol!("ClaireOr"),symbol!("NOT"),
     symbol!("PRINTF"), symbol!("ClaireVoid"), symbol!("ClairePattern"),
@@ -62,7 +62,7 @@ C++PRODUCER :: c_producer(
     symbol!("ABSTRACT"), symbol!("FINAL"),symbol!("SystemObject"),
     symbol!("_NEW_ALLOC"), symbol!("_BAG_UPDATE"), symbol!("_SLOT_UPDATE"),
     symbol!("_RETURN_ARG"), symbol!("_SAFE_RESULT"),symbol!("_SAFE_GC"),
-    symbol!("ClaireCollection")),
+    symbol!("ClaireCollection"),symbol!("ClaireError")),     // v3.3.36
  // a list of interface
  interfaces = list(port, "ClairePort *", string, "char *", char, "ClaireChar *",
                    float, "double ",

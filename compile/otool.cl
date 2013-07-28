@@ -575,13 +575,19 @@ gc_register(self:Variable,arg:any) : any
 // it may be a reference to the content (x) of an inner variable that is placed
 // in an outer one !
 // v3.3.26: if the value is passed through a method that return its arg which is itself protected
+// v3.3.36: the value is an allocation that is protected by a GC_PUSH done at the kernel level
+// v3.3.38: copy @ bag is of the same kind (more expected)
+// (for instance, a list allocation
 Compile/inner2outer?(x:any) : boolean
   -> (case x
       (to_protect true,                              // this is strange
        Variable not(Optimize/gcsafe?(x.range)),
-       Call_method (x.arg.status[RETURN_ARG] & inner2outer?(x.args[1])),  // v3.3.26
+       Call_method 
+          ((x.arg.selector = copy & x.arg.range = bag) |           // v3.3.38
+           (x.arg.status[RETURN_ARG] & inner2outer?(x.args[1]))),  // v3.3.26
        to_CL inner2outer?(x.arg),
        to_C  inner2outer?(x.arg),
+       List true, Set true,                          // v3.3.36
        Let inner2outer?(x.var)))
 
 

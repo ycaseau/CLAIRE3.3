@@ -230,13 +230,13 @@ nth_put(a:table,x:any,y:any) : void
  -> (if  (known?(if_write,a) & not(multi?(a))) fastcall(a,x,y)
      else if multi?(a)
         let r := get(inverse, a),
-            old := get(a,x) in
-          (if (old != unknown)                    // v3.3 ? starnge
-              a.graph[get_index(a, x)] :=
-                (if (length((y as set)) = 0) y
-                 else if (a.multivalued? = list) unknown
-                 else {}),
-           if known?(r) for z in old update-(r, z, x),
+            old := get(a,x) in  // v3.3.38 : redo (thanks to <sb>)
+          (a.graph[get_index(a, x)] :=
+             (if (length((y as set)) = 0) y    // we install a new value -> direct write 
+              else if (a.multivalued? = list) 
+                    make_list(0,of_extract(a.range),0)  // watch out: a.default does not always exist
+              else cast!(set(),of_extract(a.range))),   // of_extract is a fast member(..)
+           if (old != unknown & known?(r)) for z in old update-(r, z, x),
            for z in (y as set) add!(a, x, z))
      else let  r := get(inverse, a), z := get(a,x) in
              (if (z != y)

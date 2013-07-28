@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\control.cl 
-         [version 3.3.34 / safety 5] Sun Mar 07 10:46:33 2004 *****/
+         [version 3.3.38 / safety 5] Sat Oct 09 17:37:18 2004 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -437,26 +437,26 @@ OID  self_eval_For(For *self)
             } 
           else if (Kernel._array == OWNER(x))
            { int  n = array_v(x)[0];
-            int  g0042 = 1;
-            int  g0043 = n;
+            int  g0044 = 1;
+            int  g0045 = n;
             { OID gc_local;
               Result= _oid_(CFALSE);
-              while ((g0042 <= g0043))
+              while ((g0044 <= g0045))
               { GC_LOOP;
-                { OID  z = nth_get_array(array_v(x),g0042);
+                { OID  z = nth_get_array(array_v(x),g0044);
                   write_value_Variable(self->var,z);
                   eval_any(GC_OID(self->arg));
                   } 
-                ++g0042;
+                ++g0044;
                 GC_UNLOOP;} 
               } 
             } 
           else if (INHERIT(OWNER(x),Core._Interval))
            { int  y = OBJECT(Interval,x)->arg1;
-            int  g0044 = OBJECT(Interval,x)->arg2;
+            int  g0046 = OBJECT(Interval,x)->arg2;
             { OID gc_local;
               Result= _oid_(CFALSE);
-              while ((y <= g0044))
+              while ((y <= g0046))
               { GC_LOOP;
                 write_value_Variable(self->var,y);
                 eval_any(GC_OID(self->arg));
@@ -477,10 +477,10 @@ OID  self_eval_For(For *self)
                 } 
               GC_UNLOOP;} 
             } 
-          else { OID  V_CL0045;close_exception(((general_error *) (*Core._general_error)(_string_("[136] ~S is not a collection !"),
+          else { OID  V_CL0047;close_exception(((general_error *) (*Core._general_error)(_string_("[136] ~S is not a collection !"),
                 _oid_(list::alloc(1,x)))));
               
-              Result=_void_(V_CL0045);} 
+              Result=_void_(V_CL0047);} 
             ClEnv->cHandle--;} 
         else if (belong_to(_oid_(ClEnv->exception_I),_oid_(Core._return_error)) == CTRUE)
         { c_handle.catchIt();Result = (*Kernel.arg)(GC_OID(_oid_(ClEnv->exception_I)));
@@ -514,48 +514,36 @@ void  self_print_Collect_Language(Collect *self)
 
 /* The c++ function for: self_eval(self:Collect) [NEW_ALLOC] */
 OID  self_eval_Collect(Collect *self)
-{ GC_RESERVE(1);  // HOHO v3.0.55 optim !
+{ GC_BIND;
   { OID Result = 0;
     { OID  x = GC_OID(OPT_EVAL(self->set_arg));
       list * res = list::empty();
       if (INHERIT(OWNER(x),Kernel._class))
-       { OID gc_local;
-        ITERATE(y);
+       { ITERATE(y);
         for (START(OBJECT(ClaireClass,x)->descendents); NEXT(y);)
-        { GC_LOOP;
-          { OID gc_local;
-            ITERATE(z);
-            for (START(OBJECT(ClaireClass,y)->instances); NEXT(z);)
-            { GC_LOOP;
-              { write_value_Variable(self->var,z);
-                GC__ANY(res = res->addFast(GC_OID(OPT_EVAL(self->arg))), 1);
-                } 
-              GC_UNLOOP;} 
+        { ITERATE(z);
+          for (START(OBJECT(ClaireClass,y)->instances); NEXT(z);)
+          { write_value_Variable(self->var,z);
+            res= GC_OBJECT(list,res->addFast(GC_OID(OPT_EVAL(self->arg))));
             } 
-          GC_UNLOOP;} 
+          } 
         } 
-      else { OID gc_local;
-          ITERATE(y);
+      else { ITERATE(y);
           bag *y_support;
           y_support = GC_OBJECT(bag,enumerate_any(x));
           for (START(y_support); NEXT(y);)
-          { GC_LOOP;
-            { write_value_Variable(self->var,y);
-              res= res->addFast(GC_OID(OPT_EVAL(self->arg)));
-              } 
-            GC_UNLOOP;} 
+          { write_value_Variable(self->var,y);
+            res= res->addFast(GC_OID(OPT_EVAL(self->arg)));
+            } 
           } 
         if (((self->of == (NULL)) ? CTRUE : CFALSE) != CTRUE)
        { { OID  x;
           { { OID  x_some = CNULL;
-              { OID gc_local;
-                ITERATE(x);
+              { ITERATE(x);
                 for (START(res); NEXT(x);)
-                { GC_LOOP;
-                  if (belong_to(x,_oid_(self->of)) != CTRUE)
-                   { x_some= x;
-                    break;} 
-                  GC_UNLOOP;} 
+                if (belong_to(x,_oid_(self->of)) != CTRUE)
+                 { x_some= x;
+                  break;} 
                 } 
               x = x_some;
               } 
@@ -596,32 +584,26 @@ void  self_print_Image_Language(Image *self)
 
 /* The c++ function for: self_eval(self:Image) [NEW_ALLOC] */
 OID  self_eval_Image(Image *self)
-{ GC_RESERVE(1);  // HOHO v3.0.55 optim !
+{ GC_BIND;
   { OID Result = 0;
     { OID  x = GC_OID(OPT_EVAL(self->set_arg));
       set * res = set::empty();
-      { OID gc_local;
-        ITERATE(y);
+      { ITERATE(y);
         bag *y_support;
         y_support = GC_OBJECT(bag,enumerate_any(x));
         for (START(y_support); NEXT(y);)
-        { GC_LOOP;
-          { write_value_Variable(self->var,y);
-            GC__ANY(res = res->addFast(GC_OID(OPT_EVAL(self->arg))), 1);
-            } 
-          GC_UNLOOP;} 
+        { write_value_Variable(self->var,y);
+          res= GC_OBJECT(set,res->addFast(GC_OID(OPT_EVAL(self->arg))));
+          } 
         } 
       if (((self->of == (NULL)) ? CTRUE : CFALSE) != CTRUE)
        { { OID  x;
           { { OID  x_some = CNULL;
-              { OID gc_local;
-                ITERATE(x);
+              { ITERATE(x);
                 for (START(res); NEXT(x);)
-                { GC_LOOP;
-                  if (belong_to(x,_oid_(self->of)) != CTRUE)
-                   { x_some= x;
-                    break;} 
-                  GC_UNLOOP;} 
+                if (belong_to(x,_oid_(self->of)) != CTRUE)
+                 { x_some= x;
+                  break;} 
                 } 
               x = x_some;
               } 
@@ -663,7 +645,7 @@ void  self_print_Select_Language(Select *self)
 
 /* The c++ function for: self_eval(self:Select) [NEW_ALLOC] */
 OID  self_eval_Select(Select *self)
-{ GC_RESERVE(1);  // HOHO v3.0.55 optim !
+{ GC_BIND;
   { OID Result = 0;
     { OID  x = GC_OID(OPT_EVAL(self->set_arg));
       set * res;
@@ -673,45 +655,33 @@ OID  self_eval_Select(Select *self)
         else V_CC = set::empty();
           res= (set *) V_CC;} 
       if (INHERIT(OWNER(x),Kernel._class))
-       { OID gc_local;
-        ITERATE(y);
+       { ITERATE(y);
         for (START(OBJECT(ClaireClass,x)->descendents); NEXT(y);)
-        { GC_LOOP;
-          { OID gc_local;
-            ITERATE(z);
-            for (START(OBJECT(ClaireClass,y)->instances); NEXT(z);)
-            { GC_LOOP;
-              { write_value_Variable(self->var,z);
-                if (OPT_EVAL(self->arg) != Kernel.cfalse)
-                 GC__ANY(res = res->addFast(z), 1);
-                } 
-              GC_UNLOOP;} 
+        { ITERATE(z);
+          for (START(OBJECT(ClaireClass,y)->instances); NEXT(z);)
+          { write_value_Variable(self->var,z);
+            if (OPT_EVAL(self->arg) != Kernel.cfalse)
+             res= GC_OBJECT(set,res->addFast(z));
             } 
-          GC_UNLOOP;} 
+          } 
         } 
-      else { OID gc_local;
-          ITERATE(y);
+      else { ITERATE(y);
           bag *y_support;
           y_support = GC_OBJECT(bag,enumerate_any(x));
           for (START(y_support); NEXT(y);)
-          { GC_LOOP;
-            { write_value_Variable(self->var,y);
-              if (OPT_EVAL(self->arg) != Kernel.cfalse)
-               res= res->addFast(y);
-              } 
-            GC_UNLOOP;} 
+          { write_value_Variable(self->var,y);
+            if (OPT_EVAL(self->arg) != Kernel.cfalse)
+             res= res->addFast(y);
+            } 
           } 
         if (((self->of == (NULL)) ? CTRUE : CFALSE) != CTRUE)
        { { OID  x;
           { { OID  x_some = CNULL;
-              { OID gc_local;
-                ITERATE(x);
+              { ITERATE(x);
                 for (START(res); NEXT(x);)
-                { GC_LOOP;
-                  if (belong_to(x,_oid_(self->of)) != CTRUE)
-                   { x_some= x;
-                    break;} 
-                  GC_UNLOOP;} 
+                if (belong_to(x,_oid_(self->of)) != CTRUE)
+                 { x_some= x;
+                  break;} 
                 } 
               x = x_some;
               } 
@@ -753,7 +723,7 @@ void  self_print_Lselect_Language(Lselect *self)
 
 /* The c++ function for: self_eval(self:Lselect) [NEW_ALLOC] */
 OID  self_eval_Lselect(Lselect *self)
-{ GC_RESERVE(1);  // HOHO v3.0.55 optim !
+{ GC_BIND;
   { OID Result = 0;
     { OID  x = GC_OID(OPT_EVAL(self->set_arg));
       list * res;
@@ -763,45 +733,33 @@ OID  self_eval_Lselect(Lselect *self)
         else V_CC = list::empty();
           res= (list *) V_CC;} 
       if (INHERIT(OWNER(x),Kernel._class))
-       { OID gc_local;
-        ITERATE(y);
+       { ITERATE(y);
         for (START(OBJECT(ClaireClass,x)->descendents); NEXT(y);)
-        { GC_LOOP;
-          { OID gc_local;
-            ITERATE(z);
-            for (START(OBJECT(ClaireClass,y)->instances); NEXT(z);)
-            { GC_LOOP;
-              { write_value_Variable(self->var,z);
-                if (OPT_EVAL(self->arg) != Kernel.cfalse)
-                 GC__ANY(res = res->addFast(z), 1);
-                } 
-              GC_UNLOOP;} 
+        { ITERATE(z);
+          for (START(OBJECT(ClaireClass,y)->instances); NEXT(z);)
+          { write_value_Variable(self->var,z);
+            if (OPT_EVAL(self->arg) != Kernel.cfalse)
+             res= GC_OBJECT(list,res->addFast(z));
             } 
-          GC_UNLOOP;} 
+          } 
         } 
-      else { OID gc_local;
-          ITERATE(y);
+      else { ITERATE(y);
           bag *y_support;
           y_support = GC_OBJECT(bag,enumerate_any(x));
           for (START(y_support); NEXT(y);)
-          { GC_LOOP;
-            { write_value_Variable(self->var,y);
-              if (OPT_EVAL(self->arg) != Kernel.cfalse)
-               res= res->addFast(y);
-              } 
-            GC_UNLOOP;} 
+          { write_value_Variable(self->var,y);
+            if (OPT_EVAL(self->arg) != Kernel.cfalse)
+             res= res->addFast(y);
+            } 
           } 
         if (((self->of == (NULL)) ? CTRUE : CFALSE) != CTRUE)
        { { OID  x;
           { { OID  x_some = CNULL;
-              { OID gc_local;
-                ITERATE(x);
+              { ITERATE(x);
                 for (START(res); NEXT(x);)
-                { GC_LOOP;
-                  if (belong_to(x,_oid_(self->of)) != CTRUE)
-                   { x_some= x;
-                    break;} 
-                  GC_UNLOOP;} 
+                if (belong_to(x,_oid_(self->of)) != CTRUE)
+                 { x_some= x;
+                  break;} 
                 } 
               x = x_some;
               } 
@@ -960,7 +918,7 @@ OID  self_eval_Case(Case *self)
     { OID  truc = GC_OID(OPT_EVAL(self->var));
       ClaireBoolean * flip = CTRUE;
       OID  previous = Kernel.cfalse;
-      { ClaireBoolean * g0053I;
+      { ClaireBoolean * g0055I;
         { OID V_C;{ OID gc_local;
             ITERATE(x);
             V_C= _oid_(CFALSE);
@@ -979,9 +937,9 @@ OID  self_eval_Case(Case *self)
                 GC_UNLOOP;} 
             } 
           
-          g0053I=OBJECT(ClaireBoolean,V_C);} 
+          g0055I=OBJECT(ClaireBoolean,V_C);} 
         
-        if (g0053I == CTRUE) Result = previous;
+        if (g0055I == CTRUE) Result = previous;
           else Result = Kernel.cfalse;
         } 
       } 
@@ -1068,9 +1026,9 @@ OID  self_eval_Handle(ClaireHandle *self)
           ClEnv->cHandle--;} 
         else if (belong_to(_oid_(ClEnv->exception_I),x) == CTRUE)
         { c_handle.catchIt();if (INHERIT(ClEnv->exception_I->isa,Core._return_error))
-           { OID  V_CL0056;close_exception(ClEnv->exception_I);
+           { OID  V_CL0058;close_exception(ClEnv->exception_I);
             
-            Result=_void_(V_CL0056);} 
+            Result=_void_(V_CL0058);} 
           else Result = OPT_EVAL(self->other);
             } 
         else PREVIOUS_HANDLER;} 
@@ -1088,16 +1046,16 @@ OID  self_eval_Handle(ClaireHandle *self)
 void  self_print_Construct_Language(Construct *self)
 { GC_BIND;
   { int  _Zl = Core.pretty->index;
-    { char * g0057UU;
+    { char * g0059UU;
       if (INHERIT(self->isa,Language._List))
-       g0057UU = "list";
+       g0059UU = "list";
       else if (INHERIT(self->isa,Language._Set))
-       g0057UU = "set";
+       g0059UU = "set";
       else if (INHERIT(self->isa,Language._Tuple))
-       g0057UU = "tuple";
+       g0059UU = "tuple";
       else if (INHERIT(self->isa,Language._Printf))
-       g0057UU = "printf";
-      else g0057UU = ((INHERIT(self->isa,Language._Error)) ?
+       g0059UU = "printf";
+      else g0059UU = ((INHERIT(self->isa,Language._Error)) ?
         "error" :
         ((INHERIT(self->isa,Language._Trace)) ?
           "trace" :
@@ -1106,7 +1064,7 @@ void  self_print_Construct_Language(Construct *self)
             ((INHERIT(self->isa,Language._Branch)) ?
               "branch" :
               string_I_symbol(self->isa->name) ) ) ) );
-      princ_string(g0057UU);
+      princ_string(g0059UU);
       } 
     if ((INHERIT(self->isa,Language._List)) || 
         (INHERIT(self->isa,Language._Set)))
@@ -1177,19 +1135,19 @@ OID  self_eval_Set(Set *self)
 { GC_BIND;
   { OID Result = 0;
     { set * s;
-      { { list * g0058UU;
+      { { list * g0060UU;
           { { bag *v_list; OID v_val;
               OID x,CLcount;
               v_list = self->args;
-               g0058UU = v_list->clone();
+               g0060UU = v_list->clone();
               for (CLcount= 1; CLcount <= v_list->length; CLcount++)
               { x = (*(v_list))[CLcount];
                 v_val = OPT_EVAL(x);
                 
-                (*((list *) g0058UU))[CLcount] = v_val;} 
+                (*((list *) g0060UU))[CLcount] = v_val;} 
               } 
-            GC_OBJECT(list,g0058UU);} 
-          s = set_I_bag(g0058UU);
+            GC_OBJECT(list,g0060UU);} 
+          s = set_I_bag(g0060UU);
           } 
         GC_OBJECT(set,s);} 
       if (((self->of == (NULL)) ? CTRUE : CFALSE) != CTRUE)
@@ -1221,22 +1179,22 @@ OID  self_eval_Set(Set *self)
 OID  self_eval_Tuple(Tuple *self)
 { GC_BIND;
   { OID Result = 0;
-    { tuple * V_CL0059;{ list * g0060UU;
+    { tuple * V_CL0061;{ list * g0062UU;
         { { bag *v_list; OID v_val;
             OID x,CLcount;
             v_list = self->args;
-             g0060UU = v_list->clone();
+             g0062UU = v_list->clone();
             for (CLcount= 1; CLcount <= v_list->length; CLcount++)
             { x = (*(v_list))[CLcount];
               v_val = OPT_EVAL(x);
               
-              (*((list *) g0060UU))[CLcount] = v_val;} 
+              (*((list *) g0062UU))[CLcount] = v_val;} 
             } 
-          GC_OBJECT(list,g0060UU);} 
-        V_CL0059 = tuple_I_list(g0060UU);
+          GC_OBJECT(list,g0062UU);} 
+        V_CL0061 = tuple_I_list(g0062UU);
         } 
       
-      Result=_oid_(V_CL0059);} 
+      Result=_oid_(V_CL0061);} 
     GC_UNBIND; return (Result);} 
   } 
 
@@ -1305,21 +1263,21 @@ void  self_eval_Error(Error *self)
     _oid_(list::alloc(1,_oid_(self))))));
   { general_error * x = GC_OBJECT(general_error,((general_error *) new_object_class(Core._general_error)));
     (x->cause = car_list(self->args));
-    { general_error * g0061 = x; 
-      OID  g0062;
-      { list * V_CL0063;{ bag *v_list; OID v_val;
+    { general_error * g0063 = x; 
+      OID  g0064;
+      { list * V_CL0065;{ bag *v_list; OID v_val;
           OID x,CLcount;
           v_list = GC_OBJECT(list,cdr_list(GC_OBJECT(list,self->args)));
-           V_CL0063 = v_list->clone();
+           V_CL0065 = v_list->clone();
           for (CLcount= 1; CLcount <= v_list->length; CLcount++)
           { x = (*(v_list))[CLcount];
             v_val = OPT_EVAL(x);
             
-            (*((list *) V_CL0063))[CLcount] = v_val;} 
+            (*((list *) V_CL0065))[CLcount] = v_val;} 
           } 
         
-        g0062=_oid_(V_CL0063);} 
-      (g0061->arg = g0062);} 
+        g0064=_oid_(V_CL0065);} 
+      (g0063->arg = g0064);} 
     close_exception(x);
     } 
   GC_UNBIND;} 

@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file ccmain.cl 
-         [version 3.3.34 / safety 5] Sun Mar 07 10:46:42 2004 *****/
+         [version 3.3.38 / safety 5] Sat Oct 09 17:37:30 2004 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -305,7 +305,7 @@ void  main_list(list *lp)
                     printHelp_void();
                     } 
                   rCode= CFALSE;
-                  l= list::empty(Kernel._string);
+                  GC__ANY(l = list::empty(Kernel._string), 12);
                   } 
                 GC_UNLOOP;} 
             } 
@@ -527,13 +527,13 @@ void  files_I_any(OID m,ClaireBoolean *link_ask,char *_Zout)
       "," :
       " " );
     princ_string(_Zbef);
-    { OID  g0009UU;
+    { OID  g0011UU;
       { if ((link_ask == CTRUE) || 
             (Kernel._string == OWNER(m)))
-         g0009UU = _string_(append_string(_Zout,"-s"));
-        else g0009UU = (*Kernel.name)(m);
-          GC_OID(g0009UU);} 
-      (*Kernel.princ)(g0009UU);
+         g0011UU = _string_(append_string(_Zout,"-s"));
+        else g0011UU = (*Kernel.name)(m);
+          GC_OID(g0011UU);} 
+      (*Kernel.princ)(g0011UU);
       } 
     princ_string(".");
     princ_string(_Zend);

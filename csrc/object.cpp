@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\object.cl 
-         [version 3.3.34 / safety 5] Sun Mar 07 10:46:29 2004 *****/
+         [version 3.3.38 / safety 5] Sat Oct 09 17:37:14 2004 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -224,50 +224,50 @@ void  push_debug_property(property *prop,int arity,int start)
       (ClEnv->trace_I = (n+1));
       } 
     if (get_table(Core.StopProperty,_oid_(prop)) != CNULL)
-     { { ClaireBoolean * g0044I;
+     { { ClaireBoolean * g0046I;
         { ClaireBoolean *v_or;
           { v_or = ((equal(nth_table1(Core.StopProperty,_oid_(prop)),Core.nil->value) == CTRUE) ? CTRUE : CFALSE);
-            if (v_or == CTRUE) g0044I =CTRUE; 
-            else { { OID  g0045UU;
+            if (v_or == CTRUE) g0046I =CTRUE; 
+            else { { OID  g0047UU;
                 { OID gc_local;
                   ITERATE(l2);
-                  g0045UU= _oid_(CFALSE);
+                  g0047UU= _oid_(CFALSE);
                   bag *l2_support;
                   l2_support = OBJECT(bag,nth_table1(Core.StopProperty,_oid_(prop)));
                   for (START(l2_support); NEXT(l2);)
                   { GC_LOOP;
-                    { ClaireBoolean * g0046I;
-                      { OID  g0047UU;
+                    { ClaireBoolean * g0048I;
+                      { OID  g0049UU;
                         { int  j = 1;
-                          int  g0043 = (*Kernel.length)(l2);
+                          int  g0045 = (*Kernel.length)(l2);
                           { OID gc_local;
-                            g0047UU= _oid_(CFALSE);
-                            while ((j <= g0043))
+                            g0049UU= _oid_(CFALSE);
+                            while ((j <= g0045))
                             { GC_LOOP;
                               if ((((j+start) <= i) ? ((equal(GC_OID((*Kernel.nth)(l2,
                                 j)),GC_OID(ClEnv->stack[((start+j)-1)])) == CTRUE) ? CTRUE: CFALSE): CFALSE) != CTRUE)
-                               { g0047UU = Kernel.ctrue;
+                               { g0049UU = Kernel.ctrue;
                                 break;} 
                               ++j;
                               GC_UNLOOP;} 
                             } 
                           } 
-                        g0046I = not_any(g0047UU);
+                        g0048I = not_any(g0049UU);
                         } 
                       
-                      if (g0046I == CTRUE) { g0045UU = Kernel.ctrue;
+                      if (g0048I == CTRUE) { g0047UU = Kernel.ctrue;
                           break;} 
                         } 
                     GC_UNLOOP;} 
                   } 
-                v_or = boolean_I_any(g0045UU);
+                v_or = boolean_I_any(g0047UU);
                 } 
-              if (v_or == CTRUE) g0044I =CTRUE; 
-              else g0044I = CFALSE;} 
+              if (v_or == CTRUE) g0046I =CTRUE; 
+              else g0046I = CFALSE;} 
             } 
           } 
         
-        if (g0044I == CTRUE) close_exception(((general_error *) (*Core._general_error)(_string_("stop as required in ~S(~A)"),
+        if (g0046I == CTRUE) close_exception(((general_error *) (*Core._general_error)(_string_("stop as required in ~S(~A)"),
             _oid_(list::alloc(2,_oid_(prop),GC_OID(_oid_(get_args_integer(start))))))));
           } 
       } 
@@ -376,10 +376,10 @@ OID  put_property2(property *self,ClaireObject *x,OID y)
         CLREAD(slot,s,srange),
         y,
         self->store_ask);
-      else { OID  V_CL0048;close_exception(((selector_error *) (*Core._selector_error)(_oid_(self),
+      else { OID  V_CL0050;close_exception(((selector_error *) (*Core._selector_error)(_oid_(self),
             _oid_(list::alloc(1,_oid_(x))))));
           
-          Result=_void_(V_CL0048);} 
+          Result=_void_(V_CL0050);} 
         } 
     GC_UNBIND; return (Result);} 
   } 
@@ -427,10 +427,10 @@ OID  nth_table1(table *a,OID x)
           if ((v != CNULL) || 
             (belong_to(v,_oid_(a->range)) == CTRUE))
          Result = v;
-        else { OID  V_CL0049;close_exception(((general_error *) (*Core._general_error)(_string_("[138] the value ~S(~S) is unknown !"),
+        else { OID  V_CL0051;close_exception(((general_error *) (*Core._general_error)(_string_("[138] the value ~S(~S) is unknown !"),
               _oid_(list::alloc(2,_oid_(a),x)))));
             
-            Result=_void_(V_CL0049);} 
+            Result=_void_(V_CL0051);} 
           } 
       } 
     return (Result);} 
@@ -498,16 +498,16 @@ void  nth_put_table(table *a,OID x,OID y)
   else if (multi_ask_any(_oid_(a)) == CTRUE)
    { OID  r = GC_OID(get_property(Kernel.inverse,a));
     OID  old = get_table(a,x);
-    if (old != CNULL)
-     { OID  g0050UU;
+    { OID  g0052UU;
       if (OBJECT(set,y)->length == 0)
-       g0050UU = y;
+       g0052UU = y;
       else if (a->multivalued_ask == Kernel._list)
-       g0050UU = CNULL;
-      else g0050UU = _oid_(Kernel.emptySet);
-        ((*(((list *) a->graph)))[get_index_table1(a,x)]=g0050UU);
+       g0052UU = _oid_(make_list_integer2(0,of_extract_type(a->range),0));
+      else g0052UU = _oid_(cast_I_bag(set::empty(),of_extract_type(a->range)));
+        ((*(((list *) a->graph)))[get_index_table1(a,x)]=g0052UU);
       } 
-    if (r != CNULL)
+    if ((old != CNULL) && 
+        (r != CNULL))
      { OID gc_local;
       ITERATE(z);
       bag *z_support;
@@ -629,11 +629,11 @@ OID  delete_table(table *a,OID x,OID y)
       set * l1 = OBJECT(set,(*(a->graph))[i]);
       set * l;
       { bag *V_CC ;
-        { bag * g0051UU;
+        { bag * g0053UU;
           if (a->store_ask == CTRUE)
-           g0051UU = copy_bag(l1);
-          else g0051UU = l1;
-            V_CC = delete_bag(g0051UU,y);
+           g0053UU = copy_bag(l1);
+          else g0053UU = l1;
+            V_CC = delete_bag(g0053UU,y);
           } 
         l= (set *) V_CC;} 
       store_list(((list *) a->graph),i,_oid_(l),a->store_ask);
@@ -663,10 +663,10 @@ OID  nth_table2(table *a,OID x,OID y)
         if ((v != CNULL) || 
           (belong_to(v,_oid_(a->range)) == CTRUE))
        Result = v;
-      else { OID  V_CL0052;close_exception(((general_error *) (*Core._general_error)(_string_("~S(~S) is unknown !"),
+      else { OID  V_CL0054;close_exception(((general_error *) (*Core._general_error)(_string_("~S(~S) is unknown !"),
             _oid_(list::alloc(2,_oid_(a),x)))));
           
-          Result=_void_(V_CL0052);} 
+          Result=_void_(V_CL0054);} 
         } 
     return (Result);} 
   } 
@@ -752,9 +752,9 @@ void  erase_table(table *a)
       ((*(((list *) a->graph)))[get_index_table2(a,(*(OBJECT(bag,l)))[1],(*(OBJECT(bag,l)))[2])]=a->DEFAULT);
       } 
     else { int  i = 1;
-        int  g0053 = a->graph->length;
+        int  g0055 = a->graph->length;
         { OID gc_local;
-          while ((i <= g0053))
+          while ((i <= g0055))
           { ((*(((list *) a->graph)))[i]=CNULL);
             ++i;
             } 
@@ -1059,89 +1059,89 @@ void  self_print_system_error_Core(system_error *self)
     princ_string("**** An internal error [");
     princ_integer(n);
     princ_string("] has occured:\n");
-    { char * g0055UU;
+    { char * g0057UU;
       if (n == 1)
-       g0055UU = "dynamic allocation, item is too big (~S)";
+       g0057UU = "dynamic allocation, item is too big (~S)";
       else if (n == 2)
-       g0055UU = "dynamic allocation, too large for available memory (~S)";
+       g0057UU = "dynamic allocation, too large for available memory (~S)";
       else if (n == 3)
-       g0055UU = "object allocation, too large for available memory (~S)";
+       g0057UU = "object allocation, too large for available memory (~S)";
       else if (n == 5)
-       g0055UU = "nth[~S] outside of scope for ~S";
+       g0057UU = "nth[~S] outside of scope for ~S";
       else if (n == 7)
-       g0055UU = "Skip applied on ~S with a negative argument ~S";
+       g0057UU = "Skip applied on ~S with a negative argument ~S";
       else if (n == 8)
-       g0055UU = "List operation: cdr(()) is undefined";
+       g0057UU = "List operation: cdr(()) is undefined";
       else if (n == 9)
-       g0055UU = "String buffer is full: ~S";
+       g0057UU = "String buffer is full: ~S";
       else if (n == 10)
-       g0055UU = "Cannot create an imported entity from NULL reference";
+       g0057UU = "Cannot create an imported entity from NULL reference";
       else if (n == 11)
-       g0055UU = "nth_string[~S]: string too short~S";
+       g0057UU = "nth_string[~S]: string too short~S";
       else if (n == 12)
-       g0055UU = "Symbol Table table full";
+       g0057UU = "Symbol Table table full";
       else if (n == 13)
-       g0055UU = "Cannot create a subclass for ~S [~A]";
+       g0057UU = "Cannot create a subclass for ~S [~A]";
       else if (n == 16)
-       g0055UU = "Temporary output string buffer too small";
+       g0057UU = "Temporary output string buffer too small";
       else if (n == 17)
-       g0055UU = "Bag Type Error: ~S cannot be added to ~S";
+       g0057UU = "Bag Type Error: ~S cannot be added to ~S";
       else if (n == 18)
-       g0055UU = "definition of ~S is in conflict with an object from ~S";
+       g0057UU = "definition of ~S is in conflict with an object from ~S";
       else if (n == 19)
-       g0055UU = "Integer overflow";
+       g0057UU = "Integer overflow";
       else if (n == 20)
-       g0055UU = "Integer arithmetic: division/modulo of ~A by 0";
+       g0057UU = "Integer arithmetic: division/modulo of ~A by 0";
       else if (n == 21)
-       g0055UU = "Integer to character: ~S is a wrong value";
+       g0057UU = "Integer to character: ~S is a wrong value";
       else if (n == 22)
-       g0055UU = "Cannote create a string with negative length ~S";
+       g0057UU = "Cannote create a string with negative length ~S";
       else if (n == 23)
-       g0055UU = "Not enough memory to instal claire";
+       g0057UU = "Not enough memory to instal claire";
       else if (n == 24)
-       g0055UU = "execution stack is full [~A]";
+       g0057UU = "execution stack is full [~A]";
       else if (n == 26)
-       g0055UU = "Wrong usage of time counter [~A]";
+       g0057UU = "Wrong usage of time counter [~A]";
       else if (n == 27)
-       g0055UU = "internal garbage protection stack overflow";
+       g0057UU = "internal garbage protection stack overflow";
       else if (n == 28)
-       g0055UU = "the multivalued status of ~S is not compatible with ~S";
+       g0057UU = "the multivalued status of ~S is not compatible with ~S";
       else if (n == 29)
-       g0055UU = "There is no module ~S";
+       g0057UU = "There is no module ~S";
       else if (n == 30)
-       g0055UU = "Attempt to read a private symbol ~S";
+       g0057UU = "Attempt to read a private symbol ~S";
       else if (n == 31)
-       g0055UU = "External function not compiled yet";
+       g0057UU = "External function not compiled yet";
       else if (n == 32)
-       g0055UU = "Too many arguments (~S) for function ~S";
+       g0057UU = "Too many arguments (~S) for function ~S";
       else if (n == 33)
-       g0055UU = "Exception handling: stack overflow";
+       g0057UU = "Exception handling: stack overflow";
       else if (n == 34)
-       g0055UU = "User interrupt: EXECUTION ABORTED";
+       g0057UU = "User interrupt: EXECUTION ABORTED";
       else if (n == 35)
-       g0055UU = "reading char '~S': wrong char: ~S";
+       g0057UU = "reading char '~S': wrong char: ~S";
       else if (n == 36)
-       g0055UU = "cannot open file ~A";
+       g0057UU = "cannot open file ~A";
       else if (n == 37)
-       g0055UU = "world stack is full";
+       g0057UU = "world stack is full";
       else if (n == 38)
-       g0055UU = "Undefined access to ~S";
+       g0057UU = "Undefined access to ~S";
       else if (n == 39)
-       g0055UU = "cannot convert ~S to an integer";
+       g0057UU = "cannot convert ~S to an integer";
       else if (n == 40)
-       g0055UU = "integer multiplication overflow with ~S and ~S";
+       g0057UU = "integer multiplication overflow with ~S and ~S";
       else if (n == 41)
-       g0055UU = "wrong NTH access on ~S and ~S";
+       g0057UU = "wrong NTH access on ~S and ~S";
       else if (n == 42)
-       g0055UU = "Wrong array[~S] init value: ~S";
+       g0057UU = "Wrong array[~S] init value: ~S";
       else if (n == 43)
-       g0055UU = "Defeasible addition on list ~S requires pre-allocation (size ~S)";
+       g0057UU = "Defeasible addition on list ~S requires pre-allocation (size ~S)";
       else if (n == 50)
-       g0055UU = "C++ imported error (~S) : ~S";
+       g0057UU = "C++ imported error (~S) : ~S";
       else { (self->value = n);
-          g0055UU = "What the hell is this ! [code: ~S^]";
+          g0057UU = "What the hell is this ! [code: ~S^]";
           } 
-        format_string(g0055UU,list::alloc(2,GC_OID(self->value),GC_OID(self->arg)));
+        format_string(g0057UU,list::alloc(2,GC_OID(self->value),GC_OID(self->arg)));
       } 
     } 
   GC_UNBIND;} 

@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\file.cl 
-         [version 3.3.34 / safety 5] Sun Mar 07 10:46:35 2004 *****/
+         [version 3.3.38 / safety 5] Sat Oct 09 17:37:22 2004 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -30,10 +30,10 @@
 OID  self_eval_delimiter(delimiter *self)
 { next_meta_reader(Reader.reader);
   { OID Result = 0;
-    { OID  V_CL0079;close_exception(((general_error *) (*Core._general_error)(_string_("[117] loose delimiter ~S in program [line ~A ?]"),
+    { OID  V_CL0081;close_exception(((general_error *) (*Core._general_error)(_string_("[117] loose delimiter ~S in program [line ~A ?]"),
         _oid_(list::alloc(2,_oid_(self),Reader.reader->nb_line)))));
       
-      Result=_void_(V_CL0079);} 
+      Result=_void_(V_CL0081);} 
     return (Result);} 
   } 
 
@@ -727,9 +727,9 @@ int  max_integer(int x,int y)
   } 
 
 
-/* The c++ function for: min(g0080:any,g0081:any) [RETURN_ARG] */
-OID  min_float_(OID g0080,OID g0081)
-{ return _float_(min_float(float_v(g0080),float_v(g0081)));} 
+/* The c++ function for: min(g0082:any,g0083:any) [RETURN_ARG] */
+OID  min_float_(OID g0082,OID g0083)
+{ return _float_(min_float(float_v(g0082),float_v(g0083)));} 
 
 
 /* The c++ function for: min(x:float,y:float) [RETURN_ARG] */
@@ -742,9 +742,9 @@ double  min_float(double x,double y)
   } 
 
 
-/* The c++ function for: max(g0082:any,g0083:any) [RETURN_ARG] */
-OID  max_float_(OID g0082,OID g0083)
-{ return _float_(max_float(float_v(g0082),float_v(g0083)));} 
+/* The c++ function for: max(g0084:any,g0085:any) [RETURN_ARG] */
+OID  max_float_(OID g0084,OID g0085)
+{ return _float_(max_float(float_v(g0084),float_v(g0085)));} 
 
 
 /* The c++ function for: max(x:float,y:float) [RETURN_ARG] */
@@ -810,9 +810,9 @@ ClaireBoolean * unknown_ask_table(table *a,OID x)
 { return (equal(get_table(a,x),CNULL));} 
 
 
-/* The c++ function for: float!(g0084:string) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
-OID  float_I_string_(char *g0084)
-{ return _float_(float_I_string(g0084));} 
+/* The c++ function for: float!(g0086:string) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
+OID  float_I_string_(char *g0086)
+{ return _float_(float_I_string(g0086));} 
 
 
 /* The c++ function for: float!(self:string) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */

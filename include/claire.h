@@ -325,7 +325,7 @@ extern OID gc_error();
 #ifdef CLWIN  // seems to work on Windows
 #define GC_ANY(x) (ClAlloc->gcStack[ClAlloc->index++] = x)
 #else         // a "safer form" for UNIX - use a function (x is evaluated first) - v3.3.34
-#define GC_ANY(x) GC_OBJ_F((ClaireObject *) x)
+#define GC_ANY(x) GC_OBJ_F(x)                   // v3.3.36
 #endif
 #define GC__ANY(x,y) (ClAlloc->gcStack[ClAlloc->base + y] = x)
 #endif

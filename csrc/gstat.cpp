@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file c:\claire\v3.3\src\compile\gstat.cl 
-         [version 3.3.34 / safety 5] Sun Mar 07 10:46:40 2004 *****/
+         [version 3.3.38 / safety 5] Sat Oct 09 17:37:28 2004 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -14,9 +14,9 @@ list * unfold_args_list(list *v7236)
     { list * v2369;
       { { list * v12880 = list::empty(Kernel.emptySet);
           { int  v7233 = 1;
-            int  v6661 = v7236->length;
+            int  v6663 = v7236->length;
             { OID gc_local;
-              while ((v7233 <= v6661))
+              while ((v7233 <= v6663))
               { if (c_func_any((*(v7236))[v7233]) != CTRUE)
                  v12880->addFast(v7233);
                 ++v7233;
@@ -64,7 +64,7 @@ OID  unfold_arg_list(list *v7236,list *v11424,OID v7248)
     { int  v7233 = 1;
       int  v7234 = 0;
       int  v7237 = v7236->length;
-      { ClaireBoolean * g0028I;
+      { ClaireBoolean * g0030I;
         { OID v15730;{ v15730= _oid_(CFALSE);
             while ((v7233 <= v7237))
             { if (c_func_any((*(v7236))[v7233]) != CTRUE)
@@ -80,9 +80,9 @@ OID  unfold_arg_list(list *v7236,list *v11424,OID v7248)
               } 
             } 
           
-          g0028I=OBJECT(ClaireBoolean,v15730);} 
+          g0030I=OBJECT(ClaireBoolean,v15730);} 
         
-        if (g0028I == CTRUE) Result = (*Language.var)((*(v11424))[v7234]);
+        if (g0030I == CTRUE) Result = (*Language.var)((*(v11424))[v7234]);
           else Result = (*(v7236))[v7233];
         } 
       } 
@@ -99,9 +99,9 @@ void  unfold_use_list(list *v4417,OID v7248,OID v7243,OID v15308)
     if (equal((*Optimize.c_type)(v7248),_oid_(Kernel.emptySet)) == CTRUE)
      v7243= _oid_(Kernel._void);
     { int  v7233 = 1;
-      int  v6663 = (v7239-1);
+      int  v6685 = (v7239-1);
       { OID gc_local;
-        while ((v7233 <= v6663))
+        while ((v7233 <= v6685))
         { write_property(Kernel.arg,OBJECT(ClaireObject,(*(v4417))[v7233]),(*(v4417))[(v7233+1)]);
           ++v7233;
           } 
@@ -120,26 +120,26 @@ void  statement_any(OID v1140,OID v7243,OID v15308)
         (INHERIT(OWNER(v1140),Language._Do))) ? CTRUE : ((INHERIT(OWNER(v1140),Language._Let)) ? CTRUE : CFALSE)) != CTRUE)
      (Optimize.OPT->alloc_stack = CFALSE);
     if (c_func_any(v1140) == CTRUE)
-     { { ClaireBoolean * g0030I;
+     { { ClaireBoolean * g0032I;
         { ClaireBoolean *v_and;
           { v_and = ((Kernel._string == OWNER(v7243)) ? CTRUE : CFALSE);
-            if (v_and == CFALSE) g0030I =CFALSE; 
-            else { { OID  v4477;
-                { OID  v5438;
+            if (v_and == CFALSE) g0032I =CFALSE; 
+            else { { OID  v6399;
+                { OID  v7360;
                   { if (INHERIT(OWNER(v1140),Optimize._to_CL))
-                     v5438 = OBJECT(Compile_to_CL,v1140)->arg;
-                    else v5438 = v1140;
-                      GC_OID(v5438);} 
-                  v4477 = (*Optimize.c_sort)(v5438);
+                     v7360 = OBJECT(Compile_to_CL,v1140)->arg;
+                    else v7360 = v1140;
+                      GC_OID(v7360);} 
+                  v6399 = (*Optimize.c_sort)(v7360);
                   } 
-                v_and = ((v4477 != _oid_(Kernel._void)) ? CTRUE : CFALSE);
+                v_and = ((v6399 != _oid_(Kernel._void)) ? CTRUE : CFALSE);
                 } 
-              if (v_and == CFALSE) g0030I =CFALSE; 
-              else g0030I = CTRUE;} 
+              if (v_and == CFALSE) g0032I =CFALSE; 
+              else g0032I = CTRUE;} 
             } 
           } 
         
-        if (g0030I == CTRUE) { (*Kernel.c_princ)(v7243);
+        if (g0032I == CTRUE) { (*Kernel.c_princ)(v7243);
             princ_string(" = ");
             if (bool_exp_ask_any(v1140) == CTRUE)
              (*Generate.bool_exp_I)(Generate.PRODUCER->value,
@@ -511,26 +511,26 @@ void  self_statement_Call(Call *v1140,OID v7243,OID v15308)
 { GC_BIND;
   { list * v7236 = GC_OBJECT(list,v1140->args);
     list * v11424 = GC_OBJECT(list,unfold_args_list(v7236));
-    { OID  v11204;
+    { OID  v539;
       { Call * v2072 = ((Call *) GC_OBJECT(Call,new_object_class(Language._Call)));
         (v2072->selector = v1140->selector);
-        { Call * v6694 = v2072; 
-          list * v6715;
+        { Call * v6716 = v2072; 
+          list * v6717;
           { bag *v_list; OID v_val;
             OID v7250,CLcount;
             v_list = v7236;
-             v6715 = v_list->clone();
+             v6717 = v_list->clone();
             for (CLcount= 1; CLcount <= v_list->length; CLcount++)
             { v7250 = (*(v_list))[CLcount];
               v_val = unfold_arg_list(v7236,v11424,v7250);
               
-              (*((list *) v6715))[CLcount] = v_val;} 
+              (*((list *) v6717))[CLcount] = v_val;} 
             } 
-          (v6694->args = v6715);} 
+          (v6716->args = v6717);} 
         add_I_property(Kernel.instances,Language._Call,11,_oid_(v2072));
-        v11204 = _oid_(v2072);
+        v539 = _oid_(v2072);
         } 
-      unfold_use_list(v11424,v11204,v7243,v15308);
+      unfold_use_list(v11424,v539,v7243,v15308);
       } 
     } 
   GC_UNBIND;} 
@@ -539,26 +539,26 @@ void  self_statement_Call_method(Call_method *v1140,OID v7243,OID v15308)
 { GC_BIND;
   { list * v7236 = GC_OBJECT(list,v1140->args);
     list * v11424 = GC_OBJECT(list,unfold_args_list(v7236));
-    { OID  v1500;
+    { OID  v3422;
       { Call_method * v2072 = ((Call_method *) GC_OBJECT(Call_method,new_object_class(Language._Call_method)));
         (v2072->arg = v1140->arg);
-        { Call_method * v6717 = v2072; 
-          list * v6719;
+        { Call_method * v6720 = v2072; 
+          list * v6721;
           { bag *v_list; OID v_val;
             OID v7250,CLcount;
             v_list = v7236;
-             v6719 = v_list->clone();
+             v6721 = v_list->clone();
             for (CLcount= 1; CLcount <= v_list->length; CLcount++)
             { v7250 = (*(v_list))[CLcount];
               v_val = unfold_arg_list(v7236,v11424,v7250);
               
-              (*((list *) v6719))[CLcount] = v_val;} 
+              (*((list *) v6721))[CLcount] = v_val;} 
             } 
-          (v6717->args = v6719);} 
+          (v6720->args = v6721);} 
         add_I_property(Kernel.instances,Language._Call_method,11,_oid_(v2072));
-        v1500 = _oid_(v2072);
+        v3422 = _oid_(v2072);
         } 
-      unfold_use_list(v11424,v1500,v7243,v15308);
+      unfold_use_list(v11424,v3422,v7243,v15308);
       } 
     } 
   GC_UNBIND;} 
@@ -567,26 +567,26 @@ void  self_statement_Call_method1(Call_method1 *v1140,OID v7243,OID v15308)
 { GC_BIND;
   { list * v7236 = GC_OBJECT(list,v1140->args);
     list * v11424 = GC_OBJECT(list,unfold_args_list(v7236));
-    { OID  v4383;
+    { OID  v6305;
       { Call_method1 * v2072 = ((Call_method1 *) GC_OBJECT(Call_method1,new_object_class(Language._Call_method1)));
         (v2072->arg = v1140->arg);
-        { Call_method * v6721 = v2072; 
-          list * v6722;
+        { Call_method * v6723 = v2072; 
+          list * v6724;
           { bag *v_list; OID v_val;
             OID v7250,CLcount;
             v_list = v7236;
-             v6722 = v_list->clone();
+             v6724 = v_list->clone();
             for (CLcount= 1; CLcount <= v_list->length; CLcount++)
             { v7250 = (*(v_list))[CLcount];
               v_val = unfold_arg_list(v7236,v11424,v7250);
               
-              (*((list *) v6722))[CLcount] = v_val;} 
+              (*((list *) v6724))[CLcount] = v_val;} 
             } 
-          (v6721->args = v6722);} 
+          (v6723->args = v6724);} 
         add_I_property(Kernel.instances,Language._Call_method1,11,_oid_(v2072));
-        v4383 = _oid_(v2072);
+        v6305 = _oid_(v2072);
         } 
-      unfold_use_list(v11424,v4383,v7243,v15308);
+      unfold_use_list(v11424,v6305,v7243,v15308);
       } 
     } 
   GC_UNBIND;} 
@@ -595,26 +595,26 @@ void  self_statement_Call_method2(Call_method2 *v1140,OID v7243,OID v15308)
 { GC_BIND;
   { list * v7236 = GC_OBJECT(list,v1140->args);
     list * v11424 = GC_OBJECT(list,unfold_args_list(v7236));
-    { OID  v7267;
+    { OID  v9188;
       { Call_method2 * v2072 = ((Call_method2 *) GC_OBJECT(Call_method2,new_object_class(Language._Call_method2)));
         (v2072->arg = v1140->arg);
-        { Call_method * v6724 = v2072; 
-          list * v6725;
+        { Call_method * v6746 = v2072; 
+          list * v6747;
           { bag *v_list; OID v_val;
             OID v7250,CLcount;
             v_list = v7236;
-             v6725 = v_list->clone();
+             v6747 = v_list->clone();
             for (CLcount= 1; CLcount <= v_list->length; CLcount++)
             { v7250 = (*(v_list))[CLcount];
               v_val = unfold_arg_list(v7236,v11424,v7250);
               
-              (*((list *) v6725))[CLcount] = v_val;} 
+              (*((list *) v6747))[CLcount] = v_val;} 
             } 
-          (v6724->args = v6725);} 
+          (v6746->args = v6747);} 
         add_I_property(Kernel.instances,Language._Call_method2,11,_oid_(v2072));
-        v7267 = _oid_(v2072);
+        v9188 = _oid_(v2072);
         } 
-      unfold_use_list(v11424,v7267,v7243,v15308);
+      unfold_use_list(v11424,v9188,v7243,v15308);
       } 
     } 
   GC_UNBIND;} 
@@ -731,14 +731,14 @@ void  self_statement_Call_slot(Call_slot *v1140,OID v7243,OID v15308)
      { c_princ_string(string_v(v7243));
       princ_string(" = ");
       } 
-    { Call_slot * v13946;
+    { Call_slot * v15868;
       { Call_slot * v2072 = ((Call_slot *) GC_OBJECT(Call_slot,new_object_class(Language._Call_slot)));
         (v2072->selector = v1140->selector);
         (v2072->arg = _oid_(v4936));
         add_I_property(Kernel.instances,Language._Call_slot,11,_oid_(v2072));
-        v13946 = v2072;
+        v15868 = v2072;
         } 
-      expression_Call_slot(v13946,v15308);
+      expression_Call_slot(v15868,v15308);
       } 
     princ_string(";");
     close_block_void();
@@ -761,14 +761,14 @@ void  self_statement_Call_table(Call_table *v1140,OID v7243,OID v15308)
      { c_princ_string(string_v(v7243));
       princ_string(" = ");
       } 
-    { Call_table * v14907;
+    { Call_table * v445;
       { Call_table * v2072 = ((Call_table *) GC_OBJECT(Call_table,new_object_class(Language._Call_table)));
         (v2072->selector = v1140->selector);
         (v2072->arg = _oid_(v4936));
         add_I_property(Kernel.instances,Language._Call_table,11,_oid_(v2072));
-        v14907 = v2072;
+        v445 = v2072;
         } 
-      expression_Call_table(v14907,v15308);
+      expression_Call_table(v445,v15308);
       } 
     princ_string(";");
     close_block_void();
@@ -796,15 +796,15 @@ void  self_statement_Call_array(Call_array *v1140,OID v7243,OID v15308)
      { c_princ_string(string_v(v7243));
       princ_string(" = ");
       } 
-    { Call_array * v15868;
+    { Call_array * v1406;
       { Call_array * v2072 = ((Call_array *) GC_OBJECT(Call_array,new_object_class(Language._Call_array)));
         (v2072->selector = _oid_(v5609));
         (v2072->arg = _oid_(v5610));
         (v2072->test = v1140->test);
         add_I_property(Kernel.instances,Language._Call_array,11,_oid_(v2072));
-        v15868 = v2072;
+        v1406 = v2072;
         } 
-      expression_Call_array(v15868,v15308);
+      expression_Call_array(v1406,v15308);
       } 
     princ_string(";");
     close_block_void();
@@ -892,34 +892,34 @@ void  self_statement_Update(Update *v1140,OID v7243,OID v15308)
      { c_princ_string(string_v(v7243));
       princ_string(" = ");
       } 
-    { Update * v445;
+    { Update * v2367;
       { Update * v2072 = ((Update *) GC_OBJECT(Update,new_object_class(Language._Update)));
         (v2072->selector = v7240);
-        { Update * v6750 = v2072; 
-          OID  v6751;
+        { Update * v6752 = v2072; 
+          OID  v6753;
           if (v1140->arg == _oid_(Kernel.add))
-           v6751 = _oid_(Kernel.add);
+           v6753 = _oid_(Kernel.add);
           else if (sort_Variable(v5609) == Kernel._any)
-           v6751 = _oid_(v5609);
+           v6753 = _oid_(v5609);
           else { Compile_to_CL * v2072 = ((Compile_to_CL *) GC_OBJECT(Compile_to_CL,new_object_class(Optimize._to_CL)));
               (v2072->arg = _oid_(v5609));
               (v2072->set_arg = sort_Variable(v5609));
               add_I_property(Kernel.instances,Optimize._to_CL,11,_oid_(v2072));
-              v6751 = _oid_(v2072);
+              v6753 = _oid_(v2072);
               } 
-            (v6750->arg = v6751);} 
+            (v6752->arg = v6753);} 
         (v2072->value = _oid_(v5610));
-        { Update * v6752 = v2072; 
-          OID  v6753;
+        { Update * v6754 = v2072; 
+          OID  v6755;
           { OID  v11816 = GC_OID((*Kernel.copy)(v7216));
             put_property2(Kernel.arg,OBJECT(ClaireObject,v11816),_oid_(v5609));
-            v6753 = v11816;
+            v6755 = v11816;
             } 
-          (v6752->var = v6753);} 
+          (v6754->var = v6755);} 
         add_I_property(Kernel.instances,Language._Update,11,_oid_(v2072));
-        v445 = v2072;
+        v2367 = v2072;
         } 
-      expression_Update(v445,v15308);
+      expression_Update(v2367,v15308);
       } 
     princ_string(";");
     close_block_void();

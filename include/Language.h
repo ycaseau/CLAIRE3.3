@@ -1,4 +1,4 @@
-// interface defination for module Language, Sun Mar 07 10:46:32 2004
+// interface defination for module Language, Sat Oct 09 17:37:18 2004
 #ifndef CLAIREH_Language
 #define CLAIREH_Language
 
@@ -546,7 +546,7 @@ extern OID  funcall_demon2(Language_demon *self,OID x,OID y,OID z);
 extern OID  self_eval_Defrule(Defrule *self);
 extern ClaireBoolean * eventMethod_ask_relation2(ClaireRelation *r);
 extern tuple * make_filter_any(OID cond);
-extern tuple * make_filter_any_(OID g0105);
+extern tuple * make_filter_any_(OID g0107);
 extern Language_demon * make_demon_relation(ClaireRelation *R,symbol *n,list *lvar,OID cond,OID conc);
 extern Call * readCall_relation(ClaireRelation *R,OID x);
 extern Call * putCall_relation2(ClaireRelation *R,OID x,OID y);

@@ -354,7 +354,9 @@ U(x:type,y:type) : type
 // exception
 but :: operation()
 but(s:any,x:any) : type[nth(bag,member(s))]      // <yc> 16/3/98
- -> (case s (bag copy(s) delete x, any set!(s) delete x))
+ -> (case s (list list{y in s | y != x},         // v3.3.36 (thanks to fxj)
+             set copy(s) delete x, 
+             any set!(s) delete x))
 
 \ :: operation(precedence = U.precedence)
 \(x:type,y:type) : set -> {z in x | not(z % y)}

@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file Optimize.cl 
-         [version 3.3.34 / safety 5] Sun Mar 07 10:46:38 2004 *****/
+         [version 3.3.38 / safety 5] Sat Oct 09 17:37:26 2004 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -263,31 +263,31 @@ void OptimizeClass::metaLoad() {
   
   { global_variable * v2072 = (Optimize.claire_modules = (global_variable *) Core._global_variable->instantiate("claire_modules",claire.it));
     (v2072->range = Kernel._list);
-    { global_variable * v11491 = v2072; 
-      OID  v11492;
-      { list * v13120;{ bag *v_list; OID v_val;
+    { global_variable * v11494 = v2072; 
+      OID  v11495;
+      { list * v13122;{ bag *v_list; OID v_val;
           OID v5264,CLcount;
           v_list = list::alloc(4,_string_("Kernel"),
             _string_("Core"),
             _string_("Language"),
             _string_("Reader"));
-           v13120 = v_list->clone();
+           v13122 = v_list->clone();
           for (CLcount= 1; CLcount <= v_list->length; CLcount++)
           { v5264 = (*(v_list))[CLcount];
             v_val = value_string(string_v(v5264));
             
-            (*((list *) v13120))[CLcount] = v_val;} 
+            (*((list *) v13122))[CLcount] = v_val;} 
           } 
         
-        v11492=_oid_(v13120);} 
-      (v11491->value = v11492);} 
+        v11495=_oid_(v13122);} 
+      (v11494->value = v11495);} 
     close_global_variable(v2072);
     } 
   
   { (Optimize.compiler = (Optimize_meta_compiler *) Optimize._meta_compiler->instantiate("compiler",claire.it));
     (Optimize.compiler->external = "MS VC++");
     (Optimize.compiler->env = "ntv");
-    (Optimize.compiler->version = _float_(3.34));
+    (Optimize.compiler->version = _float_(3.38));
     (Optimize.compiler->source = "");
     (Optimize.compiler->headers_dir = "");
     (Optimize.compiler->libraries = list::alloc(Kernel._string,1,_string_("Kernel")));
@@ -995,7 +995,7 @@ void OptimizeClass::metaLoad() {
   	0,_function_(c_type_Return_Optimize,"c_type_Return_Optimize"));
   
   Optimize.c_code->addMethod(list::domain(1,Language._Return),Kernel._any,
-  	NEW_ALLOC,_function_(c_code_Return_Optimize,"c_code_Return_Optimize"));
+  	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(c_code_Return_Optimize,"c_code_Return_Optimize"));
   
   Optimize.c_type->addMethod(list::domain(1,Language._Handle),Kernel._type,
   	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(c_type_Handle_Optimize,"c_type_Handle_Optimize"));

@@ -1,4 +1,4 @@
-// interface defination for module Core, Sun Mar 07 10:46:29 2004
+// interface defination for module Core, Sat Oct 09 17:37:14 2004
 #ifndef CLAIREH_Core
 #define CLAIREH_Core
 
@@ -32,32 +32,32 @@ class lambda: public ClaireObject{
      int dimension;} 
 ;
 
-class general_error: public error{ 
+class general_error: public ClaireError{ 
   public:
      OID cause;
      OID arg;} 
 ;
 
-class read_slot_error: public error{ 
+class read_slot_error: public ClaireError{ 
   public:
      OID arg;
      OID wrong;} 
 ;
 
-class range_error: public error{ 
+class range_error: public ClaireError{ 
   public:
      OID cause;
      OID arg;
      OID wrong;} 
 ;
 
-class selector_error: public error{ 
+class selector_error: public ClaireError{ 
   public:
      OID selector;
      OID arg;} 
 ;
 
-class return_error: public error{ 
+class return_error: public ClaireError{ 
   public:
      OID arg;} 
 ;
@@ -84,7 +84,7 @@ class pretty_printer: public thing{
      list *cpstack;} 
 ;
 
-class much_too_far: public error{ 
+class much_too_far: public ClaireError{ 
   public:} 
 ;
 
@@ -299,25 +299,25 @@ extern ClaireType * pair_1_list_type(ClaireType *x);
 extern OID  pair_2_list(list *x);
 extern ClaireType * pair_2_list_type(ClaireType *x);
 extern double  _plus_float(double self,double x);
-extern OID  _plus_float_(OID g0071,OID g0072);
+extern OID  _plus_float_(OID g0073,OID g0074);
 extern double  _dash_float(double self,double x);
-extern OID  _dash_float_(OID g0073,OID g0074);
+extern OID  _dash_float_(OID g0075,OID g0076);
 extern double  _star_float(double self,double x);
-extern OID  _star_float_(OID g0075,OID g0076);
+extern OID  _star_float_(OID g0077,OID g0078);
 extern double  _7_float(double self,double x);
-extern OID  _7_float_(OID g0077,OID g0078);
+extern OID  _7_float_(OID g0079,OID g0080);
 extern double  _dash_float2(double self);
-extern OID  _dash_float2_(OID g0079);
+extern OID  _dash_float2_(OID g0081);
 extern double  sqrt_float(double self);
-extern OID  sqrt_float_(OID g0080);
+extern OID  sqrt_float_(OID g0082);
 extern double  _exp_float(double self,double x);
-extern OID  _exp_float_(OID g0081,OID g0082);
+extern OID  _exp_float_(OID g0083,OID g0084);
 extern double  log_float(double self);
-extern OID  log_float_(OID g0083);
+extern OID  log_float_(OID g0085);
 extern double  atan_float(double self);
-extern OID  atan_float_(OID g0084);
+extern OID  atan_float_(OID g0086);
 extern char * string_I_float(double self);
-extern char * string_I_float_(OID g0085);
+extern char * string_I_float_(OID g0087);
 extern int  length_bag(bag *self);
 extern OID  nth_bag(bag *self,int x);
 extern ClaireType * nth_bag_type(ClaireType *self,ClaireType *x);

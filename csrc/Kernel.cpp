@@ -551,7 +551,7 @@ index->addMethod(   list::domain(3,_table,_any,_any),_integer,
 
 // === bags =================================================================
 copy->addMethod(    list::domain(1,_bag),_bag,
-                    0,_function_(copy_bag,"copy_bag"));
+                    0,_function_(copy_bag,"copy_bag"));   // v3.3.38 : no status because protection is implicit !
 empty->addMethod(    list::domain(1,_bag),_bag,
                     0,_function_(empty_bag,"empty_bag"));
 _delete->addMethod(  list::domain(2,_bag,_any),_bag,

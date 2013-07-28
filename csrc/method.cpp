@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\method.cl 
-         [version 3.3.34 / safety 5] Sun Mar 07 10:46:29 2004 *****/
+         [version 3.3.38 / safety 5] Sat Oct 09 17:37:14 2004 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -246,15 +246,15 @@ OID  read_property(property *self,ClaireObject *x)
         if ((z != CNULL) || 
             (belong_to(z,_oid_(CLREAD(restriction,s,range))) == CTRUE))
          Result = z;
-        else { OID  V_CL0000;close_exception(((read_slot_error *) (*Core._read_slot_error)(_oid_(x),
+        else { OID  V_CL0002;close_exception(((read_slot_error *) (*Core._read_slot_error)(_oid_(x),
               _oid_(self))));
             
-            Result=_void_(V_CL0000);} 
+            Result=_void_(V_CL0002);} 
           } 
-      else { OID  V_CL0001;close_exception(((read_slot_error *) (*Core._read_slot_error)(_oid_(x),
+      else { OID  V_CL0003;close_exception(((read_slot_error *) (*Core._read_slot_error)(_oid_(x),
             _oid_(self))));
           
-          Result=_void_(V_CL0001);} 
+          Result=_void_(V_CL0003);} 
         } 
     GC_UNBIND; return (Result);} 
   } 
@@ -312,11 +312,11 @@ void  write_property(property *self,ClaireObject *x,OID y)
 /* The c++ function for: range_is_wrong(self:slot,y:any) [0] */
 OID  range_is_wrong_slot(slot *self,OID y)
 { { OID Result = 0;
-    { OID  V_CL0002;close_exception(((range_error *) (*Core._range_error)(_oid_(self),
+    { OID  V_CL0004;close_exception(((range_error *) (*Core._range_error)(_oid_(self),
         y,
         _oid_(self->range))));
       
-      Result=_void_(V_CL0002);} 
+      Result=_void_(V_CL0004);} 
     return (Result);} 
   } 
 
@@ -562,10 +562,10 @@ OID  delete_property(property *self,ClaireObject *x,OID y)
   { OID Result = 0;
     { ClaireObject * s = GC_OBJECT(ClaireObject,_at_property1(self,OWNER(_oid_(x))));
       if (boolean_I_any(_oid_(s)) != CTRUE)
-       { OID  V_CL0003;close_exception(((selector_error *) (*Core._selector_error)(_oid_(self),
+       { OID  V_CL0005;close_exception(((selector_error *) (*Core._selector_error)(_oid_(self),
           _oid_(list::alloc(1,_oid_(x))))));
         
-        Result=_void_(V_CL0003);} 
+        Result=_void_(V_CL0005);} 
       else { bag * l1 = OBJECT(bag,slot_get_object(x,CLREAD(slot,s,index),Kernel._object));
           bag * l = delete_bag(((self->store_ask == CTRUE) ?
             copy_bag(l1) :
@@ -594,10 +594,10 @@ OID  erase_property(property *self,ClaireObject *x)
   { OID Result = 0;
     { ClaireObject * s = GC_OBJECT(ClaireObject,_at_property1(self,OWNER(_oid_(x))));
       if (boolean_I_any(_oid_(s)) != CTRUE)
-       { OID  V_CL0004;close_exception(((selector_error *) (*Core._selector_error)(_oid_(self),
+       { OID  V_CL0006;close_exception(((selector_error *) (*Core._selector_error)(_oid_(self),
           _oid_(list::alloc(1,_oid_(x))))));
         
-        Result=_void_(V_CL0004);} 
+        Result=_void_(V_CL0006);} 
       else { OID  y = slot_get_object(x,CLREAD(slot,s,index),OBJECT(ClaireClass,(*Kernel.srange)(_oid_(s))));
           if (self->multivalued_ask != CFALSE)
            { { ClaireRelation * r = self->inverse;
@@ -611,12 +611,12 @@ OID  erase_property(property *self,ClaireObject *x)
                   } 
                 } 
             { OID  l;
-              { { OID  g0005UU;
+              { { OID  g0007UU;
                   { if (self->store_ask == CTRUE)
-                     g0005UU = (*Kernel.copy)(y);
-                    else g0005UU = y;
-                      GC_OID(g0005UU);} 
-                  l = (*Kernel.shrink)(g0005UU,
+                     g0007UU = (*Kernel.copy)(y);
+                    else g0007UU = y;
+                      GC_OID(g0007UU);} 
+                  l = (*Kernel.shrink)(g0007UU,
                     0);
                   } 
                 GC_OID(l);} 
@@ -736,8 +736,7 @@ list * initialize_restriction1(restriction *x,ClaireClass *d,list *l)
       int  ix = p->dispatcher;
       if ((p->restrictions->length == 5) && 
           (uniform_property(p) == CTRUE))
-       { { OID gc_local;
-          ITERATE(r);
+       { { ITERATE(r);
           for (START(p->restrictions); NEXT(r);)
           hashinsert_restriction(OBJECT(restriction,r));
           } 
@@ -756,38 +755,35 @@ list * initialize_restriction1(restriction *x,ClaireClass *d,list *l)
        { ClaireClass * c = domain_I_restriction(x);
         if ((uniform_property(p) == CTRUE) && 
             (INHERIT(domain_I_restriction(x),Kernel._object)))
-         { OID gc_local;
-          ITERATE(c2);
+         { ITERATE(c2);
           for (START(c->descendents); NEXT(c2);)
-          { { OID gc_local;
-              while ((((bag *) OBJECT(ClaireClass,c2)->dispatcher)->length < ix))
+          { { while ((((bag *) OBJECT(ClaireClass,c2)->dispatcher)->length < ix))
               { ((list *) OBJECT(ClaireClass,c2)->dispatcher)->addFast(0);
                 } 
               } 
-            { ClaireBoolean * g0006I;
-              { OID  g0007UU;
-                { OID gc_local;
-                  ITERATE(y);
-                  g0007UU= _oid_(CFALSE);
+            { ClaireBoolean * g0008I;
+              { OID  g0009UU;
+                { ITERATE(y);
+                  g0009UU= _oid_(CFALSE);
                   for (START(p->restrictions); NEXT(y);)
                   if (y != _oid_(x))
-                   { { ClaireBoolean * g0008I;
-                      { OID  g0009UU;
+                   { { ClaireBoolean * g0010I;
+                      { OID  g0011UU;
                         { ClaireClass * c3 = domain_I_restriction(OBJECT(restriction,y));
-                          g0009UU = _oid_(not_any(_oid_(((INHERIT(OBJECT(ClaireClass,c2),c3)) ? ((INHERIT(c3,c)) ? CTRUE: CFALSE): CFALSE))));
+                          g0011UU = _oid_(not_any(_oid_(((INHERIT(OBJECT(ClaireClass,c2),c3)) ? ((INHERIT(c3,c)) ? CTRUE: CFALSE): CFALSE))));
                           } 
-                        g0008I = not_any(g0009UU);
+                        g0010I = not_any(g0011UU);
                         } 
                       
-                      if (g0008I == CTRUE) { g0007UU = Kernel.ctrue;
+                      if (g0010I == CTRUE) { g0009UU = Kernel.ctrue;
                           break;} 
                         } 
                     } 
                   } 
-                g0006I = not_any(g0007UU);
+                g0008I = not_any(g0009UU);
                 } 
               
-              if (g0006I == CTRUE) ((*(((list *) OBJECT(ClaireClass,c2)->dispatcher)))[ix]=_oid_(CLREAD(method,x,evaluate)));
+              if (g0008I == CTRUE) ((*(((list *) OBJECT(ClaireClass,c2)->dispatcher)))[ix]=_oid_(CLREAD(method,x,evaluate)));
                 } 
             } 
           } 
@@ -806,72 +802,71 @@ ClaireBoolean * uniform_restriction(restriction *x)
 { { ClaireBoolean *Result ;
     { list * l = x->domain;
       int  n = l->length;
-      { OID  g0011UU;
-        { OID gc_local;
-          ITERATE(r);
-          g0011UU= _oid_(CFALSE);
+      { OID  g0013UU;
+        { ITERATE(r);
+          g0013UU= _oid_(CFALSE);
           for (START(x->selector->restrictions); NEXT(r);)
-          { ClaireBoolean * g0012I;
-            { OID  g0013UU;
+          { ClaireBoolean * g0014I;
+            { OID  g0015UU;
               { list * l2 = OBJECT(restriction,r)->domain;
-                { ClaireBoolean * V_CL0014;{ ClaireBoolean *v_and;
+                { ClaireBoolean * V_CL0016;{ ClaireBoolean *v_and;
                     { v_and = inherit_ask_class(OWNER((*(l))[1]),Kernel._class);
-                      if (v_and == CFALSE) V_CL0014 =CFALSE; 
+                      if (v_and == CFALSE) V_CL0016 =CFALSE; 
                       else { v_and = ((l2->length == n) ? CTRUE : CFALSE);
-                        if (v_and == CFALSE) V_CL0014 =CFALSE; 
-                        else { { OID  g0015UU;
+                        if (v_and == CFALSE) V_CL0016 =CFALSE; 
+                        else { { OID  g0017UU;
                             { int  i = 2;
-                              int  g0010 = n;
-                              { OID gc_local;
-                                g0015UU= _oid_(CFALSE);
-                                while ((i <= g0010))
+                              int  g0012 = n;
+                              { g0017UU= _oid_(CFALSE);
+                                while ((i <= g0012))
                                 { if (((equal((*(l))[i],(*(l2))[i]) == CTRUE) ? CTRUE : (((OWNER((*(l))[i]) != Kernel._class) && 
-                                      ((OWNER((*(l2))[i]) == OWNER((*(l2))[i])) && 
+                                      ((OWNER((*(l))[i]) == OWNER((*(l2))[i])) && 
                                         (_equaltype_ask_any(OBJECT(ClaireType,(*(l))[i]),OBJECT(ClaireType,(*(l2))[i])) == CTRUE))) ? CTRUE : CFALSE)) != CTRUE)
-                                   { g0015UU = Kernel.ctrue;
+                                   { g0017UU = Kernel.ctrue;
                                     break;} 
                                   ++i;
                                   } 
                                 } 
                               } 
-                            v_and = not_any(g0015UU);
+                            v_and = not_any(g0017UU);
                             } 
-                          if (v_and == CFALSE) V_CL0014 =CFALSE; 
-                          else V_CL0014 = CTRUE;} 
+                          if (v_and == CFALSE) V_CL0016 =CFALSE; 
+                          else V_CL0016 = CTRUE;} 
                         } 
                       } 
                     } 
                   
-                  g0013UU=_oid_(V_CL0014);} 
+                  g0015UU=_oid_(V_CL0016);} 
                 } 
-              g0012I = not_any(g0013UU);
+              g0014I = not_any(g0015UU);
               } 
             
-            if (g0012I == CTRUE) { g0011UU = Kernel.ctrue;
+            if (g0014I == CTRUE) { g0013UU = Kernel.ctrue;
                 break;} 
               } 
           } 
-        Result = not_any(g0011UU);
+        Result = not_any(g0013UU);
         } 
       } 
     return (Result);} 
   } 
 
 
+// v3.3.36      
 // v3.0.54 check that a uniform property only uses methods !
 /* The c++ function for: uniform(p:property) [NEW_ALLOC] */
 ClaireBoolean * uniform_property(property *p)
 { { ClaireBoolean *Result ;
     { ClaireBoolean *v_and;
-      { { OID  g0016UU;
+      { { OID  g0018UU;
           { ITERATE(x);
-            g0016UU= _oid_(CFALSE);
+            g0018UU= _oid_(CFALSE);
             for (START(p->restrictions); NEXT(x);)
             if (equal(_oid_(Kernel._method),_oid_(OBJECT(ClaireObject,x)->isa)) != CTRUE)
-             { g0016UU = Kernel.ctrue;
+             { g0018UU = Kernel.ctrue;
               break;} 
             } 
-          v_and = not_any(g0016UU);
+          v_and = not_any(g0018UU);
           } 
         if (v_and == CFALSE) Result =CFALSE; 
         else { v_and = uniform_restriction(OBJECT(restriction,(*(p->restrictions))[1]));
@@ -890,9 +885,9 @@ list * initialize_restriction2(restriction *x,list *l)
   { list *Result ;
     { list * l1 = Kernel.nil;
       { int  i = 1;
-        int  g0017 = l->length;
+        int  g0019 = l->length;
         { OID gc_local;
-          while ((i <= g0017))
+          while ((i <= g0019))
           { GC_LOOP;
             { list * l2 = OBJECT(restriction,(*(l))[i])->domain;
               if (tmatch_ask_list(x->domain,l2) == CTRUE)
@@ -901,13 +896,13 @@ list * initialize_restriction2(restriction *x,list *l)
                   GC__ANY(l1 = l, 1);
                   { ;break;} 
                   } 
-                else { l1= add_at_list(l,i,_oid_(x));
+                else { GC__ANY(l1 = add_at_list(l,i,_oid_(x)), 1);
                     { ;break;} 
                     } 
                   } 
               else if ((tmatch_ask_list(l2,x->domain) != CTRUE) && 
                   (join_list(x->domain,l2) == CTRUE))
-               tformat_string("~S and ~S are conflicting",2,GC_OBJECT(list,list::alloc(2,(*(l))[1],_oid_(x))));
+               tformat_string("~S and ~S are conflicting",2,list::alloc(2,(*(l))[1],_oid_(x)));
               } 
             ++i;
             GC_UNLOOP;} 
@@ -967,15 +962,15 @@ OID  hashinsert_list(list *l,method *x)
           else if (i == m)
            { if ((hashsize_list(l)*3) > (l->length*2))
              { list * myl2;
-              { { list * g0018 = l;
-                  list * g0019 = GC_OBJECT(list,make_list_integer((((*(g0018))[0])*2),CNULL));
+              { { list * g0020 = l;
+                  list * g0021 = GC_OBJECT(list,make_list_integer((((*(g0020))[0])*2),CNULL));
                   { OID gc_local;
-                    ITERATE(g0020);
-                    for (START(g0018); NEXT(g0020);)
-                    if (g0020 != CNULL)
-                     hashinsert_list(g0019,OBJECT(method,g0020));
+                    ITERATE(g0022);
+                    for (START(g0020); NEXT(g0022);)
+                    if (g0022 != CNULL)
+                     hashinsert_list(g0021,OBJECT(method,g0022));
                     } 
-                  myl2 = g0019;
+                  myl2 = g0021;
                   } 
                 GC_OBJECT(list,myl2);} 
               { Result = hashinsert_list(myl2,x);
@@ -1026,37 +1021,35 @@ ClaireBoolean * join_list(list *x,list *y)
       { ClaireBoolean *v_and;
         { v_and = ((n == y->length) ? CTRUE : CFALSE);
           if (v_and == CFALSE) Result =CFALSE; 
-          else { { OID  g0023UU;
+          else { { OID  g0025UU;
               { int  i = 1;
-                int  g0021 = n;
-                { OID gc_local;
-                  g0023UU= _oid_(CFALSE);
-                  while ((i <= g0021))
+                int  g0023 = n;
+                { g0025UU= _oid_(CFALSE);
+                  while ((i <= g0023))
                   { if (boolean_I_any(_oid_(join_class(class_I_type(OBJECT(ClaireType,(*(x))[i])),class_I_type(OBJECT(ClaireType,(*(y))[i]))))) != CTRUE)
-                     { g0023UU = Kernel.ctrue;
+                     { g0025UU = Kernel.ctrue;
                       break;} 
                     ++i;
                     } 
                   } 
                 } 
-              v_and = not_any(g0023UU);
+              v_and = not_any(g0025UU);
               } 
             if (v_and == CFALSE) Result =CFALSE; 
-            else { { OID  g0024UU;
+            else { { OID  g0026UU;
                 { int  i = 1;
-                  int  g0022 = n;
-                  { OID gc_local;
-                    g0024UU= _oid_(CFALSE);
-                    while ((i <= g0022))
+                  int  g0024 = n;
+                  { g0026UU= _oid_(CFALSE);
+                    while ((i <= g0024))
                     { if (boolean_I_any((*Core.glb)((*(x))[i],
                         (*(y))[i])) != CTRUE)
-                       { g0024UU = Kernel.ctrue;
+                       { g0026UU = Kernel.ctrue;
                         break;} 
                       ++i;
                       } 
                     } 
                   } 
-                v_and = not_any(g0024UU);
+                v_and = not_any(g0026UU);
                 } 
               if (v_and == CFALSE) Result =CFALSE; 
               else Result = CTRUE;} 
@@ -1132,46 +1125,46 @@ ClaireBoolean * matching_ask_list(list *l,int n,int m)
       int  z = l->length;
       if ((z == x) && 
           ((*(l))[x] != _oid_(Kernel._listargs)))
-       { OID  g0027UU;
+       { OID  g0029UU;
         { int  i = 1;
-          int  g0025 = x;
-          { g0027UU= _oid_(CFALSE);
-            while ((i <= g0025))
+          int  g0027 = x;
+          { g0029UU= _oid_(CFALSE);
+            while ((i <= g0027))
             { { int  y = ((n-1)+i);
                 OID  u = (*(l))[i];
                 if ((OWNER(u) == Kernel._class) ? (inherit_ask_class(OWNER(ClEnv->stack[y]),OBJECT(ClaireClass,u)) != CTRUE) : (vmatch_ask_any(u,ClEnv->stack[y],n) != CTRUE))
-                 { g0027UU = Kernel.ctrue;
+                 { g0029UU = Kernel.ctrue;
                   break;} 
                 } 
               ++i;
               } 
             } 
           } 
-        Result = not_any(g0027UU);
+        Result = not_any(g0029UU);
         } 
       else if ((last_list(l) == _oid_(Kernel._listargs)) && 
           ((z-1) <= x))
-       { OID  g0028UU;
+       { OID  g0030UU;
         { int  i = 1;
-          int  g0026 = z;
-          { g0028UU= _oid_(CFALSE);
-            while ((i <= g0026))
+          int  g0028 = z;
+          { g0030UU= _oid_(CFALSE);
+            while ((i <= g0028))
             { { int  y = ((n-1)+i);
                 if ((*(l))[i] == _oid_(Kernel._listargs))
                  { (ClEnv->stack[y]=_oid_(get_args_integer(y)));
                   (ClEnv->index= (y+1));
-                  { g0028UU = Kernel.cfalse;
+                  { g0030UU = Kernel.cfalse;
                     break;} 
                   } 
                 else if (vmatch_ask_any((*(l))[i],ClEnv->stack[y],n) != CTRUE)
-                 { g0028UU = Kernel.ctrue;
+                 { g0030UU = Kernel.ctrue;
                   break;} 
                 } 
               ++i;
               } 
             } 
           } 
-        Result = not_any(g0028UU);
+        Result = not_any(g0030UU);
         } 
       else Result = CFALSE;
         } 
@@ -1195,30 +1188,30 @@ ClaireBoolean * vmatch_ask_any(OID t,OID x,int n)
      { ClaireBoolean *v_and;
       { v_and = vmatch_ask_any(_oid_(OBJECT(Param,t)->arg),x,n);
         if (v_and == CFALSE) Result =CFALSE; 
-        else { { OID  g0031UU;
+        else { { OID  g0033UU;
             { int  i = 1;
-              int  g0029 = OBJECT(Param,t)->params->length;
-              { g0031UU= _oid_(CFALSE);
-                while ((i <= g0029))
-                { { ClaireBoolean * g0032I;
-                    { OID  g0033UU;
+              int  g0031 = OBJECT(Param,t)->params->length;
+              { g0033UU= _oid_(CFALSE);
+                while ((i <= g0031))
+                { { ClaireBoolean * g0034I;
+                    { OID  g0035UU;
                       { OID  _Zt = (*(OBJECT(Param,t)->args))[i];
                         OID  _Zv = funcall_property(OBJECT(property,(*(OBJECT(Param,t)->params))[i]),x);
                         if (Kernel._set == OWNER(_Zt))
-                         g0033UU = _oid_(Ztype_any(_Zv,_Zt));
-                        else g0033UU = _oid_(vmatch_ask_any(_Zt,_Zv,n));
+                         g0035UU = _oid_(Ztype_any(_Zv,_Zt));
+                        else g0035UU = _oid_(vmatch_ask_any(_Zt,_Zv,n));
                           } 
-                      g0032I = not_any(g0033UU);
+                      g0034I = not_any(g0035UU);
                       } 
                     
-                    if (g0032I == CTRUE) { g0031UU = Kernel.ctrue;
+                    if (g0034I == CTRUE) { g0033UU = Kernel.ctrue;
                         break;} 
                       } 
                   ++i;
                   } 
                 } 
               } 
-            v_and = not_any(g0031UU);
+            v_and = not_any(g0033UU);
             } 
           if (v_and == CFALSE) Result =CFALSE; 
           else Result = CTRUE;} 
@@ -1235,19 +1228,19 @@ ClaireBoolean * vmatch_ask_any(OID t,OID x,int n)
        { ClaireBoolean *v_and;
         { v_and = ((OBJECT(bag,t)->length == OBJECT(bag,x)->length) ? CTRUE : CFALSE);
           if (v_and == CFALSE) Result =CFALSE; 
-          else { { OID  g0034UU;
+          else { { OID  g0036UU;
               { int  i = 1;
-                int  g0030 = OBJECT(bag,x)->length;
-                { g0034UU= _oid_(CFALSE);
-                  while ((i <= g0030))
+                int  g0032 = OBJECT(bag,x)->length;
+                { g0036UU= _oid_(CFALSE);
+                  while ((i <= g0032))
                   { if (vmatch_ask_any((*(OBJECT(bag,t)))[i],(*(OBJECT(bag,x)))[i],n) != CTRUE)
-                     { g0034UU = Kernel.ctrue;
+                     { g0036UU = Kernel.ctrue;
                       break;} 
                     ++i;
                     } 
                   } 
                 } 
-              v_and = not_any(g0034UU);
+              v_and = not_any(g0036UU);
               } 
             if (v_and == CFALSE) Result =CFALSE; 
             else Result = CTRUE;} 
@@ -1271,24 +1264,23 @@ ClaireBoolean * tmatch_ask_list(list *l,list *l2)
           (((*(l2))[x] != _oid_(Kernel._listargs)) || 
               (z < (x-1))))
        Result = CFALSE;
-      else { OID  g0036UU;
+      else { OID  g0038UU;
           { int  i = 1;
-            int  g0035 = x;
-            { OID gc_local;
-              g0036UU= _oid_(CFALSE);
-              while ((i <= g0035))
+            int  g0037 = x;
+            { g0038UU= _oid_(CFALSE);
+              while ((i <= g0037))
               { if ((i == x) && 
                     ((*(l2))[i] == _oid_(Kernel._listargs)))
-                 { g0036UU = Kernel.cfalse;
+                 { g0038UU = Kernel.cfalse;
                   break;} 
                 else if (tmatch_ask_any((*(l))[i],(*(l2))[i],l) != CTRUE)
-                 { g0036UU = Kernel.ctrue;
+                 { g0038UU = Kernel.ctrue;
                   break;} 
                 ++i;
                 } 
               } 
             } 
-          Result = not_any(g0036UU);
+          Result = not_any(g0038UU);
           } 
         } 
     return (Result);} 
@@ -1314,21 +1306,19 @@ ClaireBoolean * tmatch_ask_any(OID t,OID t2,list *l)
      { ClaireBoolean *v_and;
       { v_and = tmatch_ask_any(t,_oid_(OBJECT(Param,t2)->arg),l);
         if (v_and == CFALSE) Result =CFALSE; 
-        else { { OID  g0039UU;
+        else { { OID  g0041UU;
             { int  i = 1;
-              int  g0037 = OBJECT(Param,t2)->params->length;
-              { OID gc_local;
-                g0039UU= _oid_(CFALSE);
-                while ((i <= g0037))
-                { GC_LOOP;
-                  if (tmatch_ask_any(GC_OID(_oid_(_at_type(OBJECT(ClaireType,t),OBJECT(property,(*(OBJECT(Param,t2)->params))[i])))),GC_OID((*(OBJECT(Param,t2)->args))[i]),l) != CTRUE)
-                   { g0039UU = Kernel.ctrue;
+              int  g0039 = OBJECT(Param,t2)->params->length;
+              { g0041UU= _oid_(CFALSE);
+                while ((i <= g0039))
+                { if (tmatch_ask_any(GC_OID(_oid_(_at_type(OBJECT(ClaireType,t),OBJECT(property,(*(OBJECT(Param,t2)->params))[i])))),GC_OID((*(OBJECT(Param,t2)->args))[i]),l) != CTRUE)
+                   { g0041UU = Kernel.ctrue;
                     break;} 
                   ++i;
-                  GC_UNLOOP;} 
+                  } 
                 } 
               } 
-            v_and = not_any(g0039UU);
+            v_and = not_any(g0041UU);
             } 
           if (v_and == CFALSE) Result =CFALSE; 
           else Result = CTRUE;} 
@@ -1346,20 +1336,19 @@ ClaireBoolean * tmatch_ask_any(OID t,OID t2,list *l)
        { ClaireBoolean *v_and;
         { v_and = ((OBJECT(bag,t2)->length == OBJECT(bag,t)->length) ? CTRUE : CFALSE);
           if (v_and == CFALSE) Result =CFALSE; 
-          else { { OID  g0040UU;
+          else { { OID  g0042UU;
               { int  i = 1;
-                int  g0038 = OBJECT(bag,t2)->length;
-                { OID gc_local;
-                  g0040UU= _oid_(CFALSE);
-                  while ((i <= g0038))
+                int  g0040 = OBJECT(bag,t2)->length;
+                { g0042UU= _oid_(CFALSE);
+                  while ((i <= g0040))
                   { if (tmatch_ask_any((*(OBJECT(bag,t)))[i],(*(OBJECT(bag,t2)))[i],l) != CTRUE)
-                     { g0040UU = Kernel.ctrue;
+                     { g0042UU = Kernel.ctrue;
                       break;} 
                     ++i;
                     } 
                   } 
                 } 
-              v_and = not_any(g0040UU);
+              v_and = not_any(g0042UU);
               } 
             if (v_and == CFALSE) Result =CFALSE; 
             else Result = CTRUE;} 

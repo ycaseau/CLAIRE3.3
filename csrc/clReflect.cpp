@@ -118,11 +118,21 @@ OID CL_Oid_inv(char *s)
 // new in v3.1.16: float alignment parity is an option
 // for 99% of C++ compilers, float slots need to be aligned (even)
 // so the C++ compiler wastes memory if needed
-#ifdef CLFLPAR
-#define CL_FLOAT_PARITY 666      // disable ! needed for LINUX-Intel
-#else
-#define CL_FLOAT_PARITY 0        // ensure alignment of float slots (default)
-#endif
+// #ifdef CLFLPAR
+// #define CL_FLOAT_PARITY 666      // disable ! needed for LINUX-Intel
+// #else
+// #define CL_FLOAT_PARITY 0        // ensure alignment of float slots (default)
+// #endif
+
+// NEW in v3.3.36 : Sylvain proposed a better, more portable solution for float:
+// we create two dumb classes that will be used to see how float alignment both
+// generally and within an object (as a fied) is handled
+//<sb> some architecture may need structure alignment and/or field alignment
+class align_struct : ClaireObject {double d;};
+class align_field : ClaireObject {int pad1; int pad2; double d;};
+
+#define ALIGN_STRUCT (sizeof(class align_struct) != sizeof(double) + sizeof(int))
+#define ALIGN_FIELD (sizeof(class align_field) != sizeof(double) + 3 * sizeof(int))
 
 // simple instantiation for objects with OID slots (exceptions)
 ClaireObject *ClaireClass::operator() (OID arg1)
@@ -318,7 +328,14 @@ slot *ClaireClass::addSlot(property *p,ClaireType *t,OID def,int ix)
         (p->multivalued_ask == Kernel._list && c1 != Kernel._list))
        Cerror(28,_oid_(p),_oid_(s));        // v3.1.08
     p->restrictions->addFast(_oid_(s));
-    if (c1 == Kernel._float && ix % 2 == CL_FLOAT_PARITY) ix++;     // some architecture requires even float indexes - v3.3.18 : & -> &&
+    if (c1 == Kernel._float && ix % 2 == 0) {  // some architecture requires even float indexes
+       if (ALIGN_FIELD ||                      // v3.3.36 -> new solution from Sylvain
+             (ALIGN_STRUCT &&
+                //<sb> test that the new slot is the first slot of its domain
+                // note : i is always positive due to isa @ object !
+                OBJECT(ClaireClass,(*(OBJECT(slot,(*slots)[i])->domain))[1]) != this))
+          ix++;}
+    // was previously : if (c1 == Kernel._float && ix % 2 == CL_FLOAT_PARITY) ix++;
     // change the default representation that will be stored in the prototype
     //  copied_default = object (for object) + float (for float) + integer (for all) + NULL for objects
     if (s1 == Kernel._object || OWNER(def) == Kernel._integer || c1 == Kernel._float) ; // nothing (store def)
@@ -347,6 +364,7 @@ slot *ClaireClass::addSlot(property *p,ClaireType *t,OID def,int ix)
     s->module_I = ClEnv->module_I;
     s->range = t;
     insert_definition_property(p,s);           // defined in system (unless CLKTEST is defined)
+    ClAlloc->currentNew = NULL;                // v3.3.38
     return s;}                 
     
     

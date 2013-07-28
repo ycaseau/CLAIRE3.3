@@ -253,9 +253,9 @@ static void init();
 // exceptions
 class ClaireException: public SystemObject {};
 
-class error: public ClaireException {};
+class ClaireError: public ClaireException {};
 
-class system_error: public error {
+class system_error: public ClaireError {
 public:
     int index;
     OID value;
@@ -682,7 +682,7 @@ extern int world_number();
 extern int world_get_id();
 extern void claire_gc();
 extern void restore_state_void();
-extern ClaireObject *GC_OBJ_F(ClaireObject *x);
+extern ClaireAny *GC_OBJ_F(ClaireAny *x);  // v3.3.36
 extern OID GC_OID(OID x);
 extern void GC__OID(OID x, int m);
 extern char *GC_STRING(char *s);

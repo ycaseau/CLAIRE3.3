@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file c:\claire\v3.3\src\compile\gsystem.cl 
-         [version 3.3.34 / safety 5] Sun Mar 07 10:46:40 2004 *****/
+         [version 3.3.38 / safety 5] Sat Oct 09 17:37:28 2004 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -350,12 +350,12 @@ void  generate_objects_module(module *v1140)
     { breakline_void();
       (*Generate.public_static)(Generate.PRODUCER->value);
       if (INHERIT(OWNER(v7248),Core._global_variable))
-       { { OID  v14369;
+       { { OID  v16291;
           if (nativeVar_ask_global_variable(OBJECT(global_variable,v7248)) == CTRUE)
-           v14369 = _oid_(getRange_global_variable(OBJECT(global_variable,v7248)));
-          else v14369 = _oid_(Core._global_variable);
+           v16291 = _oid_(getRange_global_variable(OBJECT(global_variable,v7248)));
+          else v16291 = _oid_(Core._global_variable);
             (*Generate.interface_I)(Generate.PRODUCER->value,
-            v14369);
+            v16291);
           } 
         princ_string(" ");
         ident_symbol(OBJECT(thing,v7248)->name);
@@ -875,8 +875,8 @@ void  get_dependents_method(method *v7237)
     bag *v7240_support;
     v7240_support = GC_OBJECT(set,dependents_method(v7237));
     for (START(v7240_support); NEXT(v7240);)
-    { property * v6596 = v7237->selector;
-      add_table(Reader.PRdependent,_oid_(v6596),v7240);
+    { property * v6598 = v7237->selector;
+      add_table(Reader.PRdependent,_oid_(v6598),v7240);
       } 
     } 
   GC_UNBIND;} 
@@ -896,23 +896,23 @@ void  set_outfile_lambda(lambda *v1140)
       else v3109 = CNULL;
         GC_OID(v3109);} 
     if (v3109 != CNULL)
-     { { ClaireBoolean * g0005I;
-        { OID  v1831;
+     { { ClaireBoolean * g0007I;
+        { OID  v3751;
           { OID gc_local;
             ITERATE(v7227);
-            v1831= _oid_(CFALSE);
+            v3751= _oid_(CFALSE);
             bag *v7227_support;
             v7227_support = GC_OBJECT(list,Optimize.OPT->objects);
             for (START(v7227_support); NEXT(v7227);)
             if ((INHERIT(OWNER(v7227),Kernel._class)) && 
                 (equal(v7227,v3109) == CTRUE))
-             { v1831 = Kernel.ctrue;
+             { v3751 = Kernel.ctrue;
               break;} 
             } 
-          g0005I = boolean_I_any(v1831);
+          g0007I = boolean_I_any(v3751);
           } 
         
-        if (g0005I == CTRUE) v11153= GC_STRING(string_v((*Generate.c_string)(Generate.PRODUCER->value,
+        if (g0007I == CTRUE) v11153= GC_STRING(string_v((*Generate.c_string)(Generate.PRODUCER->value,
             _oid_(OBJECT(ClaireClass,v3109)->name))));
           } 
       if (equal_string(v11153,string_I_symbol(ClEnv->module_I->name)) != CTRUE)

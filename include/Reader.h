@@ -1,4 +1,4 @@
-// interface defination for module Reader, Sun Mar 07 10:46:35 2004
+// interface defination for module Reader, Sat Oct 09 17:37:22 2004
 #ifndef CLAIREH_Reader
 #define CLAIREH_Reader
 
@@ -124,16 +124,16 @@ extern OID  kill_class(ClaireClass *self);
 extern int  min_integer(int x,int y);
 extern int  max_integer(int x,int y);
 extern double  min_float(double x,double y);
-extern OID  min_float_(OID g0080,OID g0081);
+extern OID  min_float_(OID g0082,OID g0083);
 extern double  max_float(double x,double y);
-extern OID  max_float_(OID g0082,OID g0083);
+extern OID  max_float_(OID g0084,OID g0085);
 extern OID  min_any(OID x,OID y);
 extern OID  max_any(OID x,OID y);
 extern list * hashgrow_list(list *l,property *hi);
 extern ClaireBoolean * known_ask_table(table *a,OID x);
 extern ClaireBoolean * unknown_ask_table(table *a,OID x);
 extern double  float_I_string(char *self);
-extern OID  float_I_string_(char *g0084);
+extern OID  float_I_string_(char *g0086);
 extern ClaireBoolean * _sup_equal_any(OID self,OID x);
 extern OID  inspect_any(OID self);
 extern OID  inspect_loop_any(OID _Zread,list *old);

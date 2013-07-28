@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file Reader.cl 
-         [version 3.3.34 / safety 5] Sun Mar 07 10:46:36 2004 *****/
+         [version 3.3.38 / safety 5] Sat Oct 09 17:37:22 2004 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -128,14 +128,14 @@ void ReaderClass::metaLoad() {
   
   { global_variable * _CL_obj = (Reader.arrow = (global_variable *) Core._global_variable->instantiate("arrow",claire.it));
     (_CL_obj->range = Kernel._any);
-    { global_variable * g0105 = _CL_obj; 
-      OID  g0106;
+    { global_variable * g0107 = _CL_obj; 
+      OID  g0108;
       { keyword * _CL_obj = ((keyword *) new_object_class(Kernel._keyword));
         (_CL_obj->name = symbol_I_string2("->"));
         add_I_property(Kernel.instances,Kernel._keyword,11,_oid_(_CL_obj));
-        g0106 = _oid_(_CL_obj);
+        g0108 = _oid_(_CL_obj);
         } 
-      (g0105->value = g0106);} 
+      (g0107->value = g0108);} 
     close_global_variable(_CL_obj);
     } 
   
@@ -143,14 +143,14 @@ void ReaderClass::metaLoad() {
   
   { global_variable * _CL_obj = (Reader.triangle = (global_variable *) Core._global_variable->instantiate("triangle",claire.it));
     (_CL_obj->range = Kernel._any);
-    { global_variable * g0107 = _CL_obj; 
-      OID  g0108;
+    { global_variable * g0109 = _CL_obj; 
+      OID  g0110;
       { keyword * _CL_obj = ((keyword *) new_object_class(Kernel._keyword));
         (_CL_obj->name = symbol_I_string2("<:"));
         add_I_property(Kernel.instances,Kernel._keyword,11,_oid_(_CL_obj));
-        g0108 = _oid_(_CL_obj);
+        g0110 = _oid_(_CL_obj);
         } 
-      (g0107->value = g0108);} 
+      (g0109->value = g0110);} 
     close_global_variable(_CL_obj);
     } 
   

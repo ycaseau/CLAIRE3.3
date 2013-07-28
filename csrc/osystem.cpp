@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file c:\claire\v3.3\src\compile\osystem.cl 
-         [version 3.3.34 / safety 5] Sun Mar 07 10:46:37 2004 *****/
+         [version 3.3.38 / safety 5] Sat Oct 09 17:37:25 2004 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -195,13 +195,13 @@ OID  c_code_any2_Optimize(OID v9268)
       else Result = v9268;
         } 
     else if (INHERIT(OWNER(v9268),Kernel._tuple))
-     { OID  v12447;
+     { OID  v14369;
       { Tuple * v2072 = ((Tuple *) GC_OBJECT(Tuple,new_object_class(Language._Tuple)));
         (v2072->args = OBJECT(list,v9268));
         add_I_property(Kernel.instances,Language._Tuple,11,_oid_(v2072));
-        v12447 = _oid_(v2072);
+        v14369 = _oid_(v2072);
         } 
-      Result = (*Optimize.c_code)(v12447);
+      Result = (*Optimize.c_code)(v14369);
       } 
     else { if (INHERIT(OWNER(v9268),Kernel._thing))
          (*Optimize.c_register)(v9268);
@@ -351,20 +351,20 @@ int  c_status_any(OID v9268,list *v5252)
       else if (INHERIT(OBJECT(ClaireObject,v9268)->isa,Language._Error))
        Result = 32;
       else if (INHERIT(OBJECT(ClaireObject,v9268)->isa,Language._Printf))
-       { int  v8415;
-        { int  v6592 = 0;
+       { int  v10337;
+        { int  v6594 = 0;
           { OID gc_local;
-            ITERATE(v6594);
-            bag *v6594_support;
-            v6594_support = GC_OBJECT(list,OBJECT(Construct,v9268)->args);
-            for (START(v6594_support); NEXT(v6594);)
-            { int  v6593 = c_status_any(v6594,v5252);
-              v6592= c_or_integer(v6592,v6593);
+            ITERATE(v6597);
+            bag *v6597_support;
+            v6597_support = GC_OBJECT(list,OBJECT(Construct,v9268)->args);
+            for (START(v6597_support); NEXT(v6597);)
+            { int  v6596 = c_status_any(v6597,v5252);
+              v6594= c_or_integer(v6594,v6596);
               } 
             } 
-          v8415 = v6592;
+          v10337 = v6594;
           } 
-        Result = c_return_integer(0,v8415);
+        Result = c_return_integer(0,v10337);
         } 
       else if (INHERIT(OBJECT(ClaireObject,v9268)->isa,Language._Construct))
        Result = 2;
@@ -373,17 +373,17 @@ int  c_status_any(OID v9268,list *v5252)
       else if (INHERIT(OBJECT(ClaireObject,v9268)->isa,Language._Call))
        { int  v15591 = c_status_property(OBJECT(Call,v9268)->selector);
         int  v15592;
-        { int  v6596 = 0;
+        { int  v6598 = 0;
           { OID gc_local;
-            ITERATE(v6598);
-            bag *v6598_support;
-            v6598_support = GC_OBJECT(list,OBJECT(Call,v9268)->args);
-            for (START(v6598_support); NEXT(v6598);)
-            { int  v6597 = c_status_any(v6598,v5252);
-              v6596= c_or_integer(v6596,v6597);
+            ITERATE(v6600);
+            bag *v6600_support;
+            v6600_support = GC_OBJECT(list,OBJECT(Call,v9268)->args);
+            for (START(v6600_support); NEXT(v6600);)
+            { int  v6599 = c_status_any(v6600,v5252);
+              v6598= c_or_integer(v6598,v6599);
               } 
             } 
-          v15592 = v6596;
+          v15592 = v6598;
           } 
         Result = c_return_integer(v15591,v15592);
         } 
@@ -396,18 +396,18 @@ int  c_status_any(OID v9268,list *v5252)
        { OID  v5265 = GC_OID(last_list(OBJECT(Do,v9268)->args));
         int  v15591 = c_status_any(v5265,v5252);
         int  v15592;
-        { int  v6599 = 0;
+        { int  v6601 = 0;
           { OID gc_local;
-            ITERATE(v6601);
-            bag *v6601_support;
-            v6601_support = GC_OBJECT(list,OBJECT(Do,v9268)->args);
-            for (START(v6601_support); NEXT(v6601);)
-            if (equal(v6601,v5265) != CTRUE)
-             { int  v6600 = c_status_any(v6601,v5252);
-              v6599= c_or_integer(v6599,v6600);
+            ITERATE(v6623);
+            bag *v6623_support;
+            v6623_support = GC_OBJECT(list,OBJECT(Do,v9268)->args);
+            for (START(v6623_support); NEXT(v6623);)
+            if (equal(v6623,v5265) != CTRUE)
+             { int  v6622 = c_status_any(v6623,v5252);
+              v6601= c_or_integer(v6601,v6622);
               } 
             } 
-          v15592 = v6599;
+          v15592 = v6601;
           } 
         Result = c_return_integer(v15591,v15592);
         } 
@@ -422,68 +422,68 @@ int  c_status_any(OID v9268,list *v5252)
       else if (INHERIT(OBJECT(ClaireObject,v9268)->isa,Language._Gassign))
        Result = c_status_any(GC_OID(OBJECT(Gassign,v9268)->arg),v5252);
       else if (INHERIT(OBJECT(ClaireObject,v9268)->isa,Language._And))
-       { int  v9377;
-        { int  v6622 = 0;
+       { int  v11298;
+        { int  v6624 = 0;
           { OID gc_local;
-            ITERATE(v6624);
-            bag *v6624_support;
-            v6624_support = GC_OBJECT(list,OBJECT(And,v9268)->args);
-            for (START(v6624_support); NEXT(v6624);)
-            { int  v6623 = c_status_any(v6624,v5252);
-              v6622= c_or_integer(v6622,v6623);
+            ITERATE(v6626);
+            bag *v6626_support;
+            v6626_support = GC_OBJECT(list,OBJECT(And,v9268)->args);
+            for (START(v6626_support); NEXT(v6626);)
+            { int  v6625 = c_status_any(v6626,v5252);
+              v6624= c_or_integer(v6624,v6625);
               } 
             } 
-          v9377 = v6622;
+          v11298 = v6624;
           } 
-        Result = c_return_integer(0,v9377);
+        Result = c_return_integer(0,v11298);
         } 
       else if (INHERIT(OBJECT(ClaireObject,v9268)->isa,Language._Or))
-       { int  v10337;
-        { int  v6625 = 0;
+       { int  v12260;
+        { int  v6627 = 0;
           { OID gc_local;
-            ITERATE(v6627);
-            bag *v6627_support;
-            v6627_support = GC_OBJECT(list,OBJECT(Or,v9268)->args);
-            for (START(v6627_support); NEXT(v6627);)
-            { int  v6626 = c_status_any(v6627,v5252);
-              v6625= c_or_integer(v6625,v6626);
+            ITERATE(v6630);
+            bag *v6630_support;
+            v6630_support = GC_OBJECT(list,OBJECT(Or,v9268)->args);
+            for (START(v6630_support); NEXT(v6630);)
+            { int  v6628 = c_status_any(v6630,v5252);
+              v6627= c_or_integer(v6627,v6628);
               } 
             } 
-          v10337 = v6625;
+          v12260 = v6627;
           } 
-        Result = c_return_integer(0,v10337);
+        Result = c_return_integer(0,v12260);
         } 
       else if (INHERIT(OBJECT(ClaireObject,v9268)->isa,Language._Cast))
        Result = c_status_any(GC_OID(OBJECT(Cast,v9268)->arg),v5252);
       else if (INHERIT(OBJECT(ClaireObject,v9268)->isa,Language._Super))
        { int  v15591 = c_status_property(OBJECT(Super,v9268)->selector);
         int  v15592;
-        { int  v6628 = 0;
+        { int  v6631 = 0;
           { OID gc_local;
-            ITERATE(v6631);
-            bag *v6631_support;
-            v6631_support = GC_OBJECT(list,OBJECT(Super,v9268)->args);
-            for (START(v6631_support); NEXT(v6631);)
-            { int  v6630 = c_status_any(v6631,v5252);
-              v6628= c_or_integer(v6628,v6630);
+            ITERATE(v6654);
+            bag *v6654_support;
+            v6654_support = GC_OBJECT(list,OBJECT(Super,v9268)->args);
+            for (START(v6654_support); NEXT(v6654);)
+            { int  v6632 = c_status_any(v6654,v5252);
+              v6631= c_or_integer(v6631,v6632);
               } 
             } 
-          v15592 = v6628;
+          v15592 = v6631;
           } 
         Result = c_return_integer(v15591,v15592);
         } 
       else if (INHERIT(OBJECT(ClaireObject,v9268)->isa,Language._Case))
-       { int  v6632 = 0;
+       { int  v6655 = 0;
         { OID gc_local;
-          ITERATE(v6655);
-          bag *v6655_support;
-          v6655_support = GC_OBJECT(list,OBJECT(Case,v9268)->args);
-          for (START(v6655_support); NEXT(v6655);)
-          { int  v6654 = c_status_any(v6655,v5252);
-            v6632= c_or_integer(v6632,v6654);
+          ITERATE(v6657);
+          bag *v6657_support;
+          v6657_support = GC_OBJECT(list,OBJECT(Case,v9268)->args);
+          for (START(v6657_support); NEXT(v6657);)
+          { int  v6656 = c_status_any(v6657,v5252);
+            v6655= c_or_integer(v6655,v6656);
             } 
           } 
-        Result = v6632;
+        Result = v6655;
         } 
       else Result = ((INHERIT(OBJECT(ClaireObject,v9268)->isa,Language._While)) ?
         c_return_integer(c_status_any(GC_OID(OBJECT(While,v9268)->arg),v5252),c_status_any(GC_OID(OBJECT(While,v9268)->test),v5252)) :
@@ -600,9 +600,9 @@ OID  showstatus_method2(method *v5253)
       list * v5252 = list::empty(Kernel._any);
       int  v5259 = v5253->status;
       { int  v5249 = 1;
-        int  v6659 = 6;
+        int  v6661 = 6;
         { OID gc_local;
-          while ((v5249 <= v6659))
+          while ((v5249 <= v6661))
           { if (BCONTAIN(v5259,v5249))
              v5252= v5252->addFast((*(v15405))[v5249]);
             ++v5249;

@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file c:\claire\v3.3\src\compile\cgen.cl 
-         [version 3.3.34 / safety 5] Sun Mar 07 10:46:40 2004 *****/
+         [version 3.3.38 / safety 5] Sat Oct 09 17:37:28 2004 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -439,20 +439,20 @@ void  generate_interface_c_producer(Generate_c_producer *v7227,module *v1140)
           bag *v7249_support;
           v7249_support = GC_OBJECT(list,OBJECT(bag,(*Optimize.get_indexed)(v7248)));
           for (START(v7249_support); NEXT(v7249);)
-          { ClaireBoolean * g0058I;
-            { OID  v6211;
+          { ClaireBoolean * g0060I;
+            { OID  v11930;
               { OID gc_local;
                 ITERATE(v11592);
-                v6211= _oid_(CFALSE);
+                v11930= _oid_(CFALSE);
                 for (START(OBJECT(ClaireClass,v7248)->superclass->slots); NEXT(v11592);)
                 if (_I_equal_any(_oid_(OBJECT(restriction,v11592)->selector),_oid_(OBJECT(restriction,v7249)->selector)) != CTRUE)
-                 { v6211 = Kernel.ctrue;
+                 { v11930 = Kernel.ctrue;
                   break;} 
                 } 
-              g0058I = not_any(v6211);
+              g0060I = not_any(v11930);
               } 
             
-            if (g0058I == CTRUE) { breakline_void();
+            if (g0060I == CTRUE) { breakline_void();
                 princ_string("   ");
                 (*Generate.interface_I)(Generate.PRODUCER->value,
                   _oid_(psort_any(_oid_(OBJECT(restriction,v7249)->range))));
@@ -504,10 +504,10 @@ void  global_var_def_I_c_producer(Generate_c_producer *v7227,module *v1140,Let *
       else if ((INHERIT(OWNER(v8966),Language._Call)) || 
           (INHERIT(OWNER(v8966),Language._Call_method)))
        v2249 = (*(OBJECT(bag,(*Core.args)(v8966))))[5];
-      else { OID  v8404;close_exception(((general_error *) (*Core._general_error)(_string_("Design bug: make ~S a public global var !"),
+      else { OID  v8406;close_exception(((general_error *) (*Core._general_error)(_string_("Design bug: make ~S a public global var !"),
             _oid_(list::alloc(1,_oid_(v11997))))));
           
-          v2249=_void_(v8404);} 
+          v2249=_void_(v8406);} 
         GC_OID(v2249);} 
     ClaireBoolean * v7226 = c_func_any(v2249);
     Variable * v4936 = GC_OBJECT(Variable,build_Variable_string("V_C",_oid_(Kernel._any)));
@@ -594,23 +594,23 @@ OID  gc_usage_any(OID v1140,ClaireBoolean *v15308)
        Result = gc_or_any(GC_OID(gc_usage_any(GC_OID(OBJECT(Iteration,v1140)->set_arg),v15308)),GC_OID(gc_usage_any(GC_OID(OBJECT(Iteration,v1140)->arg),CTRUE)));
       else if (INHERIT(OBJECT(ClaireObject,v1140)->isa,Language._Let))
        { OID  v7248 = GC_OID(OBJECT(Let,v1140)->value);
-        { OID  v11930;
+        { OID  v13852;
           if ((v15308 == CTRUE) && 
               (INHERIT(OWNER(v7248),Optimize._to_protect)))
-           v11930 = OBJECT(Instruction_with_var,v1140)->var->index;
-          else v11930 = Kernel.cfalse;
-            Result = gc_or_any(v11930,gc_or_any(GC_OID(gc_usage_any(v7248,v15308)),GC_OID(gc_usage_any(GC_OID(OBJECT(Let,v1140)->arg),v15308))));
+           v13852 = OBJECT(Instruction_with_var,v1140)->var->index;
+          else v13852 = Kernel.cfalse;
+            Result = gc_or_any(v13852,gc_or_any(GC_OID(gc_usage_any(v7248,v15308)),GC_OID(gc_usage_any(GC_OID(OBJECT(Let,v1140)->arg),v15308))));
           } 
         } 
       else if (INHERIT(OBJECT(ClaireObject,v1140)->isa,Language._Assign))
        { OID  v7248 = GC_OID(OBJECT(Assign,v1140)->arg);
-        { OID  v12891;
+        { OID  v14813;
           { if ((v15308 == CTRUE) && 
                 (inner2outer_ask_any(v7248) == CTRUE))
-             v12891 = (*Kernel.index)(GC_OID(OBJECT(Assign,v1140)->var));
-            else v12891 = Kernel.cfalse;
-              GC_OID(v12891);} 
-          Result = gc_or_any(v12891,GC_OID(gc_usage_any(v7248,v15308)));
+             v14813 = (*Kernel.index)(GC_OID(OBJECT(Assign,v1140)->var));
+            else v14813 = Kernel.cfalse;
+              GC_OID(v14813);} 
+          Result = gc_or_any(v14813,GC_OID(gc_usage_any(v7248,v15308)));
           } 
         } 
       else if (INHERIT(OBJECT(ClaireObject,v1140)->isa,Optimize._to_protect))
@@ -837,12 +837,12 @@ void  generate_float_function_c_producer(Generate_c_producer *v7227,method *v723
         { v7248 = (*(v_list))[CLcount];
           { Variable * v2072 = ((Variable *) GC_OBJECT(Variable,new_object_class(Language._Variable)));
             (v2072->pname = gensym_void());
-            { Variable * v6783 = v2072; 
-              ClaireType * v6784;
+            { Variable * v6785 = v2072; 
+              ClaireType * v6786;
               if (v7248 == _oid_(Kernel._float))
-               v6784 = Kernel._any;
-              else v6784 = OBJECT(ClaireType,v7248);
-                (v6783->range = v6784);} 
+               v6786 = Kernel._any;
+              else v6786 = OBJECT(ClaireType,v7248);
+                (v6785->range = v6786);} 
             add_I_property(Kernel.instances,Language._Variable,11,_oid_(v2072));
             v_val = _oid_(v2072);
             } 
@@ -873,9 +873,9 @@ void  generate_float_function_c_producer(Generate_c_producer *v7227,method *v723
     c_princ_function(OBJECT(ClaireFunction,(*Optimize.functional_I)(_oid_(v7237))));
     princ_string("(");
     { int  v7233 = 1;
-      int  v6782 = v7239;
+      int  v6784 = v7239;
       { OID gc_local;
-        while ((v7233 <= v6782))
+        while ((v7233 <= v6784))
         { if (v7233 != 1)
            princ_string(",");
           if ((*(v7237->domain))[v7233] == _oid_(Kernel._float))
@@ -944,9 +944,9 @@ void  generate_tuple_function_c_producer(Generate_c_producer *v7227,method *v723
     c_princ_function(OBJECT(ClaireFunction,(*Optimize.functional_I)(_oid_(v7237))));
     princ_string("(");
     { int  v7233 = 1;
-      int  v6786 = v7239;
+      int  v6808 = v7239;
       { OID gc_local;
-        while ((v7233 <= v6786))
+        while ((v7233 <= v6808))
         { if (v7233 != 1)
            princ_string(",");
           expression_Variable(OBJECT(Variable,(*(v11442))[v7233]),Core.nil->value);
@@ -1199,25 +1199,25 @@ void  equal_exp_c_producer(Generate_c_producer *v7227,OID v11032,ClaireBoolean *
     v3475,
     GC_OID((*Kernel.arg)(v11033)),
     v7260);
-  else { ClaireBoolean * g0070I;
+  else { ClaireBoolean * g0072I;
     { ClaireBoolean *v_and;
       { v_and = (((*Optimize.c_sort)(v11032) == _oid_(Kernel._string)) ? CTRUE : CFALSE);
-        if (v_and == CFALSE) g0070I =CFALSE; 
+        if (v_and == CFALSE) g0072I =CFALSE; 
         else { v_and = (((*Optimize.c_sort)(v11033) == _oid_(Kernel._string)) ? CTRUE : CFALSE);
-          if (v_and == CFALSE) g0070I =CFALSE; 
-          else { { OID  v8953;
+          if (v_and == CFALSE) g0072I =CFALSE; 
+          else { { OID  v10875;
               if (INHERIT(OWNER(v11033),Optimize._to_C))
-               v8953 = ((OBJECT(Compile_to_C,v11033)->arg == CNULL) ? Kernel.ctrue : Kernel.cfalse);
-              else v8953 = Kernel.cfalse;
-                v_and = not_any(v8953);
+               v10875 = ((OBJECT(Compile_to_C,v11033)->arg == CNULL) ? Kernel.ctrue : Kernel.cfalse);
+              else v10875 = Kernel.cfalse;
+                v_and = not_any(v10875);
               } 
-            if (v_and == CFALSE) g0070I =CFALSE; 
-            else g0070I = CTRUE;} 
+            if (v_and == CFALSE) g0072I =CFALSE; 
+            else g0072I = CTRUE;} 
           } 
         } 
       } 
     
-    if (g0070I == CTRUE) { princ_string("(equal_string(");
+    if (g0072I == CTRUE) { princ_string("(equal_string(");
         (*Generate.expression)(v11032,
           Core.nil->value);
         princ_string(",");
@@ -1550,11 +1550,11 @@ void  create_load_modules_string(char *v1140,ClairePort *v7240,list *v10516,OID 
       } 
     } 
   princ_string("ClEnv->module_I = ");
-  { OID  v10875;
+  { OID  v12797;
     if (INHERIT(OWNER(v7237),Kernel._module))
-     v10875 = v7237;
-    else v10875 = _oid_(claire.it);
-      (*Generate.expression)(v10875,
+     v12797 = v7237;
+    else v12797 = _oid_(claire.it);
+      (*Generate.expression)(v12797,
       Core.nil->value);
     } 
   princ_string("; ");

@@ -81,7 +81,8 @@ c_gc?(self:to_protect) : boolean -> false
 
 c_type(self:Return) : type -> any
 c_code(self:Return) : any
-  -> Return(arg = c_code(self.arg , any))
+  ->  (OPT.loop_gc := false,             // v3.3.36: LOOP_GC optimization is unsafe in the presence of a break :-(
+       Return(arg = c_code(self.arg , any)))
 
 // optimisation of exception handlers
 [c_type(self:Handle) : type -> (c_type(self.arg) U c_type(self.other))]

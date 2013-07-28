@@ -418,9 +418,10 @@ uniform(x:restriction) : boolean
        forall(r in x.selector.restrictions |
          let l2 := r.domain in
            (l[1] % class & length(l2) = n &
-            (forall(i in (2 .. n) | (l[i] = l2[i] |                   // v3.3.34
-                                     (owner(l[i]) != class &          // introduce a protected call to =type !
-                                       owner(l2[i]) = owner(l2[i]) & l[i] =type? l2[i]))))))          
+            (forall(i in (2 .. n) | 
+                    (l[i] = l2[i] |                   // v3.3.34
+                     (owner(l[i]) != class &          // introduce a protected call to =type !
+                      owner(l[i]) = owner(l2[i]) & l[i] =type? l2[i]))))))    // v3.3.36      
 
 // v3.0.54 check that a uniform property only uses methods !
 uniform(p:property) : boolean

@@ -25,7 +25,7 @@
 #include <time.h>
 #endif
 #ifdef CLUNIX
-#define CLFLPAR 1               // LINUX requires this flag: cf clReflect.cpp
+// #define CLFLPAR 1               // LINUX requires this flag: cf clReflect.cpp
 #include <time.h>               // with LINUX, #include <time.h> works  ...
 // #include <sys/types.h>       // ... but on some other UNIX OSs it does not !!!!
 // #include <sys/times.h>       // this may prove useful

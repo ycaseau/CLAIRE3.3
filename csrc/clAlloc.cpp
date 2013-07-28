@@ -205,11 +205,10 @@ int ClaireAllocation::newLong(int n)
 ClaireAny *ClaireAllocation::makeStatic(int n)
 {return (ClaireAny *) &Cmemory[newLong(((n < OPTIMIZE) ? OPTIMIZE : n)) + 1];}
 
-
 // allocator for our own use
 ClaireAny *ClaireAllocation::makeAny(int n)
 {int m = ((n < OPTIMIZE) ? newShort(n) : newChunk(n));
-// if (ClEnv->verbose > 13) printf("ClAlloc::makeAny(%d) -> %x (ADR = %d) \n",n, ((int *) &Cmemory[m + 1]), m);
+ // if (ALTALK > 0) printf("ClAlloc::makeAny(%d) -> %x (ADR = %d) \n",n, ((int *) &Cmemory[m + 1]), m);
  return (ClaireAny *) &Cmemory[m + 1];
 }
 // return (ClaireAny *) &Cmemory[1 + ((n < OPTIMIZE) ? newShort(n) : newChunk(n))];}
@@ -400,7 +399,7 @@ void ClaireAllocation::gc(char *cause)
  if (probe != NULL) {printf("--- the probe is %d -> adr = %d ----\n",probe,getADR(probe));
                      printf("*[O] = %d, 1:%d, 2:%d\n",probe[1],probe[2],probe[3]);}
  // use_as_output_port(p);
- if (ClEnv->verbose > 0 || (numGC % 10) == 0)
+ if (ClEnv->verbose > 0 || (numGC % 10) == 0 || 1 == 1)
     {princ_string(cause); princ_string(" ["); princ_integer(numGC);
      if (statusGC == 2) princ_string("] not enough memory !\n");        // v3.2.34
      else princ_string("] Garbage Collection ... \n");}
@@ -436,7 +435,8 @@ void ClaireAllocation::markStack()
 {int i;
  if (currentNew != NULL)
     {OID n = _oid_(currentNew);
-        if (SIZE(n) > 0) MARKCELL(ADR(n)); }
+        if (SIZE(n) > 0 && !INHERIT(OWNER(n),Kernel._class))  // v3.3.38: Things must be protected properly
+           MARKCELL(ADR(n)); }
  for (i=0; i < ClEnv->index; i++) mark(ClEnv->stack[i]);
  for (i=1; i < index; i++)
     {if ((int) gcStack[i] > (int) &Cmemory) mark(_oid_(gcStack[i]));}
@@ -456,7 +456,7 @@ void ClaireAllocation::markPushed(int i)
 // marks anything seen (an OID)
 // note: MARKCELL mark the cell
 void ClaireAllocation::mark(OID n)
-{if (CTAG(n) == OBJ_CODE)
+{ if (CTAG(n) == OBJ_CODE)
     {if (SIZE(n) > 0)
         {MARKCELL(ADR(n));
          if (ClEnv->index >= maxStack) Cerror(-1,(int) "Stack overflow during gc",0);
@@ -632,7 +632,7 @@ void claire_gc() {ClAlloc->gc("call");}
 
 // the gcStack now contains pointers to objects/primitive
 // this function version is necessary for windows
-ClaireObject *GC_OBJ_F(ClaireObject *x)
+ClaireAny *GC_OBJ_F(ClaireAny *x)                          // v3.3.36 (larger domain)
 {ClAlloc->gcStack[ClAlloc->index++] = x; return x;}
 
 // push an OID on the GC stack 

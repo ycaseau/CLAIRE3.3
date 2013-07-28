@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\pretty.cl 
-         [version 3.3.34 / safety 5] Sun Mar 07 10:46:32 2004 *****/
+         [version 3.3.38 / safety 5] Sat Oct 09 17:37:18 2004 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -22,10 +22,10 @@
 /* The c++ function for: no_eval(self:Instruction) [SAFE_RESULT] */
 OID  no_eval_Instruction(Instruction *self)
 { { OID Result = 0;
-    { OID  V_CL0000;close_exception(((general_error *) (*Core._general_error)(_string_("[144] evaluate(~S) is not defined"),
+    { OID  V_CL0002;close_exception(((general_error *) (*Core._general_error)(_string_("[144] evaluate(~S) is not defined"),
         _oid_(list::alloc(1,_oid_(OWNER(_oid_(self))))))));
       
-      Result=_void_(V_CL0000);} 
+      Result=_void_(V_CL0002);} 
     return (Result);} 
   } 
 
@@ -49,10 +49,10 @@ OID  self_eval_unbound_symbol(unbound_symbol *self)
 { { OID Result = 0;
     if (INHERIT(owner_any(get_symbol(self->name)),Kernel._thing))
      Result = eval_any(get_symbol(self->name));
-    else { OID  V_CL0001;close_exception(((general_error *) (*Core._general_error)(_string_("[145] the symbol ~A is unbound"),
+    else { OID  V_CL0003;close_exception(((general_error *) (*Core._general_error)(_string_("[145] the symbol ~A is unbound"),
           _oid_(list::alloc(1,_oid_(self->name))))));
         
-        Result=_void_(V_CL0001);} 
+        Result=_void_(V_CL0003);} 
       return (Result);} 
   } 
 
@@ -113,11 +113,11 @@ OID  write_value_Variable(Variable *self,OID val)
     if ((self->range == (NULL)) || 
         (belong_to(val,_oid_(self->range)) == CTRUE))
      Result = (ClEnv->stack[(ClEnv->base+self->index)]=val);
-    else { OID  V_CL0002;close_exception(((range_error *) (*Core._range_error)(_oid_(self),
+    else { OID  V_CL0004;close_exception(((range_error *) (*Core._range_error)(_oid_(self),
           val,
           _oid_(self->range))));
         
-        Result=_void_(V_CL0002);} 
+        Result=_void_(V_CL0004);} 
       return (Result);} 
   } 
 
@@ -130,10 +130,10 @@ OID  self_eval_Vardef(Vardef *self)
     { OID  i = self->index;
       if (i != CNULL)
        Result = ClEnv->stack[(ClEnv->base+(i))];
-      else { OID  V_CL0003;close_exception(((general_error *) (*Core._general_error)(_string_("[146] The variable ~S is not defined"),
+      else { OID  V_CL0005;close_exception(((general_error *) (*Core._general_error)(_string_("[146] The variable ~S is not defined"),
             _oid_(list::alloc(1,_oid_(self))))));
           
-          Result=_void_(V_CL0003);} 
+          Result=_void_(V_CL0005);} 
         } 
     return (Result);} 
   } 
@@ -155,11 +155,11 @@ OID  write_value_global_variable(global_variable *self,OID val)
      { put_store_property2(Kernel.value,self,val,self->store_ask);
       Result = val;
       } 
-    else { OID  V_CL0004;close_exception(((range_error *) (*Core._range_error)(_oid_(self),
+    else { OID  V_CL0006;close_exception(((range_error *) (*Core._range_error)(_oid_(self),
           val,
           _oid_(self->range))));
         
-        Result=_void_(V_CL0004);} 
+        Result=_void_(V_CL0006);} 
       return (Result);} 
   } 
 
@@ -416,9 +416,9 @@ OID  lbreak_void()
         Result = indent_integer(Core.pretty->index);
         } 
       else if (buffer_length_void() > Core.pretty->width)
-       { OID  V_CL0006;close_exception((ClaireException *) new_object_class(Core._much_too_far));
+       { OID  V_CL0008;close_exception((ClaireException *) new_object_class(Core._much_too_far));
         
-        Result=_void_(V_CL0006);} 
+        Result=_void_(V_CL0008);} 
       else Result = Kernel.cfalse;
         } 
     else Result = Kernel.cfalse;
@@ -444,9 +444,9 @@ OID  checkfar_void()
     if ((Core.pretty->pprint == CTRUE) && 
         ((Core.pretty->pbreak != CTRUE) && 
           (buffer_length_void() > Core.pretty->width)))
-     { OID  V_CL0007;close_exception((ClaireException *) new_object_class(Core._much_too_far));
+     { OID  V_CL0009;close_exception((ClaireException *) new_object_class(Core._much_too_far));
       
-      Result=_void_(V_CL0007);} 
+      Result=_void_(V_CL0009);} 
     else Result = Kernel.cfalse;
       return (Result);} 
   } 

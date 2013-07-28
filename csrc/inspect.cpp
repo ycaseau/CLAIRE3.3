@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\inspect.cl 
-         [version 3.3.34 / safety 5] Sun Mar 07 10:46:35 2004 *****/
+         [version 3.3.38 / safety 5] Sat Oct 09 17:37:22 2004 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -40,9 +40,9 @@ OID  inspect_any(OID self)
       int  ix = 0;
       if (INHERIT(OWNER(self),Kernel._bag))
        { int  i = 1;
-        int  g0085 = OBJECT(bag,self)->length;
+        int  g0087 = OBJECT(bag,self)->length;
         { OID gc_local;
-          while ((i <= g0085))
+          while ((i <= g0087))
           { princ_integer(i);
             princ_string(": ");
             print_any((*(OBJECT(bag,self)))[i]);
@@ -71,22 +71,22 @@ OID  inspect_any(OID self)
               if (INHERIT(OWNER(val),Kernel._bag))
                { if (OBJECT(bag,val)->length < 10)
                  pretty_print_any(val);
-                else { { OID  g0087UU;
-                      { list * V_CL0088;{ list * i_bag = list::empty(Kernel.emptySet);
+                else { { OID  g0089UU;
+                      { list * V_CL0090;{ list * i_bag = list::empty(Kernel.emptySet);
                           { int  i = 1;
-                            int  g0086 = 9;
+                            int  g0088 = 9;
                             { OID gc_local;
-                              while ((i <= g0086))
+                              while ((i <= g0088))
                               { i_bag->addFast((*(OBJECT(bag,val)))[i]);
                                 ++i;
                                 } 
                               } 
                             } 
-                          V_CL0088 = GC_OBJECT(list,i_bag);
+                          V_CL0090 = GC_OBJECT(list,i_bag);
                           } 
                         
-                        g0087UU=_oid_(V_CL0088);} 
-                      pretty_print_any(g0087UU);
+                        g0089UU=_oid_(V_CL0090);} 
+                      pretty_print_any(g0089UU);
                       } 
                     pretty_print_any(_string_("..."));
                     } 
@@ -279,22 +279,20 @@ void  spy_listargs2_Reader(listargs *l)
         Kernel._object,
         m,
         CFALSE);
-      { OID gc_local;
-        ITERATE(g0089);
-        bag *g0089_support;
-        g0089_support = Kernel._property->descendents;
-        for (START(g0089_support); NEXT(g0089);)
-        { ClaireBoolean * g0090;
-          { OID V_C;{ OID gc_local;
-              ITERATE(f);
+      { ITERATE(g0091);
+        bag *g0091_support;
+        g0091_support = Kernel._property->descendents;
+        for (START(g0091_support); NEXT(g0091);)
+        { ClaireBoolean * g0092;
+          { OID V_C;{ ITERATE(f);
               V_C= _oid_(CFALSE);
-              for (START(OBJECT(ClaireClass,g0089)->instances); NEXT(f);)
+              for (START(OBJECT(ClaireClass,g0091)->instances); NEXT(f);)
               if (l->memq(f) == CTRUE)
                (OBJECT(ClaireRelation,f)->if_write = Core.nil->value);
               } 
             
-            g0090=OBJECT(ClaireBoolean,V_C);} 
-          if (g0090 == CTRUE)
+            g0092=OBJECT(ClaireBoolean,V_C);} 
+          if (g0092 == CTRUE)
            { ;break;} 
           } 
         } 
@@ -449,9 +447,9 @@ void  breakpoint_void()
       princ_string("(");
       print_any(GC_OID(ClEnv->stack[start]));
       { int  i = (start+1);
-        int  g0092 = (start+num_args);
+        int  g0094 = (start+num_args);
         { OID gc_local;
-          while ((i <= g0092))
+          while ((i <= g0094))
           { GC_LOOP;
             princ_string(",");
             print_any(GC_OID(ClEnv->stack[i]));
@@ -554,9 +552,9 @@ void  print_debug_info_integer(int index,int stack_level,int cur_index)
     princ_integer((cur_index+stack_level));
     princ_string("]>");
     { int  x = 1;
-      int  g0093 = stack_level;
+      int  g0095 = stack_level;
       { OID gc_local;
-        while ((x <= g0093))
+        while ((x <= g0095))
         { princ_string(">");
           ++x;
           } 
@@ -567,9 +565,9 @@ void  print_debug_info_integer(int index,int stack_level,int cur_index)
     princ_string("(");
     print_any(GC_OID(ClEnv->stack[start]));
     { int  i = (start+1);
-      int  g0094 = (start+num_args);
+      int  g0096 = (start+num_args);
       { OID gc_local;
-        while ((i <= g0094))
+        while ((i <= g0096))
         { GC_LOOP;
           princ_string(",");
           print_any(GC_OID(ClEnv->stack[i]));
@@ -606,9 +604,9 @@ OID  Show_integer(int n)
             print_any(num_args);
             princ_string(" \n");
             { int  j = 0;
-              int  g0095 = num_args;
+              int  g0097 = num_args;
               { OID gc_local;
-                while ((j <= g0095))
+                while ((j <= g0097))
                 { GC_LOOP;
                   princ_string("  [");
                   princ_integer((j+i));
@@ -897,52 +895,57 @@ int  PRcounter_property(property *p)
 // show the profiler statistics on the 10 most important properties
 /* The c++ function for: PRshow(_CL_obj:void) [NEW_ALLOC+BAG_UPDATE] */
 void  PRshow_void()
-{ { list * l = list::empty(Kernel._property);
+{ GC_RESERVE(1);  // HOHO v3.0.55 optim !
+  { list * l = list::empty(Kernel._property);
     { OID gc_local;
-      ITERATE(g0096);
-      bag *g0096_support;
-      g0096_support = Kernel._property->descendents;
-      for (START(g0096_support); NEXT(g0096);)
-      { ClaireBoolean * g0097;
-        { OID V_C;{ OID gc_local;
-            ITERATE(p);
-            V_C= _oid_(CFALSE);
-            for (START(OBJECT(ClaireClass,g0096)->instances); NEXT(p);)
-            { ClaireBoolean * g0099I;
-              { OID  g0100UU;
-                { int  i = 1;
-                  int  g0098 = min_integer(10,l->length);
-                  { OID gc_local;
-                    g0100UU= _oid_(CFALSE);
-                    while ((i <= g0098))
-                    { { ClaireBoolean * g0101I;
-                        if ((PRtime_property(OBJECT(property,p)) > PRtime_property(OBJECT(property,(*(l))[i]))) || 
-                            ((PRtime_property(OBJECT(property,p)) == PRtime_property(OBJECT(property,(*(l))[i]))) && 
-                                (PRcounter_property(OBJECT(property,p)) > PRcounter_property(OBJECT(property,(*(l))[i])))))
-                         { l= add_at_list(l,i,p);
-                          g0101I = CTRUE;
+      ITERATE(g0098);
+      bag *g0098_support;
+      g0098_support = Kernel._property->descendents;
+      for (START(g0098_support); NEXT(g0098);)
+      { GC_LOOP;
+        { ClaireBoolean * g0099;
+          { OID V_C;{ OID gc_local;
+              ITERATE(p);
+              V_C= _oid_(CFALSE);
+              for (START(OBJECT(ClaireClass,g0098)->instances); NEXT(p);)
+              { GC_LOOP;
+                { ClaireBoolean * g0101I;
+                  { OID  g0102UU;
+                    { int  i = 1;
+                      int  g0100 = min_integer(10,l->length);
+                      { OID gc_local;
+                        g0102UU= _oid_(CFALSE);
+                        while ((i <= g0100))
+                        { { ClaireBoolean * g0103I;
+                            if ((PRtime_property(OBJECT(property,p)) > PRtime_property(OBJECT(property,(*(l))[i]))) || 
+                                ((PRtime_property(OBJECT(property,p)) == PRtime_property(OBJECT(property,(*(l))[i]))) && 
+                                    (PRcounter_property(OBJECT(property,p)) > PRcounter_property(OBJECT(property,(*(l))[i])))))
+                             { l= add_at_list(l,i,p);
+                              g0103I = CTRUE;
+                              } 
+                            else g0103I = CFALSE;
+                              
+                            if (g0103I == CTRUE) { g0102UU = Kernel.ctrue;
+                                break;} 
+                              } 
+                          ++i;
                           } 
-                        else g0101I = CFALSE;
-                          
-                        if (g0101I == CTRUE) { g0100UU = Kernel.ctrue;
-                            break;} 
-                          } 
-                      ++i;
+                        } 
                       } 
+                    g0101I = boolean_I_any(g0102UU);
                     } 
+                  
+                  if (g0101I == CTRUE) ;else if (l->length < 10)
+                   GC__ANY(l = l->addFast(p), 1);
                   } 
-                g0099I = boolean_I_any(g0100UU);
-                } 
-              
-              if (g0099I == CTRUE) ;else if (l->length < 10)
-               l= l->addFast(p);
+                GC_UNLOOP;} 
               } 
-            } 
-          
-          g0097=OBJECT(ClaireBoolean,V_C);} 
-        if (g0097 == CTRUE)
-         { ;break;} 
-        } 
+            
+            g0099=OBJECT(ClaireBoolean,V_C);} 
+          if (g0099 == CTRUE)
+           { ;break;} 
+          } 
+        GC_UNLOOP;} 
       } 
     shrink_list(l,10);
     { OID gc_local;
@@ -965,7 +968,7 @@ void  PRshow_void()
         } 
       } 
     } 
-  } 
+  GC_UNBIND;} 
 
 
 // reuse from lexical_build in pretty.cl
@@ -980,20 +983,20 @@ set * dependents_method(method *self)
         bag *p_support;
         p_support = GC_OBJECT(bag,enumerate_any(GC_OID((*Reader.dependents)(self->formula->body))));
         for (START(p_support); NEXT(p);)
-        { ClaireBoolean * g0102I;
-          { OID  g0103UU;
+        { ClaireBoolean * g0104I;
+          { OID  g0105UU;
             { OID gc_local;
               ITERATE(r);
-              g0103UU= _oid_(CFALSE);
+              g0105UU= _oid_(CFALSE);
               for (START(OBJECT(property,p)->restrictions); NEXT(r);)
               if (Kernel._method == OBJECT(ClaireObject,r)->isa)
-               { g0103UU = Kernel.ctrue;
+               { g0105UU = Kernel.ctrue;
                 break;} 
               } 
-            g0102I = boolean_I_any(g0103UU);
+            g0104I = boolean_I_any(g0105UU);
             } 
           
-          if (g0102I == CTRUE) p_out->addFast(p);
+          if (g0104I == CTRUE) p_out->addFast(p);
             } 
         } 
       Result = GC_OBJECT(set,p_out);

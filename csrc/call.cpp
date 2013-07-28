@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\call.cl 
-         [version 3.3.34 / safety 5] Sun Mar 07 10:46:33 2004 *****/
+         [version 3.3.38 / safety 5] Sat Oct 09 17:37:18 2004 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -83,15 +83,15 @@ void  self_print_Call_Language(Call *self)
         print_any((*(_Za))[4]);
         princ_string("");
         } 
-      else { ClaireBoolean * g0012I;
-        { OID  g0013UU;
+      else { ClaireBoolean * g0014I;
+        { OID  g0015UU;
           if (INHERIT(OWNER(a),Language._Call))
-           g0013UU = (*(OBJECT(Call,a)->args))[1];
-          else g0013UU = Kernel.cfalse;
-            g0012I = sugar_ask_any((*(_Za))[1],(*(_Za))[2],o,g0013UU);
+           g0015UU = (*(OBJECT(Call,a)->args))[1];
+          else g0015UU = Kernel.cfalse;
+            g0014I = sugar_ask_any((*(_Za))[1],(*(_Za))[2],o,g0015UU);
           } 
         
-        if (g0012I == CTRUE) { print_any((*(_Za))[1]);
+        if (g0014I == CTRUE) { print_any((*(_Za))[1]);
             princ_string("[");
             print_any((*(_Za))[2]);
             princ_string("] :");
@@ -118,15 +118,15 @@ void  self_print_Call_Language(Call *self)
       if (INHERIT(OWNER(a),Language._Call))
        o = _oid_(OBJECT(Call,a)->selector);
       else o = Kernel.cfalse;
-        { ClaireBoolean * g0014I;
-        { OID  g0015UU;
+        { ClaireBoolean * g0016I;
+        { OID  g0017UU;
           if (INHERIT(OWNER(a),Language._Call))
-           g0015UU = (*(OBJECT(Call,a)->args))[1];
-          else g0015UU = Kernel.cfalse;
-            g0014I = sugar_ask_any((*(_Za))[1],(*(_Za))[2],o,g0015UU);
+           g0017UU = (*(OBJECT(Call,a)->args))[1];
+          else g0017UU = Kernel.cfalse;
+            g0016I = sugar_ask_any((*(_Za))[1],(*(_Za))[2],o,g0017UU);
           } 
         
-        if (g0014I == CTRUE) { print_any((*(_Za))[1]);
+        if (g0016I == CTRUE) { print_any((*(_Za))[1]);
             princ_string("(");
             print_any((*(_Za))[2]);
             princ_string(") :");
@@ -225,10 +225,10 @@ OID  self_eval_Call_plus(Call_plus *self)
       OID  x = GC_OID(OPT_EVAL((*(self->args))[1]));
       ClaireObject * s = GC_OBJECT(ClaireObject,_at_property1(p,OWNER(x)));
       if (equal(_oid_(OWNER(_oid_(s))),_oid_(Kernel._slot)) != CTRUE)
-       { OID  V_CL0016;close_exception(((selector_error *) (*Core._selector_error)(_oid_(p),
+       { OID  V_CL0018;close_exception(((selector_error *) (*Core._selector_error)(_oid_(p),
           _oid_(list::alloc(1,x)))));
         
-        Result=_void_(V_CL0016);} 
+        Result=_void_(V_CL0018);} 
       else { OID  z = slot_get_object(OBJECT(ClaireObject,x),CLREAD(slot,s,index),CLREAD(slot,s,srange));
           if ((z != CNULL) || 
               (belong_to(z,(*Kernel.range)(_oid_(s))) == CTRUE))
@@ -248,10 +248,10 @@ OID  self_eval_Call_plus(Call_plus *self)
               } 
             Result = z;
             } 
-          else { OID  V_CL0017;close_exception(((read_slot_error *) (*Core._read_slot_error)(x,
+          else { OID  V_CL0019;close_exception(((read_slot_error *) (*Core._read_slot_error)(x,
                 _oid_(p))));
               
-              Result=_void_(V_CL0017);} 
+              Result=_void_(V_CL0019);} 
             } 
         } 
     GC_UNBIND; return (Result);} 
@@ -311,15 +311,15 @@ void  self_print_Assign_Language(Assign *self)
     if (INHERIT(OWNER(a),Language._Call))
      o = _oid_(OBJECT(Call,a)->selector);
     else o = Kernel.cfalse;
-      { ClaireBoolean * g0019I;
-      { OID  g0020UU;
+      { ClaireBoolean * g0021I;
+      { OID  g0022UU;
         if (INHERIT(OWNER(a),Language._Call))
-         g0020UU = (*(OBJECT(Call,a)->args))[1];
-        else g0020UU = Kernel.cfalse;
-          g0019I = sugar_ask_any(self->var,_oid_(Kernel.emptySet),o,g0020UU);
+         g0022UU = (*(OBJECT(Call,a)->args))[1];
+        else g0022UU = Kernel.cfalse;
+          g0021I = sugar_ask_any(self->var,_oid_(Kernel.emptySet),o,g0022UU);
         } 
       
-      if (g0019I == CTRUE) { print_any(GC_OID(self->var));
+      if (g0021I == CTRUE) { print_any(GC_OID(self->var));
           princ_string(" :");
           print_any(o);
           princ_string(" ");
@@ -345,10 +345,10 @@ OID  self_eval_Assign(Assign *self)
   { OID Result = 0;
     if (INHERIT(OWNER(self->var),Language._Variable))
      Result = write_value_Variable(GC_OBJECT(Variable,OBJECT(Variable,self->var)),GC_OID(OPT_EVAL(self->arg)));
-    else { OID  V_CL0021;close_exception(((general_error *) (*Core._general_error)(_string_("[101] ~S is not a variable"),
+    else { OID  V_CL0023;close_exception(((general_error *) (*Core._general_error)(_string_("[101] ~S is not a variable"),
           _oid_(list::alloc(1,self->var)))));
         
-        Result=_void_(V_CL0021);} 
+        Result=_void_(V_CL0023);} 
       GC_UNBIND; return (Result);} 
   } 
 
@@ -363,15 +363,15 @@ void  self_print_Gassign_Language(Gassign *self)
     if (INHERIT(OWNER(a),Language._Call))
      o = _oid_(OBJECT(Call,a)->selector);
     else o = Kernel.cfalse;
-      { ClaireBoolean * g0023I;
-      { OID  g0024UU;
+      { ClaireBoolean * g0025I;
+      { OID  g0026UU;
         if (INHERIT(OWNER(a),Language._Call))
-         g0024UU = (*(OBJECT(Call,a)->args))[1];
-        else g0024UU = Kernel.cfalse;
-          g0023I = sugar_ask_any(_oid_(self->var),_oid_(Kernel.emptySet),o,g0024UU);
+         g0026UU = (*(OBJECT(Call,a)->args))[1];
+        else g0026UU = Kernel.cfalse;
+          g0025I = sugar_ask_any(_oid_(self->var),_oid_(Kernel.emptySet),o,g0026UU);
         } 
       
-      if (g0023I == CTRUE) { print_any(_oid_(self->var));
+      if (g0025I == CTRUE) { print_any(_oid_(self->var));
           princ_string(" :");
           print_any(o);
           princ_string(" ");
@@ -418,19 +418,19 @@ void  self_print_And_Language(And *self)
 OID  self_eval_And(And *self)
 { GC_BIND;
   { OID Result = 0;
-    { ClaireBoolean * V_CL0025;{ OID  g0026UU;
+    { ClaireBoolean * V_CL0027;{ OID  g0028UU;
         { OID gc_local;
           ITERATE(x);
-          g0026UU= _oid_(CFALSE);
+          g0028UU= _oid_(CFALSE);
           for (START(self->args); NEXT(x);)
           if (boolean_I_any(OPT_EVAL(x)) != CTRUE)
-           { g0026UU = Kernel.ctrue;
+           { g0028UU = Kernel.ctrue;
             break;} 
           } 
-        V_CL0025 = not_any(g0026UU);
+        V_CL0027 = not_any(g0028UU);
         } 
       
-      Result=_oid_(V_CL0025);} 
+      Result=_oid_(V_CL0027);} 
     GC_UNBIND; return (Result);} 
   } 
 
@@ -450,7 +450,7 @@ void  self_print_Or_Language(Or *self)
 OID  self_eval_Or(Or *self)
 { GC_BIND;
   { OID Result = 0;
-    { ClaireBoolean * g0027I;
+    { ClaireBoolean * g0029I;
       { OID V_C;{ OID gc_local;
           ITERATE(x);
           V_C= _oid_(CFALSE);
@@ -460,9 +460,9 @@ OID  self_eval_Or(Or *self)
             break;} 
           } 
         
-        g0027I=OBJECT(ClaireBoolean,V_C);} 
+        g0029I=OBJECT(ClaireBoolean,V_C);} 
       
-      if (g0027I == CTRUE) Result = Kernel.ctrue;
+      if (g0029I == CTRUE) Result = Kernel.ctrue;
         else Result = Kernel.cfalse;
       } 
     GC_UNBIND; return (Result);} 
@@ -748,9 +748,9 @@ void  self_print_Return_Language(Return *self)
 OID  self_eval_Return(Return *self)
 { GC_BIND;
   { OID Result = 0;
-    { OID  V_CL0030;close_exception(((return_error *) (*Core._return_error)(GC_OID(OPT_EVAL(self->arg)))));
+    { OID  V_CL0032;close_exception(((return_error *) (*Core._return_error)(GC_OID(OPT_EVAL(self->arg)))));
       
-      Result=_void_(V_CL0030);} 
+      Result=_void_(V_CL0032);} 
     GC_UNBIND; return (Result);} 
   } 
 
@@ -769,9 +769,9 @@ OID  substitution_any(OID self,Variable *x,OID val)
         } 
     else if (INHERIT(OWNER(self),Kernel._bag))
      { { int  i = 1;
-        int  g0031 = OBJECT(bag,self)->length;
+        int  g0033 = OBJECT(bag,self)->length;
         { OID gc_local;
-          while ((i <= g0031))
+          while ((i <= g0033))
           { if ((INHERIT(OWNER((*(OBJECT(bag,self)))[i]),Language._Variable)) || 
                 (INHERIT(OWNER((*(OBJECT(bag,self)))[i]),Kernel._unbound_symbol)))
              ((*(OBJECT(list,self)))[i]=substitution_any((*(OBJECT(bag,self)))[i],x,val));
@@ -819,9 +819,9 @@ int  occurrence_any(OID self,Variable *x)
     else if (INHERIT(OWNER(self),Kernel._bag))
      { int  n = 0;
       { int  i = 1;
-        int  g0032 = OBJECT(bag,self)->length;
+        int  g0034 = OBJECT(bag,self)->length;
         { OID gc_local;
-          while ((i <= g0032))
+          while ((i <= g0034))
           { n= (n+occurrence_any((*(OBJECT(bag,self)))[i],x));
             ++i;
             } 
@@ -859,9 +859,9 @@ OID  instruction_copy_any(OID self)
     if (INHERIT(OWNER(self),Kernel._bag))
      { bag * l = copy_bag(OBJECT(bag,self));
       { int  i = 1;
-        int  g0033 = OBJECT(bag,self)->length;
+        int  g0035 = OBJECT(bag,self)->length;
         { OID gc_local;
-          while ((i <= g0033))
+          while ((i <= g0035))
           { ((*(((list *) l)))[i]=instruction_copy_any((*(OBJECT(bag,self)))[i]));
             ++i;
             } 
