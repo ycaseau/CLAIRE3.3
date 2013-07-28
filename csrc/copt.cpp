@@ -1,5 +1,5 @@
-/***** CLAIRE Compilation of file c:\claire\v3.3\src\compile\copt.cl 
-         [version 3.3.4 / safety 5] Sat Oct 16 06:53:39 2004 *****/
+/***** CLAIRE Compilation of file d:\claire\v3.3\src\compile\copt.cl 
+         [version 3.3.42 / safety 5] Sat Jan 28 08:50:24 2006 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -478,7 +478,7 @@ void  inline_exp_c_producer5(Generate_c_producer *v7227,Call *v1140,OID v15308)
       (*Generate.expression)(v11032,
         v15308);
       princ_string(")(");
-      args_list_bag(GC_OBJECT(list,cdr_list(GC_OBJECT(list,v1140->args))),v15308,_sup_integer(v1140->args->length,2));
+      args_list_bag(GC_OBJECT(list,cdr_list(v1140->args)),v15308,_sup_integer(v1140->args->length,2));
       princ_string("))");
       } 
     else if ((OBJECT(ClaireBoolean,(*Generate.fcall_ask)(_oid_(v1140)))) == CTRUE)
@@ -558,7 +558,7 @@ ClaireBoolean * fcall_ask_Call2_Generate(Call *v7248)
       { ClaireBoolean *v_and;
         { v_and = ((designated_ask_any(v11032) == CTRUE) ? CTRUE : ((v7240->dispatcher > 0) ? CTRUE : CFALSE));
           if (v_and == CFALSE) Result =CFALSE; 
-          else { { list * v7236 = GC_OBJECT(list,cdr_list(GC_OBJECT(list,v7248->args)));
+          else { { list * v7236 = GC_OBJECT(list,cdr_list(v7248->args));
               ClaireType * v9399 = Kernel.emptySet;
               list * v11440;
               { { bag *v_list; OID v_val;
@@ -584,7 +584,7 @@ ClaireBoolean * fcall_ask_Call2_Generate(Call *v7248)
                         else { { OID  v6937;
                             { OID gc_local;
                               ITERATE(v7237);
-                              v6937= _oid_(CFALSE);
+                              v6937= Kernel.cfalse;
                               for (START(v11438); NEXT(v7237);)
                               if (not_any(_oid_(nth_integer(status_I_restriction(OBJECT(restriction,v7237)),1))) != CTRUE)
                                { v6937 = Kernel.ctrue;
@@ -611,7 +611,7 @@ ClaireBoolean * fcall_ask_Call2_Generate(Call *v7248)
               { OID  v7898;
                 { OID gc_local;
                   ITERATE(v7242);
-                  v7898= _oid_(CFALSE);
+                  v7898= Kernel.cfalse;
                   for (START(v11438); NEXT(v7242);)
                   { GC_LOOP;
                     { ClaireBoolean * g0084I;
@@ -1182,7 +1182,7 @@ void  stat_construct_c_producer(Generate_c_producer *v7227,Construct *v1140,OID 
       { OID  v2999;
         { OID gc_local;
           ITERATE(v7248);
-          v2999= _oid_(CFALSE);
+          v2999= Kernel.cfalse;
           bag *v7248_support;
           v7248_support = GC_OBJECT(list,v1140->args);
           for (START(v7248_support); NEXT(v7248);)
@@ -1355,7 +1355,7 @@ void  stat_for_c_producer(Generate_c_producer *v7227,For *v1140,OID v7243,OID v1
     if (Kernel._string == OWNER(v7243))
      { breakline_void();
       (*Kernel.c_princ)(v7243);
-      princ_string("= _oid_(CFALSE);");
+      princ_string("= Kernel.cfalse;");
       } 
     breakline_void();
     if ((c_func_any(GC_OID(v1140->set_arg)) == CTRUE) && 

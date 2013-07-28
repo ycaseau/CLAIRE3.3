@@ -1,3 +1,13 @@
+/** @package 
+
+        clPort.cpp
+        
+        Copyright(c) self 2000
+        
+        Author: YVES CASEAU
+        Created: YC  23/01/2006 06:32:52
+	Last change: YC 24/01/2006 05:55:31
+*/
 /***********************************************************************/
 /**   microCLAIRE                                       Yves Caseau    */
 /**   clPort.cpp                                                       */
@@ -48,13 +58,20 @@ class CPFile: public ClairePort {
     virtual void put(char c)
       {  putc(c, value);};
     virtual void put(int n) {fprintf(value,"%d",n);};
-    virtual void put(double x) {fprintf(value,"%#0.20g",x);}          // v3.2.54 : regular
-    virtual void prettyp(double x)                                    // v3.2.54 : pretty
+    virtual void put(double x) {fprintf(value,"%#g",x);};          // v3.3.42 : regular -> back to normal
+    virtual void prettyp(double x)                               // v3.2.54 : pretty
      {double y = floor(x);
          if (x > CLMINFLOAT & x < CLMAXFLOAT & y == x) fprintf(value,"%#.1f",x); // v3.2.54 thanks to B Martin
          else if (y == 0.0 || ( (x - y) / y > 1e-5 && DECIMAL(x)))         // v3.2.54
-             fprintf(value,"%g",x);               // easy print is OK
-        else fprintf(value,"%#0.10g",x);}         // v3.2.24
+               fprintf(value,"%g",x);               // easy print is OK
+        else fprintf(value,"%#0.10g",x);};           // v3.2.24 : show 10 decimals
+    virtual void putFormat(double x,int i)          // v3.3.42 : print with a given number of decimals
+        {char fmt[9] = "%#0.99g";
+           if (i < 0 || i > 20) i =6;
+           sprintf(&fmt[4],"%dg",i);
+           if ( i > 9) fmt[8] = '\0';
+           else fmt[7] = '\0';
+           fprintf(value,fmt,x);};
     virtual void flush() {fflush(value);};
     virtual void pclose()
         {fclose(value);};
@@ -83,7 +100,7 @@ class CPStringOut: public ClairePort {
          for ( ;buffer[index] != '\0'; index++) ;
          if (index > MAXBUF)  Cerror(16,0,0);};
     virtual void put(double x)
-       {sprintf(&buffer[index],"%#0.20g",x);
+       {sprintf(&buffer[index],"%#g",x);                    // v3.3.42
         for ( ;buffer[index] != '\0'; index++) ;
         if (index > MAXBUF)  Cerror(16,0,0);};             // v3.2.26
     virtual void prettyp(double x)                         // v3.2.54   pretty-print
@@ -95,6 +112,14 @@ class CPStringOut: public ClairePort {
         else sprintf(&buffer[index],"%#0.10g",x);          // v3.2.54
         for ( ;buffer[index] != '\0'; index++) ;
         if (index > MAXBUF)  Cerror(16,0,0);};             // v3.2.26
+    virtual void putFormat(double x,int i)          // v3.3.42 : print with a given number of decimals
+        {char fmt[9] = "%#0.99g";
+           if (i < 0 || i > 20) i =6;               // i must be between 0 and 20
+           sprintf(&fmt[4],"%dg",i);
+           if ( i > 9) fmt[8] = '\0'; else fmt[7] = '\0';
+           sprintf(&buffer[index],fmt,x);
+           for ( ;buffer[index] != '\0'; index++) ;
+           if (index > MAXBUF)  Cerror(16,0,0);};
  };
 
 /* interface to the GUI
@@ -114,6 +139,7 @@ void ClairePort::put(char c) {}
 void ClairePort::put(int n) {}
 void ClairePort::put(double x) {}
 void ClairePort::prettyp(double x) {}
+void ClairePort::putFormat(double x, int n) {}
 void ClairePort::flush() {}
 void ClairePort::pclose() {}
 

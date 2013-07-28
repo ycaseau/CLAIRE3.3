@@ -1,5 +1,5 @@
-/***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\types.cl 
-         [version 3.3.4 / safety 5] Sat Oct 16 06:53:25 2004 *****/
+/***** CLAIRE Compilation of file d:\claire\v3.3\src\meta\types.cl 
+         [version 3.3.42 / safety 5] Sat Jan 28 08:50:12 2006 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -37,7 +37,7 @@ ClaireBoolean * finite_ask_type(ClaireType *self)
     else if (INHERIT(self->isa,Kernel._list))
      { OID  g0098UU;
       { ITERATE(t);
-        g0098UU= _oid_(CFALSE);
+        g0098UU= Kernel.cfalse;
         for (START(((bag *) self)); NEXT(t);)
         if ((*Core.finite_ask)(t) != Kernel.ctrue)
          { g0098UU = Kernel.ctrue;
@@ -110,7 +110,7 @@ ClaireBoolean * Ztype_any(OID x,OID y)
         (Kernel._set == OWNER(y)))
      { OID  g0099UU;
       { ITERATE(z);
-        g0099UU= _oid_(CFALSE);
+        g0099UU= Kernel.cfalse;
         for (START(OBJECT(set,y)); NEXT(z);)
         if (_equaltype_ask_any(OBJECT(ClaireType,x),OBJECT(ClaireType,z)) == CTRUE)
          { g0099UU = Kernel.ctrue;
@@ -346,7 +346,7 @@ ClaireBoolean * finite_ask_tuple(tuple *self)
 { { ClaireBoolean *Result ;
     { OID  g0101UU;
       { ITERATE(x);
-        g0101UU= _oid_(CFALSE);
+        g0101UU= Kernel.cfalse;
         for (START(self); NEXT(x);)
         if ((*Core.finite_ask)(x) != Kernel.ctrue)
          { g0101UU = Kernel.ctrue;
@@ -511,7 +511,7 @@ int  size_class(ClaireClass *self)
 set * set_I_Union(Union *x)
 { GC_BIND;
   { set *Result ;
-    Result = append_set(GC_OBJECT(set,OBJECT(set,(*Kernel.set_I)(GC_OID(_oid_(x->t1))))),GC_OBJECT(set,OBJECT(set,(*Kernel.set_I)(GC_OID(_oid_(x->t2))))));
+    Result = append_set(OBJECT(set,(*Kernel.set_I)(GC_OID(_oid_(x->t1)))),OBJECT(set,(*Kernel.set_I)(GC_OID(_oid_(x->t2)))));
     GC_UNBIND; return (Result);} 
   } 
 
@@ -569,7 +569,7 @@ set * set_I_subtype(subtype *x)
   { set *Result ;
     { ClaireObject *V_CC ;
       if (x->arg == Kernel._set)
-       V_CC = build_powerset_list(GC_OBJECT(list,list_I_set(GC_OBJECT(set,OBJECT(set,(*Kernel.set_I)(GC_OID(_oid_(x->t1))))))));
+       V_CC = build_powerset_list(GC_OBJECT(list,list_I_set(OBJECT(set,(*Kernel.set_I)(GC_OID(_oid_(x->t1)))))));
       else close_exception(((general_error *) (*Core._general_error)(_string_("[178] cannot enumerate ~S"),
           _oid_(list::alloc(1,_oid_(x))))));
         Result= (set *) V_CC;} 
@@ -682,7 +682,7 @@ ClaireBoolean * member_ask_any(OID x,ClaireType *y)
             if (v_and == CFALSE) V_CC =CFALSE; 
             else { { OID  g0107UU;
                 { ITERATE(p);
-                  g0107UU= _oid_(CFALSE);
+                  g0107UU= Kernel.cfalse;
                   bag *p_support;
                   p_support = GC_OBJECT(list,CLREAD(Param,y,params));
                   for (START(p_support); NEXT(p);)
@@ -1058,7 +1058,7 @@ ClaireType * glb_Param(Param *x,ClaireType *y)
   { ClaireType *Result ;
     if (INHERIT(y->isa,Core._Param))
      { ClaireType * c = join_class(x->arg,CLREAD(Param,y,arg));
-      list * lp = GC_OBJECT(list,list_I_set(GC_OBJECT(set,set_I_bag(GC_OBJECT(list,append_list(GC_OBJECT(list,x->params),GC_OBJECT(list,CLREAD(Param,y,params))))))));
+      list * lp = GC_OBJECT(list,list_I_set(set_I_bag(append_list(x->params,CLREAD(Param,y,params)))));
       list * l = list::empty(Kernel._any);
       { OID gc_local;
         ITERATE(p);
@@ -1267,7 +1267,7 @@ ClaireBoolean * _inf_equalt_bag2(bag *s,ClaireType *y)
        Result = OBJECT(ClaireBoolean,_oid_((ClaireObject *) Core._inf_equalt->fcall(((int) z),((int) y))));
       else { OID  g0112UU;
           { ITERATE(x);
-            g0112UU= _oid_(CFALSE);
+            g0112UU= Kernel.cfalse;
             for (START(s); NEXT(x);)
             if (Ztype_any(x,_oid_(y)) != CTRUE)
              { g0112UU = Kernel.ctrue;
@@ -1295,7 +1295,7 @@ ClaireBoolean * _inf_equalt_class(ClaireClass *x,ClaireType *y)
        { OID  g0113UU;
         { OID gc_local;
           ITERATE(c);
-          g0113UU= _oid_(CFALSE);
+          g0113UU= Kernel.cfalse;
           for (START(x->subclass); NEXT(c);)
           if (_inf_equalt_class(OBJECT(ClaireClass,c),y) != CTRUE)
            { g0113UU = Kernel.ctrue;
@@ -1311,7 +1311,7 @@ ClaireBoolean * _inf_equalt_class(ClaireClass *x,ClaireType *y)
        { OID  g0114UU;
         { OID gc_local;
           ITERATE(u);
-          g0114UU= _oid_(CFALSE);
+          g0114UU= Kernel.cfalse;
           bag *u_support;
           u_support = GC_OBJECT(bag,enumerate_any(_oid_(x)));
           for (START(u_support); NEXT(u);)
@@ -1818,11 +1818,7 @@ ClaireType * make_list_integer2_type(ClaireType *n,ClaireType *t,ClaireType *x)
 
 /* The c++ function for: make_set(self:array[of:(any)]) [NEW_ALLOC+RETURN_ARG] */
 set * make_set_array(OID *self)
-{ GC_BIND;
-  { set *Result ;
-    Result = set_I_bag(GC_OBJECT(list,list_I_array(self)));
-    GC_UNBIND; return (Result);} 
-  } 
+{ return (set_I_bag(list_I_array(self)));} 
 
 
 /* The c++ function for: make_set_array_type */

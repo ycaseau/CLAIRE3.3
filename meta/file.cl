@@ -79,7 +79,7 @@ verify(t:any,x:any,y:any) : any
 Serror(s:string,la:list) : {}
   -> (printf("---- Syntax Error[line: ~A]:\n", reader.nb_line),
       flush(reader.fromp),
-      general_error(cause = s, args = la))
+      general_error(cause = s, arg = la))
 
 ; -> (printf("Syntax error: ~I\n", format(s, la)),
 ;     flush(reader.fromp),
@@ -436,4 +436,12 @@ float!(self:string) : float
 ;                   quick_sort(self, f, q, n - 1),
 ;                   quick_sort(self, f, n + 1, m))))
 
-
+// v3.3.42 add macros to use float & integers easily
+[+(x:integer,y:float) : float => float!(x) + y]
+[*(x:integer,y:float) : float => float!(x) * y]
+[/(x:integer,y:float) : float => float!(x) / y]
+[-(x:integer,y:float) : float => float!(x) - y]
+[+(x:float,y:integer) : float => x + float!(y)]
+[*(x:float,y:integer) : float => x * float!(y)]
+[/(x:float,y:integer) : float => x / float!(y)]
+[-(x:float,y:integer) : float => x - float!(y)]

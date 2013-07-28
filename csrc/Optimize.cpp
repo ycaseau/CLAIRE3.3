@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file Optimize.cl 
-         [version 3.3.4 / safety 5] Sat Oct 16 06:53:36 2004 *****/
+         [version 3.3.42 / safety 5] Sat Jan 28 08:50:22 2006 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -287,7 +287,7 @@ void OptimizeClass::metaLoad() {
   { (Optimize.compiler = (Optimize_meta_compiler *) Optimize._meta_compiler->instantiate("compiler",claire.it));
     (Optimize.compiler->external = "MS VC++");
     (Optimize.compiler->env = "ntv");
-    (Optimize.compiler->version = _float_(3.4));
+    (Optimize.compiler->version = _float_(3.42));
     (Optimize.compiler->source = "");
     (Optimize.compiler->headers_dir = "");
     (Optimize.compiler->libraries = list::alloc(Kernel._string,1,_string_("Kernel")));
@@ -511,17 +511,17 @@ void OptimizeClass::metaLoad() {
   Optimize.c_status->addMethod(list::domain(1,Kernel._property),Kernel._integer,
   	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(c_status_property,"c_status_property"));
   
-  { (CLREAD(method,_at_property1(Core.vmatch_ask,Kernel._any),status) = 64);
+  { (CLREAD(method,_at_property1(Core.vmatch_ask,Kernel._any),status) = 32);
     (CLREAD(method,_at_property1(Core.pop_debug,Kernel._property),status) = 0);
-    (CLREAD(method,_at_property1(Core.matching_ask,Kernel._list),status) = 64);
+    (CLREAD(method,_at_property1(Core.matching_ask,Kernel._list),status) = 32);
     (CLREAD(method,_at_property1(Core.eval_message,Kernel._property),status) = (*Language.bit_vector)(1,
       3,
-      6));
+      5));
     (CLREAD(method,_at_property1(Kernel.nth,Kernel._bag),status) = 16);
     (CLREAD(method,_at_property1(Core.eval,Kernel._any),status) = 2);
-    (CLREAD(method,_at_property1(Core.self_eval,Language._Call),status) = 64);
-    (CLREAD(method,_at_property1(Core.self_eval,Language._If),status) = 64);
-    (CLREAD(method,_at_property1(Core.self_eval,Language._Do),status) = 64);
+    (CLREAD(method,_at_property1(Core.self_eval,Language._Call),status) = 32);
+    (CLREAD(method,_at_property1(Core.self_eval,Language._If),status) = 32);
+    (CLREAD(method,_at_property1(Core.self_eval,Language._Do),status) = 32);
     } 
   
   Optimize.showstatus->addMethod(list::domain(1,Kernel._method),Kernel._any,
@@ -1176,7 +1176,7 @@ void OptimizeClass::metaLoad() {
   Optimize.Iterate_I->addMethod(list::domain(1,Language._Iteration),Kernel._any,
   	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(Iterate_I_Iteration,"Iterate!_Iteration"));
   
-  Language.iterate->addMethod(list::domain(3,Core._Interval,nth_class2(Language._Variable,list::alloc(Kernel._any,1,_oid_(Kernel.range)),list::alloc(Kernel.emptySet,1,GC_OID(_oid_(nth_class1(Kernel._type,Kernel._integer))))),Kernel._any),Kernel._any,
+  Language.iterate->addMethod(list::domain(3,Core._Interval,nth_class2(Language._Variable,GC_OBJECT(list,list::alloc(Kernel._any,1,_oid_(Kernel.range))),GC_OBJECT(list,list::alloc(Kernel.emptySet,1,GC_OID(_oid_(nth_class1(Kernel._type,Kernel._integer)))))),Kernel._any),Kernel._any,
   	NEW_ALLOC,_function_(iterate_Interval,"iterate_Interval"))->inlineDef("lambda[(x:Interval,v:Variable[range:(subtype[integer])],e:any),let v := eval(x.arg1, Interval),%max:integer := eval(x.arg2, Interval) in while (v <= %max) (e, v := v + 1)]");
   
   Language.iterate->addMethod(list::domain(3,Kernel._array,Language._Variable,Kernel._any),Kernel._any,

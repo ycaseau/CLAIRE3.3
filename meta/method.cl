@@ -100,7 +100,7 @@ eval_message(self:property,r:object,start:integer,int?:boolean) : any
 noeval_message(self:property, start:integer) : any
   -> let l := get_args(start) in
        (if (system.debug! != -1) push_debug(self, index!() - start, start),
-        selector_error(selector = self, args = l),
+        selector_error(selector = self, arg = l),
         nil)
 
 
@@ -203,7 +203,7 @@ write(self:property,x:object,y:any) : void
               else if (known?(if_write,self) & not(multi?(self))) 
                  fastcall(self,x,y)
               else update(self, x, s.index, s.srange, y)),
-         any selector_error(selector = self, args = list(x))),
+         any selector_error(selector = self, arg = list(x))),
      y)
 
 // the value does not belong to the range: error!
@@ -290,7 +290,7 @@ update-(r:relation,x:any,y:any) : void
 // same method with error checking
 [add(self:property,x:object,y:any) : void
  -> let s := (self @ owner(x)) in
-       (if not(s) selector_error(selector = self, args = list(x))
+       (if not(s) selector_error(selector = self, arg = list(x))
         else if not(multi?(self)) error("[134] Cannot apply add to ~S", self)
         else if (y % member((s as slot).range))
           (if known?(if_write,self) fastcall(self,x,y)
@@ -309,7 +309,7 @@ unknown?(self:property,x:object) : boolean
 // delete takes care of the inverse also
 delete(self:property,x:object,y:any) : any
  -> (let s := (self @ owner(x)) in
-       (if not(s) selector_error(selector = self, args = list(x))
+       (if not(s) selector_error(selector = self, arg = list(x))
         else let l1 := (slot_get(x, (s as slot).index, object) as bag),
                  l := ((if self.store? copy(l1) else l1) delete y) in
                (store(x, (s as slot).index, object, l, self.store?),
@@ -320,7 +320,7 @@ delete(self:property,x:object,y:any) : any
 // v3.2.22: take care of multi-valued slot as well
 erase(self:property,x:object) : any
  -> let s := (self @ owner(x)) in
-       (if not(s) selector_error(selector = self, args = list(x))
+       (if not(s) selector_error(selector = self, arg = list(x))
         else let y := slot_get(x, (s as slot).index, s.srange) in
                (if (self.multivalued? != false)
                    (when r := get(inverse,self) in for y1 in y update-(r,y1,x),
@@ -350,7 +350,7 @@ put_store(self:property,x:object,y:any,b:boolean) : void
       (case s
         (slot let z := slot_get(x, s.index, s.srange) in
                    (if (z != y) store(x, s.index, s.srange, y, b)),     // v3.2.04 same behavior compiled/interpreted !
-         any selector_error(selector = self, args = list(x))))
+         any selector_error(selector = self, arg = list(x))))
 
 
 // tells if we have a multivalued relation

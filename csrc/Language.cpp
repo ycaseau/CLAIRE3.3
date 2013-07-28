@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file Language.cl 
-         [version 3.3.4 / safety 5] Sat Oct 16 06:53:30 2004 *****/
+         [version 3.3.42 / safety 5] Sat Jan 28 08:50:16 2006 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -122,7 +122,7 @@ void LanguageClass::metaLoad() {
   (Language._Vardef = ClaireClass::make("Vardef",Language._Variable,claire.it));
   
   Core.self_eval->addMethod(list::domain(1,Language._Vardef),Kernel._any,
-  	0,_function_(self_eval_Vardef,"self_eval_Vardef"));
+  	NEW_ALLOC,_function_(self_eval_Vardef,"self_eval_Vardef"));
   
   (Language._Complex_instruction = ClaireClass::make("Complex_instruction",Language._Instruction,claire.it));
   

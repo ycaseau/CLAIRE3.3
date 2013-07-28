@@ -1,5 +1,5 @@
-/***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\read.cl 
-         [version 3.3.4 / safety 5] Sat Oct 16 06:53:32 2004 *****/
+/***** CLAIRE Compilation of file d:\claire\v3.3\src\meta\read.cl 
+         [version 3.3.42 / safety 5] Sat Jan 28 08:50:18 2006 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -138,7 +138,7 @@ OID  nextunit_meta_reader(meta_reader *r)
                 else { { OID  g0006UU;
                     { OID gc_local;
                       ITERATE(y);
-                      g0006UU= _oid_(CFALSE);
+                      g0006UU= Kernel.cfalse;
                       bag *y_support;
                       y_support = GC_OBJECT(list,OBJECT(Call,x)->args);
                       for (START(y_support); NEXT(y);)

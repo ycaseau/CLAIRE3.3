@@ -1,3 +1,13 @@
+/** @package 
+
+        clAlloc.cpp
+        
+        Copyright(c) self 2000
+        
+        Author: YVES CASEAU
+        Created: YC  24/01/2006 07:31:18
+	Last change: YC 24/01/2006 07:31:41
+*/
 /***********************************************************************/
 /**   microCLAIRE                                       Yves Caseau    */
 /**   clAlloc.cpp                                                      */
@@ -106,6 +116,7 @@ void ClaireAllocation::init()
  ClEnv->handlers = (jmp_buf *) CL_alloc( (size_t) (maxEnv * sizeof(jmp_buf))) ;  // v3.3.34 - a buf fix for FXJ
  ClEnv->stack = (int *) CL_alloc(maxStack);                        // eval stack
  currentNew = NULL;                                                // v3.0.60
+ currentType = NULL;                                               // v3.3.42   - second protection slot
  numGC = 0;                                                        // v3.2.50
 }
 
@@ -439,6 +450,10 @@ void ClaireAllocation::markStack()
 {int i;
  if (currentNew != NULL)
     {OID n = _oid_(currentNew);
+        if (SIZE(n) > 0 && !INHERIT(OWNER(n),Kernel._class))  // v3.3.38: Things must be protected properly
+           MARKCELL(ADR(n)); }
+ if (currentType != NULL)                                     // v3.3.42 : from Sylvain Benilan
+    {OID n = _oid_(currentType);
         if (SIZE(n) > 0 && !INHERIT(OWNER(n),Kernel._class))  // v3.3.38: Things must be protected properly
            MARKCELL(ADR(n)); }
  for (i=0; i < ClEnv->index; i++) mark(ClEnv->stack[i]);

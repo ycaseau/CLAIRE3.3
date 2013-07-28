@@ -1,4 +1,13 @@
+/** @package 
 
+        clBag.cpp
+        
+        Copyright(c) self 2000
+        
+        Author: YVES CASEAU
+        Created: YC  24/01/2006 07:29:49
+        Last Change: YC  24/01/2006 07:29:49
+*/
 /***********************************************************************/
 /**   microCLAIRE                                       Yves Caseau    */
 /**   clBag.cpp                                                        */
@@ -181,9 +190,9 @@ list *list::empty()
 
 // create a typed empty list
 list *list::empty(ClaireType *t)
-{ClAlloc->currentNew = t;                              // v3.3.34: a method to avoid protecting the type
- list *obj = list::make();
- OID *x = ClAlloc->makeContent(1);
+{ClAlloc->currentType = t;                              // v3.3.42: a method to avoid protecting the type -> use a new slot
+ list *obj = list::make();                              // thanks to Sylvain for pointing this out  ...
+ OID *x = ClAlloc->makeContent(1);                      // currentNew was overused !
    obj->length = 0;
    obj->content = x;
    obj->of = t;
@@ -238,7 +247,7 @@ list *list::alloc(int n,...)
 list *list::alloc(ClaireType *t, int n,...)
 {va_list ap;
  int i;
- ClAlloc->currentNew = t;                     // v3.3.34: a method to avoid protecting the type
+ ClAlloc->currentType = t;                    // v3.3.34: a method to avoid protecting the type - v3.3.42
  list *obj = list::make();                    // recall that make() protects the result
  OID *x = ClAlloc->makeContent(n);
    obj->of = t;                               // moved so that t is protected with obj
@@ -247,7 +256,7 @@ list *list::alloc(ClaireType *t, int n,...)
    obj->length = n;
    obj->content = x;
    va_end(ap);
-   ClAlloc->currentNew = NULL;                 // v3.3.38 close the use of currentNew
+   ClAlloc->currentType = NULL;                 // v3.3.38 close the use of currentNew - v3.3.42
    return obj;}
 
 // this is pure sugar but nice
@@ -461,13 +470,13 @@ set *set::empty()
 
 // create a typed empty list
 set *set::empty(ClaireType *t)
-{ClAlloc->currentNew = t;                              // v3.3.34: a method to avoid protecting the type
+{ClAlloc->currentType = t;                    // v3.3.34: a method to avoid protecting the type - v3.3.42
  set *obj = set::make();
  OID *x = ClAlloc->makeContent(1);
    obj->length = 0;
    obj->content = x;
    obj->of = t;
-   ClAlloc->currentNew = NULL;                          // v3.3.36: close
+   ClAlloc->currentType = NULL;                 // v3.3.36: close - v3.3.42
    return obj;}
 
 // create a list skeleton

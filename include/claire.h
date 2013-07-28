@@ -1,3 +1,13 @@
+/** @package 
+
+        claire.h
+        
+        Copyright(c) self 2000
+        
+        Author: YVES CASEAU
+        Created: YC  24/01/2006 07:33:22
+        Last Change: YC  24/01/2006 07:33:22
+*/
 /***********************************************************************/
 /**   microCLAIRE                                       Yves Caseau    */
 /**   claire.h                                                         */
@@ -220,7 +230,8 @@ class ClaireAllocation
  int index,base;                        // stack management variables
  ClairePort *stdIn,*stdOut,*stdErr;
  ClaireObject *currentNew;              // pointer to what is currently allocated
-
+ ClaireObject *currentType;             // pointer to the type of a bag which is currently allocated
+                                        // a nice bug fix proposed by Sylvain Benilan
  // memory management
  static int log2up(int n);              // log - test in v3.2.38 use static methods properly ....
  ClaireAny *makeStatic(int n);          // static object allocation

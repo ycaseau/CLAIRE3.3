@@ -1,5 +1,5 @@
-/***** CLAIRE Compilation of file c:\claire\v3.3\src\compile\gsystem.cl 
-         [version 3.3.4 / safety 5] Sat Oct 16 06:53:38 2004 *****/
+/***** CLAIRE Compilation of file d:\claire\v3.3\src\compile\gsystem.cl 
+         [version 3.3.42 / safety 5] Sat Jan 28 08:50:24 2006 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -244,8 +244,8 @@ void  generate_classes_module(module *v1140)
     for (START(v7227_support); NEXT(v7227);)
     { GC_LOOP;
       if (INHERIT(OWNER(v7227),Kernel._class))
-       { put_table(Generate.classFile,v7227,ClAlloc->import(Kernel._port,(int *) fopen_string(append_string(GC_STRING(append_string(GC_STRING(append_string(GC_STRING(Optimize.compiler->source),GC_STRING(string_v(Reader._starfs_star->value)))),GC_STRING(string_v((*Generate.c_string)(Generate.PRODUCER->value,
-          GC_OID((*Kernel.name)(v7227))))))),GC_STRING(OBJECT(Generate_producer,Generate.PRODUCER->value)->extension)),"w")));
+       { put_table(Generate.classFile,v7227,GC_OID(ClAlloc->import(Kernel._port,(int *) fopen_string(append_string(GC_STRING(append_string(GC_STRING(append_string(GC_STRING(Optimize.compiler->source),GC_STRING(string_v(Reader._starfs_star->value)))),GC_STRING(string_v((*Generate.c_string)(Generate.PRODUCER->value,
+          GC_OID((*Kernel.name)(v7227))))))),GC_STRING(OBJECT(Generate_producer,Generate.PRODUCER->value)->extension)),"w"))));
         use_as_output_port(EXPORT((ClairePort *),nth_table1(Generate.classFile,v7227)));
         tformat_string("++++ Creating the file ~A.java\n",2,GC_OBJECT(list,list::alloc(1,GC_OID((*Generate.c_string)(Generate.PRODUCER->value,
           GC_OID((*Kernel.name)(v7227)))))));
@@ -584,8 +584,8 @@ void  generate_file_string2(char *v1140,char *v11188)
               use_as_output_port(v11560);
               } 
             } 
-          else GC_OBJECT(list,Optimize.OPT->instructions)->addFast(GC_OID((*Optimize.c_code)(v8305,
-              _oid_(Kernel._void))));
+          else Optimize.OPT->instructions->addFast((*Optimize.c_code)(v8305,
+              _oid_(Kernel._void)));
             GC__OID(v8305 = readblock_port(v11497), 1);
           GC_UNLOOP;} 
         } 
@@ -722,7 +722,7 @@ OID  print_body_Do(Do *v3871,char *v4031,ClaireClass *v7243,OID v6350,ClaireBool
       (*Generate.gc_introduction)(Generate.PRODUCER->value,
         _oid_(v3871));
       { ITERATE(v7248);
-        Result= _oid_(CFALSE);
+        Result= Kernel.cfalse;
         for (START(v7236); NEXT(v7248);)
         { ++v7237;
           if (v7237 == v9507)
@@ -816,7 +816,7 @@ ClaireClass * check_sort_method(method *v1140)
        { (Optimize.OPT->alloc_stack = CTRUE);
         } 
       if ((Optimize.OPT->allocation == CTRUE) && 
-          (nth_integer(status_I_restriction(v1140),6) != CTRUE))
+          (nth_integer(status_I_restriction(v1140),5) != CTRUE))
        { if (nth_integer(status_I_restriction(v1140),1) != CTRUE)
          ;} 
       else { (Optimize.OPT->loop_gc = CFALSE);
@@ -831,7 +831,7 @@ OID  typed_args_list_list(list *v1140)
 { { OID Result = 0;
     { ClaireBoolean * v4961 = CTRUE;
       { ITERATE(v7248);
-        Result= _oid_(CFALSE);
+        Result= Kernel.cfalse;
         for (START(v1140); NEXT(v7248);)
         { if (v4961 == CTRUE)
            v4961= CFALSE;
@@ -900,7 +900,7 @@ void  set_outfile_lambda(lambda *v1140)
         { OID  v3751;
           { OID gc_local;
             ITERATE(v7227);
-            v3751= _oid_(CFALSE);
+            v3751= Kernel.cfalse;
             bag *v7227_support;
             v7227_support = GC_OBJECT(list,Optimize.OPT->objects);
             for (START(v7227_support); NEXT(v7227);)

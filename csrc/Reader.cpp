@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file Reader.cl 
-         [version 3.3.4 / safety 5] Sat Oct 16 06:53:33 2004 *****/
+         [version 3.3.42 / safety 5] Sat Jan 28 08:50:19 2006 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -128,14 +128,14 @@ void ReaderClass::metaLoad() {
   
   { global_variable * _CL_obj = (Reader.arrow = (global_variable *) Core._global_variable->instantiate("arrow",claire.it));
     (_CL_obj->range = Kernel._any);
-    { global_variable * g0107 = _CL_obj; 
-      OID  g0108;
+    { global_variable * g0122 = _CL_obj; 
+      OID  g0123;
       { keyword * _CL_obj = ((keyword *) new_object_class(Kernel._keyword));
         (_CL_obj->name = symbol_I_string2("->"));
         add_I_property(Kernel.instances,Kernel._keyword,11,_oid_(_CL_obj));
-        g0108 = _oid_(_CL_obj);
+        g0123 = _oid_(_CL_obj);
         } 
-      (g0107->value = g0108);} 
+      (g0122->value = g0123);} 
     close_global_variable(_CL_obj);
     } 
   
@@ -143,14 +143,14 @@ void ReaderClass::metaLoad() {
   
   { global_variable * _CL_obj = (Reader.triangle = (global_variable *) Core._global_variable->instantiate("triangle",claire.it));
     (_CL_obj->range = Kernel._any);
-    { global_variable * g0109 = _CL_obj; 
-      OID  g0110;
+    { global_variable * g0124 = _CL_obj; 
+      OID  g0125;
       { keyword * _CL_obj = ((keyword *) new_object_class(Kernel._keyword));
         (_CL_obj->name = symbol_I_string2("<:"));
         add_I_property(Kernel.instances,Kernel._keyword,11,_oid_(_CL_obj));
-        g0110 = _oid_(_CL_obj);
+        g0125 = _oid_(_CL_obj);
         } 
-      (g0109->value = g0110);} 
+      (g0124->value = g0125);} 
     close_global_variable(_CL_obj);
     } 
   
@@ -627,6 +627,30 @@ void ReaderClass::metaLoad() {
   
   Kernel._sup_equal->addMethod(list::domain(2,Kernel._any,Kernel._any),Kernel._boolean,
   	NEW_ALLOC,_function_(_sup_equal_any,">=_any"))->inlineDef("lambda[(self:any,x:any),x <= self]");
+  
+  Core._plus->addFloatMethod(list::domain(2,Kernel._integer,Kernel._float),Kernel._float,
+  	0,_function_(_plus_integer2,"+_integer2"),_function_(_plus_integer2_,"+_integer2_"))->inlineDef("lambda[(x:integer,y:float),float!(x) + y]");
+  
+  Kernel._star->addFloatMethod(list::domain(2,Kernel._integer,Kernel._float),Kernel._float,
+  	0,_function_(_star_integer2,"*_integer2"),_function_(_star_integer2_,"*_integer2_"))->inlineDef("lambda[(x:integer,y:float),float!(x) * y]");
+  
+  Kernel._7->addFloatMethod(list::domain(2,Kernel._integer,Kernel._float),Kernel._float,
+  	0,_function_(_7_integer2,"/_integer2"),_function_(_7_integer2_,"/_integer2_"))->inlineDef("lambda[(x:integer,y:float),float!(x) / y]");
+  
+  Kernel._dash->addFloatMethod(list::domain(2,Kernel._integer,Kernel._float),Kernel._float,
+  	0,_function_(_dash_integer3,"-_integer3"),_function_(_dash_integer3_,"-_integer3_"))->inlineDef("lambda[(x:integer,y:float),float!(x) - y]");
+  
+  Core._plus->addFloatMethod(list::domain(2,Kernel._float,Kernel._integer),Kernel._float,
+  	0,_function_(_plus_float2,"+_float2"),_function_(_plus_float2_,"+_float2_"))->inlineDef("lambda[(x:float,y:integer),x + float!(y)]");
+  
+  Kernel._star->addFloatMethod(list::domain(2,Kernel._float,Kernel._integer),Kernel._float,
+  	0,_function_(_star_float2,"*_float2"),_function_(_star_float2_,"*_float2_"))->inlineDef("lambda[(x:float,y:integer),x * float!(y)]");
+  
+  Kernel._7->addFloatMethod(list::domain(2,Kernel._float,Kernel._integer),Kernel._float,
+  	0,_function_(_7_float2,"/_float2"),_function_(_7_float2_,"/_float2_"))->inlineDef("lambda[(x:float,y:integer),x / float!(y)]");
+  
+  Kernel._dash->addFloatMethod(list::domain(2,Kernel._float,Kernel._integer),Kernel._float,
+  	0,_function_(_dash_float3,"-_float3"),_function_(_dash_float3_,"-_float3_"))->inlineDef("lambda[(x:float,y:integer),x - float!(y)]");
   
   { (Reader.execute_do = property::make("execute_do",2,claire.it,Kernel._any,0));
     ;} 

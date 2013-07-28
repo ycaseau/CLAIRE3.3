@@ -1,5 +1,5 @@
-/***** CLAIRE Compilation of file c:\claire\v3.3\src\compile\cgen.cl 
-         [version 3.3.4 / safety 5] Sat Oct 16 06:53:38 2004 *****/
+/***** CLAIRE Compilation of file d:\claire\v3.3\src\compile\cgen.cl 
+         [version 3.3.42 / safety 5] Sat Jan 28 08:50:24 2006 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -443,7 +443,7 @@ void  generate_interface_c_producer(Generate_c_producer *v7227,module *v1140)
             { OID  v11930;
               { OID gc_local;
                 ITERATE(v11592);
-                v11930= _oid_(CFALSE);
+                v11930= Kernel.cfalse;
                 for (START(OBJECT(ClaireClass,v7248)->superclass->slots); NEXT(v11592);)
                 if (_I_equal_any(_oid_(OBJECT(restriction,v11592)->selector),_oid_(OBJECT(restriction,v7249)->selector)) != CTRUE)
                  { v11930 = Kernel.ctrue;
@@ -862,7 +862,7 @@ void  generate_float_function_c_producer(Generate_c_producer *v7227,method *v723
       v7243,
       _oid_(v7237),
       v11442);
-    GC_OBJECT(list,Optimize.OPT->functions)->addFast(_oid_(list::alloc(3,_oid_(v9226),
+    Optimize.OPT->functions->addFast(_oid_(list::alloc(3,_oid_(v9226),
       _oid_(v11442),
       _oid_(v7243))));
     new_block_void();
@@ -935,7 +935,7 @@ void  generate_tuple_function_c_producer(Generate_c_producer *v7227,method *v723
       v7243,
       _oid_(v7237),
       v11442);
-    GC_OBJECT(list,Optimize.OPT->functions)->addFast(_oid_(list::alloc(3,_oid_(v9226),
+    Optimize.OPT->functions->addFast(_oid_(list::alloc(3,_oid_(v9226),
       _oid_(v11442),
       _oid_(v7243))));
     new_block_void();
@@ -966,14 +966,10 @@ OID  create_function_entry_c_producer(Generate_c_producer *v7227,lambda *v11422,
 { return (Core.nil->value);} 
 
 OID  update_function_entry_c_producer(Generate_c_producer *v7227,ClaireFunction *v9226,list *v11442,ClaireClass *v7243)
-{ GC_BIND;
-  GC_OBJECT(list,Optimize.OPT->functions)->addFast(_oid_(list::alloc(3,_oid_(v9226),
+{ Optimize.OPT->functions->addFast(_oid_(list::alloc(3,_oid_(v9226),
     _oid_(v11442),
     _oid_(v7243))));
-  { OID Result = 0;
-    Result = Kernel.cfalse;
-    GC_UNBIND; return (Result);} 
-  } 
+  return (Kernel.cfalse);} 
 
 char * c_interface_class1_Generate(ClaireClass *v1140)
 { { char *Result ;
@@ -986,13 +982,12 @@ char * c_interface_class1_Generate(ClaireClass *v1140)
   } 
 
 void  c_interface_class2_Generate(ClaireClass *v1140,char *v7243)
-{ GC_BIND;
-  { int  v7239 = index_list(OBJECT(Generate_producer,Generate.PRODUCER->value)->interfaces,_oid_(v1140));
+{ { int  v7239 = index_list(OBJECT(Generate_producer,Generate.PRODUCER->value)->interfaces,_oid_(v1140));
     if (v7239 == 0)
-     (OBJECT(Generate_producer,Generate.PRODUCER->value)->interfaces = GC_OBJECT(list,GC_OBJECT(list,OBJECT(Generate_producer,Generate.PRODUCER->value)->interfaces)->addFast(_oid_(v1140)))->addFast(_string_(v7243)));
+     (OBJECT(Generate_producer,Generate.PRODUCER->value)->interfaces = OBJECT(Generate_producer,Generate.PRODUCER->value)->interfaces->addFast(_oid_(v1140))->addFast(_string_(v7243)));
     else ((*(OBJECT(Generate_producer,Generate.PRODUCER->value)->interfaces))[(v7239+1)]=_string_(v7243));
       } 
-  GC_UNBIND;} 
+  } 
 
 void  c_interface_method_Generate(method *v1140)
 { c_princ_string(string_v((*Optimize.function_name)(_oid_(v1140->selector),
@@ -1566,21 +1561,23 @@ void  create_load_modules_string(char *v1140,ClairePort *v7240,list *v10516,OID 
    { OID gc_local;
     ITERATE(v7240);
     for (START(Reader.PRdependent->graph); NEXT(v7240);)
-    if (INHERIT(OWNER(v7240),Kernel._property))
-     { OID gc_local;
-      ITERATE(v11498);
-      bag *v11498_support;
-      v11498_support = OBJECT(bag,nth_table1(Reader.PRdependent,v7240));
-      for (START(v11498_support); NEXT(v11498);)
-      if ((contain_ask_set(Optimize.OPT->to_remove,v11498) != CTRUE) && 
-          (OBJECT(thing,v7240)->name->definition == OBJECT(thing,v11498)->name->definition))
-       { princ_string("PRdepends_property(");
-        expression_thing(OBJECT(thing,v7240),Core.nil->value);
-        princ_string(",");
-        expression_thing(OBJECT(thing,v11498),Core.nil->value);
-        princ_string(");\n");
+    { GC_LOOP;
+      if (INHERIT(OWNER(v7240),Kernel._property))
+       { OID gc_local;
+        ITERATE(v11498);
+        bag *v11498_support;
+        v11498_support = GC_OBJECT(set,OBJECT(bag,nth_table1(Reader.PRdependent,v7240)));
+        for (START(v11498_support); NEXT(v11498);)
+        if ((contain_ask_set(Optimize.OPT->to_remove,v11498) != CTRUE) && 
+            (OBJECT(thing,v7240)->name->definition == OBJECT(thing,v11498)->name->definition))
+         { princ_string("PRdepends_property(");
+          expression_thing(OBJECT(thing,v7240),Core.nil->value);
+          princ_string(",");
+          expression_thing(OBJECT(thing,v11498),Core.nil->value);
+          princ_string(");\n");
+          } 
         } 
-      } 
+      GC_UNLOOP;} 
     } 
   close_block_void();
   GC_UNBIND;} 
@@ -1590,7 +1587,7 @@ void  methods_interface_c_producer(Generate_c_producer *v7227,ClaireClass *v7248
   { OID gc_local;
     ITERATE(v7240);
     bag *v7240_support;
-    v7240_support = OBJECT(bag,nth_table1(Language.InterfaceList,_oid_(v7248)));
+    v7240_support = GC_OBJECT(list,OBJECT(bag,nth_table1(Language.InterfaceList,_oid_(v7248))));
     for (START(v7240_support); NEXT(v7240);)
     { GC_LOOP;
       { ClaireObject * v7237 = GC_OBJECT(ClaireObject,_at_property1(OBJECT(property,v7240),v7248));
@@ -1616,7 +1613,7 @@ void  methods_bodies_c_producer(Generate_c_producer *v7227,ClaireClass *v7248)
   { OID gc_local;
     ITERATE(v7240);
     bag *v7240_support;
-    v7240_support = OBJECT(bag,nth_table1(Language.InterfaceList,_oid_(v7248)));
+    v7240_support = GC_OBJECT(list,OBJECT(bag,nth_table1(Language.InterfaceList,_oid_(v7248))));
     for (START(v7240_support); NEXT(v7240);)
     { GC_LOOP;
       { ClaireObject * v7237 = GC_OBJECT(ClaireObject,_at_property1(OBJECT(property,v7240),v7248));

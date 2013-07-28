@@ -1,5 +1,5 @@
-/***** CLAIRE Compilation of file c:\claire\v3.3\src\compile\otool.cl 
-         [version 3.3.4 / safety 5] Sat Oct 16 06:53:36 2004 *****/
+/***** CLAIRE Compilation of file d:\claire\v3.3\src\compile\otool.cl 
+         [version 3.3.42 / safety 5] Sat Jan 28 08:50:21 2006 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -995,17 +995,16 @@ OID  member_code_Param(Param *v9268,OID v5264)
         { And * v6755 = v2072; 
           list * v6777;
           { list * v11930;
-            { { OID v_bag;
-                GC_ANY(v11930= list::empty(Kernel.emptySet));
-                { { Call * v2072 = ((Call *) GC_OBJECT(Call,new_object_class(Language._Call)));
-                    (v2072->selector = Kernel._Z);
-                    (v2072->args = list::alloc(2,v5264,_oid_(v9268->arg)));
-                    add_I_property(Kernel.instances,Language._Call,11,_oid_(v2072));
-                    v_bag = _oid_(v2072);
-                    } 
-                  GC_OID(v_bag);} 
-                ((list *) v11930)->addFast(v_bag);} 
-              GC_OBJECT(list,v11930);} 
+            { OID v_bag;
+              GC_ANY(v11930= list::empty(Kernel.emptySet));
+              { { Call * v2072 = ((Call *) GC_OBJECT(Call,new_object_class(Language._Call)));
+                  (v2072->selector = Kernel._Z);
+                  (v2072->args = list::alloc(2,v5264,_oid_(v9268->arg)));
+                  add_I_property(Kernel.instances,Language._Call,11,_oid_(v2072));
+                  v_bag = _oid_(v2072);
+                  } 
+                GC_OID(v_bag);} 
+              ((list *) v11930)->addFast(v_bag);} 
             list * v12891;
             { list * v5962 = list::empty(Kernel.emptySet);
               { int  v5249 = 1;
@@ -1178,7 +1177,7 @@ ClaireBoolean * gcsafe_ask_property(property *v9268)
 { { ClaireBoolean *Result ;
     { OID  v10875;
       { ITERATE(v5264);
-        v10875= _oid_(CFALSE);
+        v10875= Kernel.cfalse;
         for (START(v9268->restrictions); NEXT(v5264);)
         if (_oid_((INHERIT(v9268->range->isa,Kernel._class) ? (ClaireObject *) gcsafe_ask_class((ClaireClass *) OBJECT(ClaireClass,_oid_(v9268->range))) :  (ClaireObject *)  gcsafe_ask_type((ClaireType *) OBJECT(ClaireType,_oid_(v9268->range))))) != Kernel.ctrue)
          { v10875 = Kernel.ctrue;
@@ -1291,7 +1290,7 @@ ClaireBoolean * designated_ask_any(OID v9268)
                             else { { OID  v11836;
                                 { OID gc_local;
                                   ITERATE(v5265);
-                                  v11836= _oid_(CFALSE);
+                                  v11836= Kernel.cfalse;
                                   bag *v5265_support;
                                   v5265_support = GC_OBJECT(list,OBJECT(Call_method,v9268)->args);
                                   for (START(v5265_support); NEXT(v5265);)
@@ -1572,16 +1571,14 @@ list * bound_variables_any(OID v9268)
         ITERATE(v5259);
         for (START(OBJECT(ClaireObject,v9268)->isa->slots); NEXT(v5259);)
         { GC_LOOP;
-          GC__ANY(v5252 = add_star_list(v5252,GC_OBJECT(list,bound_variables_any(get_slot(OBJECT(slot,v5259),OBJECT(ClaireObject,v9268))))), 1);
+          GC__ANY(v5252 = add_star_list(v5252,bound_variables_any(get_slot(OBJECT(slot,v5259),OBJECT(ClaireObject,v9268)))), 1);
           GC_UNLOOP;} 
         } 
       else if (INHERIT(OWNER(v9268),Kernel._bag))
        { OID gc_local;
         ITERATE(v5264);
         for (START(OBJECT(bag,v9268)); NEXT(v5264);)
-        { GC_LOOP;
-          v5252= add_star_list(v5252,GC_OBJECT(list,bound_variables_any(v5264)));
-          GC_UNLOOP;} 
+        v5252= add_star_list(v5252,bound_variables_any(v5264));
         } 
       Result = v5252;
       } 

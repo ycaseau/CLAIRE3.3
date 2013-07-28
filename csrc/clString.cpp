@@ -1,3 +1,13 @@
+/** @package 
+
+        clString.cpp
+        
+        Copyright(c) self 2000
+        
+        Author: YVES CASEAU
+        Created: YC  23/01/2006 07:04:26
+	Last change: YC 23/01/2006 07:42:23
+*/
 /***********************************************************************/
 /**   microCLAIRE                                       Yves Caseau    */
 /**   clString.cpp                                                     */
@@ -497,5 +507,8 @@ void princ_float_(OID x) {ClEnv->cout->prettyp(float_v(x));}     // v3.2.54
 
 void print_float(double x) {ClEnv->cout->put(x);}            // v3.2.54
 void print_float_(OID x) {ClEnv->cout->put(float_v(x));}     // v3.2.54
+
+void print_format_float(double x,int i) {ClEnv->cout->putFormat(x,i);}            // v3.3.42
+void print_format_float_(OID x,int i) {ClEnv->cout->putFormat(float_v(x),i);}     // v3.3.42
 
 

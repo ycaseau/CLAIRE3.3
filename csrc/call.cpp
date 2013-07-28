@@ -1,5 +1,5 @@
-/***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\call.cl 
-         [version 3.3.4 / safety 5] Sat Oct 16 06:53:29 2004 *****/
+/***** CLAIRE Compilation of file d:\claire\v3.3\src\meta\call.cl 
+         [version 3.3.42 / safety 5] Sat Jan 28 08:50:16 2006 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -194,7 +194,7 @@ OID  self_print_Call_plus_Language(Call_plus *self)
   } 
 
 
-/* The c++ function for: self_eval(self:Call) [SAFE_GC] */
+/* The c++ function for: self_eval(self:Call) [SAFE_RESULT] */
 OID  self_eval_Call(Call *self)
 { { OID Result = 0;
     { int  start = ClEnv->index;
@@ -421,7 +421,7 @@ OID  self_eval_And(And *self)
     { ClaireBoolean * V_CL0027;{ OID  g0028UU;
         { OID gc_local;
           ITERATE(x);
-          g0028UU= _oid_(CFALSE);
+          g0028UU= Kernel.cfalse;
           for (START(self->args); NEXT(x);)
           if (boolean_I_any(OPT_EVAL(x)) != CTRUE)
            { g0028UU = Kernel.ctrue;
@@ -453,7 +453,7 @@ OID  self_eval_Or(Or *self)
     { ClaireBoolean * g0029I;
       { OID V_C;{ OID gc_local;
           ITERATE(x);
-          V_C= _oid_(CFALSE);
+          V_C= Kernel.cfalse;
           for (START(self->args); NEXT(x);)
           if (boolean_I_any(OPT_EVAL(x)) == CTRUE)
            { V_C = Kernel.ctrue;
@@ -615,7 +615,7 @@ OID  self_eval_Call_table(Call_table *self)
 { GC_BIND;
   { OID Result = 0;
     if (self->test == CTRUE)
-     Result = nth_table1(self->selector,OPT_EVAL(self->arg));
+     Result = nth_table1(self->selector,GC_OID(OPT_EVAL(self->arg)));
     else Result = get_table(self->selector,OPT_EVAL(self->arg));
       GC_UNBIND; return (Result);} 
   } 

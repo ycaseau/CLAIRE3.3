@@ -1,5 +1,5 @@
-/***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\pretty.cl 
-         [version 3.3.4 / safety 5] Sat Oct 16 06:53:29 2004 *****/
+/***** CLAIRE Compilation of file d:\claire\v3.3\src\meta\pretty.cl 
+         [version 3.3.42 / safety 5] Sat Jan 28 08:50:16 2006 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -124,18 +124,20 @@ OID  write_value_Variable(Variable *self,OID val)
 
 // this is the definition of a typed variable
 //
-/* The c++ function for: self_eval(self:Vardef) [0] */
+/* The c++ function for: self_eval(self:Vardef) [NEW_ALLOC] */
 OID  self_eval_Vardef(Vardef *self)
-{ { OID Result = 0;
+{ GC_BIND;
+  { OID Result = 0;
     { OID  i = self->index;
       if (i != CNULL)
-       Result = ClEnv->stack[(ClEnv->base+(i))];
+       Result = ClEnv->stack[GC_OID((*Core._plus)(GC_OID(ClEnv->base),
+        i))];
       else { OID  V_CL0005;close_exception(((general_error *) (*Core._general_error)(_string_("[146] The variable ~S is not defined"),
             _oid_(list::alloc(1,_oid_(self))))));
           
           Result=_void_(V_CL0005);} 
         } 
-    return (Result);} 
+    GC_UNBIND; return (Result);} 
   } 
 
 
@@ -269,7 +271,7 @@ OID  lexical_build_any(OID self,list *lvar,int n)
           lexical_build_any(GC_OID(_oid_(OBJECT(Call,self)->args)),lvar,n);
           if (_oid_(OBJECT(Call,self)->selector) != s)
            { (OBJECT(Call,self)->selector = Core.call);
-            (OBJECT(Call,self)->args = cons_any(s,GC_OBJECT(list,OBJECT(Call,self)->args)));
+            (OBJECT(Call,self)->args = cons_any(s,OBJECT(Call,self)->args));
             } 
           } 
         else if (INHERIT(OWNER(self),Language._Instruction))

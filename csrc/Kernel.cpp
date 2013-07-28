@@ -1,4 +1,13 @@
+/** @package 
 
+        Kernel.cpp
+        
+        Copyright(c) self 2000
+        
+        Author: YVES CASEAU
+        Created: YC  24/01/2006 07:45:18
+	Last change: YC 24/01/2006 07:49:09
+*/
 /***********************************************************************/
 /**   microCLAIRE                                       Yves Caseau    */
 /**   Kernel.cpp pp                                                    */
@@ -46,7 +55,7 @@ void KernelClass::bootstrap()
  CFALSE = (ClaireBoolean *) ClAlloc->makeAny(4);
  CNULL = _oid_(ClAlloc->makeAny(4));
  ctrue = _oid_(CTRUE);
- cfalse = _oid_(CFALSE);
+ cfalse = _oid_(CFALSE);                            // v3.3.42  use them instead of _oid_(CFALSE) as pointed by Sylvain
  NoDefault = (thing *) ClAlloc->makeAny(4);
  emptySet = set::empty();
  emptySet->of = emptySet;
@@ -103,8 +112,8 @@ void KernelClass::bootstrap()
  Kernel.it->name = symbol::make("Kernel",claire.it,claire.it);
  mClaire.it->name = symbol::make("mClaire",claire.it,claire.it);
  NoDefault->name = symbol::make("NoDefault",it,it);
- symbol::make("true",claire.it,claire.it)->value = _oid_(CTRUE);
- symbol::make("false",claire.it,claire.it)->value = _oid_(CFALSE);
+ symbol::make("true",claire.it,claire.it)->value = ctrue;
+ symbol::make("false",claire.it,claire.it)->value = cfalse;
  unknownName = symbol::make("unknown",claire.it,claire.it);
  unknownName->value = CNULL;
  PRIVATE = symbol::make("private",claire.it,claire.it);
@@ -143,16 +152,16 @@ void KernelClass::bootstrap()
                                  _oid_(list::empty(_class)),_oid_(set::empty(_class)),
                                  0,2,_oid_(list::empty()),_oid_(list::empty()),
                                  _oid_(list::empty()),0,_oid_(list::empty()),
-                                 _oid_(CTRUE),CNULL,_oid_(list::empty()));
+                                 ctrue,CNULL,_oid_(list::empty()));
  _class->ancestors = list::alloc(1,_oid_(_class));
   // JUST CHANGED in v3.0.54 ! was :
   // _class->ancestors = list::alloc(3,_oid_(_class),1,_oid_(_class));
   // isa/name/comment/dom/ran/ifwrite/store/inv/open/multi/trace/restric/defini/dict/
   
- _property->prototype =  list::alloc(16, 0, 0, 0, _oid_(_any), _oid_(_any), CNULL, _oid_(CFALSE),
-                                 0, 2, _oid_(CFALSE), 0, _oid_(list::empty(_restriction)),
+ _property->prototype =  list::alloc(16, 0, 0, 0, _oid_(_any), _oid_(_any), CNULL, cfalse,
+                                   0, 2, cfalse, 0, _oid_(list::empty(_restriction)),
                                 _oid_(list::empty(_restriction)),_oid_(list::empty()),
-                                _oid_(CFALSE), 0);
+                                cfalse, 0);
  // isa/module/comment/dom/range/select/srange/default/index
 
  // step5: this is the first set of properties
@@ -283,7 +292,7 @@ _class = ClaireClass::make("class",_type,claire.it);
     CL_ADDSLOT(_class,ClaireClass,params,_list,_oid_(list::empty()));
     CL_ADDSLOT(_class,ClaireClass,code,_integer,0);
     CL_ADDSLOT(_class,ClaireClass,dictionary,_list,_oid_(list::empty()));
-    CL_ADDSLOT(_class,ClaireClass,ident_ask,_boolean,_oid_(CTRUE));
+    CL_ADDSLOT(_class,ClaireClass,ident_ask,_boolean,ctrue);   // v3.3.42
     CL_ADDSLOT(_class,ClaireClass,if_write,_any,CNULL);
     CL_ADDSLOT(_class,ClaireClass,dispatcher,_object,_oid_(list::empty()));
 params->multivalued_ask = CFALSE;
@@ -296,7 +305,7 @@ _thing = ClaireClass::make("thing",_object,claire.it);
 
 _system_thing = ClaireClass::make("system_thing",_thing,claire.it);
 _boolean      = ClaireClass::make("boolean",_system_object,claire.it);
-        _boolean->instances = list::alloc(2,_oid_(CTRUE),_oid_(CFALSE));
+        _boolean->instances = list::alloc(2,ctrue,cfalse);   // v3.3.42
 CTRUE->isa = _boolean;
 CFALSE->isa = _boolean;
 _restriction = ClaireClass::make("restriction",_system_object,claire.it);
@@ -318,7 +327,7 @@ _method = ClaireClass::make("method",_restriction,claire.it);
      CL_ADDSLOT(_method,method,evaluate,_function,CNULL);
      CL_ADDSLOT(_method,method,typing,_any,CNULL);
      CL_ADDSLOT(_method,method,status,_integer,0);
-     CL_ADDSLOT(_method,method,inline_ask,_boolean,_oid_(CFALSE));
+     CL_ADDSLOT(_method,method,inline_ask,_boolean,cfalse);
 _char =  ClaireClass::make("char",_system_object,claire.it);
 ClaireChar::init();
 _relation = ClaireClass::make("relation",_system_thing,claire.it);
@@ -326,17 +335,17 @@ _relation = ClaireClass::make("relation",_system_thing,claire.it);
     CL_ADDSLOT(_relation,ClaireRelation,domain,_type,_oid_(_any));
     CL_ADDSLOT(_relation,ClaireRelation,range,_type,_oid_(_any));
     CL_ADDSLOT(_relation,ClaireRelation,if_write,_any,CNULL);
-    CL_ADDSLOT(_relation,ClaireRelation,store_ask,_boolean,_oid_(CFALSE));
+    CL_ADDSLOT(_relation,ClaireRelation,store_ask,_boolean,cfalse);
     CL_ADDSLOT(_relation,ClaireRelation,inverse,_relation,CNULL);
     CL_ADDSLOT(_relation,ClaireRelation,open,_integer,2);
-    CL_ADDSLOT(_relation,ClaireRelation,multivalued_ask,_object,_oid_(CFALSE)); // an interesting situation ...
+    CL_ADDSLOT(_relation,ClaireRelation,multivalued_ask,_object,cfalse); // an interesting situation ...
 _property = ClaireClass::make("property",_relation,claire.it);
     CL_ADDSLOT(_property,property,trace_I,_integer,0);
     CL_ADDSLOT(_property,property,restrictions,_list,_oid_(list::empty(_restriction)));
     CL_ADDSLOT(_property,property,definition,_list,_oid_(list::empty(_restriction)));
  //   CL_ADDSLOT(_property,property,dictionary,_object,_oid_(list::empty()));
-    CL_ADDSLOT(_property,property,dictionary,_boolean,_oid_(CFALSE));         // v3.2.58 cleanup
-    CL_ADDSLOT(_property,property,reified,_object,_oid_(CFALSE));
+    CL_ADDSLOT(_property,property,dictionary,_boolean,cfalse);         // v3.2.58 cleanup
+    CL_ADDSLOT(_property,property,reified,_object,cfalse);
     CL_ADDSLOT(_property,property,dispatcher,_integer,0);
 _operation = ClaireClass::make("operation",_property,claire.it);
     CL_ADDSLOT(_operation,operation,precedence,_integer,0);

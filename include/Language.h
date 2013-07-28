@@ -1,4 +1,4 @@
-// interface defination for module Language, Sat Oct 16 06:53:29 2004
+// interface defination for module Language, Sat Jan 28 08:50:16 2006
 #ifndef CLAIREH_Language
 #define CLAIREH_Language
 

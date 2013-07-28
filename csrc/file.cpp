@@ -1,5 +1,5 @@
-/***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\file.cl 
-         [version 3.3.4 / safety 5] Sat Oct 16 06:53:33 2004 *****/
+/***** CLAIRE Compilation of file d:\claire\v3.3\src\meta\file.cl 
+         [version 3.3.42 / safety 5] Sat Jan 28 08:50:19 2006 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -380,7 +380,7 @@ OID  load_module(module *self)
   { OID Result = 0;
     { OID gc_local;
       ITERATE(x);
-      Result= _oid_(CFALSE);
+      Result= Kernel.cfalse;
       bag *x_support;
       x_support = GC_OBJECT(list,add_modules_list(list::alloc(1,_oid_(self))));
       for (START(x_support); NEXT(x);)
@@ -397,7 +397,7 @@ OID  sload_module(module *self)
   { OID Result = 0;
     { OID gc_local;
       ITERATE(x);
-      Result= _oid_(CFALSE);
+      Result= Kernel.cfalse;
       bag *x_support;
       x_support = GC_OBJECT(list,add_modules_list(list::alloc(1,_oid_(self))));
       for (START(x_support); NEXT(x);)
@@ -785,7 +785,8 @@ list * hashgrow_list(list *l,property *hi)
 { GC_BIND;
   { list *Result ;
     { list * l1 = l;
-      list * l2 = GC_OBJECT(list,make_list_integer((((*(l1))[0])*2),CNULL));
+      list * l2 = GC_OBJECT(list,make_list_integer((*Kernel._star)((*(l1))[0],
+        2),CNULL));
       { ITERATE(x);
         for (START(l1); NEXT(x);)
         if (x != CNULL)
@@ -839,3 +840,83 @@ ClaireBoolean * _sup_equal_any(OID self,OID x)
 
 
 // v3.3: a recursive macro
+// v3.3.42 add macros to use float & integers easily
+/* The c++ function for: +(g0087:integer,g0088:any) [0] */
+OID  _plus_integer2_(int g0087,OID g0088)
+{ return _float_(_plus_integer2(g0087,float_v(g0088)));} 
+
+
+/* The c++ function for: +(x:integer,y:float) [0] */
+double  _plus_integer2(int x,double y)
+{ return ((to_float(x)+y));} 
+
+
+/* The c++ function for: *(g0089:integer,g0090:any) [0] */
+OID  _star_integer2_(int g0089,OID g0090)
+{ return _float_(_star_integer2(g0089,float_v(g0090)));} 
+
+
+/* The c++ function for: *(x:integer,y:float) [0] */
+double  _star_integer2(int x,double y)
+{ return ((to_float(x)*y));} 
+
+
+/* The c++ function for: /(g0091:integer,g0092:any) [0] */
+OID  _7_integer2_(int g0091,OID g0092)
+{ return _float_(_7_integer2(g0091,float_v(g0092)));} 
+
+
+/* The c++ function for: /(x:integer,y:float) [0] */
+double  _7_integer2(int x,double y)
+{ return ((to_float(x)/y));} 
+
+
+/* The c++ function for: -(g0093:integer,g0094:any) [0] */
+OID  _dash_integer3_(int g0093,OID g0094)
+{ return _float_(_dash_integer3(g0093,float_v(g0094)));} 
+
+
+/* The c++ function for: -(x:integer,y:float) [0] */
+double  _dash_integer3(int x,double y)
+{ return ((to_float(x)-y));} 
+
+
+/* The c++ function for: +(g0095:any,g0096:integer) [0] */
+OID  _plus_float2_(OID g0095,int g0096)
+{ return _float_(_plus_float2(float_v(g0095),g0096));} 
+
+
+/* The c++ function for: +(x:float,y:integer) [0] */
+double  _plus_float2(double x,int y)
+{ return ((x+to_float(y)));} 
+
+
+/* The c++ function for: *(g0097:any,g0098:integer) [0] */
+OID  _star_float2_(OID g0097,int g0098)
+{ return _float_(_star_float2(float_v(g0097),g0098));} 
+
+
+/* The c++ function for: *(x:float,y:integer) [0] */
+double  _star_float2(double x,int y)
+{ return ((x*to_float(y)));} 
+
+
+/* The c++ function for: /(g0099:any,g0100:integer) [0] */
+OID  _7_float2_(OID g0099,int g0100)
+{ return _float_(_7_float2(float_v(g0099),g0100));} 
+
+
+/* The c++ function for: /(x:float,y:integer) [0] */
+double  _7_float2(double x,int y)
+{ return ((x/to_float(y)));} 
+
+
+/* The c++ function for: -(g0101:any,g0102:integer) [0] */
+OID  _dash_float3_(OID g0101,int g0102)
+{ return _float_(_dash_float3(float_v(g0101),g0102));} 
+
+
+/* The c++ function for: -(x:float,y:integer) [0] */
+double  _dash_float3(double x,int y)
+{ return ((x-to_float(y)));} 
+

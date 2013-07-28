@@ -1,5 +1,5 @@
-/***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\control.cl 
-         [version 3.3.4 / safety 5] Sat Oct 16 06:53:29 2004 *****/
+/***** CLAIRE Compilation of file d:\claire\v3.3\src\meta\control.cl 
+         [version 3.3.42 / safety 5] Sat Jan 28 08:50:16 2006 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -104,7 +104,7 @@ void  printelse_If(If *self)
 // notice that the eval(test) is not a boolean thus the compiler will add
 // something
 // TODO: check that is is not too slow (may use a constant for _oid_(true))
-/* The c++ function for: self_eval(self:If) [SAFE_GC] */
+/* The c++ function for: self_eval(self:If) [SAFE_RESULT] */
 OID  self_eval_If(If *self)
 { { OID Result = 0;
     { OID  x = OPT_EVAL(self->test);
@@ -166,7 +166,7 @@ void  printblock_any(OID x)
     GC_UNBIND;} 
 
 
-/* The c++ function for: self_eval(self:Do) [SAFE_GC] */
+/* The c++ function for: self_eval(self:Do) [SAFE_RESULT] */
 OID  self_eval_Do(Do *self)
 { { OID Result = 0;
     { OID  res = _oid_(Kernel.emptySet);
@@ -421,7 +421,7 @@ OID  self_eval_For(For *self)
         { if (INHERIT(OWNER(x),Kernel._class))
            { OID gc_local;
             ITERATE(y);
-            Result= _oid_(CFALSE);
+            Result= Kernel.cfalse;
             for (START(OBJECT(ClaireClass,x)->descendents); NEXT(y);)
             { GC_LOOP;
               { OID gc_local;
@@ -467,7 +467,7 @@ OID  self_eval_For(For *self)
           else if (INHERIT(OWNER(x),Kernel._collection))
            { OID gc_local;
             ITERATE(y);
-            Result= _oid_(CFALSE);
+            Result= Kernel.cfalse;
             bag *y_support;
             y_support = GC_OBJECT(bag,enumerate_any(x));
             for (START(y_support); NEXT(y);)
@@ -524,7 +524,7 @@ OID  self_eval_Collect(Collect *self)
         { ITERATE(z);
           for (START(OBJECT(ClaireClass,y)->instances); NEXT(z);)
           { write_value_Variable(self->var,z);
-            res= GC_OBJECT(list,res->addFast(GC_OID(OPT_EVAL(self->arg))));
+            res= GC_OBJECT(list,res->addFast(OPT_EVAL(self->arg)));
             } 
           } 
         } 
@@ -533,7 +533,7 @@ OID  self_eval_Collect(Collect *self)
           y_support = GC_OBJECT(bag,enumerate_any(x));
           for (START(y_support); NEXT(y);)
           { write_value_Variable(self->var,y);
-            res= res->addFast(GC_OID(OPT_EVAL(self->arg)));
+            res= res->addFast(OPT_EVAL(self->arg));
             } 
           } 
         if (((self->of == (NULL)) ? CTRUE : CFALSE) != CTRUE)
@@ -593,7 +593,7 @@ OID  self_eval_Image(Image *self)
         y_support = GC_OBJECT(bag,enumerate_any(x));
         for (START(y_support); NEXT(y);)
         { write_value_Variable(self->var,y);
-          res= GC_OBJECT(set,res->addFast(GC_OID(OPT_EVAL(self->arg))));
+          res= GC_OBJECT(set,res->addFast(OPT_EVAL(self->arg)));
           } 
         } 
       if (((self->of == (NULL)) ? CTRUE : CFALSE) != CTRUE)
@@ -921,7 +921,7 @@ OID  self_eval_Case(Case *self)
       { ClaireBoolean * g0055I;
         { OID V_C;{ OID gc_local;
             ITERATE(x);
-            V_C= _oid_(CFALSE);
+            V_C= Kernel.cfalse;
             for (START(self->args); NEXT(x);)
             { GC_LOOP;
               if (flip == CTRUE)
@@ -1136,17 +1136,16 @@ OID  self_eval_Set(Set *self)
   { OID Result = 0;
     { set * s;
       { { list * g0060UU;
-          { { bag *v_list; OID v_val;
-              OID x,CLcount;
-              v_list = self->args;
-               g0060UU = v_list->clone();
-              for (CLcount= 1; CLcount <= v_list->length; CLcount++)
-              { x = (*(v_list))[CLcount];
-                v_val = OPT_EVAL(x);
-                
-                (*((list *) g0060UU))[CLcount] = v_val;} 
-              } 
-            GC_OBJECT(list,g0060UU);} 
+          { bag *v_list; OID v_val;
+            OID x,CLcount;
+            v_list = self->args;
+             g0060UU = v_list->clone();
+            for (CLcount= 1; CLcount <= v_list->length; CLcount++)
+            { x = (*(v_list))[CLcount];
+              v_val = OPT_EVAL(x);
+              
+              (*((list *) g0060UU))[CLcount] = v_val;} 
+            } 
           s = set_I_bag(g0060UU);
           } 
         GC_OBJECT(set,s);} 
@@ -1267,7 +1266,7 @@ void  self_eval_Error(Error *self)
       OID  g0064;
       { list * V_CL0065;{ bag *v_list; OID v_val;
           OID x,CLcount;
-          v_list = GC_OBJECT(list,cdr_list(GC_OBJECT(list,self->args)));
+          v_list = GC_OBJECT(list,cdr_list(self->args));
            V_CL0065 = v_list->clone();
           for (CLcount= 1; CLcount <= v_list->length; CLcount++)
           { x = (*(v_list))[CLcount];
@@ -1302,13 +1301,15 @@ OID  self_eval_Printf(Printf *self)
             while ((equal(n,0) != CTRUE))
             { GC_LOOP;
               { OID  m = GC_OID((*Kernel.nth)(s,
-                  ((n)+1)));
+                  GC_OID((*Core._plus)(n,
+                    1))));
                 if (i > l->length)
                  close_exception(((general_error *) (*Core._general_error)(_string_("[103] not enough arguments in ~S"),
                   _oid_(list::alloc(1,_oid_(self))))));
                 if ((OBJECT(ClaireBoolean,(*Kernel._sup)(n,
                   1))) == CTRUE)
-                 princ_string(substring_string(string_v(s),1,((n)-1)));
+                 princ_string(substring_string(string_v(s),1,(*Kernel._dash)(n,
+                  1)));
                 if (_oid_(_char_('A')) == m)
                  (*Kernel.princ)(GC_OID(OPT_EVAL((*(l))[i])));
                 else if (_oid_(_char_('S')) == m)
@@ -1316,7 +1317,8 @@ OID  self_eval_Printf(Printf *self)
                 else if (_oid_(_char_('I')) == m)
                  OPT_EVAL((*(l))[i]);
                 ++i;
-                GC__OID(s = _string_(substring_string(string_v(s),((n)+2),1000)), 3);
+                GC__OID(s = _string_(substring_string(string_v(s),(*Core._plus)(n,
+                  2),1000)), 3);
                 GC__OID(n = (*Kernel.get)(s,
                   _oid_(_char_('~'))), 5);
                 } 

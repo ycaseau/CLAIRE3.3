@@ -1,5 +1,5 @@
-/***** CLAIRE Compilation of file c:\claire\v3.3\src\compile\osystem.cl 
-         [version 3.3.4 / safety 5] Sat Oct 16 06:53:35 2004 *****/
+/***** CLAIRE Compilation of file d:\claire\v3.3\src\compile\osystem.cl 
+         [version 3.3.42 / safety 5] Sat Jan 28 08:50:21 2006 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -514,9 +514,9 @@ int  c_or_integer(int v5264,int v5265)
       if ((BCONTAIN(v5244,5)) && 
           (((BCONTAIN(v5264,5)) ? ((BCONTAIN(v5265,5)) ? CTRUE: CFALSE): CFALSE) != CTRUE))
        v5244= (v5244-exp2_integer(5));
-      if ((BCONTAIN(v5244,6)) && 
-          (((BCONTAIN(v5264,6)) ? ((BCONTAIN(v5265,6)) ? CTRUE: CFALSE): CFALSE) != CTRUE))
-       v5244= (v5244-exp2_integer(6));
+      if ((BCONTAIN(v5244,5)) && 
+          (((BCONTAIN(v5264,5)) ? ((BCONTAIN(v5265,5)) ? CTRUE: CFALSE): CFALSE) != CTRUE))
+       v5244= (v5244-exp2_integer(5));
       Result = v5244;
       } 
     return (Result);} 
@@ -643,7 +643,7 @@ ClaireBoolean * legal_ask_module(module *v9268,OID v5264)
           } 
         else Result = CTRUE;
           } 
-      else { GC_OBJECT(set,Optimize.OPT->need_modules)->addFast(_oid_(v9268));
+      else { Optimize.OPT->need_modules->addFast(_oid_(v9268));
           Result = CTRUE;
           } 
         GC_UNBIND; return (Result);} 
@@ -673,7 +673,7 @@ OID  c_register_property(property *v9268)
       if (((v15437 == _oid_(claire.it)) || 
             (v15437 == _oid_(v5253))) && 
           (Optimize.OPT->objects->memq(_oid_(v9268)) != CTRUE))
-       GC_OBJECT(set,Optimize.OPT->properties)->addFast(_oid_(v9268));
+       Optimize.OPT->properties->addFast(_oid_(v9268));
       Result = c_register_object(v9268);
       } 
     GC_UNBIND; return (Result);} 
@@ -688,7 +688,7 @@ OID  selector_register_property(property *v9268)
 OID  allocate_ask_property(property *v9268)
 { { OID Result = 0;
     { ITERATE(v5264);
-      Result= _oid_(CFALSE);
+      Result= Kernel.cfalse;
       for (START(v9268->restrictions); NEXT(v5264);)
       if (Kernel._slot == OBJECT(ClaireObject,v5264)->isa)
        { if ((_oid_((INHERIT(OBJECT(restriction,v5264)->range->isa,Kernel._class) ? (ClaireObject *) gcsafe_ask_class((ClaireClass *) OBJECT(ClaireClass,_oid_(OBJECT(restriction,v5264)->range))) :  (ClaireObject *)  gcsafe_ask_type((ClaireType *) OBJECT(ClaireType,_oid_(OBJECT(restriction,v5264)->range))))) != Kernel.ctrue) && 
@@ -728,19 +728,15 @@ OID  get_module_object(ClaireObject *v9268)
 { return (_oid_(defined_symbol(OBJECT(symbol,(*Kernel.name)(_oid_(v9268))))));} 
 
 OID  known_I_listargs(listargs *v5252)
-{ GC_BIND;
-  GC_OBJECT(set,Optimize.OPT->to_remove)->addFast(_oid_(Reader.known_I));
+{ Optimize.OPT->to_remove->addFast(_oid_(Reader.known_I));
   { OID Result = 0;
-    { OID gc_local;
-      ITERATE(v5258);
-      Result= _oid_(CFALSE);
+    { ITERATE(v5258);
+      Result= Kernel.cfalse;
       for (START(v5252); NEXT(v5258);)
-      { GC_LOOP;
-        if (INHERIT(OWNER(v5258),Kernel._property))
-         GC_OBJECT(set,Optimize.OPT->knowns)->addFast(v5258);
-        GC_UNLOOP;} 
+      if (INHERIT(OWNER(v5258),Kernel._property))
+       Optimize.OPT->knowns->addFast(v5258);
       } 
-    GC_UNBIND; return (Result);} 
+    return (Result);} 
   } 
 
 OID  oload_module(module *v5253)

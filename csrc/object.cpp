@@ -1,5 +1,5 @@
-/***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\object.cl 
-         [version 3.3.4 / safety 5] Sat Oct 16 06:53:25 2004 *****/
+/***** CLAIRE Compilation of file d:\claire\v3.3\src\meta\object.cl 
+         [version 3.3.42 / safety 5] Sat Jan 28 08:50:12 2006 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -61,7 +61,7 @@ list * get_args_integer(int i)
       { OID gc_local;
         while ((i < ClEnv->index))
         { GC_LOOP;
-          GC__ANY(liste = liste->addFast(GC_OID(ClEnv->stack[i])), 1);
+          GC__ANY(liste = liste->addFast(ClEnv->stack[i]), 1);
           ++i;
           GC_UNLOOP;} 
         } 
@@ -231,9 +231,9 @@ void  push_debug_property(property *prop,int arity,int start)
             else { { OID  g0047UU;
                 { OID gc_local;
                   ITERATE(l2);
-                  g0047UU= _oid_(CFALSE);
+                  g0047UU= Kernel.cfalse;
                   bag *l2_support;
-                  l2_support = OBJECT(bag,nth_table1(Core.StopProperty,_oid_(prop)));
+                  l2_support = GC_OBJECT(list,OBJECT(bag,nth_table1(Core.StopProperty,_oid_(prop))));
                   for (START(l2_support); NEXT(l2);)
                   { GC_LOOP;
                     { ClaireBoolean * g0048I;
@@ -409,7 +409,7 @@ void  add_value_property3(property *self,ClaireObject *x,OID y)
 
 
 // access
-/* The c++ function for: nth(a:table,x:any) [0] */
+/* The c++ function for: nth(a:table,x:any) [NEW_ALLOC] */
 OID  nth_table1(table *a,OID x)
 { { OID Result = 0;
     { OID  p = a->params;
@@ -539,13 +539,14 @@ void  nth_put_table(table *a,OID x,OID y)
 
 
 // put does NOT update the inverse
-/* The c++ function for: put(a:table,x:any,y:any) [BAG_UPDATE] */
+/* The c++ function for: put(a:table,x:any,y:any) [NEW_ALLOC+BAG_UPDATE] */
 void  put_table(table *a,OID x,OID y)
 { { OID  p = a->params;
     OID  z = get_table(a,x);
     if (equal(z,y) != CTRUE)
      { if (INHERIT(OWNER(p),Kernel._integer))
-       store_list(((list *) a->graph),((x)-p),y,a->store_ask);
+       store_list(((list *) a->graph),(*Kernel._dash)(x,
+        p),y,a->store_ask);
       else if (INHERIT(OWNER(p),Kernel._list))
        store_list(((list *) a->graph),get_index_table2(a,(*(OBJECT(list,x)))[1],(*(OBJECT(list,x)))[2]),y,a->store_ask);
       else { int  i = index_table(a,x);
@@ -648,7 +649,7 @@ OID  delete_table(table *a,OID x,OID y)
 
 
 // direct access to 2-dim tables
-/* The c++ function for: nth(a:table,x:any,y:any) [0] */
+/* The c++ function for: nth(a:table,x:any,y:any) [NEW_ALLOC] */
 OID  nth_table2(table *a,OID x,OID y)
 { { OID Result = 0;
     { OID  p = a->params;
@@ -706,7 +707,7 @@ void  nth_equal_table2(table *a,OID x,OID y,OID z)
 
 
 // v3.2.16 tuple(a,b) is not list(a,b) !
-/* The c++ function for: get_index(a:table,x:any) [RETURN_ARG] */
+/* The c++ function for: get_index(a:table,x:any) [NEW_ALLOC+RETURN_ARG] */
 int  get_index_table1(table *a,OID x)
 { { int Result = 0;
     { OID  p = a->params;
@@ -720,13 +721,17 @@ int  get_index_table1(table *a,OID x)
   } 
 
 
-/* The c++ function for: get_index(a:table,x:integer,y:integer) [0] */
+/* The c++ function for: get_index(a:table,x:integer,y:integer) [NEW_ALLOC] */
 int  get_index_table2(table *a,int x,int y)
-{ { int Result = 0;
+{ GC_BIND;
+  { int Result = 0;
     { list * p = OBJECT(list,a->params);
-      Result = (((((*(p))[1])*x)+y)-((*(p))[2]));
+      Result = (*Kernel._dash)(GC_OID((*Core._plus)(GC_OID((*Kernel._star)((*(p))[1],
+            x)),
+          y)),
+        (*(p))[2]);
       } 
-    return (Result);} 
+    GC_UNBIND; return (Result);} 
   } 
 
 

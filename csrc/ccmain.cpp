@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file ccmain.cl 
-         [version 3.3.4 / safety 5] Sat Oct 16 06:53:41 2004 *****/
+         [version 3.3.42 / safety 5] Sat Jan 28 08:50:27 2006 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -90,7 +90,7 @@ void  printHelp_void()
 //Claire's main
 /* The c++ function for: main(lp:list[string]) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE] */
 void  main_list(list *lp)
-{ GC_RESERVE(13);  // v3.0.55 optim !
+{ GC_BIND;
   { ClaireBoolean * rCode = CTRUE;
     char * _Zcm = "";
     char * _Zcf = "";
@@ -110,10 +110,10 @@ void  main_list(list *lp)
             Optimize.compiler,
             17,
             Kernel._object,
-            _oid_(list::alloc(Kernel._any,3,_string_("c:\\claire\\v3.3\\bin\\public\\ntv"),
-              _string_("c:\\claire\\v3.3\\bin\\debug\\ntv"),
-              _string_("c:\\claire\\v3.3\\bin\\public\\ntv"))));
-          (Optimize.compiler->headers_dir = "c:\\claire\\v3.3\\bin\\include");
+            _oid_(list::alloc(Kernel._any,3,_string_("d:\\claire\\v3.3\\bin\\public\\ntv"),
+              _string_("d:\\claire\\v3.3\\bin\\debug\\ntv"),
+              _string_("d:\\claire\\v3.3\\bin\\public\\ntv"))));
+          (Optimize.compiler->headers_dir = "d:\\claire\\v3.3\\bin\\include");
           update_property(Optimize.options,
             Optimize.compiler,
             19,
@@ -123,10 +123,8 @@ void  main_list(list *lp)
               _string_("-c /Zi"))));
           (Optimize.compiler->env = "ntv");
           (Optimize.claire_lib->value= _string_(""));
-          { OID gc_local;
-            while ((l->length != 0))
-            { GC_LOOP;
-              if ((equal((*(l))[1],_string_("?")) == CTRUE) || 
+          { while ((l->length != 0))
+            { if ((equal((*(l))[1],_string_("?")) == CTRUE) || 
                   (equal((*(l))[1],_string_("-help")) == CTRUE))
                printHelp_void();
               else if (equal((*(l))[1],_string_("-s")) == CTRUE)
@@ -161,7 +159,7 @@ void  main_list(list *lp)
                     load_module(m);
                     begin_module(m);
                     l= skip_list(l,2);
-                    (Optimize.claire_modules->value= _oid_(GC_OBJECT(list,OBJECT(list,Optimize.claire_modules->value))->addFast(_oid_(m))));
+                    (Optimize.claire_modules->value= _oid_(OBJECT(list,Optimize.claire_modules->value)->addFast(_oid_(m))));
                     } 
                   } 
                 else close_exception(((general_error *) (*Core._general_error)(_string_("option: -m <module>"),
@@ -209,7 +207,7 @@ void  main_list(list *lp)
                   } 
               else if (equal((*(l))[1],_string_("-o")) == CTRUE)
                { if (2 <= l->length)
-                 { GC__STRING(_Zout = string_v((*(l))[2]), 6);
+                 { _Zout= string_v((*(l))[2]);
                   l= skip_list(l,2);
                   } 
                 else close_exception(((general_error *) (*Core._general_error)(_string_("option: -o <name>"),
@@ -241,7 +239,7 @@ void  main_list(list *lp)
                 } 
               else if (equal((*(l))[1],_string_("-l")) == CTRUE)
                { if (2 <= l->length)
-                 { GC_OBJECT(list,Optimize.compiler->libraries)->addFast((*(l))[2]);
+                 { Optimize.compiler->libraries->addFast((*(l))[2]);
                   l= skip_list(l,2);
                   } 
                 else close_exception(((general_error *) (*Core._general_error)(_string_("option: -l <library>"),
@@ -249,7 +247,7 @@ void  main_list(list *lp)
                   } 
               else if (equal((*(l))[1],_string_("-cl")) == CTRUE)
                { if (2 <= l->length)
-                 { GC__STRING(_Zcm = string_v((*(l))[2]), 3);
+                 { _Zcm= string_v((*(l))[2]);
                   l= skip_list(l,2);
                   } 
                 else close_exception(((general_error *) (*Core._general_error)(_string_("option: -cm <module>"),
@@ -258,7 +256,7 @@ void  main_list(list *lp)
               else if (equal((*(l))[1],_string_("-cc")) == CTRUE)
                { if (2 <= l->length)
                  { clevel= 0;
-                  GC__STRING(_Zcm = string_v((*(l))[2]), 3);
+                  _Zcm= string_v((*(l))[2]);
                   l= skip_list(l,2);
                   } 
                 else close_exception(((general_error *) (*Core._general_error)(_string_("option: -cc <module>"),
@@ -267,7 +265,7 @@ void  main_list(list *lp)
               else if (equal((*(l))[1],_string_("-cm")) == CTRUE)
                { if (2 <= l->length)
                  { clevel= 2;
-                  GC__STRING(_Zcm = string_v((*(l))[2]), 3);
+                  _Zcm= string_v((*(l))[2]);
                   l= skip_list(l,2);
                   } 
                 else close_exception(((general_error *) (*Core._general_error)(_string_("option: -cl <module>"),
@@ -275,20 +273,20 @@ void  main_list(list *lp)
                   } 
               else if (equal((*(l))[1],_string_("-cj")) == CTRUE)
                { if (2 <= l->length)
-                 { GC__STRING(_Zcj = string_v((*(l))[2]), 7);
+                 { _Zcj= string_v((*(l))[2]);
                   l= skip_list(l,2);
                   } 
                 } 
               else if (equal((*(l))[1],_string_("-cjx")) == CTRUE)
                { if (2 <= l->length)
-                 { GC__STRING(_Zcj = string_v((*(l))[2]), 7);
+                 { _Zcj= string_v((*(l))[2]);
                   clevel= 0;
                   l= skip_list(l,2);
                   } 
                 } 
               else if (equal((*(l))[1],_string_("-cx")) == CTRUE)
                { if (2 <= l->length)
-                 { GC__STRING(_Zcf = string_v((*(l))[2]), 4);
+                 { _Zcf= string_v((*(l))[2]);
                   l= skip_list(l,2);
                   clevel= 2;
                   } 
@@ -305,9 +303,9 @@ void  main_list(list *lp)
                     printHelp_void();
                     } 
                   rCode= CFALSE;
-                  GC__ANY(l = list::empty(Kernel._string), 12);
+                  l= list::empty(Kernel._string);
                   } 
-                GC_UNLOOP;} 
+                } 
             } 
           if (equal_string(_Zout,"") == CTRUE)
            { if (equal_string(_Zcm,"") != CTRUE)
@@ -334,13 +332,13 @@ void  main_list(list *lp)
           if (equal_string(_Zcm,"") != CTRUE)
            { module * m = string2module_string(_Zcm);
             (Optimize.compiler->active_ask = CTRUE);
-            if (equal(GC_OID(_oid_(m->uses)),GC_OID(_oid_(list::alloc(1,GC_OID((*(OBJECT(bag,Optimize.claire_modules->value)))[2]))))) == CTRUE)
+            if (equal(_oid_(m->uses),_oid_(list::alloc(1,GC_OID((*(OBJECT(bag,Optimize.claire_modules->value)))[2])))) == CTRUE)
              { (Optimize.claire_modules->value= _oid_(shrink_list(OBJECT(bag,Optimize.claire_modules->value),2)));
-              tformat_string("=== Light Module ~S:~S -> use ~S=== ",0,GC_OBJECT(list,list::alloc(3,_oid_(m),
+              tformat_string("=== Light Module ~S:~S -> use ~S=== ",0,list::alloc(3,_oid_(m),
                 GC_OID(_oid_(m->uses)),
-                GC_OID(Optimize.claire_modules->value))));
+                GC_OID(Optimize.claire_modules->value)));
               } 
-            (Optimize.claire_modules->value= _oid_(GC_OBJECT(list,OBJECT(list,Optimize.claire_modules->value))->addFast(_oid_(m))));
+            (Optimize.claire_modules->value= _oid_(OBJECT(list,Optimize.claire_modules->value)->addFast(_oid_(m))));
             (*Reader.load)(value_string("Compile"));
             if (equal_string(_Zout,"") != CTRUE)
              (m->external = _Zout);
@@ -349,7 +347,7 @@ void  main_list(list *lp)
              { (Optimize.compiler->safety = ((Optimize.compiler->safety <= 4) ?
                 Optimize.compiler->safety :
                 4 ));
-              GC_OBJECT(list,Optimize.compiler->debug_ask)->addFast(_oid_(m));
+              Optimize.compiler->debug_ask->addFast(_oid_(m));
               } 
             compile_module(m);
             if (clevel == 1)
@@ -576,10 +574,10 @@ void  cmakefile_any(OID m,char *out)
     if (equal_string(out,"") != CTRUE)
      generate_s_file_string(out,l,m);
     if (equal_string(_Zos,"win32v") == CTRUE)
-     GC_OBJECT(list,Optimize.compiler->libraries)->addFast(_string_("gui"));
+     Optimize.compiler->libraries->addFast(_string_("gui"));
     else if (OBJECT(bag,Optimize.claire_modules->value)->length == 3)
-     GC_OBJECT(list,Optimize.compiler->libraries)->addFast(_string_("noConsole"));
-    else GC_OBJECT(list,Optimize.compiler->libraries)->addFast(_string_("Console"));
+     Optimize.compiler->libraries->addFast(_string_("noConsole"));
+    else Optimize.compiler->libraries->addFast(_string_("Console"));
       if ((equal_string(_Zos,"ntw") == CTRUE) || 
         ((equal_string(_Zos,"ntv") == CTRUE) || 
           (equal_string(_Zos,"win32v") == CTRUE)))

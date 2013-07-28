@@ -1,5 +1,5 @@
-/***** CLAIRE Compilation of file c:\claire\v3.3\src\compile\gexp.cl 
-         [version 3.3.4 / safety 5] Sat Oct 16 06:53:38 2004 *****/
+/***** CLAIRE Compilation of file d:\claire\v3.3\src\compile\gexp.cl 
+         [version 3.3.42 / safety 5] Sat Jan 28 08:50:24 2006 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -15,7 +15,7 @@ ClaireBoolean * c_func_any(OID v1140)
      { OID  v4712;
       { OID gc_local;
         ITERATE(v7248);
-        v4712= _oid_(CFALSE);
+        v4712= Kernel.cfalse;
         for (START(OBJECT(bag,v1140)); NEXT(v7248);)
         if (c_func_any(v7248) != CTRUE)
          { v4712 = Kernel.ctrue;

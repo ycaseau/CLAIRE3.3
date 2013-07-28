@@ -1,5 +1,5 @@
-/***** CLAIRE Compilation of file c:\claire\v3.3\src\compile\ocontrol.cl 
-         [version 3.3.4 / safety 5] Sat Oct 16 06:53:36 2004 *****/
+/***** CLAIRE Compilation of file d:\claire\v3.3\src\compile\ocontrol.cl 
+         [version 3.3.42 / safety 5] Sat Jan 28 08:50:21 2006 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -674,7 +674,8 @@ OID  c_code_Printf_Optimize(Printf *v9268)
             while ((equal(v5254,0) != CTRUE))
             { GC_LOOP;
               { OID  v5253 = GC_OID((*Kernel.nth)(v5259,
-                  ((v5254)+1)));
+                  GC_OID((*Core._plus)(v5254,
+                    1))));
                 if (v5249 < v5252->length)
                  ++v5249;
                 else (*Optimize.Cerror)(_string_("[210] not enough arguments in ~S"),
@@ -684,7 +685,8 @@ OID  c_code_Printf_Optimize(Printf *v9268)
                  { { OID  v10938;
                     { Call * v2072 = ((Call *) GC_OBJECT(Call,new_object_class(Language._Call)));
                       (v2072->selector = Kernel.princ);
-                      (v2072->args = list::alloc(1,GC_OID(_string_(substring_string(string_v(v5259),1,((v5254)-1))))));
+                      (v2072->args = list::alloc(1,GC_OID(_string_(substring_string(string_v(v5259),1,(*Kernel._dash)(v5254,
+                        1))))));
                       add_I_property(Kernel.instances,Language._Call,11,_oid_(v2072));
                       v10938 = _oid_(v2072);
                       } 
@@ -712,7 +714,8 @@ OID  c_code_Printf_Optimize(Printf *v9268)
                       v5258 = v5258->addFast(v11899);
                     } 
                    GC__ANY(v5258, 7);} 
-                GC__OID(v5259 = _string_(substring_string(string_v(v5259),((v5254)+2),1000)), 4);
+                GC__OID(v5259 = _string_(substring_string(string_v(v5259),(*Core._plus)(v5254,
+                  2),1000)), 4);
                 GC__OID(v5254 = (*Kernel.get)(v5259,
                   _oid_(_char_('~'))), 6);
                 } 
@@ -772,7 +775,7 @@ OID  c_code_Error_Optimize(Error *v9268)
                             { { OID  v11941;
                                 if (v9268->args->length != 1)
                                  { List * v2072 = ((List *) GC_OBJECT(List,new_object_class(Language._List)));
-                                  (v2072->args = cdr_list(GC_OBJECT(list,v9268->args)));
+                                  (v2072->args = cdr_list(v9268->args));
                                   add_I_property(Kernel.instances,Language._List,11,_oid_(v2072));
                                   v11941 = _oid_(v2072);
                                   } 
@@ -2116,14 +2119,17 @@ OID  Iterate_I_Iteration(Iteration *v9268)
   } 
 
 OID  iterate_Interval(Interval *v5264,Variable *v5263,OID v5245)
-{ GC_BIND;
+{ GC_RESERVE(1);  // HOHO v3.0.55 optim !
   { OID Result = 0;
     { OID  v5263 = GC_OID(eval_any2(v5264->arg1,Core._Interval));
       int  v3080 = eval_any2(v5264->arg2,Core._Interval);
-      { Result= _oid_(CFALSE);
+      { OID gc_local;
+        Result= _oid_(CFALSE);
         while ((v5263 <= v3080))
-        { ;v5263= ((v5263)+1);
-          } 
+        { GC_LOOP;
+          ;GC__OID(v5263 = (*Core._plus)(v5263,
+            1), 1);
+          GC_UNLOOP;} 
         } 
       } 
     GC_UNBIND; return (Result);} 
@@ -2148,11 +2154,11 @@ OID  iterate_array(OID *v5264,Variable *v5263,OID v5245)
 OID  Iterate_class(ClaireClass *v5264,Variable *v5263,OID v5245)
 { { OID Result = 0;
     { ITERATE(v11595);
-      Result= _oid_(CFALSE);
+      Result= Kernel.cfalse;
       for (START(v5264->descendents); NEXT(v11595);)
       { ClaireBoolean * v11596;
         { OID v15730;{ ITERATE(v5263);
-            v15730= _oid_(CFALSE);
+            v15730= Kernel.cfalse;
             for (START(OBJECT(ClaireClass,v11595)->instances); NEXT(v5263);)
             ;} 
           
@@ -2166,15 +2172,18 @@ OID  Iterate_class(ClaireClass *v5264,Variable *v5263,OID v5245)
   } 
 
 OID  Iterate_any1(OID v5264,Variable *v5263,OID v5245)
-{ GC_BIND;
+{ GC_RESERVE(1);  // HOHO v3.0.55 optim !
   { OID Result = 0;
     { OID  v5263 = GC_OID(OPT_EVAL((*(OBJECT(Call,v5264)->args))[1]));
       OID  v3080 = GC_OID(OPT_EVAL((*(OBJECT(Call,v5264)->args))[2]));
-      { Result= _oid_(CFALSE);
+      { OID gc_local;
+        Result= _oid_(CFALSE);
         while (((OBJECT(ClaireBoolean,(*Kernel._inf_equal)(v5263,
           v3080))) == CTRUE))
-        { ;v5263= ((v5263)+1);
-          } 
+        { GC_LOOP;
+          ;GC__OID(v5263 = (*Core._plus)(v5263,
+            1), 1);
+          GC_UNLOOP;} 
         } 
       } 
     GC_UNBIND; return (Result);} 
@@ -2185,7 +2194,7 @@ OID  Iterate_Lselect(Lselect *v5264,Variable *v5263,OID v5245)
   { OID Result = 0;
     { OID gc_local;
       ITERATE(v5263);
-      Result= _oid_(CFALSE);
+      Result= Kernel.cfalse;
       bag *v5263_support;
       v5263_support = GC_OBJECT(bag,enumerate_any(GC_OID(eval_any(GC_OID(v5264->set_arg)))));
       for (START(v5263_support); NEXT(v5263);)
@@ -2201,7 +2210,7 @@ OID  Iterate_Select(Select *v5264,Variable *v5263,OID v5245)
   { OID Result = 0;
     { OID gc_local;
       ITERATE(v5263);
-      Result= _oid_(CFALSE);
+      Result= Kernel.cfalse;
       bag *v5263_support;
       v5263_support = GC_OBJECT(bag,enumerate_any(GC_OID(eval_any(GC_OID(v5264->set_arg)))));
       for (START(v5263_support); NEXT(v5263);)
@@ -2217,7 +2226,7 @@ OID  Iterate_Collect(Collect *v5264,Variable *v5263,OID v5245)
   { OID Result = 0;
     { OID gc_local;
       ITERATE(v11916);
-      Result= _oid_(CFALSE);
+      Result= Kernel.cfalse;
       bag *v11916_support;
       v11916_support = GC_OBJECT(bag,enumerate_any(GC_OID(eval_any(GC_OID(v5264->set_arg)))));
       for (START(v11916_support); NEXT(v11916);)
@@ -2234,7 +2243,7 @@ OID  Iterate_any2(OID v5264,Variable *v5263,OID v5245)
   { OID Result = 0;
     { OID gc_local;
       ITERATE(v5263);
-      Result= _oid_(CFALSE);
+      Result= Kernel.cfalse;
       bag *v5263_support;
       v5263_support = GC_OBJECT(bag,enumerate_any(GC_OID(OPT_EVAL((*(OBJECT(Call,v5264)->args))[1]))));
       for (START(v5263_support); NEXT(v5263);)
@@ -2256,7 +2265,7 @@ OID  Iterate_any3(OID v5264,Variable *v5263,OID v5245)
   { OID Result = 0;
     { OID gc_local;
       ITERATE(v5263);
-      Result= _oid_(CFALSE);
+      Result= Kernel.cfalse;
       bag *v5263_support;
       v5263_support = GC_OBJECT(bag,enumerate_any(GC_OID(OPT_EVAL((*(OBJECT(Call,v5264)->args))[2]))));
       for (START(v5263_support); NEXT(v5263);)

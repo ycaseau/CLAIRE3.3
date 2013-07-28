@@ -554,7 +554,7 @@ Compile/bitvectorList :: list("NEW_ALLOC","BAG_UPDATE","SLOT_UPDATE","RETURN_ARG
       (new_block(),
        if OPT.loop_gc printf("OID gc_local;~I", breakline()),
        printf("ITERATE(~I);", c_princ(v)),
-       if (s % string) (breakline(), printf("~I= _oid_(CFALSE);", c_princ(s))),
+       if (s % string) (breakline(), printf("~I= Kernel.cfalse;", c_princ(s))),  // v3.3.42 - Sylvain's optim 
        breakline(),
        if (c_func(self.set_arg) & designated?(self.set_arg))
           printf("for (START(~I); NEXT(~I);)",

@@ -187,13 +187,13 @@ put(self:property,x:object,y:any) : any
  -> (let s := (self @ owner(x)) in
        case s
         (slot store(x, s.index, s.srange, y, self.store?),
-         any selector_error(selector = self, args = list(x))))
+         any selector_error(selector = self, arg = list(x))))
 
          
 // v3.2 : same but multi valued
 [add_value(self:property,x:object,y:any) : void
   -> let s := (self @ owner(x)) in
-    (if not(s) selector_error(selector = self, args = list(x))
+    (if not(s) selector_error(selector = self, arg = list(x))
      else if not(multi?(self)) error("[134] Cannot apply add to ~S", self)
      else let n := (s as slot).index,
               l1 := (slot_get(x, n, object) as bag) in

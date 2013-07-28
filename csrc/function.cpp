@@ -1,5 +1,5 @@
-/***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\function.cl 
-         [version 3.3.4 / safety 5] Sat Oct 16 06:53:25 2004 *****/
+/***** CLAIRE Compilation of file d:\claire\v3.3\src\meta\function.cl 
+         [version 3.3.42 / safety 5] Sat Jan 28 08:50:12 2006 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -45,7 +45,7 @@ void  print_in_string_void()
      (Core.pretty->cpstack = list::alloc(Kernel._port,2,GC_OID(ClAlloc->import(Kernel._port,(int *) p2)),GC_OID(ClAlloc->import(Kernel._port,(int *) p1))));
     else { ((*(Core.pretty->cpstack))[n]=ClAlloc->import(Kernel._port,(int *) p2));
         if (n == Core.pretty->cpstack->length)
-         GC_OBJECT(list,Core.pretty->cpstack)->addFast(GC_OID(ClAlloc->import(Kernel._port,(int *) p1)));
+         Core.pretty->cpstack->addFast(ClAlloc->import(Kernel._port,(int *) p1));
         } 
       } 
   GC_UNBIND;} 
@@ -333,7 +333,7 @@ bag * check_in_bag(bag *self,ClaireClass *c,ClaireType *y)
       { ClaireBoolean * g0062I;
         { OID  g0063UU;
           { ITERATE(z);
-            g0063UU= _oid_(CFALSE);
+            g0063UU= Kernel.cfalse;
             for (START(self); NEXT(z);)
             if (belong_to(z,_oid_(y)) != CTRUE)
              { g0063UU = Kernel.ctrue;
@@ -382,7 +382,7 @@ ClaireBoolean * _sup_any(OID self,OID x)
 OID  ephemeral_class(ClaireClass *self)
 { { OID Result = 0;
     { ITERATE(c);
-      Result= _oid_(CFALSE);
+      Result= Kernel.cfalse;
       for (START(self->descendents); NEXT(c);)
       if ((OBJECT(ClaireClass,c)->instances->length != 0) || 
           (OBJECT(ClaireClass,c)->open <= 1))
@@ -611,28 +611,21 @@ void  final_relation(ClaireRelation *r)
 // read in the system module.
 /* The c++ function for: close(self:module) [NEW_ALLOC+SLOT_UPDATE+SAFE_RESULT] */
 module * close_module(module *self)
-{ GC_BIND;
-  if (self != claire.it)
+{ if (self != claire.it)
    { if (((self->part_of == (NULL)) ? CTRUE : CFALSE) != CTRUE)
      { module * sup = self->part_of;
-      GC_OBJECT(list,sup->parts)->addFast(_oid_(self));
-      { OID gc_local;
-        ITERATE(x);
+      sup->parts->addFast(_oid_(self));
+      { ITERATE(x);
         bag *x_support;
-        x_support = GC_OBJECT(list,sup->uses);
+        x_support = sup->uses;
         for (START(x_support); NEXT(x);)
-        { GC_LOOP;
-          if ((contain_ask_list(self->uses,x) != CTRUE) && 
-              (INHERIT(OWNER(x),Kernel._module)))
-           GC_OBJECT(list,self->uses)->addFast(x);
-          GC_UNLOOP;} 
+        if ((contain_ask_list(self->uses,x) != CTRUE) && 
+            (INHERIT(OWNER(x),Kernel._module)))
+         self->uses->addFast(x);
         } 
       } 
     } 
-  { module *Result ;
-    Result = self;
-    GC_UNBIND; return (Result);} 
-  } 
+  return (self);} 
 
 
 // note: dynamic modules are no longer supported
@@ -688,7 +681,7 @@ void  backtrack_integer(int n)
 OID  store_listargs(listargs *l)
 { { OID Result = 0;
     { ITERATE(r);
-      Result= _oid_(CFALSE);
+      Result= Kernel.cfalse;
       for (START(l); NEXT(r);)
       if (INHERIT(OWNER(r),Kernel._relation))
        (OBJECT(ClaireRelation,r)->store_ask = CTRUE);
@@ -1332,7 +1325,7 @@ set * build_powerset_list(list *self)
         ITERATE(y);
         for (START(l1); NEXT(y);)
         { GC_LOOP;
-          GC__ANY(l2 = l2->addFast(GC_OID(_oid_(append_set(set::alloc(1,x),OBJECT(set,y))))), 1);
+          GC__ANY(l2 = l2->addFast(_oid_(append_set(set::alloc(1,x),OBJECT(set,y)))), 1);
           GC_UNLOOP;} 
         } 
       Result = l2;

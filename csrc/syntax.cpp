@@ -1,5 +1,5 @@
-/***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\syntax.cl 
-         [version 3.3.4 / safety 5] Sat Oct 16 06:53:32 2004 *****/
+/***** CLAIRE Compilation of file d:\claire\v3.3\src\meta\syntax.cl 
+         [version 3.3.42 / safety 5] Sat Jan 28 08:50:18 2006 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -192,7 +192,7 @@ OID  combine_I_any(OID x,OID y,OID z)
         } 
     else if (equal(y,Reader.OR->value) == CTRUE)
      { if (INHERIT(OWNER(x),Language._Or))
-       { GC_OBJECT(list,OBJECT(Or,x)->args)->addFast(z);
+       { OBJECT(Or,x)->args->addFast(z);
         Result = x;
         } 
       else { Or * _CL_obj = ((Or *) GC_OBJECT(Or,new_object_class(Language._Or)));
@@ -203,7 +203,7 @@ OID  combine_I_any(OID x,OID y,OID z)
         } 
     else if (equal(y,Reader.AND->value) == CTRUE)
      { if (INHERIT(OWNER(x),Language._And))
-       { GC_OBJECT(list,OBJECT(And,x)->args)->addFast(z);
+       { OBJECT(And,x)->args->addFast(z);
         Result = x;
         } 
       else { And * _CL_obj = ((And *) GC_OBJECT(And,new_object_class(Language._And)));
@@ -612,7 +612,7 @@ OID  readcase_meta_reader(meta_reader *r,keyword *e)
           { GC_LOOP;
             next_meta_reader(r);
             GC__OID(_Zt = _oid_(extract_type_any(GC_OID(nexte_meta_reader(r)))), 6);
-            (_Zx->args = GC_OBJECT(list,GC_OBJECT(list,_Zx->args)->addFast(_Zt))->addFast(GC_OID(nexts_meta_reader(r,Reader.none))));
+            (_Zx->args = _Zx->args->addFast(_Zt)->addFast(nexts_meta_reader(r,Reader.none)));
             if ((boolean_I_any(stop_ask_integer(firstc_meta_reader(r))) != CTRUE) && 
                 (boolean_I_any(stop_ask_integer(skipc_meta_reader(r))) != CTRUE))
              Serror_string("[167] missing ) or , after ~S",list::alloc(1,_oid_(_Zx)));
@@ -649,11 +649,9 @@ OID  readset_meta_reader(meta_reader *r,OID _Za1)
                 { OID gc_local;
                   ITERATE(u);
                   bag *u_support;
-                  u_support = GC_OBJECT(list,cons_any(_Za1,GC_OBJECT(list,OBJECT(list,nextseq_meta_reader(cnext_meta_reader(r),125)))));
+                  u_support = GC_OBJECT(list,cons_any(_Za1,OBJECT(list,nextseq_meta_reader(cnext_meta_reader(r),125))));
                   for (START(u_support); NEXT(u);)
-                  { GC_LOOP;
-                    u_bag->addFast(GC_OID(dereference_any(u)));
-                    GC_UNLOOP;} 
+                  u_bag->addFast(dereference_any(u));
                   } 
                 g0047UU = GC_OBJECT(set,u_bag);
                 } 
@@ -744,7 +742,7 @@ OID  nextseq_meta_reader(meta_reader *r,int e)
           Result = _oid_(list::alloc(1,x));
           } 
         else if (firstc_meta_reader(r) == 44)
-         Result = _oid_(cons_any(x,GC_OBJECT(list,OBJECT(list,nextseq_meta_reader(cnext_meta_reader(r),e)))));
+         Result = _oid_(cons_any(x,OBJECT(list,nextseq_meta_reader(cnext_meta_reader(r),e))));
         else Serror_string("[171] Read the character ~S inside a sequence",list::alloc(1,_oid_(char_I_integer(firstc_meta_reader(r)))));
           } 
       GC_UNBIND; return (Result);} 
@@ -798,7 +796,7 @@ OID  Do_I_any(OID x,OID y)
 { GC_BIND;
   { OID Result = 0;
     if (INHERIT(OWNER(y),Language._Do))
-     { (OBJECT(Do,y)->args = add_at_list(GC_OBJECT(list,OBJECT(Do,y)->args),1,x));
+     { (OBJECT(Do,y)->args = add_at_list(OBJECT(Do,y)->args,1,x));
       Result = y;
       } 
     else { Do * _CL_obj = ((Do *) GC_OBJECT(Do,new_object_class(Language._Do)));
@@ -991,7 +989,7 @@ OID  readcall_meta_reader(meta_reader *r,OID x,OID t)
             { ClaireBoolean * V_CL0061;{ OID  g0062UU;
                 { OID gc_local;
                   ITERATE(y);
-                  g0062UU= _oid_(CFALSE);
+                  g0062UU= Kernel.cfalse;
                   bag *y_support;
                   y_support = GC_OBJECT(bag,enumerate_any(l));
                   for (START(y_support); NEXT(y);)
@@ -1083,9 +1081,9 @@ OID  readcall_meta_reader(meta_reader *r,OID x,OID t)
             } 
           } 
         
-        if (g0067I == CTRUE) Result = _oid_(Call_I_property(Core.call,cons_any(x,GC_OBJECT(list,((boolean_I_any(l) == CTRUE) ?
+        if (g0067I == CTRUE) Result = _oid_(Call_I_property(Core.call,cons_any(x,((boolean_I_any(l) == CTRUE) ?
             OBJECT(list,l) :
-            list::alloc(1,_oid_(ClEnv)) )))));
+            list::alloc(1,_oid_(ClEnv)) ))));
           else { property * p = make_a_property_any(x);
           OID  l2;
           { if (boolean_I_any(l) == CTRUE)

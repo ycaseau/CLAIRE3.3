@@ -1,4 +1,4 @@
-// interface defination for module Reader, Sat Oct 16 06:53:32 2004
+// interface defination for module Reader, Sat Jan 28 08:50:18 2006
 #ifndef CLAIREH_Reader
 #define CLAIREH_Reader
 
@@ -135,6 +135,22 @@ extern ClaireBoolean * unknown_ask_table(table *a,OID x);
 extern double  float_I_string(char *self);
 extern OID  float_I_string_(char *g0086);
 extern ClaireBoolean * _sup_equal_any(OID self,OID x);
+extern double  _plus_integer2(int x,double y);
+extern OID  _plus_integer2_(int g0087,OID g0088);
+extern double  _star_integer2(int x,double y);
+extern OID  _star_integer2_(int g0089,OID g0090);
+extern double  _7_integer2(int x,double y);
+extern OID  _7_integer2_(int g0091,OID g0092);
+extern double  _dash_integer3(int x,double y);
+extern OID  _dash_integer3_(int g0093,OID g0094);
+extern double  _plus_float2(double x,int y);
+extern OID  _plus_float2_(OID g0095,int g0096);
+extern double  _star_float2(double x,int y);
+extern OID  _star_float2_(OID g0097,int g0098);
+extern double  _7_float2(double x,int y);
+extern OID  _7_float2_(OID g0099,int g0100);
+extern double  _dash_float3(double x,int y);
+extern OID  _dash_float3_(OID g0101,int g0102);
 extern OID  inspect_any(OID self);
 extern OID  inspect_loop_any(OID _Zread,list *old);
 extern OID  get_from_integer_any(OID self,int n);

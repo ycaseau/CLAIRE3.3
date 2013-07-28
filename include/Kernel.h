@@ -6,7 +6,7 @@
         
         Author: YVES CASEAU
         Created: YC  26/01/2003 10:13:39
-	Last change: YC 14/06/2003 18:57:15
+	Last change: YC 23/01/2006 07:41:25
 */
 /***********************************************************************/
 /**   microCLAIRE                                       Yves Caseau    */
@@ -84,6 +84,7 @@ class ClairePort
  virtual void put(int n);
  virtual void put(double x);
  virtual void prettyp(double x);        // v3.2.54
+ virtual void putFormat(double x,int i);        // v3.3.42 
  virtual void flush();
  virtual void pclose();
  };                  //  v3.3.40 remove debugSee
@@ -624,6 +625,8 @@ extern void princ_float(double x);
 extern void princ_float_(OID x);
 extern void print_float(double x);
 extern void print_float_(OID x);
+extern void print_format_float(double x,int i);
+extern void print_format_float_(OID x, OID i);
 
 // === ports ==================================================================
 

@@ -1,5 +1,5 @@
-/***** CLAIRE Compilation of file c:\claire\v3.3\src\meta\method.cl 
-         [version 3.3.4 / safety 5] Sat Oct 16 06:53:25 2004 *****/
+/***** CLAIRE Compilation of file d:\claire\v3.3\src\meta\method.cl 
+         [version 3.3.42 / safety 5] Sat Jan 28 08:50:12 2006 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -34,7 +34,7 @@
 // it used to be distributed in CLAIRE (so that it was extensible) and each
 // definition was called the behavior of a kind of restriction
 // int? tells us if this is an interpreted message
-/* The c++ function for: eval_message(self:property,r:object,start:integer,int?:boolean) [NEW_ALLOC+SLOT_UPDATE+SAFE_GC] */
+/* The c++ function for: eval_message(self:property,r:object,start:integer,int?:boolean) [NEW_ALLOC+SLOT_UPDATE+SAFE_RESULT] */
 OID  eval_message_property(property *self,ClaireObject *r,int start,ClaireBoolean *int_ask)
 { { OID Result = 0;
     if (r->isa == Kernel._method)
@@ -163,12 +163,11 @@ OID  self_eval_ClaireObject(ClaireObject *self)
 // reads an inline definition for a method
 /* The c++ function for: inlineok?(self:method,s:string) [NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+SAFE_RESULT] */
 method * inlineok_ask_method(method *self,char *s)
-{ GC_BIND;
-  { ClaireHandler c_handle = ClaireHandler();
+{ { ClaireHandler c_handle = ClaireHandler();
     if ERROR_IN 
     { { property * p = Core.read;
-        OID  l = GC_OID((*Core.call)(_oid_(p),
-          _string_(s)));
+        OID  l = (*Core.call)(_oid_(p),
+          _string_(s));
         (self->inline_ask = CTRUE);
         update_property(Kernel.formula,
           self,
@@ -181,10 +180,7 @@ method * inlineok_ask_method(method *self,char *s)
     { c_handle.catchIt();tformat_string("---- WARNING: inline definition of ~S is wrong\n",0,list::alloc(1,_oid_(self)));
       } 
     else PREVIOUS_HANDLER;} 
-  { method *Result ;
-    Result = self;
-    GC_UNBIND; return (Result);} 
-  } 
+  return (self);} 
 
 
 // ****************************************************************
@@ -764,7 +760,7 @@ list * initialize_restriction1(restriction *x,ClaireClass *d,list *l)
             { ClaireBoolean * g0008I;
               { OID  g0009UU;
                 { ITERATE(y);
-                  g0009UU= _oid_(CFALSE);
+                  g0009UU= Kernel.cfalse;
                   for (START(p->restrictions); NEXT(y);)
                   if (y != _oid_(x))
                    { { ClaireBoolean * g0010I;
@@ -804,7 +800,7 @@ ClaireBoolean * uniform_restriction(restriction *x)
       int  n = l->length;
       { OID  g0013UU;
         { ITERATE(r);
-          g0013UU= _oid_(CFALSE);
+          g0013UU= Kernel.cfalse;
           for (START(x->selector->restrictions); NEXT(r);)
           { ClaireBoolean * g0014I;
             { OID  g0015UU;
@@ -860,7 +856,7 @@ ClaireBoolean * uniform_property(property *p)
     { ClaireBoolean *v_and;
       { { OID  g0018UU;
           { ITERATE(x);
-            g0018UU= _oid_(CFALSE);
+            g0018UU= Kernel.cfalse;
             for (START(p->restrictions); NEXT(x);)
             if (equal(_oid_(Kernel._method),_oid_(OBJECT(ClaireObject,x)->isa)) != CTRUE)
              { g0018UU = Kernel.ctrue;
@@ -922,7 +918,7 @@ OID  hashinsert_restriction(restriction *m)
 { { OID Result = 0;
     { ClaireClass * c = domain_I_restriction(m);
       { ITERATE(c2);
-        Result= _oid_(CFALSE);
+        Result= Kernel.cfalse;
         for (START(c->descendents); NEXT(c2);)
         hashinsert_class(OBJECT(ClaireClass,c2),((method *) m));
         } 
@@ -963,7 +959,8 @@ OID  hashinsert_list(list *l,method *x)
            { if ((hashsize_list(l)*3) > (l->length*2))
              { list * myl2;
               { { list * g0020 = l;
-                  list * g0021 = GC_OBJECT(list,make_list_integer((((*(g0020))[0])*2),CNULL));
+                  list * g0021 = GC_OBJECT(list,make_list_integer((*Kernel._star)((*(g0020))[0],
+                    2),CNULL));
                   { OID gc_local;
                     ITERATE(g0022);
                     for (START(g0020); NEXT(g0022);)
@@ -1118,7 +1115,7 @@ ClaireObject * _at_property2(property *self,list *lt)
 
 
 // method's pattern matching
-/* The c++ function for: matching?(l:list,n:integer,m:integer) [SAFE_GC] */
+/* The c++ function for: matching?(l:list,n:integer,m:integer) [SAFE_RESULT] */
 ClaireBoolean * matching_ask_list(list *l,int n,int m)
 { { ClaireBoolean *Result ;
     { int  x = (m-n);
@@ -1174,7 +1171,7 @@ ClaireBoolean * matching_ask_list(list *l,int n,int m)
 
 // type's pattern matching
 // v3.0.65: use %type for Param
-/* The c++ function for: vmatch?(t:any,x:any,n:integer) [SAFE_GC] */
+/* The c++ function for: vmatch?(t:any,x:any,n:integer) [SAFE_RESULT] */
 ClaireBoolean * vmatch_ask_any(OID t,OID x,int n)
 { { ClaireBoolean *Result ;
     if (INHERIT(OWNER(t),Kernel._class))
@@ -1369,7 +1366,7 @@ ClaireObject * find_which_property(property *p,int n,ClaireClass *c)
     if (p->dictionary == CTRUE)
      Result = hashget_class(c,p);
     else { OID V_C;{ ITERATE(r);
-          V_C= _oid_(CFALSE);
+          V_C= Kernel.cfalse;
           for (START(p->definition); NEXT(r);)
           if (matching_ask_list(OBJECT(restriction,r)->domain,n,ClEnv->index) == CTRUE)
            { V_C = r;
@@ -1385,7 +1382,7 @@ ClaireObject * find_which_property(property *p,int n,ClaireClass *c)
 ClaireObject * find_which_list(list *l,ClaireClass *c,int n,int m)
 { { ClaireObject *Result ;
     { OID V_C;{ ITERATE(r);
-        V_C= _oid_(CFALSE);
+        V_C= Kernel.cfalse;
         for (START(l); NEXT(r);)
         if (matching_ask_list(OBJECT(restriction,r)->domain,n,m) == CTRUE)
          { V_C = r;
@@ -1402,7 +1399,7 @@ ClaireObject * find_which_list(list *l,ClaireClass *c,int n,int m)
 ClaireObject * find_which_class(ClaireClass *c,list *l,int n,int m)
 { { ClaireObject *Result ;
     { OID V_C;{ ITERATE(r);
-        V_C= _oid_(CFALSE);
+        V_C= Kernel.cfalse;
         for (START(l); NEXT(r);)
         if ((_inf_equalt_class(c,OBJECT(ClaireType,(*(OBJECT(restriction,r)->domain))[1])) == CTRUE) && 
             (matching_ask_list(OBJECT(restriction,r)->domain,n,m) == CTRUE))

@@ -1,3 +1,13 @@
+/** @package 
+
+        clReflect.cpp
+        
+        Copyright(c) self 2000
+        
+        Author: YVES CASEAU
+        Created: YC  24/01/2006 07:35:14
+        Last Change: YC  24/01/2006 07:35:14
+*/
 /***********************************************************************/
 /**   microCLAIRE                                       Yves Caseau    */
 /**   clReflect.cpp                                                    */
@@ -365,7 +375,8 @@ slot *ClaireClass::addSlot(property *p,ClaireType *t,OID def,int ix)
     s->range = t;
     insert_definition_property(p,s);           // defined in system (unless CLKTEST is defined)
     ClAlloc->currentNew = NULL;                // v3.3.38
-    return s;}                 
+    s->comment = NULL;                         // v3.3.42  - from Sylvain ... may cause inspect crash
+    return s;}
     
     
 // number of bits that are necessary to encode n children

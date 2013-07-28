@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file Generate.cl 
-         [version 3.3.4 / safety 5] Sat Oct 16 06:53:39 2004 *****/
+         [version 3.3.42 / safety 5] Sat Jan 28 08:50:24 2006 *****/
 
 #include <claire.h>
 #include <Kernel.h>

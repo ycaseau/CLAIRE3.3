@@ -1,5 +1,5 @@
 /***** CLAIRE Compilation of file Core.cl 
-         [version 3.3.4 / safety 5] Sat Oct 16 06:53:26 2004 *****/
+         [version 3.3.42 / safety 5] Sat Jan 28 08:50:12 2006 *****/
 
 #include <claire.h>
 #include <Kernel.h>
@@ -409,9 +409,9 @@ void CoreClass::metaLoad() {
     Kernel._integer),Kernel._object,
   	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(find_which_class,"find_which_class"));
   
-  { (ClEnv->version = 3.4);
+  { (ClEnv->version = 3.42);
     princ_string("-- CLAIRE run-time library v 3.");
-    princ_float(3.4);
+    princ_float(3.42);
     princ_string(" [os: ");
     princ_string("ntv");
     princ_string(", C++:");
@@ -474,10 +474,10 @@ void CoreClass::metaLoad() {
   	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(add_value_property3,"add_value_property3"));
   
   (Kernel.nth->addMethod(list::domain(2,Kernel._table,Kernel._any),Kernel._any,
-  	0,_function_(nth_table1,"nth_table1"))->typing = _oid_(_function_(nth_table1_type,"nth_table1_type")));
+  	NEW_ALLOC,_function_(nth_table1,"nth_table1"))->typing = _oid_(_function_(nth_table1_type,"nth_table1_type")));
   
   (Kernel.get->addMethod(list::domain(2,Kernel._table,Kernel._any),Kernel._any,
-  	RETURN_ARG,_function_(get_table,"get_table"))->typing = _oid_(_function_(get_table_type,"get_table_type")));
+  	NEW_ALLOC+RETURN_ARG,_function_(get_table,"get_table"))->typing = _oid_(_function_(get_table_type,"get_table_type")));
   
   Kernel.nth_equal->addMethod(list::domain(3,Kernel._table,Kernel._any,Kernel._any),Kernel._void,
   	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(nth_equal_table1,"nth=_table1"));
@@ -486,7 +486,7 @@ void CoreClass::metaLoad() {
   	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(nth_put_table,"nth_put_table"));
   
   Kernel.put->addMethod(list::domain(3,Kernel._table,Kernel._any,Kernel._any),Kernel._void,
-  	BAG_UPDATE,_function_(put_table,"put_table"));
+  	NEW_ALLOC+BAG_UPDATE,_function_(put_table,"put_table"));
   
   Kernel.add->addMethod(list::domain(3,Kernel._table,Kernel._any,Kernel._any),Kernel._void,
   	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(add_table,"add_table"));
@@ -507,7 +507,7 @@ void CoreClass::metaLoad() {
   	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(delete_table,"delete_table"));
   
   (Kernel.nth->addMethod(list::domain(3,Kernel._table,Kernel._any,Kernel._any),Kernel._any,
-  	0,_function_(nth_table2,"nth_table2"))->typing = _oid_(_function_(nth_table2_type,"nth_table2_type")));
+  	NEW_ALLOC,_function_(nth_table2,"nth_table2"))->typing = _oid_(_function_(nth_table2_type,"nth_table2_type")));
   
   Kernel.nth_equal->addMethod(list::domain(4,Kernel._table,
     Kernel._any,
@@ -516,10 +516,10 @@ void CoreClass::metaLoad() {
   	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE+RETURN_ARG,_function_(nth_equal_table2,"nth=_table2"));
   
   Core.get_index->addMethod(list::domain(2,Kernel._table,Kernel._any),Kernel._integer,
-  	RETURN_ARG,_function_(get_index_table1,"get_index_table1"));
+  	NEW_ALLOC+RETURN_ARG,_function_(get_index_table1,"get_index_table1"));
   
   Core.get_index->addMethod(list::domain(3,Kernel._table,Kernel._integer,Kernel._integer),Kernel._integer,
-  	0,_function_(get_index_table2,"get_index_table2"));
+  	NEW_ALLOC,_function_(get_index_table2,"get_index_table2"));
   
   Core.erase->addMethod(list::domain(1,Kernel._table),Kernel._void,
   	NEW_ALLOC+BAG_UPDATE+RETURN_ARG,_function_(erase_table,"erase_table"));
@@ -675,7 +675,7 @@ void CoreClass::metaLoad() {
   
   { global_variable * _CL_obj = (Core.claire_date = (global_variable *) Core._global_variable->instantiate("claire_date",claire.it));
     (_CL_obj->range = Kernel._string);
-    (_CL_obj->value = _string_("Sat Oct 16 06:53:25 2004\n"));
+    (_CL_obj->value = _string_("Sat Jan 28 08:50:12 2006\n"));
     close_global_variable(_CL_obj);
     } 
   
@@ -1046,6 +1046,9 @@ void CoreClass::metaLoad() {
   
   Kernel.string_I->addFloatMethod(list::domain(1,Kernel._float),Kernel._string,
   	NEW_ALLOC+BAG_UPDATE+SLOT_UPDATE,_function_(string_I_float,"string!_float"),_function_(string_I_float_,"string!_float_"));
+  
+  Kernel.princ->addFloatMethod(list::domain(2,Kernel._float,Kernel._integer),Kernel._void,
+  	0,_function_(print_format_float,"print_format_float"),_function_(print_format_float_,"print_format_float_"));
   
   Kernel.length->addMethod(list::domain(1,Kernel._bag),Kernel._integer,
   	0,_function_(length_bag,"length_bag"));

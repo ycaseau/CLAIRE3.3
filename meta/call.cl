@@ -86,7 +86,7 @@ self_eval(self:Call+) : any
          x := eval(self.args[1]),
          s := (p @ owner(x)) in
        (if not(owner(s) = slot)
-            selector_error(selector = p, args = list(x))  // v3.0.72
+            selector_error(selector = p, arg = list(x))  // v3.0.72
         else let z := slot_get(x, (s as slot).index, (s as slot).mClaire/srange) in
                (if (known?(z) | z % s.range)
                    let n := system.Core/trace! in
